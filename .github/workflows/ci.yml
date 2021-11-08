@@ -1,0 +1,15 @@
+name: CI
+
+on: push
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: node -v
+
+      - name: 🌎 install dependencies
+        run: npm ci --unsafe-perm
+
+      - name: 🙏🏽 build
+        run: npm run build
