@@ -1,0 +1,30 @@
+{
+  "name": "cher-vite",
+  "version": "0.1.0",
+  "main": "src/main.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@cher-ami/router": "^1.1.0",
+    "@solid-js/css-flat": "^1.0.1",
+    "@wbe/debug": "^1.0.0",
+    "events": "^3.3.0",
+    "gsap": "^3.8.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/events": "^3.0.0",
+    "@types/node": "^16.11.6",
+    "@types/react": "^17.0.34",
+    "@types/react-dom": "^17.0.11",
+    "@vitejs/plugin-react": "^1.0.7",
+    "less": "^4.1.2",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.4",
+    "vite": "^2.6.13"
+  }
+}

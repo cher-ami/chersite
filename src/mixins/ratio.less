@@ -1,0 +1,62 @@
+@import (reference) "../references.less";
+
+/**
+Get VH value from ratio
+ */
+.ratioVW(@n1, @n2 : @viewport-reference-width) {
+  @returns: (@n1 / @n2) * 100vw;
+}
+
+/**
+Get VH value from ratio
+ */
+.ratioVH(@n1, @n2 : @viewport-reference-height) {
+  // fallback for old browser who don't support css --var
+  @returns: (@n1 / @n2) * 100vh;
+  // vh value relative to css --vh variable
+  @var: var(--vh, 1vh);
+  @returns: ~"calc( (@{n1} / @{n2}) * (@{var} * 100) )";
+}
+
+/**
+Get VW value for property according to value in pixels
+ */
+.propertyVW(@property, @n1, @n2 : @viewport-reference-width, @aspect-ratio: true) {
+  @{property}: .ratioVW(@n1, @n2) [ @returns];
+
+  & when (@aspect-ratio = true) {
+    // calc viewport height
+    @local-viewport-height: @viewport-reference-height + 1;
+
+    @media (min-aspect-ratio: ~"@{n2} / @{local-viewport-height}") {
+      .propertyVH(@property, @n1, @n2 : @viewport-reference-height);
+    }
+  }
+}
+
+/**
+Get VH value for property according to value in pixels
+ */
+.propertyVH(@property, @n1, @n2 : @viewport-reference-height) {
+  @{property}: .ratioVH(@n1, @n2) [ @returns];
+}
+
+/**
+Responsive Property
+*/
+.R(
+  @property,
+  @value1,
+  @value2: @value1,
+  @breakpoint: @breakpoint-tablet,
+  @aspect-ratio: true
+) {
+  .propertyVW(@property, @value1, @n2 : @viewport-reference-width, @aspect-ratio);
+  @media (min-width: @breakpoint) {
+    .propertyVH(@property, @value2, @n2 : @viewport-reference-desktop-height);
+  }
+  @media (min-width: @breakpoint-desktop) {
+    @returns: (@value2);
+    @{property}: unit(@returns, px);
+  }
+}

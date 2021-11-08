@@ -1,0 +1,355 @@
+/**
+ * @credits Original work by Alexis Bouhet - https://zouloux.com
+ */
+// ----------------------------------------------------------------------------- TOOLS
+
+/**
+ * Debug an element with an outline with custom size and color.
+ */
+.debug (@size: 1px, @color: red) {
+  outline: @size solid @color;
+}
+
+// ----------------------------------------------------------------------------- BACKGROUNDS
+
+/**
+ * Set quick and dirty back gradient.
+ */
+.gradient (@startColor: #000, @endColor: #fff, @deg: to bottom) {
+  background: linear-gradient(@deg, @startColor, @endColor);
+}
+
+/**
+ * Center a video in its parent.
+ * Equivalent to the 'cover' background position but for video
+ */
+.videoBackground () {
+  // Center
+  .absoluteCenter();
+
+  // Set size to always get in screen
+  .size(auto);
+  .minSize(100%, 100%);
+}
+
+// ----------------------------------------------------------------------------- IMAGES
+
+/**
+ * Disable antialias on img tags.
+ * Does not work on backgrounds.
+ */
+.disableAntialias () {
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+// ----------------------------------------------------------------------------- POSITION AND SIZE
+
+/**
+ * Center with absolute and translate yx, y or x.
+ * Use with caution, preferable to avoid and use flex most of time.
+ */
+.absoluteCenter (@axis:yx) {
+  & when(@axis = yx) {
+    .topLeft(50%, 50%);
+    transform: translate(-50%, -50%);
+  }
+
+  & when(@axis = y) {
+    .topLeft(50%, auto);
+    transform: translateY(-50%);
+  }
+
+  & when(@axis = x) {
+    .topLeft(auto, 50%);
+    transform: translateX(-50%);
+  }
+}
+
+/**
+ * place
+ * One-line method for setting an element’s positioning
+ * Parameters are nullable
+ */
+.place (@top:auto; @right:auto; @bottom:auto; @left:auto; @position:absolute) {
+  & when not (@position = null) {
+    position: @position;
+  }
+  & when not (@top = null) {
+    top: @top;
+  }
+  & when not (@right = null) {
+    right: @right;
+  }
+  & when not (@bottom = null) {
+    bottom: @bottom;
+  }
+  & when not (@left = null) {
+    left: @left;
+  }
+}
+
+
+/**
+ * flex
+ * (à placer sur le parent)
+ */
+.flex
+(@display:flex, @direction:row, @wrap:wrap, @justifyContent:flex-start, @alignItems:flex-start, @firstChildGutter:0) {
+  display: @display; // flex | inline-flex
+  flex-direction: @direction; // row | row-reverse | column | column-reverse
+  flex-wrap: @wrap; // nowrap | wrap | wrap-reverse
+  justify-content: @justifyContent; // flex-start | flex-end | center | space-between | space-around
+  align-items: @alignItems; // flex-start | flex-end | center | baseline | stretch
+
+  // remove gutter of children first-child
+  & when (@firstChildGutter > 0) {
+    margin-left: -@firstChildGutter;
+  }
+}
+
+
+/**
+ * Place an element absolute on top left
+ */
+.topLeft (@top:auto; @left:auto; @position:absolute) {
+  position: @position;
+  top: @top;
+  left: @left;
+}
+
+/**
+ * Place an element absolute on top right
+ */
+.topRight (@top:auto; @right:auto; @position:absolute) {
+  position: @position;
+  top: @top;
+  right: @right;
+}
+
+/**
+ * Place an element absolute on bottom right
+ */
+.bottomRight (@bottom:auto; @right:auto; @position:absolute) {
+  position: @position;
+  bottom: @bottom;
+  right: @right;
+}
+
+/**
+ * Place an element absolute on bottom left
+ */
+.bottomLeft (@bottom:auto; @left:auto; @position:absolute) {
+  position: @position;
+  bottom: @bottom;
+  left: @left;
+}
+
+/**
+ * Set width and height on en element
+ * If only one value parameter is set, width and height will be equal
+ * ex:
+ * 	.size(10px);
+ *
+ * return:
+ *	width: 10px;
+ *	height: 10px;
+ */
+.size (@width:auto; @height:@width) {
+  width: @width;
+  height: @height;
+}
+
+/**
+ * Set min-width and min-height
+ * If only one value parameter is set, min-width and min-height will be equal
+ * ex:
+ * 	.minSize(10px);
+ *
+ * return:
+ *	min-width: 10px;
+ *	min-height: 10px;
+ */
+.minSize (@width: none, @height:@width) {
+  min-width: @width;
+  min-height: @height;
+}
+
+/**
+ * Set max-width and max-height
+ * If only one value parameter is set, max-width and max-height will be equal
+ * ex:
+ * 	.maxSize(10px);
+ *
+ * return:
+ *	max-width: 10px;
+ *	max-height: 10px;
+ */
+.maxSize (@width: none, @height:@width) {
+  max-width: @width;
+  max-height: @height;
+}
+
+/**
+ * Set bigger hitzone with :after.
+ */
+.hitZone (@horizontalSize: 10px, @verticalSize: 10px, @color: transparent) {
+  &:after {
+    content: "";
+    background-color: @color;
+    .place(-@verticalSize, -@horizontalSize, -@verticalSize, -@horizontalSize);
+  }
+}
+
+
+// ----------------------------------------------------------------------------- SELECTION
+
+/**
+ * Disable text selection on an element
+ */
+.disableSelection () {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/**
+ * Enable text selection on an element
+ */
+.enableSelection () {
+  -webkit-user-select: all;
+  -khtml-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
+}
+
+/**
+ * Remove touch callout on safari mobile
+ */
+.disableTouchCallout () {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+// ----------------------------------------------------------------------------- SCROLLS
+
+/**
+ * Patch scrolling on iOS
+ * Hide visible scrollBar on IE10+ and chrome PC
+ */
+.scrollPatch () {
+  // Compatibilité IE / iPad
+  overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
+
+  // Masquer les scrollBar sur ie10+
+  -ms-overflow-style: none;
+
+  // Masquer les scrollbar sur chrome
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+  }
+}
+
+/**
+ * Force scrollBar to be shown
+ */
+.showScrollBar () {
+  -ms-overflow-style: scrollbar;
+  &::-webkit-scrollbar {
+    width: auto;
+    height: auto;
+  }
+}
+
+/**
+ * Enable vertical scroll on an element and patch it.
+ * NOTE : This is not a mixin because we need this declaration from javascript.
+ */
+.verticalScroll {
+  // Enabled overflow on Y
+  overflow: hidden;
+  overflow-y: scroll;
+
+  // Activate scroll patch and hide scrollbars
+  .scrollPatch();
+}
+
+/**
+ * Enable horizontal scroll on an element and patch it.
+ * NOTE : This is not a mixin because we need this declaration from javascript.
+ */
+.horizontalScroll {
+  // Enabled overflow on X
+  overflow: hidden;
+  overflow-x: scroll;
+
+  // Activate scroll patch and hide scrollbars
+  .scrollPatch();
+}
+
+// ----------------------------------------------------------------------------- FONTS
+
+/**
+ * Smooth fonts
+ */
+.fontSmooth () {
+  // Activer l'anti-aliasing
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+// ----------------------------------------------------------------------------- TRANSITIONS
+
+/**
+* @mixin transitions
+* @credit Stephane Guignet - http://stephaneguigne.com
+*
+* @desc Override transition property to have default speed and ease,
+*       but mainly to prevent using the 'all' keyword and instead list all props that should transition together
+*
+* @args
+*   $props  {list}    - list of properties to transition at the same time !!! BECAREFULL TO ADD ';' AT THE END OF THE LIST !!!
+*   $speed  {s|ms}    - transiton speed (default = @transitionsDefaultSpeed)
+*   $ease   {string}  - transiton ease (default = @transitionsDefaultEase)
+*   $delay  {s|ms}    - transiton delay (default = 0s)
+*
+*/
+
+.transitions (@propsList; @speed: 200; @ease: ease-out; @delay : 0s) {
+  @propslentgh: length(@propsList);
+
+  .transition-loop(@iterator) when (@iterator > 0) {
+    .transition-loop((@iterator - 1));
+    transition+: extract(@propsList, @iterator) @speed @ease @delay;
+  }
+
+  .transition-loop(@propslentgh);
+}
+
+// ----------------------------------------------------------------------------- HIDERS
+
+/**
+ * Hide text only visually to preserve seo check
+ * https://webaim.org/techniques/css/invisiblecontent/#techniques
+ * https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+ */
+.visuallyHidden() {
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+}
