@@ -1,0 +1,14 @@
+.env
+.DS_Store
+.idea
+.vscode
+.history
+
+# composer
+vendor
+
+# wordpress bedrock
+web/app/wflogs/*
+mu-plugins
+plugins
+wp-admin

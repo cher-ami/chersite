@@ -7,11 +7,24 @@ import react from "@vitejs/plugin-react";
  */
 export default defineConfig(({ command, mode }) => {
   return {
-    root: "./src",
+    base: "/",
     plugins: [react()],
     server: {
       open: true,
       host: "0.0.0.0",
+      cors: true,
+      proxy: {
+        "/": {
+          target: "http://localhost/cher-vite/dist/front",
+          changeOrigin: true,
+          secure: false,
+        },
+      },
+    },
+    build: {
+      emptyOutDir: true,
+      outDir: "dist/front/static/",
+      manifest: true,
     },
   };
 });

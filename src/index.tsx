@@ -34,12 +34,11 @@ class InitApp {
    */
   protected render() {
     ReactDOM.render(
-      // <React.StrictMode>
-        <Router routes={routes} base={"/"}>
+      <React.StrictMode>
+        <Router routes={routes} base={import.meta.env.BASE_URL}>
           <App />
         </Router>
-        ,
-      // </React.StrictMode>,
+      </React.StrictMode>,
       document.getElementById("root")
     );
   }
