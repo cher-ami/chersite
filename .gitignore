@@ -1,10 +1,17 @@
-dist/front/static
+# Output application depend of project
+dist/front/vendor
+dist/front/www/static
+dist/front/www/.env
 
+# Auto generated atoms
+src/atoms/atoms.ts
+
+vendor
+.env.local
 node_modules
 .DS_Store
+.idea
+.vscode
+.history
 dist-ssr
 *.local
-.vscode
-.idea
-
-.env.local

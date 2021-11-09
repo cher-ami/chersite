@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="imagetoolbar" content="no">
+    <meta http-equiv="x-ua-compatible" content="IE=Edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    {# PAGE #}
+    <title>{{ title | raw }}</title>
+    <meta name="description" content="{{ description | raw }}">
+    <link rel="canonical" href="{{ canonical | raw }}">
+
+    {# FACEBOOK #}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ siteName | raw }}">
+    <meta property="og:url" content="{{ canonical | raw }}">
+    <meta property="og:title" content="{{ title | raw }}">
+    <meta property="og:description" content="{{ description | raw }}">
+    <meta property="og:image" content="{{ image | raw }}">
+
+    {# TWITTER #}
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="{{ siteName | raw }}">
+    <meta name="twitter:url" content="{{ canonical | raw }}">
+    <meta name="twitter:title" content="{{ title | raw }}">
+    <meta name="twitter:description" content="{{ description | raw }}">
+    <meta name="twitter:image" content="{{ image | raw }}">
+
+
+    {# Import style only on prod #}
+    {% if env != "development" %}
+        <link href="{{ appBase }}/static/main.css{{ version != null ? "?#{version}" : "" }}"
+              type="text/css" rel="stylesheet">
+    {% endif %}
+
+    <script type="module">
+      import RefreshRuntime from 'http://192.168.0.48:3000/@react-refresh'
+      RefreshRuntime.injectIntoGlobalHook(window);
+      window.$RefreshReg$ = () => {};
+      window.$RefreshSig$ = () => (type) => type;
+      window.__vite_plugin_react_preamble_installed__ = true;
+    </script>
+
+</head>
+<body>
+{# Start App #}
+<div id="root"></div>
+{# Import main scripit #}
+{#<script src="{{ appBase }}/static/main.bundle.js{{ version != null ? "?#{version}" : "" }}"></script>#}
+<script type="module" src="http://192.168.0.48:3000/@vite/client"></script>
+<script type="module" src="http://192.168.0.48:3000/src/index.tsx"></script>
+</body>
+</html>
