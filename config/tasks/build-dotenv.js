@@ -1,3 +1,5 @@
+import { loadEnv } from "vite";
+
 const { Files } = require("@zouloux/files");
 const path = require("path");
 const debug = require("@wbe/debug")("config:prebuild-dotenv");
@@ -8,10 +10,7 @@ const PACKAGE_JSON_VERSION = require("../../package.json").version;
  * Prebuild .env file
  * Create and inject .env file in specific folder
  */
-const prebuildDotEnv = (env) => {
-  debug("param env", env);
-
-  debug("import.meta.env", import.meta.env);
+const buildDotenv = (envVars) => {
   // read all .env files and get all var names
   const envFiles = Files.getFiles(path.resolve(".env*")).files;
   debug("available env files", envFiles);
@@ -48,10 +47,10 @@ const prebuildDotEnv = (env) => {
   template = vars.map(
     (el) =>
       `${el}=${
-        process.env[el]
-          ? process.env[el].includes(" ")
-            ? `"${process.env[el]}"`
-            : process.env[el]
+        envVars[el]
+          ? envVars[el].includes(" ")
+            ? `"${envVars[el]}"`
+            : envVars[el]
           : ""
       }`
   );
@@ -71,4 +70,4 @@ const prebuildDotEnv = (env) => {
   Files.new(NEW_DOTENV_FILE_PATH).write(template);
 };
 
-module.exports = prebuildDotEnv;
+module.exports = buildDotenv;

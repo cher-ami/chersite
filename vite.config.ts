@@ -4,7 +4,7 @@ import debug from "@wbe/debug";
 const ip = require("ip");
 const { resolve } = require("path");
 const portFinderSync = require("portfinder-sync");
-import prebuildDotEnv from "./config/tasks/dotenv";
+const prebuildDotEnv = require("./config/tasks/build-dotenv");
 
 const log = debug("config:vite.config");
 
@@ -21,7 +21,6 @@ export default defineConfig(({ command, mode }) => {
   const ipAddress = ip.address();
   const portFinder = portFinderSync.getPort(3000);
 
-  console.log("mode",mode)
   // load env from selected .env
   process.env = {
     ...process.env,
@@ -30,8 +29,8 @@ export default defineConfig(({ command, mode }) => {
     VITE_IP: ipAddress,
   };
 
-  console.log("process.env",process.env.TEST)
-  prebuildDotEnv(process.env);
+  const envVars = loadEnv(mode, process.cwd(), "");
+  prebuildDotEnv(envVars);
 
   return {
     plugins: [
@@ -55,7 +54,6 @@ export default defineConfig(({ command, mode }) => {
       //   },
       // },
     },
-
 
     css: {
       modules: {
