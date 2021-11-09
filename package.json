@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "src/main.ts",
   "scripts": {
-    "dev": "vite --mode staging",
+    "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview"
   },
