@@ -28,28 +28,35 @@
     <meta name="twitter:description" content="{{ description | raw }}">
     <meta name="twitter:image" content="{{ image | raw }}">
 
-
     {# Import style only on prod #}
-    {% if env != "development" %}
-        <link href="{{ appBase }}/static/main.css{{ version != null ? "?#{version}" : "" }}"
-              type="text/css" rel="stylesheet">
+    {% if nodeEnv == "production" %}
+        {% for cssFile in manifest['src/index.tsx']['css'] %}
+            <link href="{{ appBase }}/{{ cssFile }}" type="text/css" rel="stylesheet">
+        {% endfor %}
     {% endif %}
+</head>
+<body>
+{# Start App #}
+<div id="root"></div>
 
+{% if nodeEnv == "development" %}
     <script type="module">
-      import RefreshRuntime from 'http://192.168.0.48:3000/@react-refresh'
+      import RefreshRuntime from 'http://{{ host }}:{{ port }}/@react-refresh'
       RefreshRuntime.injectIntoGlobalHook(window);
       window.$RefreshReg$ = () => {};
       window.$RefreshSig$ = () => (type) => type;
       window.__vite_plugin_react_preamble_installed__ = true;
     </script>
+    <script type="module" src="http://{{ host }}:{{ port }}/@vite/client"></script>
+    <script type="module" src="http://{{ host }}:{{ port }}/src/index.tsx"></script>
+{% endif %}
 
-</head>
-<body>
-{# Start App #}
-<div id="root"></div>
-{# Import main scripit #}
-{#<script src="{{ appBase }}/static/main.bundle.js{{ version != null ? "?#{version}" : "" }}"></script>#}
-<script type="module" src="http://192.168.0.48:3000/@vite/client"></script>
-<script type="module" src="http://192.168.0.48:3000/src/index.tsx"></script>
+{% if nodeEnv == "production" %}
+    {% for importFile in manifest['src/index.tsx']['imports'] %}
+        <script type="module" src="{{ appBase }}/{{ manifest[importFile]['file'] }}"></script>
+    {% endfor %}
+    <script type="module" src="{{ appBase }}/{{ manifest['src/index.tsx']['file'] }}"></script>
+{% endif %}
+
 </body>
 </html>

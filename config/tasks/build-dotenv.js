@@ -53,6 +53,10 @@ const _prepareTemplate = (vars, envVars) => {
   // push current version in it
   template.push(`VERSION=${require(path.resolve("package.json")).version}`);
 
+  // create by vite.config
+  template.push(`HOST=${envVars["HOST"]}`);
+  template.push(`PORT=${envVars["PORT"]}`);
+
   // filter to remove empty lines
   template = template.filter((e) => e).join("\n");
   debug("template to write in file", template);
@@ -81,7 +85,6 @@ module.exports = (envVars, dotenvOutDir = config.buildDotenvOutDir) => {
   const template = _prepareTemplate(vars, envVars);
 
   // Create .env files
-  console.log("dotenvPaths", dotenvOutDir);
   dotenvOutDir?.length > 0 &&
     dotenvOutDir.forEach((path) => {
       console.log(`dotenv path: ${path}`);

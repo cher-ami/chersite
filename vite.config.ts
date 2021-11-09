@@ -25,8 +25,8 @@ export default defineConfig(({ command, mode }) => {
   process.env = {
     ...process.env,
     ...loadEnv(mode, process.cwd()),
-    VITE_PORT: portFinder,
-    VITE_IP: ipAddress,
+    PORT: portFinder,
+    HOST: ipAddress,
   };
 
   const envVars = loadEnv(mode, process.cwd(), "");

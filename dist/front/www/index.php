@@ -40,14 +40,22 @@ $template = $twig->load('layouts/base.twig');
 $metaData = new MetaManager($_ENV["API_URL"] ?? null, $_ENV['VITE_BASE_URL'] ?? null, $languages);
 $meta = $metaData->getMetaData();
 
+
+// Takes raw data from the request & Converts it into a PHP object
+$json = file_get_contents('static/manifest.json');
+$manifest = json_decode($json, true);
+
 echo $template->render([
-    'apiUrl' => $_ENV["API_URL"] ?? null,
-    'env' => $_ENV['PHP_ENV'] ?? null,
-    'version' => $_ENV['VERSION'] ?? null,
-    'appBase' => rtrim($_ENV['VITE_BASE_URL'], "/") ?? null,
     'title' => $meta['title'] ?? "cher-base App",
     'description' => $meta['description'] ?? null,
     'image' => $meta['openGraphImages'][0] ?? null,
-    'canonical' => $meta['canonical'] ?? null
+    'canonical' => $meta['canonical'] ?? null,
+    'host' => $_ENV["HOST"] ?? null,
+    'port' => $_ENV["PORT"] ?? null,
+    'apiUrl' => $_ENV["API_URL"] ?? null,
+    'nodeEnv' => $_ENV['NODE_ENV'] ?? null,
+    'version' => $_ENV['VERSION'] ?? null,
+    'appBase' => rtrim($_ENV['VITE_BASE_URL'], "/") ?? null,
+    'manifest' => $manifest
 ]);
 
