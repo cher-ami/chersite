@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="imagetoolbar" content="no">
+    <meta http-equiv="x-ua-compatible" content="IE=Edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    {# PAGE #}
+    <title>{{ title | raw }}</title>
+    <meta name="description" content="{{ description | raw }}">
+    <link rel="canonical" href="{{ canonical | raw }}">
+
+    {# FACEBOOK #}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ siteName | raw }}">
+    <meta property="og:url" content="{{ canonical | raw }}">
+    <meta property="og:title" content="{{ title | raw }}">
+    <meta property="og:description" content="{{ description | raw }}">
+    <meta property="og:image" content="{{ image | raw }}">
+
+    {# TWITTER #}
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="{{ siteName | raw }}">
+    <meta name="twitter:url" content="{{ canonical | raw }}">
+    <meta name="twitter:title" content="{{ title | raw }}">
+    <meta name="twitter:description" content="{{ description | raw }}">
+    <meta name="twitter:image" content="{{ image | raw }}">
+
+    {# Import style only on prod #}
+    {% if nodeEnv == "production" %}
+        {% for cssFile in manifest['src/index.tsx']['css'] %}
+            <link href="{{ appBase }}/static/{{ cssFile }}" type="text/css" rel="stylesheet">
+        {% endfor %}
+    {% endif %}
+</head>
+<body>
+{# Start App #}
+<div id="root"></div>
+
+{% if nodeEnv == "development" %}
+    <script type="module">
+      import RefreshRuntime from 'http://{{ host }}:{{ port }}/@react-refresh'
+      RefreshRuntime.injectIntoGlobalHook(window);
+      window.$RefreshReg$ = () => {};
+      window.$RefreshSig$ = () => (type) => type;
+      window.__vite_plugin_react_preamble_installed__ = true;
+    </script>
+    <script type="module" src="http://{{ host }}:{{ port }}/@vite/client"></script>
+    <script type="module" src="http://{{ host }}:{{ port }}/src/index.tsx"></script>
+{% endif %}
+
+{% if nodeEnv == "production" %}
+    {% for importFile in manifest['src/index.tsx']['imports'] %}
+    <script type="module" src="{{ appBase }}/{{ manifest[importFile]['file'] }}"></script>
+    {% endfor %}
+    <script type="module" src="{{ appBase }}/static/{{ manifest['src/index.tsx']['file'] }}"></script>
+{% endif %}
+
+</body>
+</html>

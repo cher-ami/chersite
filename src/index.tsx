@@ -35,10 +35,9 @@ class InitApp {
   protected render() {
     ReactDOM.render(
       // <React.StrictMode>
-        <Router routes={routes} base={"/"}>
+        <Router routes={routes} base={import.meta.env.VITE_ROUTER_BASE_URL as string}>
           <App />
-        </Router>
-        ,
+        </Router>,
       // </React.StrictMode>,
       document.getElementById("root")
     );

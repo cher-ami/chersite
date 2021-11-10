@@ -1,0 +1,61 @@
+<?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use Whoops\Run;
+use Whoops\Handler\PrettyPageHandler;
+use Symfony\Component\Dotenv\Dotenv;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
+use App\helpers\MetaManager;
+
+// ----------------------------------------------------------------------------- DEBUG
+
+// start whoops
+$whoops = new Run;
+$whoops->pushHandler(new PrettyPageHandler);
+$whoops->register();
+
+// ----------------------------------------------------------------------------- ENV
+
+// load environment variables
+$dotenv = new Dotenv();
+$dotenv->load(__DIR__ . '/.env');
+
+// ----------------------------------------------------------------------------- TWIG
+
+$languages = [
+    "fr",
+    "en"
+];
+
+// Specify our Twig templates location
+$loader = new FilesystemLoader(__DIR__ . '/views/');
+
+// Instantiate our Twig
+$twig = new Environment($loader);
+$template = $twig->load('layouts/base.twig');
+
+//Get metas data
+$metaData = new MetaManager($_ENV["API_URL"] ?? null, $_ENV['VITE_BASE_URL'] ?? null, $languages);
+$meta = $metaData->getMetaData();
+
+
+// Takes raw data from the request & Converts it into a PHP object
+$json = file_get_contents('static/manifest.json');
+$manifest = json_decode($json, true);
+
+echo $template->render([
+    'title' => $meta['title'] ?? "cher-base App",
+    'description' => $meta['description'] ?? null,
+    'image' => $meta['openGraphImages'][0] ?? null,
+    'canonical' => $meta['canonical'] ?? null,
+    'host' => $_ENV["HOST"] ?? null,
+    'port' => $_ENV["PORT"] ?? null,
+    'apiUrl' => $_ENV["API_URL"] ?? null,
+    'nodeEnv' => $_ENV['NODE_ENV'] ?? null,
+    'version' => $_ENV['VERSION'] ?? null,
+    'appBase' => rtrim($_ENV['VITE_BASE_URL'], "/") ?? null,
+    'manifest' => $manifest
+]);
+
