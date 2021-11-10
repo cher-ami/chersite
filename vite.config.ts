@@ -4,6 +4,7 @@ import debug from "@wbe/debug";
 import config from "./config/config.js";
 import buildDotEnv from "./config/tasks/build-dotenv";
 import checker from "vite-plugin-checker";
+import lessToJsPlugin from "./config/vite-plugins/vite-plugin-less-to-js";
 
 const ip = require("ip");
 const portFinderSync = require("portfinder-sync");
@@ -45,12 +46,17 @@ export default defineConfig(({ command, mode }) => {
    * Config
    */
   return {
-    clearScreen: true,
+    clearScreen: false,
     logLevel: "info",
 
     plugins: [
       react(),
       checker({ typescript: true, enableBuild: true, overlay: true }),
+      lessToJsPlugin({
+        varFilesToWatch: config.atomsFilesToWatch,
+        outputPath: config.atomsDir,
+        outputFilename: config.atomsGeneratedFilename,
+      }),
     ],
 
     server: {

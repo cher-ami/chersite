@@ -8,6 +8,8 @@ module.exports = {
   wwwDir: resolve("./dist/front/www/"),
   // where file is resolved
   outDir: resolve("./dist/front/www/static/"),
+  // TODO sync with php var
+  inputFilename: "index.tsx",
   // entry file application
   input: resolve("./src/index.tsx"),
 
@@ -17,4 +19,13 @@ module.exports = {
    * Add .env output directories
    */
   buildDotenvOutDir: [resolve("./dist/front/www/")],
+
+  /**
+   * Build Atoms
+   * (Is used by less to JS plugin)
+   */
+  atomsDir: resolve("src/atoms"),
+  atomsPartialsDir: resolve("src/atoms/partials"),
+  atomsFilesToWatch: resolve("src/atoms/partials/*.less"),
+  atomsGeneratedFilename: "atoms.ts",
 };
