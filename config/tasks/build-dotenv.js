@@ -36,10 +36,11 @@ const _prepareVars = (envFiles) =>
  * Prepare template
  * @param vars
  * @param envVars
- * @return {*}
+ * @param additionalVarKeys
+ * @return {string} Template
  * @private
  */
-const _prepareTemplate = (vars, envVars) => {
+const _prepareTemplate = (vars, envVars, additionalVarKeys) => {
   let template;
 
   // prettier-ignore
@@ -53,9 +54,11 @@ const _prepareTemplate = (vars, envVars) => {
   // push current version in it
   template.push(`VERSION=${require(path.resolve("package.json")).version}`);
 
-  // create by vite.config
-  template.push(`HOST=${envVars["HOST"]}`);
-  template.push(`PORT=${envVars["PORT"]}`);
+  // Add additional var keys in template
+  additionalVarKeys?.length > 0 &&
+    additionalVarKeys?.forEach((key) => {
+      template.push(`${key}=${envVars[key]}`);
+    });
 
   // filter to remove empty lines
   template = template.filter((e) => e).join("\n");
@@ -69,8 +72,13 @@ const _prepareTemplate = (vars, envVars) => {
  * Create and inject .env file in specific folder(s)
  * @param envVars Env variables object {}
  * @param dotenvOutDir Build .env paths array
+ * @param additionalVarKeys Add some keys to generated .env files
  */
-module.exports = (envVars, dotenvOutDir = config.buildDotenvOutDir) => {
+module.exports = ({
+  envVars = {},
+  dotenvOutDir = config.buildDotenvOutDir,
+  additionalVarKeys = [],
+}) => {
   console.log("Build dotenv");
 
   // read all .env files and get all var keys
@@ -82,7 +90,7 @@ module.exports = (envVars, dotenvOutDir = config.buildDotenvOutDir) => {
   debug("available vars after merge vars from all .env files", vars);
 
   // create template with varNames and envVars values
-  const template = _prepareTemplate(vars, envVars);
+  const template = _prepareTemplate(vars, envVars, additionalVarKeys);
 
   // Create .env files
   dotenvOutDir?.length > 0 &&
