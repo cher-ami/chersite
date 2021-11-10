@@ -31,7 +31,7 @@
     {# Import style only on prod #}
     {% if nodeEnv == "production" %}
         {% for cssFile in manifest['src/index.tsx']['css'] %}
-            <link href="{{ appBase }}/{{ cssFile }}" type="text/css" rel="stylesheet">
+            <link href="{{ appBase }}/static/{{ cssFile }}" type="text/css" rel="stylesheet">
         {% endfor %}
     {% endif %}
 </head>
@@ -53,9 +53,9 @@
 
 {% if nodeEnv == "production" %}
     {% for importFile in manifest['src/index.tsx']['imports'] %}
-        <script type="module" src="{{ appBase }}/{{ manifest[importFile]['file'] }}"></script>
+    <script type="module" src="{{ appBase }}/{{ manifest[importFile]['file'] }}"></script>
     {% endfor %}
-    <script type="module" src="{{ appBase }}/{{ manifest['src/index.tsx']['file'] }}"></script>
+    <script type="module" src="{{ appBase }}/static/{{ manifest['src/index.tsx']['file'] }}"></script>
 {% endif %}
 
 </body>
