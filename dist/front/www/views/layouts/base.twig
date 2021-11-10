@@ -52,9 +52,6 @@
 {% endif %}
 
 {% if command == "build" %}
-    {% for importFile in manifest['src/index.tsx']['imports'] %}
-    <script type="module" src="{{ vite_base_url }}/{{ manifest[importFile]['file'] }}"></script>
-    {% endfor %}
     <script type="module" src="{{ vite_base_url }}/static/{{ manifest['src/index.tsx']['file'] }}"></script>
 {% endif %}
 

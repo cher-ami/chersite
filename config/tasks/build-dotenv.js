@@ -79,7 +79,7 @@ module.exports = ({
   dotenvOutDir = config.buildDotenvOutDir,
   additionalVarKeys = [],
 }) => {
-  console.log("Build dotenv");
+  console.log("Build .env file(s)");
 
   // read all .env files and get all var keys
   const envFiles = Files.getFiles(path.resolve(".env*")).files;
