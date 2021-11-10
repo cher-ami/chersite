@@ -1,8 +1,10 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import debug from "@wbe/debug";
+import { resolve } from "path";
 import config from "./config/config.js";
 import buildDotEnv from "./config/tasks/build-dotenv";
+import buildHtaccess from "./config/tasks/build-htaccess";
 import checker from "vite-plugin-checker";
 import lessToJsPlugin from "./config/vite-plugins/vite-plugin-less-to-js";
 
@@ -26,13 +28,13 @@ export default defineConfig(({ command, mode }) => {
   // merge loadEnv selected by vite in specific order in process.env
   process.env = {
     ...process.env,
-    ...loadEnv(mode, process.cwd()),
+    ...loadEnv(mode, process.cwd(), ""),
     PORT: portFinder,
     HOST: ipAddress,
     COMMAND: command, // (can be: serve | build)
   };
 
-  /**
+  /**=
    * Before config
    */
   // build dotenv with loaded env var (.env + .env.{mode})
@@ -40,6 +42,15 @@ export default defineConfig(({ command, mode }) => {
     envVars: process.env,
     dotenvOutDir: config.buildDotenvOutDir,
     additionalVarKeys: ["HOST", "PORT", "COMMAND"],
+  });
+
+  // build htaccess file
+  buildHtaccess({
+    serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
+    user: process.env.HTACCESS_AUTH_USER,
+    password: process.env.HTACCESS_AUTH_PASSWORD,
+    outputPath: config.wwwDir,
+    htaccessTemplatePath: config.htaccessTemplateFilePath,
   });
 
   /**

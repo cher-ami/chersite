@@ -4,6 +4,7 @@ module.exports = {
   /**
    * Paths
    */
+  srcDir: resolve("src"),
   // folder to deploy on front server
   wwwDir: resolve("./dist/front/www/"),
   // where file is resolved
@@ -28,4 +29,9 @@ module.exports = {
   atomsPartialsDir: resolve("src/atoms/partials"),
   atomsFilesToWatch: resolve("src/atoms/partials/*.less"),
   atomsGeneratedFilename: "atoms.ts",
+
+  /**
+   * Build htaccess
+   */
+  htaccessTemplateFilePath: resolve("src/.htaccess")
 };

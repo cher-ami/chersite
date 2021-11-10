@@ -1,6 +1,6 @@
 const { Files } = require("@zouloux/files");
 const path = require("path");
-const debug = require("@wbe/debug")("config:prebuild-dotenv");
+const debug = require("@wbe/debug")("config:build-dotenv");
 const config = require("../config.js");
 
 /**

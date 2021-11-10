@@ -1,6 +1,6 @@
 const { Files } = require("@zouloux/files");
 const config = require("../config.js");
-const debug = require("@wbe/debug")("config:less-to-js");
+const debug = require("@wbe/debug")("config:build-atoms");
 
 /**
  * Create atoms less to JS template
