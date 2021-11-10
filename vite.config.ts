@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import debug from "@wbe/debug";
 import config from "./config/config.js";
 import buildDotEnv from "./config/tasks/build-dotenv";
+import checker from "vite-plugin-checker";
 
 const ip = require("ip");
 const portFinderSync = require("portfinder-sync");
@@ -12,7 +13,7 @@ const log = debug("config:vite.config");
  * Vite config
  * @doc https://vitejs.dev/config/
  *
- * // TODO less var to JS
+ * TODO less var to JS
  * TODO https://github.com/asurraa-lab/react-vite2-ts-antd/blob/master/vite.config.ts
  */
 
@@ -21,21 +22,37 @@ export default defineConfig(({ command, mode }) => {
   const ipAddress = ip.address();
   const portFinder = portFinderSync.getPort(3000);
 
-  // load env from selected .env
+  // merge loadEnv selected by vite in specific order in process.env
   process.env = {
     ...process.env,
     ...loadEnv(mode, process.cwd()),
     PORT: portFinder,
     HOST: ipAddress,
+    COMMAND: command, // (can be: serve | build)
   };
 
-  const envVars = loadEnv(mode, process.cwd(), "");
-  buildDotEnv(envVars);
+  /**
+   * Before config
+   */
+  // build dotenv with loaded env var (.env + .env.{mode})
+  buildDotEnv({
+    envVars: process.env,
+    dotenvOutDir: config.buildDotenvOutDir,
+    additionalVarKeys: ["HOST", "PORT", "COMMAND"],
+  });
 
+  /**
+   * Config
+   */
   return {
-    plugins: [react()],
-    clearScreen: false,
+    clearScreen: true,
     logLevel: "info",
+
+    plugins: [
+      react(),
+      checker({ typescript: true, enableBuild: true, overlay: true }),
+    ],
+
     server: {
       port: portFinder,
       host: true,

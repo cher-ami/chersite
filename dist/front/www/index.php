@@ -52,10 +52,10 @@ echo $template->render([
     'canonical' => $meta['canonical'] ?? null,
     'host' => $_ENV["HOST"] ?? null,
     'port' => $_ENV["PORT"] ?? null,
-    'apiUrl' => $_ENV["API_URL"] ?? null,
-    'nodeEnv' => $_ENV['NODE_ENV'] ?? null,
+    'api_url' => $_ENV["API_URL"] ?? null,
+    'command' => $_ENV['COMMAND'] ?? null,
     'version' => $_ENV['VERSION'] ?? null,
-    'appBase' => rtrim($_ENV['VITE_BASE_URL'], "/") ?? null,
-    'manifest' => $manifest
+    'vite_base_url' => rtrim($_ENV['VITE_BASE_URL'], "/") ?? null,
+    'manifest' => $manifest ?? null
 ]);
 

@@ -4,10 +4,11 @@ module.exports = {
   /**
    * Paths
    */
+  // folder to deploy on front server
   wwwDir: resolve("./dist/front/www/"),
   // where file is resolved
   outDir: resolve("./dist/front/www/static/"),
-  // entry file
+  // entry file application
   input: resolve("./src/index.tsx"),
 
   /**

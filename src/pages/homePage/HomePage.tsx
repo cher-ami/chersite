@@ -1,5 +1,5 @@
 import css from "./HomePage.module.less";
-import React, { ForwardedRef, forwardRef, useRef, useState } from "react";
+import React, { ForwardedRef, forwardRef, useRef } from "react";
 import { useStack } from "@cher-ami/router";
 import debug from "@wbe/debug";
 
