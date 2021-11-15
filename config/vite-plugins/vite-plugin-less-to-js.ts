@@ -25,7 +25,7 @@ export default function lessToJsPlugin({
   };
 
   return {
-    name: "vite-less-to-js-plugin",
+    name: "vite-plugin-less-to-js",
 
     /**
      * When build start
