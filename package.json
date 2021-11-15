@@ -21,6 +21,7 @@
     "@types/node": "^16.11.6",
     "@types/react": "^17.0.34",
     "@types/react-dom": "^17.0.11",
+    "@vitejs/plugin-legacy": "^1.6.2",
     "@vitejs/plugin-react": "^1.0.7",
     "@zouloux/files": "^0.6.0",
     "ip": "^1.1.5",
