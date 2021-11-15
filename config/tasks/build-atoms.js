@@ -1,5 +1,6 @@
 const { Files } = require("@zouloux/files");
 const config = require("../config.js");
+const logger = require("../helpers/logger");
 const debug = require("@wbe/debug")("config:build-atoms");
 
 /**
@@ -96,11 +97,11 @@ module.exports = ({
   outputPath = config.atomsDir,
   outputFilename = config.atomsGeneratedFilename,
 }) => {
-  console.log("Build atoms");
+  logger.start("Build atoms");
 
   // Generate File path
   const generatedFilePath = `${outputPath}/${outputFilename}`;
-  console.log("atoms path:", generatedFilePath);
+  logger.note(`atoms path: ${generatedFilePath}`);
 
   // get var atoms list
   const varList = _getAtomsVarList(varFilesToWatch);

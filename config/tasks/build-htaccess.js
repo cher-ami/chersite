@@ -2,6 +2,7 @@ const { Files } = require("@zouloux/files");
 const path = require("path");
 const config = require("../config.js");
 const debug = require("@wbe/debug")("config:build-htaccess");
+const logger = require("../helpers/logger");
 
 /**
  * Create htaccess file
@@ -118,7 +119,7 @@ module.exports = ({
   outputPath = config.outDir,
   htaccessTemplatePath = `${path.resolve("src")}/.htaccess`,
 }) => {
-  console.log("Prebuild htaccess");
+  logger.start("Build .htaccess");
 
   // create htaccess file and get returned newHtaccessFilePath
   const newHtaccessFilePath = _createHtaccessFile({
@@ -127,7 +128,7 @@ module.exports = ({
   });
 
   if (!newHtaccessFilePath) return;
-  console.log(`htaccess path: ${newHtaccessFilePath}`);
+  logger.note(`.htaccess path: ${newHtaccessFilePath}`);
 
   if (process.env.HTACCESS_ENABLE_AUTH === "true") {
     _createHtpasswdFile({ outputPath, user, password });

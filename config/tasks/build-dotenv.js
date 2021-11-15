@@ -1,6 +1,7 @@
 const { Files } = require("@zouloux/files");
 const path = require("path");
 const debug = require("@wbe/debug")("config:build-dotenv");
+const logger = require("../helpers/logger");
 const config = require("../config.js");
 
 /**
@@ -79,7 +80,7 @@ module.exports = ({
   dotenvOutDir = config.buildDotenvOutDir,
   additionalVarKeys = [],
 }) => {
-  console.log("Build .env file(s)");
+  logger.start("Build .env file(s)");
 
   // read all .env files and get all var keys
   const envFiles = Files.getFiles(path.resolve(".env*")).files;
@@ -95,7 +96,7 @@ module.exports = ({
   // Create .env files
   dotenvOutDir?.length > 0 &&
     dotenvOutDir.forEach((path) => {
-      console.log(`dotenv path: ${path}`);
+      logger.note(`dotenv path: ${path}`);
       Files.new(`${path}/.env`).write(template);
     });
 };
