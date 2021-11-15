@@ -34,7 +34,7 @@ export default defineConfig(({ command, mode }) => {
     COMMAND: command, // (can be: serve | build)
   };
 
-  /**=
+  /**
    * Before config
    */
   // build dotenv with loaded env var (.env + .env.{mode})

@@ -2,7 +2,6 @@ const { Files } = require("@zouloux/files");
 const path = require("path");
 const debug = require("@wbe/debug")("config:build-dotenv");
 const logger = require("../helpers/logger");
-const config = require("../config.js");
 
 /**
  * Prepare env vars
@@ -75,11 +74,7 @@ const _prepareTemplate = (vars, envVars, additionalVarKeys) => {
  * @param dotenvOutDir Build .env paths array
  * @param additionalVarKeys Add some keys to generated .env files
  */
-module.exports = ({
-  envVars = {},
-  dotenvOutDir = config.buildDotenvOutDir,
-  additionalVarKeys = [],
-}) => {
+module.exports = ({ envVars = {}, dotenvOutDir, additionalVarKeys = [] }) => {
   logger.start("Build .env file(s)");
 
   // read all .env files and get all var keys

@@ -1,6 +1,4 @@
 const { Files } = require("@zouloux/files");
-const path = require("path");
-const config = require("../config.js");
 const debug = require("@wbe/debug")("config:build-htaccess");
 const logger = require("../helpers/logger");
 
@@ -113,11 +111,11 @@ const _rewriteHttpToHttpsInHtaccess = (pNewHtaccessFilePath) => {
  * Useful is this file
  */
 module.exports = ({
-  serverWebRootPath = process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
-  user = process.env.HTACCESS_AUTH_USER,
-  password = process.env.HTACCESS_AUTH_PASSWORD,
-  outputPath = config.outDir,
-  htaccessTemplatePath = `${path.resolve("src")}/.htaccess`,
+  serverWebRootPath,
+  user,
+  password,
+  outputPath,
+  htaccessTemplatePath,
 }) => {
   logger.start("Build .htaccess");
 
@@ -128,7 +126,7 @@ module.exports = ({
   });
 
   if (!newHtaccessFilePath) return;
-  logger.note(`.htaccess path: ${newHtaccessFilePath}`);
+  logger.note(`path: ${newHtaccessFilePath}`);
 
   if (process.env.HTACCESS_ENABLE_AUTH === "true") {
     _createHtpasswdFile({ outputPath, user, password });
