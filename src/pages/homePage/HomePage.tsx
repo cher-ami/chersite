@@ -33,6 +33,7 @@ const HomePage = forwardRef((props: IProps, handleRef: ForwardedRef<any>) => {
    */
   useStack({ componentName, handleRef, rootRef, playIn, playOut });
 
+
   return (
     <div className={css.root} ref={rootRef}>
       {componentName}

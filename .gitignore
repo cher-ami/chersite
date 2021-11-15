@@ -2,6 +2,8 @@
 dist/front/vendor
 dist/front/www/static
 dist/front/www/.env
+dist/front/www/.htaccess
+dist/front/www/.htpasswd
 
 # Auto generated atoms
 src/atoms/atoms.ts

@@ -1,6 +1,6 @@
 const { Files } = require("@zouloux/files");
-const config = require("../config.js");
-const debug = require("@wbe/debug")("config:less-to-js");
+const logger = require("../helpers/logger");
+const debug = require("@wbe/debug")("config:build-atoms");
 
 /**
  * Create atoms less to JS template
@@ -92,15 +92,15 @@ const _getAtomsVarList = (varFilesToWatch) => {
  * Return a promise
  */
 module.exports = ({
-  varFilesToWatch = config.atomsFilesToWatch,
-  outputPath = config.atomsDir,
-  outputFilename = config.atomsGeneratedFilename,
+  varFilesToWatch = [],
+  outputPath = "",
+  outputFilename = "",
 }) => {
-  console.log("Build atoms");
+  logger.start("Build atoms");
 
   // Generate File path
   const generatedFilePath = `${outputPath}/${outputFilename}`;
-  console.log("atoms path:", generatedFilePath);
+  logger.note(`atoms path: ${generatedFilePath}`);
 
   // get var atoms list
   const varList = _getAtomsVarList(varFilesToWatch);
