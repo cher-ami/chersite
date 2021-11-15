@@ -32,16 +32,23 @@
     {# Insert the built style from manifest #}
     {% if command == "build" %}
         {% for input in manifest %}
-            {% for cssFile in input['css'] %}
+            {% for cssFile in input.css %}
                 <link href="{{ vite_base_url }}/static/{{ cssFile }}" type="text/css" rel="stylesheet">
             {% endfor %}
         {% endfor %}
     {% endif %}
 </head>
 <body>
+
+
+{# Root div application #}
 <div id="root"></div>
 
-{# DEV scripts #}
+{#
+    DEV scripts
+    - Enable hot module reload
+    - Insert script tags, depend of /config/config.js -> "input" array entries
+#}
 {% if command == "serve" %}
     <script type="module">
       import RefreshRuntime from 'http://{{ host }}:{{ port }}/@react-refresh'
@@ -59,7 +66,23 @@
 {# Insert the built scripts from manifest #}
 {% if command == "build" %}
     {% for input in manifest %}
-        <script type="module" src="{{ vite_base_url }}/static/{{ input['file'] }}"></script>
+        {#
+            Vite legacy-plugin build legacy script versions,
+            they contain 'legacy' keyword in there own name, we can identify them by this one
+            and add "nomodule" attribute en there script tag.
+
+            nomodule specs:
+            @doc https://html.spec.whatwg.org/multipage/scripting.html#script-nomodule-example
+        #}
+        {% if 'legacy' in input.file %}
+            <script nomodule src="{{ vite_base_url }}/static/{{ input.file }}"></script>
+        {#
+            ESM version
+            If build script are ESM version, add "type=module" to there script tag
+        #}
+        {% else  %}
+            <script type="module" src="{{ vite_base_url }}/static/{{ input.file }}"></script>
+        {% endif %}
     {% endfor %}
 {% endif %}
 </body>

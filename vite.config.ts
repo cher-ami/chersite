@@ -7,6 +7,7 @@ import buildDotEnv from "./config/tasks/build-dotenv";
 import buildHtaccess from "./config/tasks/build-htaccess";
 import checker from "vite-plugin-checker";
 import lessToJsPlugin from "./config/vite-plugins/vite-plugin-less-to-js";
+import legacy from "@vitejs/plugin-legacy";
 
 const ip = require("ip");
 const portFinderSync = require("portfinder-sync");
@@ -16,10 +17,7 @@ const log = debug("config:vite.config");
  * Vite config
  * @doc https://vitejs.dev/config/
  *
- * TODO less var to JS
- * TODO https://github.com/asurraa-lab/react-vite2-ts-antd/blob/master/vite.config.ts
  */
-
 export default defineConfig(({ command, mode }) => {
   const isDevelopment = mode === "development";
   const ipAddress = ip.address();
@@ -34,8 +32,6 @@ export default defineConfig(({ command, mode }) => {
     COMMAND: command, // (can be: serve | build)
     INPUT_FILES: config.input.join(","),
   };
-
-  //  console.log('config.input',config.input.split(""))
 
   /**
    * Before config
@@ -65,11 +61,17 @@ export default defineConfig(({ command, mode }) => {
 
     plugins: [
       react(),
+
       checker({ typescript: true, enableBuild: true, overlay: true }),
+
       lessToJsPlugin({
         varFilesToWatch: config.atomsFilesToWatch,
         outputPath: config.atomsDir,
         outputFilename: config.atomsGeneratedFilename,
+      }),
+
+      legacy({
+        targets: ["defaults", "not IE 11"],
       }),
     ],
 
@@ -89,6 +91,7 @@ export default defineConfig(({ command, mode }) => {
     },
 
     build: {
+      write: true,
       outDir: config.outDir,
       emptyOutDir: true,
       manifest: true,
