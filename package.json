@@ -4,7 +4,7 @@
   "main": "src/main.ts",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --mode staging",
+    "build": "vite build",
     "serve": "vite preview"
   },
   "dependencies": {

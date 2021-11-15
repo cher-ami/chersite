@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{# TODO inject current language #}
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -28,17 +29,19 @@
     <meta name="twitter:description" content="{{ description | raw }}">
     <meta name="twitter:image" content="{{ image | raw }}">
 
-    {# Import style only on prod #}
+    {# Insert the built style from manifest #}
     {% if command == "build" %}
-        {% for cssFile in manifest['src/index.tsx']['css'] %}
-            <link href="{{ vite_base_url }}/static/{{ cssFile }}" type="text/css" rel="stylesheet">
+        {% for input in manifest %}
+            {% for cssFile in input['css'] %}
+                <link href="{{ vite_base_url }}/static/{{ cssFile }}" type="text/css" rel="stylesheet">
+            {% endfor %}
         {% endfor %}
     {% endif %}
 </head>
 <body>
-{# Start App #}
 <div id="root"></div>
 
+{# DEV scripts #}
 {% if command == "serve" %}
     <script type="module">
       import RefreshRuntime from 'http://{{ host }}:{{ port }}/@react-refresh'
@@ -48,12 +51,16 @@
       window.__vite_plugin_react_preamble_installed__ = true;
     </script>
     <script type="module" src="http://{{ host }}:{{ port }}/@vite/client"></script>
-    <script type="module" src="http://{{ host }}:{{ port }}/src/index.tsx"></script>
+    {% for input in input_array %}
+        <script type="module" src="http://{{ host }}:{{ port }}/{{ input }}"></script>
+    {% endfor %}
 {% endif %}
 
+{# Insert the built scripts from manifest #}
 {% if command == "build" %}
-    <script type="module" src="{{ vite_base_url }}/static/{{ manifest['src/index.tsx']['file'] }}"></script>
+    {% for input in manifest %}
+        <script type="module" src="{{ vite_base_url }}/static/{{ input['file'] }}"></script>
+    {% endfor %}
 {% endif %}
-
 </body>
 </html>

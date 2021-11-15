@@ -32,7 +32,10 @@ export default defineConfig(({ command, mode }) => {
     PORT: portFinder,
     HOST: ipAddress,
     COMMAND: command, // (can be: serve | build)
+    INPUT_FILES: config.input.join(","),
   };
+
+  //  console.log('config.input',config.input.split(""))
 
   /**
    * Before config
@@ -41,7 +44,7 @@ export default defineConfig(({ command, mode }) => {
   buildDotEnv({
     envVars: process.env,
     dotenvOutDir: config.buildDotenvOutDir,
-    additionalVarKeys: ["HOST", "PORT", "COMMAND"],
+    additionalVarKeys: ["HOST", "PORT", "COMMAND", "INPUT_FILES"],
   });
 
   // build htaccess file
@@ -49,8 +52,8 @@ export default defineConfig(({ command, mode }) => {
     serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
     user: process.env.HTACCESS_AUTH_USER,
     password: process.env.HTACCESS_AUTH_PASSWORD,
-    outputPath: config.wwwDir,
     htaccessTemplatePath: config.htaccessTemplateFilePath,
+    outputPath: config.wwwDir,
   });
 
   /**
@@ -90,7 +93,7 @@ export default defineConfig(({ command, mode }) => {
       emptyOutDir: true,
       manifest: true,
       rollupOptions: {
-        input: config.input,
+        input: config.input.map((el) => resolve(el)),
       },
     },
   };

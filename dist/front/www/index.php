@@ -40,10 +40,16 @@ $template = $twig->load('layouts/base.twig');
 $metaData = new MetaManager($_ENV["API_URL"] ?? null, $_ENV['VITE_BASE_URL'] ?? null, $languages);
 $meta = $metaData->getMetaData();
 
-
 // Takes raw data from the request & Converts it into a PHP object
-$json = file_get_contents('static/manifest.json');
-$manifest = json_decode($json, true);
+$json = null;
+$manifest = null;
+if (file_exists('static/manifest.json')) {
+    $json = file_get_contents('static/manifest.json');
+    $manifest = json_decode($json, true);
+}
+
+// prepare inputs array
+$inputArray = explode(",",$_ENV['INPUT_FILES']);
 
 echo $template->render([
     'title' => $meta['title'] ?? "cher-base App",
@@ -56,6 +62,7 @@ echo $template->render([
     'command' => $_ENV['COMMAND'] ?? null,
     'version' => $_ENV['VERSION'] ?? null,
     'vite_base_url' => rtrim($_ENV['VITE_BASE_URL'], "/") ?? null,
-    'manifest' => $manifest ?? null
+    'manifest' => $manifest ?? null,
+    'input_array' => $inputArray ?? []
 ]);
 
