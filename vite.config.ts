@@ -31,6 +31,7 @@ export default defineConfig(({ command, mode }) => {
     HOST: ipAddress,
     COMMAND: command,
     INPUT_FILES: config.input.join(","),
+    BUILD_DIRNAME: config.buildDirname,
   };
   log("process.env", process.env);
 
@@ -38,11 +39,18 @@ export default defineConfig(({ command, mode }) => {
     clearScreen: true,
     logLevel: "info",
 
+    // "base" refer to folder where assets are served
+    base: `${process.env.VITE_APP_BASE}${config.buildDirname}/`,
+
+    // public folder content is copied in static build folder
+    publicDir: config.publicDir,
+
     server: {
       port: portFinder,
       host: true,
       cors: true,
-      open: `http://${ipAddress}${process.env.VITE_ROUTER_BASE_URL}`,
+      origin: `http://${ipAddress}:${portFinder}`,
+      open: `http://${ipAddress}${process.env.VITE_APP_BASE}`,
     },
 
     css: {
@@ -54,10 +62,12 @@ export default defineConfig(({ command, mode }) => {
     },
 
     build: {
+      assetsDir: "./",
       write: true,
       outDir: config.outDir,
       emptyOutDir: true,
       manifest: true,
+      assetsInlineLimit: 0,
       rollupOptions: {
         input: config.input.map((el) => resolve(el)),
       },
@@ -68,6 +78,8 @@ export default defineConfig(({ command, mode }) => {
 
       checker({ typescript: true, enableBuild: true, overlay: true }),
 
+      legacy({ targets: ["defaults", "not IE 11"] }),
+
       buildAtomsPlugin({
         varFilesToWatch: config.atomsFilesToWatch,
         outputPath: config.atomsDir,
@@ -77,7 +89,13 @@ export default defineConfig(({ command, mode }) => {
       buildDotenvPlugin({
         envVars: process.env,
         dotenvOutDir: config.buildDotenvOutDir,
-        additionalVarKeys: ["HOST", "PORT", "COMMAND", "INPUT_FILES"],
+        additionalVarKeys: [
+          "HOST",
+          "PORT",
+          "COMMAND",
+          "INPUT_FILES",
+          "BUILD_DIRNAME",
+        ],
       }),
 
       buildHtaccessPlugin({
@@ -86,10 +104,6 @@ export default defineConfig(({ command, mode }) => {
         password: process.env.HTACCESS_AUTH_PASSWORD,
         htaccessTemplatePath: config.htaccessTemplateFilePath,
         outputPath: config.wwwDir,
-      }),
-
-      legacy({
-        targets: ["defaults", "not IE 11"],
       }),
     ],
   };

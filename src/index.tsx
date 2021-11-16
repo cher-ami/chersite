@@ -6,7 +6,6 @@ import { routes } from "./routes";
 import { Router } from "@cher-ami/router";
 import VhHelper from "./helpers/VhHelper";
 import * as packageJson from "../package.json";
-// import 'vite/modulepreload-polyfill'
 
 import debug from "@wbe/debug";
 const log = debug("front:index");
@@ -31,10 +30,7 @@ class InitApp {
   protected render() {
     this.reactApp = ReactDOM.render(
       <React.StrictMode>
-        <Router
-          routes={routes}
-          base={import.meta.env.VITE_ROUTER_BASE_URL as string}
-        >
+        <Router routes={routes} base={import.meta.env.VITE_APP_BASE as string}>
           <App />
         </Router>
       </React.StrictMode>,

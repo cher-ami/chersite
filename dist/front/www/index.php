@@ -37,14 +37,19 @@ $twig = new Environment($loader);
 $template = $twig->load('layouts/base.twig');
 
 //Get metas data
-$metaData = new MetaManager($_ENV["API_URL"] ?? null, $_ENV['VITE_BASE_URL'] ?? null, $languages);
+$metaData = new MetaManager($_ENV["API_URL"] ?? null, $_ENV['VITE_APP_BASE'] ?? null, $languages);
 $meta = $metaData->getMetaData();
+
+
+// get build dirname (where assets are built)
+$buildDirname = $_ENV['BUILD_DIRNAME'] ?? null;
 
 // Takes raw data from the request & Converts it into a PHP object
 $json = null;
 $manifest = null;
-if (file_exists('static/manifest.json')) {
-    $json = file_get_contents('static/manifest.json');
+
+if (file_exists("{$buildDirname}/manifest.json")) {
+    $json = file_get_contents("{$buildDirname}/manifest.json");
     $manifest = json_decode($json, true);
 }
 
@@ -52,7 +57,7 @@ if (file_exists('static/manifest.json')) {
 $inputArray = explode(",",$_ENV['INPUT_FILES']);
 
 echo $template->render([
-    'title' => $meta['title'] ?? "cher-base App",
+    'title' => $meta['title'] ?? "app",
     'description' => $meta['description'] ?? null,
     'image' => $meta['openGraphImages'][0] ?? null,
     'canonical' => $meta['canonical'] ?? null,
@@ -61,7 +66,8 @@ echo $template->render([
     'api_url' => $_ENV["API_URL"] ?? null,
     'command' => $_ENV['COMMAND'] ?? null,
     'version' => $_ENV['VERSION'] ?? null,
-    'vite_base_url' => rtrim($_ENV['VITE_BASE_URL'], "/") ?? null,
+    'app_base' => $_ENV['VITE_APP_BASE'] ?? "/",
+    'build_dirname' => $buildDirname,
     'manifest' => $manifest ?? null,
     'input_array' => $inputArray ?? []
 ]);
