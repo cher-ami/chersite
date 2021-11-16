@@ -1,5 +1,5 @@
 const { Files } = require("@zouloux/files");
-const logger = require("../helpers/logger");
+const logger = require("../../helpers/logger");
 const debug = require("@wbe/debug")("config:build-atoms");
 
 /**

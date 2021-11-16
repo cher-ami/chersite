@@ -1,7 +1,7 @@
 const { Files } = require("@zouloux/files");
 const { quickTemplate } = require("./template-helper");
-const debug = require("@wbe/debug")("lib:create-file");
-const logs = require("../../../helpers/logger");
+const debug = require("@wbe/debug")("config:create-file");
+const logs = require("./logger");
 
 /**
  * Create File with template

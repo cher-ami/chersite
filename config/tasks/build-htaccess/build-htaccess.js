@@ -1,6 +1,6 @@
 const { Files } = require("@zouloux/files");
 const debug = require("@wbe/debug")("config:build-htaccess");
-const logger = require("../helpers/logger");
+const logger = require("../../helpers/logger");
 
 /**
  * Create htaccess file

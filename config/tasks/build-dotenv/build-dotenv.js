@@ -1,7 +1,7 @@
 const { Files } = require("@zouloux/files");
 const path = require("path");
 const debug = require("@wbe/debug")("config:build-dotenv");
-const logger = require("../helpers/logger");
+const logger = require("../../helpers/logger");
 
 /**
  * Prepare env vars

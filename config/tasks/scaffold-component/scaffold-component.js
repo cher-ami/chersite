@@ -4,7 +4,7 @@ const { Files } = require("@zouloux/files");
 Files.setVerbose(false);
 const debug = require("@wbe/debug")("config:scaffold");
 const logs = require("../../helpers/logger");
-const createFile = require("./scaffold-helpers/create-file");
+const createFile = require("../../helpers/create-file");
 
 const {
   componentCompatibleFolders,

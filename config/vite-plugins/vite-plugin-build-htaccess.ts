@@ -1,7 +1,5 @@
-import debug from "@wbe/debug";
 import { PluginOption } from "vite";
-const log = debug("config:vite-plugin-build-htaccess");
-import buildHtaccess from "../tasks/build-htaccess";
+import buildHtaccess from "../tasks/build-htaccess/build-htaccess";
 
 export default function buildHtaccessPlugin({
   user,

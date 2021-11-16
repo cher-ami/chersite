@@ -1,7 +1,5 @@
-import debug from "@wbe/debug";
 import { PluginOption } from "vite";
-import buildDotenv from "../tasks/build-dotenv";
-const log = debug("config:vite-plugin-build-dotenv");
+import buildDotenv from "../tasks/build-dotenv/build-dotenv";
 
 export default function buildDotenvPlugin({
   envVars = process.env,

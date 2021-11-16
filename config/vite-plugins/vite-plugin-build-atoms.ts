@@ -1,8 +1,6 @@
-import debug from "@wbe/debug";
 import { Files } from "@zouloux/files";
 import { HmrContext, PluginOption } from "vite";
-import buildAtoms from "../tasks/build-atoms";
-const log = debug("config:vite-plugin-build-atoms");
+import buildAtoms from "../tasks/build-atoms/build-atoms";
 
 export default function buildAtomsPlugin({
   varFilesToWatch,
@@ -18,9 +16,7 @@ export default function buildAtomsPlugin({
    * @param ctx
    */
   const _watchingFileAsChanged = (ctx: HmrContext): boolean => {
-    // check files to watch
     const glob = Files.getFiles(varFilesToWatch);
-    // check if a file of change file list match with one of glob files
     return glob?.files?.some((globEl) => globEl.includes(ctx.file));
   };
 
