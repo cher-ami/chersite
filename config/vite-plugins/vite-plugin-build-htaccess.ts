@@ -1,24 +1,31 @@
 import debug from "@wbe/debug";
-import { HmrContext, PluginOption } from "vite";
-const log = debug("config:build-dotenv");
+import { PluginOption } from "vite";
+const log = debug("config:vite-plugin-build-htaccess");
+import buildHtaccess from "../tasks/build-htaccess";
 
-export default function dotenv({}: {}): PluginOption {
+export default function buildHtaccessPlugin({
+  user,
+  password,
+  serverWebRootPath,
+  htaccessTemplatePath,
+  outputPath,
+}: {
+  user: string;
+  password: string;
+  serverWebRootPath: string;
+  htaccessTemplatePath: string;
+  outputPath: string;
+}): PluginOption {
   return {
-    name: "vite-plugin-dotenv",
-
-    /**
-     * When build start
-     */
+    name: "vite-plugin-build-htaccess",
     buildStart: () => {
-      log("build start");
-    },
-
-    /**
-     * When hot update
-     * @param ctx
-     */
-    handleHotUpdate(ctx: HmrContext) {
-      log("handleHotUpdate");
+      buildHtaccess({
+        user,
+        serverWebRootPath,
+        password,
+        htaccessTemplatePath,
+        outputPath,
+      });
     },
   };
 }

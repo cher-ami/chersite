@@ -1,24 +1,21 @@
 import debug from "@wbe/debug";
-import { HmrContext, PluginOption } from "vite";
-const log = debug("config:build-dotenv");
+import { PluginOption } from "vite";
+import buildDotenv from "../tasks/build-dotenv";
+const log = debug("config:vite-plugin-build-dotenv");
 
-export default function dotenv({}: {}): PluginOption {
+export default function buildDotenvPlugin({
+  envVars = process.env,
+  dotenvOutDir,
+  additionalVarKeys,
+}: {
+  envVars: { [x: string]: string };
+  dotenvOutDir: string[];
+  additionalVarKeys: string[];
+}): PluginOption {
   return {
     name: "vite-plugin-dotenv",
-
-    /**
-     * When build start
-     */
     buildStart: () => {
-      log("build start");
-    },
-
-    /**
-     * When hot update
-     * @param ctx
-     */
-    handleHotUpdate(ctx: HmrContext) {
-      log("handleHotUpdate");
+      buildDotenv({ envVars, dotenvOutDir, additionalVarKeys });
     },
   };
 }
