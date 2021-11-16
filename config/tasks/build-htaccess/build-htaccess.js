@@ -1,6 +1,6 @@
-const { Files } = require("@zouloux/files");
-const debug = require("@wbe/debug")("config:build-htaccess");
-const logger = require("../../helpers/logger");
+const { Files } = require("@zouloux/files")
+const debug = require("@wbe/debug")("config:build-htaccess")
+const logger = require("../../helpers/logger")
 
 /**
  * Create htaccess file
@@ -9,27 +9,25 @@ const logger = require("../../helpers/logger");
  * @private
  */
 const _createHtaccessFile = ({ outputPath, htaccessTemplatePath }) => {
-  const newHtaccessFilePath = `${outputPath}/.htaccess`;
+  const newHtaccessFilePath = `${outputPath}/.htaccess`
 
-  debug({ htaccessTemplatePath, newHtaccessFilePath });
+  debug({ htaccessTemplatePath, newHtaccessFilePath })
 
-  const templateExist = Files.getFiles(htaccessTemplatePath).files.length === 1;
-  debug("templateExist", templateExist);
+  const templateExist = Files.getFiles(htaccessTemplatePath).files.length === 1
+  debug("templateExist", templateExist)
 
   if (!templateExist) {
     console.log(
       "htaccess template doesn't exit. You need to create manually the template file in",
       htaccessTemplatePath
-    );
-    return;
+    )
+    return
   }
 
   // create and dispatch file from template
-  Files.new(newHtaccessFilePath).write(
-    Files.getFiles(htaccessTemplatePath).read()
-  );
-  return newHtaccessFilePath;
-};
+  Files.new(newHtaccessFilePath).write(Files.getFiles(htaccessTemplatePath).read())
+  return newHtaccessFilePath
+}
 
 /**
  * Create htpasswdFile
@@ -39,23 +37,23 @@ const _createHtpasswdFile = ({ outputPath, user, password }) => {
     outputPath,
     user,
     password,
-  });
+  })
 
   if (!outputPath || !user || !password) {
-    debug("Missing param, aborting.");
-    return;
+    debug("Missing param, aborting.")
+    return
   }
   // create htpasswd file and add password in it
-  const htpasswdFilePath = `${outputPath}/.htpasswd`;
-  debug("htpasswdFilePath", htpasswdFilePath);
+  const htpasswdFilePath = `${outputPath}/.htpasswd`
+  debug("htpasswdFilePath", htpasswdFilePath)
 
   // define content
-  const htpasswdContent = `${user}:${password}`;
-  debug("htpasswdContent", htpasswdContent);
+  const htpasswdContent = `${user}:${password}`
+  debug("htpasswdContent", htpasswdContent)
 
   // write content user:pass in htpasswd file
-  Files.new(htpasswdFilePath).write(htpasswdContent);
-};
+  Files.new(htpasswdFilePath).write(htpasswdContent)
+}
 
 /**
  * htpasswd link in htaccess
@@ -64,11 +62,8 @@ const _createHtpasswdFile = ({ outputPath, user, password }) => {
  * @return {null}
  * @private
  */
-const _htpasswdLinkInHtaccess = ({
-  newHtaccessFilePath,
-  serverWebRootPath,
-}) => {
-  if (!serverWebRootPath) return null;
+const _htpasswdLinkInHtaccess = ({ newHtaccessFilePath, serverWebRootPath }) => {
+  if (!serverWebRootPath) return null
 
   const template = [
     `# Add password
@@ -79,10 +74,10 @@ const _htpasswdLinkInHtaccess = ({
       `,
   ]
     .join("\n")
-    .replace(/  +/g, "");
+    .replace(/  +/g, "")
 
-  Files.getFiles(newHtaccessFilePath).append(template);
-};
+  Files.getFiles(newHtaccessFilePath).append(template)
+}
 
 /**
  * rewrite http To https
@@ -92,7 +87,7 @@ const _htpasswdLinkInHtaccess = ({
 const _rewriteHttpToHttpsInHtaccess = (pNewHtaccessFilePath) => {
   debug("rewrite http to https in htaccess", {
     pNewHtaccessFilePath,
-  });
+  })
 
   const template = [
     `# Force http to https
@@ -101,10 +96,10 @@ const _rewriteHttpToHttpsInHtaccess = (pNewHtaccessFilePath) => {
      `,
   ]
     .join("\n")
-    .replace(/  +/g, "");
+    .replace(/  +/g, "")
 
-  Files.getFiles(pNewHtaccessFilePath).append(template);
-};
+  Files.getFiles(pNewHtaccessFilePath).append(template)
+}
 
 /**
  * Prebuild .htaccess file
@@ -117,23 +112,23 @@ module.exports = ({
   outputPath,
   htaccessTemplatePath,
 }) => {
-  logger.start("Build .htaccess");
+  logger.start("Build .htaccess")
 
   // create htaccess file and get returned newHtaccessFilePath
   const newHtaccessFilePath = _createHtaccessFile({
     outputPath,
     htaccessTemplatePath,
-  });
+  })
 
-  if (!newHtaccessFilePath) return;
-  logger.note(`path: ${newHtaccessFilePath}`);
+  if (!newHtaccessFilePath) return
+  logger.note(`path: ${newHtaccessFilePath}`)
 
   if (process.env.HTACCESS_ENABLE_AUTH === "true") {
-    _createHtpasswdFile({ outputPath, user, password });
-    _htpasswdLinkInHtaccess({ newHtaccessFilePath, serverWebRootPath });
+    _createHtpasswdFile({ outputPath, user, password })
+    _htpasswdLinkInHtaccess({ newHtaccessFilePath, serverWebRootPath })
   }
 
   if (process.env.HTACCESS_ENABLE_HTTPS_REDIRECTION === "true") {
-    _rewriteHttpToHttpsInHtaccess(newHtaccessFilePath);
+    _rewriteHttpToHttpsInHtaccess(newHtaccessFilePath)
   }
-};
+}

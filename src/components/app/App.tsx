@@ -1,6 +1,6 @@
-import css from "./App.module.less";
-import React from "react";
-import { Link, Stack } from "@cher-ami/router";
+import css from "./App.module.less"
+import React from "react"
+import { Link, Stack } from "@cher-ami/router"
 
 export interface IProps {}
 
@@ -19,7 +19,7 @@ function App(props: IProps) {
       </nav>
       <Stack className={css.stack} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
