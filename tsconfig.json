@@ -19,7 +19,8 @@
     "baseUrl": "./src",
     "paths": {
       "*": ["src/*.d.ts"]
-    }
+    },
+    "types": ["node"]
   },
   "include": ["./src"]
 }

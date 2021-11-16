@@ -2,6 +2,10 @@ import css from "./HomePage.module.less"
 import React, { ForwardedRef, forwardRef, useRef } from "react"
 import { useStack } from "@cher-ami/router"
 import debug from "@wbe/debug"
+import image from "../../assets/logo-cher-ami.png"
+
+// @ts-ignore
+import { Image } from "@wbe/react-image"
 
 interface IProps {}
 
@@ -36,6 +40,7 @@ const HomePage = forwardRef((props: IProps, handleRef: ForwardedRef<any>) => {
   return (
     <div className={css.root} ref={rootRef}>
       {componentName}
+      <Image src={image} alt={"ldld"} />
     </div>
   )
 })
