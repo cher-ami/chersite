@@ -35,10 +35,6 @@ const HomePage = forwardRef((props: IProps, handleRef: ForwardedRef<any>) => {
 
   return (
     <div className={css.root} ref={rootRef}>
-
-
-      
-      test
       {componentName}
     </div>
   );
