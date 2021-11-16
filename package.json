@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "scaffold": "node config/tasks/scaffold/scaffold.js"
+    "scaffold": "node config/tasks/scaffold-component/scaffold-component.js"
   },
   "dependencies": {
     "@cher-ami/router": "^1.1.0",

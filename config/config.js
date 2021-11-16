@@ -47,6 +47,6 @@ module.exports = {
 
   // Scaffold
   componentCompatibleFolders: ['components', 'pages', 'popin'],
-  componentsTemplatesDir: resolve('config/tasks/scaffold/component/templates'),
+  componentsTemplatesDir: resolve('config/tasks/scaffold-component/templates'),
   bundleType: ['react', 'dom'],
 };

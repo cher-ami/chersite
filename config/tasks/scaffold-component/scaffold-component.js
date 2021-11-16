@@ -1,14 +1,18 @@
 const Inquirer = require("inquirer");
 const changeCase = require("change-case");
 const { Files } = require("@zouloux/files");
-const debug = require("@wbe/debug")("config:scaffold");
-
-//
-const createFile = require("../scaffold-helpers/create-file");
-const logs = require("../../../helpers/logger");
-
-// remove Files lib logs
 Files.setVerbose(false);
+const debug = require("@wbe/debug")("config:scaffold");
+const logs = require("../../helpers/logger");
+const createFile = require("./scaffold-helpers/create-file");
+
+const {
+  componentCompatibleFolders,
+  componentsTemplatesDir,
+  srcDir,
+} = require("../../config");
+
+// ----------------------------------------------------------------------------- PRIVATE API
 
 const _askWhichComponentFolder = (componentCompatibleFolders) => {
   return Inquirer.prompt({
@@ -29,11 +33,6 @@ const _askComponentName = () => {
 
 /**
  * React Component Builder
- * @param subFolder
- * @param upperComponentName
- * @param componentPath
- * @param createTest
- * @private
  */
 const _reactComponentBuilder = ({
   subFolder,
@@ -59,10 +58,6 @@ const _reactComponentBuilder = ({
 
 /**
  * DOM Component builder
- * @param componentPath
- * @param upperComponentName
- * @param createTest
- * @private
  */
 const _domComponentBuilder = ({
   componentPath,
@@ -83,23 +78,17 @@ const _domComponentBuilder = ({
   });
 };
 
-// ----------------------–----------------------–----------------------–-------- PUBLIC
-
 /**
  * @name index
  * @description Ask question and scaffold a component with a specific script template
  */
-const scaffoldComponent = ({
+const _scaffoldComponent = ({
   srcDir,
   pComponentType, // dom | react
   componentCompatibleFolders,
   componentsTemplatesDir,
 }) => {
   return new Promise(async (resolve) => {
-    /**
-     * Ask questions
-     */
-
     // Get sub-folder
     let subFolder = "";
     await _askWhichComponentFolder(componentCompatibleFolders).then(
@@ -148,7 +137,46 @@ const scaffoldComponent = ({
   });
 };
 
-/**
- * return scaffold component function
- */
-module.exports = scaffoldComponent;
+// ----------------------------------------------------------------------------- PUBLIC
+
+const scaffoldComponent = () => {
+  const TYPES = [
+    {
+      name: "React component",
+      exec: () =>
+        _scaffoldComponent({
+          pComponentType: "react",
+          componentCompatibleFolders,
+          componentsTemplatesDir,
+          srcDir,
+        }),
+    },
+    {
+      name: "DOM component",
+      exec: () =>
+        _scaffoldComponent({
+          pComponentType: "dom",
+          componentCompatibleFolders,
+          componentsTemplatesDir,
+          srcDir,
+        }),
+    },
+  ];
+
+  let scaffolderTypes = TYPES.map((scaffolder) => scaffolder.name);
+
+  // List available scaffolders to user
+  Inquirer.prompt({
+    type: "list",
+    name: "type",
+    message: "What kind of component to create?",
+    choices: scaffolderTypes,
+    pageSize: 20,
+  }).then((answer) => {
+    // Get scaffolder index
+    const scaffolderIndex = scaffolderTypes.indexOf(answer.type);
+    // Start this scaffolder
+    TYPES[scaffolderIndex].exec();
+  });
+};
+scaffoldComponent();
