@@ -1,0 +1,22 @@
+import css from './%%upperComponentName%%.module.less';
+import React from 'react';
+import { merge } from "../../helpers/merge";
+import debug from "@wbe/debug";
+
+interface IProps {
+  className?: string
+}
+
+const componentName = "%%upperComponentName%%";
+const log = debug(`front:${componentName}`);
+
+/**
+ * @name %%upperComponentName%%
+ */
+function %%upperComponentName%% (props: IProps) {
+  return <div className={merge([css.root, props.className])}>
+      {componentName}
+  </div>
+}
+
+export default %%upperComponentName%%

@@ -21,7 +21,7 @@ function initCouleur() {
    * @param green
    * @param blue
    */
-  const _rgbToAnsi256 = (red: number, green: number, blue: number): number => {
+  const _rgbToAnsi256 = (red, green, blue) => {
     if (red === green && green === blue) {
       if (red < 8) return 16;
       if (red > 248) return 231;
@@ -39,16 +39,14 @@ function initCouleur() {
    * Color string with rbg color
    * ex: couleur.rbg(255,0,0)('foo')
    */
-  const rgb =
-    (r: number, g: number, b: number) =>
-    (str: string): string =>
-      _wrapAnsi256(_rgbToAnsi256(r, g, b)) + str + _close;
+  const rgb = (r, g, b) => (str) =>
+    _wrapAnsi256(_rgbToAnsi256(r, g, b)) + str + _close;
 
   /**
    * Bold text
    * @param str
    */
-  const bold = (str: string): string => "\x1B[1m" + str + "\x1B[22m";
+  const bold = (str) => "\x1B[1m" + str + "\x1B[22m";
 
   return {
     rgb,
@@ -57,4 +55,4 @@ function initCouleur() {
 }
 
 const couleur = initCouleur();
-export default couleur;
+module.exports = couleur;
