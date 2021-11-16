@@ -2,9 +2,9 @@ import debug from "@wbe/debug";
 import { Files } from "@zouloux/files";
 import { HmrContext, PluginOption } from "vite";
 import buildAtoms from "../tasks/build-atoms";
-const log = debug("config:lessToJsPlugin");
+const log = debug("config:vite-plugin-build-atoms");
 
-export default function lessToJsPlugin({
+export default function buildAtomsPlugin({
   varFilesToWatch,
   outputPath,
   outputFilename,
@@ -25,28 +25,12 @@ export default function lessToJsPlugin({
   };
 
   return {
-    name: "vite-less-to-js-plugin",
-
-    /**
-     * When build start
-     */
+    name: "vite-plugin-build-atoms",
     buildStart: () => {
-      log("build atoms file", {
-        varFilesToWatch,
-        outputPath,
-        outputFilename,
-      });
       buildAtoms({ varFilesToWatch, outputPath, outputFilename });
     },
-
-    /**
-     * When hot update
-     * @param ctx
-     */
     handleHotUpdate(ctx: HmrContext) {
       const watchingFileHasChanged = _watchingFileAsChanged(ctx);
-      log("watching file has changed", watchingFileHasChanged);
-
       if (watchingFileHasChanged) {
         buildAtoms({ varFilesToWatch, outputPath, outputFilename });
       }

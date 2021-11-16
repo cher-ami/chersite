@@ -92,7 +92,7 @@ const _getAtomsVarList = (varFilesToWatch) => {
  * Return a promise
  */
 module.exports = ({
-  varFilesToWatch = [],
+  varFilesToWatch = "",
   outputPath = "",
   outputFilename = "",
 }) => {

@@ -6,8 +6,8 @@ const green = couleur.rgb(57, 180, 0);
 const red = couleur.rgb(244, 34, 34);
 
 module.exports = {
-  start: (message = "") => console.log(blue(message)),
-  note: (message = "") => console.log(grey(message)),
-  done: (message = "Done.") => console.log(green(message)),
-  error: (message = "") => console.log(red(message)),
+  start: (message = "") => console.log(`\n  ${blue(message)}`),
+  note: (message = "") => console.log(`  ${grey(message)}`),
+  done: (message = "Done.") => console.log(`  ${green(message)}`),
+  error: (message = "") => console.log(`  ${red(message)}`),
 };

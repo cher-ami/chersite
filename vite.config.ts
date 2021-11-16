@@ -1,12 +1,12 @@
-import { defineConfig, loadEnv } from "vite";
-import react from "@vitejs/plugin-react";
-import debug from "@wbe/debug";
 import { resolve } from "path";
 import config from "./config/config.js";
-import buildDotEnv from "./config/tasks/build-dotenv";
-import buildHtaccess from "./config/tasks/build-htaccess";
+import { defineConfig, loadEnv } from "vite";
+import debug from "@wbe/debug";
+import react from "@vitejs/plugin-react";
 import checker from "vite-plugin-checker";
-import lessToJsPlugin from "./config/vite-plugins/vite-plugin-less-to-js";
+import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv";
+import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess";
+import buildAtomsPlugin from "./config/vite-plugins/vite-plugin-build-atoms";
 import legacy from "@vitejs/plugin-legacy";
 
 const ip = require("ip");
@@ -23,57 +23,20 @@ export default defineConfig(({ command, mode }) => {
   const ipAddress = ip.address();
   const portFinder = portFinderSync.getPort(3000);
 
-  // merge loadEnv selected by vite in specific order in process.env
+  // merge loadEnv selected by vite in process.env
   process.env = {
     ...process.env,
     ...loadEnv(mode, process.cwd(), ""),
     PORT: portFinder,
     HOST: ipAddress,
-    COMMAND: command, // (can be: serve | build)
+    COMMAND: command,
     INPUT_FILES: config.input.join(","),
   };
+  log("process.env", process.env);
 
-  /**
-   * Before config
-   */
-  // build dotenv with loaded env var (.env + .env.{mode})
-  buildDotEnv({
-    envVars: process.env,
-    dotenvOutDir: config.buildDotenvOutDir,
-    additionalVarKeys: ["HOST", "PORT", "COMMAND", "INPUT_FILES"],
-  });
-
-  // build htaccess file
-  buildHtaccess({
-    serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
-    user: process.env.HTACCESS_AUTH_USER,
-    password: process.env.HTACCESS_AUTH_PASSWORD,
-    htaccessTemplatePath: config.htaccessTemplateFilePath,
-    outputPath: config.wwwDir,
-  });
-
-  /**
-   * Config
-   */
   return {
-    clearScreen: false,
+    clearScreen: true,
     logLevel: "info",
-
-    plugins: [
-      react(),
-
-      checker({ typescript: true, enableBuild: true, overlay: true }),
-
-      lessToJsPlugin({
-        varFilesToWatch: config.atomsFilesToWatch,
-        outputPath: config.atomsDir,
-        outputFilename: config.atomsGeneratedFilename,
-      }),
-
-      legacy({
-        targets: ["defaults", "not IE 11"],
-      }),
-    ],
 
     server: {
       port: portFinder,
@@ -99,5 +62,35 @@ export default defineConfig(({ command, mode }) => {
         input: config.input.map((el) => resolve(el)),
       },
     },
+
+    plugins: [
+      react(),
+
+      checker({ typescript: true, enableBuild: true, overlay: true }),
+
+      buildAtomsPlugin({
+        varFilesToWatch: config.atomsFilesToWatch,
+        outputPath: config.atomsDir,
+        outputFilename: config.atomsGeneratedFilename,
+      }),
+
+      buildDotenvPlugin({
+        envVars: process.env,
+        dotenvOutDir: config.buildDotenvOutDir,
+        additionalVarKeys: ["HOST", "PORT", "COMMAND", "INPUT_FILES"],
+      }),
+
+      buildHtaccessPlugin({
+        serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
+        user: process.env.HTACCESS_AUTH_USER,
+        password: process.env.HTACCESS_AUTH_PASSWORD,
+        htaccessTemplatePath: config.htaccessTemplateFilePath,
+        outputPath: config.wwwDir,
+      }),
+
+      legacy({
+        targets: ["defaults", "not IE 11"],
+      }),
+    ],
   };
 });
