@@ -91,7 +91,7 @@ module.exports = ({ envVars = {}, dotenvOutDir, additionalVarKeys = [] }) => {
   // Create .env files
   dotenvOutDir?.length > 0 &&
     dotenvOutDir.forEach((path) => {
-      logger.note(`dotenv path: ${path}`);
+      logger.note(`path: ${path}`);
       Files.new(`${path}/.env`).write(template);
     });
 };

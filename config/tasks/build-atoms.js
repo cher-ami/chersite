@@ -100,7 +100,7 @@ module.exports = ({
 
   // Generate File path
   const generatedFilePath = `${outputPath}/${outputFilename}`;
-  logger.note(`atoms path: ${generatedFilePath}`);
+  logger.note(`path: ${generatedFilePath}`);
 
   // get var atoms list
   const varList = _getAtomsVarList(varFilesToWatch);

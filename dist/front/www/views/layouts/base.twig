@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="imagetoolbar" content="no">
     <meta http-equiv="x-ua-compatible" content="IE=Edge">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     {# PAGE #}
     <title>{{ title | raw }}</title>
@@ -33,13 +32,12 @@
     {% if command == "build" %}
         {% for input in manifest %}
             {% for cssFile in input.css %}
-                <link href="{{ vite_base_url }}/static/{{ cssFile }}" type="text/css" rel="stylesheet">
+                <link href="{{ app_base }}{{ build_dirname }}/{{ cssFile }}" type="text/css" rel="stylesheet">
             {% endfor %}
         {% endfor %}
     {% endif %}
 </head>
 <body>
-
 
 {# Root div application #}
 <div id="root"></div>
@@ -51,15 +49,15 @@
 #}
 {% if command == "serve" %}
     <script type="module">
-      import RefreshRuntime from 'http://{{ host }}:{{ port }}/@react-refresh'
+      import RefreshRuntime from 'http://{{ host }}:{{ port }}{{ app_base }}{{ build_dirname }}/@react-refresh'
       RefreshRuntime.injectIntoGlobalHook(window);
       window.$RefreshReg$ = () => {};
       window.$RefreshSig$ = () => (type) => type;
       window.__vite_plugin_react_preamble_installed__ = true;
     </script>
-    <script type="module" src="http://{{ host }}:{{ port }}/@vite/client"></script>
+    <script type="module" src="http://{{ host }}:{{ port }}{{ app_base }}{{ build_dirname }}/@vite/client"></script>
     {% for input in input_array %}
-        <script type="module" src="http://{{ host }}:{{ port }}/{{ input }}"></script>
+        <script type="module" src="http://{{ host }}:{{ port }}{{ app_base }}{{ build_dirname }}/{{ input }}"></script>
     {% endfor %}
 {% endif %}
 
@@ -70,18 +68,16 @@
             Vite legacy-plugin build legacy script versions,
             they contain 'legacy' keyword in there own name, we can identify them by this one
             and add "nomodule" attribute en there script tag.
-
-            nomodule specs:
-            @doc https://html.spec.whatwg.org/multipage/scripting.html#script-nomodule-example
+            @specs: https://html.spec.whatwg.org/multipage/scripting.html#script-nomodule-example
         #}
         {% if 'legacy' in input.file %}
-            <script nomodule src="{{ vite_base_url }}/static/{{ input.file }}"></script>
+            <script nomodule src="{{ app_base }}{{ build_dirname }}/{{ input.file }}"></script>
         {#
             ESM version
             If build script are ESM version, add "type=module" to there script tag
         #}
         {% else  %}
-            <script type="module" src="{{ vite_base_url }}/static/{{ input.file }}"></script>
+            <script type="module" src="{{ app_base }}{{ build_dirname }}/{{ input.file }}"></script>
         {% endif %}
     {% endfor %}
 {% endif %}
