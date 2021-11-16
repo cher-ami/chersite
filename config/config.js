@@ -1,4 +1,4 @@
-const { resolve } = require("path");
+const { resolve } = require("path")
 
 // prettier-ignore
 module.exports = {

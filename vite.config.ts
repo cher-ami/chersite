@@ -1,17 +1,17 @@
-import { resolve } from "path";
-import config from "./config/config.js";
-import { defineConfig, loadEnv } from "vite";
-import debug from "@wbe/debug";
-import react from "@vitejs/plugin-react";
-import checker from "vite-plugin-checker";
-import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv";
-import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess";
-import buildAtomsPlugin from "./config/vite-plugins/vite-plugin-build-atoms";
-import legacy from "@vitejs/plugin-legacy";
+import { resolve } from "path"
+import config from "./config/config.js"
+import { defineConfig, loadEnv } from "vite"
+import debug from "@wbe/debug"
+import react from "@vitejs/plugin-react"
+import checker from "vite-plugin-checker"
+import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
+import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
+import buildAtomsPlugin from "./config/vite-plugins/vite-plugin-build-atoms"
+import legacy from "@vitejs/plugin-legacy"
 
-const ip = require("ip");
-const portFinderSync = require("portfinder-sync");
-const log = debug("config:vite.config");
+const ip = require("ip")
+const portFinderSync = require("portfinder-sync")
+const log = debug("config:vite.config")
 
 /**
  * Vite config
@@ -19,9 +19,9 @@ const log = debug("config:vite.config");
  *
  */
 export default defineConfig(({ command, mode }) => {
-  const isDevelopment = mode === "development";
-  const ipAddress = ip.address();
-  const portFinder = portFinderSync.getPort(3000);
+  const isDevelopment = mode === "development"
+  const ipAddress = ip.address()
+  const portFinder = portFinderSync.getPort(3000)
 
   // merge loadEnv selected by vite in process.env
   process.env = {
@@ -32,8 +32,8 @@ export default defineConfig(({ command, mode }) => {
     COMMAND: command,
     INPUT_FILES: config.input.join(","),
     BUILD_DIRNAME: config.buildDirname,
-  };
-  log("process.env", process.env);
+  }
+  log("process.env", process.env)
 
   return {
     clearScreen: true,
@@ -89,13 +89,7 @@ export default defineConfig(({ command, mode }) => {
       buildDotenvPlugin({
         envVars: process.env,
         dotenvOutDir: config.buildDotenvOutDir,
-        additionalVarKeys: [
-          "HOST",
-          "PORT",
-          "COMMAND",
-          "INPUT_FILES",
-          "BUILD_DIRNAME",
-        ],
+        additionalVarKeys: ["HOST", "PORT", "COMMAND", "INPUT_FILES", "BUILD_DIRNAME"],
       }),
 
       buildHtaccessPlugin({
@@ -106,5 +100,5 @@ export default defineConfig(({ command, mode }) => {
         outputPath: config.wwwDir,
       }),
     ],
-  };
-});
+  }
+})

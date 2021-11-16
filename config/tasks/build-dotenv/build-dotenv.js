@@ -1,7 +1,7 @@
-const { Files } = require("@zouloux/files");
-const path = require("path");
-const debug = require("@wbe/debug")("config:build-dotenv");
-const logger = require("../../helpers/logger");
+const { Files } = require("@zouloux/files")
+const path = require("path")
+const debug = require("@wbe/debug")("config:build-dotenv")
+const logger = require("../../helpers/logger")
 
 /**
  * Prepare env vars
@@ -17,11 +17,11 @@ const _prepareVars = (envFiles) =>
         .split("\n")
         // for each line, filter comments and keep only var name
         .map((el) => {
-          const isComment = el.includes("#");
-          const containsEqual = el.includes("=");
+          const isComment = el.includes("#")
+          const containsEqual = el.includes("=")
           if (!isComment && containsEqual) {
-            const varName = el.split("=")[0];
-            return varName ? varName : null;
+            const varName = el.split("=")[0]
+            return varName ? varName : null
           }
         })
         // remove empty lines
@@ -30,7 +30,7 @@ const _prepareVars = (envFiles) =>
     // flat arrays results
     .flat()
     // remove double entries
-    .filter((elem, index, self) => index === self.indexOf(elem));
+    .filter((elem, index, self) => index === self.indexOf(elem))
 
 /**
  * Prepare template
@@ -41,7 +41,7 @@ const _prepareVars = (envFiles) =>
  * @private
  */
 const _prepareTemplate = (vars, envVars, additionalVarKeys) => {
-  let template;
+  let template
 
   // prettier-ignore
   template = vars.map(
@@ -52,20 +52,20 @@ const _prepareTemplate = (vars, envVars, additionalVarKeys) => {
   );
 
   // push current version in it
-  template.push(`VERSION=${require(path.resolve("package.json")).version}`);
+  template.push(`VERSION=${require(path.resolve("package.json")).version}`)
 
   // Add additional var keys in template
   additionalVarKeys?.length > 0 &&
     additionalVarKeys?.forEach((key) => {
-      template.push(`${key}=${envVars[key]}`);
-    });
+      template.push(`${key}=${envVars[key]}`)
+    })
 
   // filter to remove empty lines
-  template = template.filter((e) => e).join("\n");
-  debug("template to write in file", template);
+  template = template.filter((e) => e).join("\n")
+  debug("template to write in file", template)
 
-  return template;
-};
+  return template
+}
 
 /**
  * Build .env file
@@ -75,23 +75,23 @@ const _prepareTemplate = (vars, envVars, additionalVarKeys) => {
  * @param additionalVarKeys Add some keys to generated .env files
  */
 module.exports = ({ envVars = {}, dotenvOutDir, additionalVarKeys = [] }) => {
-  logger.start("Build .env file(s)");
+  logger.start("Build .env file(s)")
 
   // read all .env files and get all var keys
-  const envFiles = Files.getFiles(path.resolve(".env*")).files;
-  debug("available env files", envFiles);
+  const envFiles = Files.getFiles(path.resolve(".env*")).files
+  debug("available env files", envFiles)
 
   // match var keys from envFiles
-  const vars = _prepareVars(envFiles);
-  debug("available vars after merge vars from all .env files", vars);
+  const vars = _prepareVars(envFiles)
+  debug("available vars after merge vars from all .env files", vars)
 
   // create template with varNames and envVars values
-  const template = _prepareTemplate(vars, envVars, additionalVarKeys);
+  const template = _prepareTemplate(vars, envVars, additionalVarKeys)
 
   // Create .env files
   dotenvOutDir?.length > 0 &&
     dotenvOutDir.forEach((path) => {
-      logger.note(`path: ${path}`);
-      Files.new(`${path}/.env`).write(template);
-    });
-};
+      logger.note(`path: ${path}`)
+      Files.new(`${path}/.env`).write(template)
+    })
+}

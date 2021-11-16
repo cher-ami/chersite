@@ -1,12 +1,14 @@
 {
   "name": "cher-vite",
   "version": "0.1.0",
-  "main": "src/main.ts",
+  "main": "src/index.tsx",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview",
-    "scaffold": "node config/tasks/scaffold-component/scaffold-component.js"
+    "scaffold": "node config/tasks/scaffold-component/scaffold-component.js",
+    "prepare": "husky install",
+    "postinstall": "cp -n .env .env.local || true",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@cher-ami/router": "^1.1.0",
@@ -26,13 +28,20 @@
     "@vitejs/plugin-react": "^1.0.9",
     "@zouloux/files": "^0.6.0",
     "change-case": "^4.1.2",
+    "husky": "^7.0.4",
     "inquirer": "^8.2.0",
     "ip": "^1.1.5",
     "less": "^4.1.2",
+    "lint-staged": "^12.0.2",
     "portfinder-sync": "^0.0.2",
     "prettier": "^2.4.1",
     "typescript": "^4.4.4",
     "vite": "^2.6.14",
     "vite-plugin-checker": "^0.3.4"
+  },
+  "lint-staged": {
+    "*.{tsx,ts,jsx,js,less,css,json,md}": [
+      "prettier --write"
+    ]
   }
 }

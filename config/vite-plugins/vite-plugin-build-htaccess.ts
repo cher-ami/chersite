@@ -1,5 +1,5 @@
-import { PluginOption } from "vite";
-import buildHtaccess from "../tasks/build-htaccess/build-htaccess";
+import { PluginOption } from "vite"
+import buildHtaccess from "../tasks/build-htaccess/build-htaccess"
 
 export default function buildHtaccessPlugin({
   user,
@@ -8,11 +8,11 @@ export default function buildHtaccessPlugin({
   htaccessTemplatePath,
   outputPath,
 }: {
-  user: string;
-  password: string;
-  serverWebRootPath: string;
-  htaccessTemplatePath: string;
-  outputPath: string;
+  user: string
+  password: string
+  serverWebRootPath: string
+  htaccessTemplatePath: string
+  outputPath: string
 }): PluginOption {
   return {
     name: "vite-plugin-build-htaccess",
@@ -23,7 +23,7 @@ export default function buildHtaccessPlugin({
         password,
         htaccessTemplatePath,
         outputPath,
-      });
+      })
     },
-  };
+  }
 }

@@ -8,6 +8,6 @@ export const merge = (str: any[], join: string = " "): string => {
     return str
       .reduce((a, b) => a.concat(b), [])
       .filter((v) => v)
-      .join(join);
+      .join(join)
   }
-};
+}

@@ -1,7 +1,7 @@
-const { Files } = require("@zouloux/files");
-const { quickTemplate } = require("./template-helper");
-const debug = require("@wbe/debug")("config:create-file");
-const logs = require("./logger");
+const { Files } = require("@zouloux/files")
+const { quickTemplate } = require("./template-helper")
+const debug = require("@wbe/debug")("config:create-file")
+const logs = require("./logger")
 
 /**
  * Create File with template
@@ -16,14 +16,14 @@ const createFile = ({
 }) => {
   // Check if component already exists
   if (Files.getFiles(destinationFilePath).files.length > 0) {
-    logs.error(`This file already exists. Aborting.`);
-    return;
+    logs.error(`This file already exists. Aborting.`)
+    return
   }
 
-  debug("create file with template and replace expression");
+  debug("create file with template and replace expression")
   Files.new(destinationFilePath).write(
     quickTemplate(Files.getFiles(templateFilePath).read(), replaceExpressions)
-  );
-};
+  )
+}
 
-module.exports = createFile;
+module.exports = createFile

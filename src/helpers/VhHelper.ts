@@ -8,21 +8,21 @@
  */
 export default class VhHelper {
   constructor() {
-    this.onResize();
-    this.initEvents();
+    this.onResize()
+    this.initEvents()
   }
 
   public initEvents() {
-    window.addEventListener("resize", this.onResize);
+    window.addEventListener("resize", this.onResize)
   }
 
   public removeEvents() {
-    window.removeEventListener("resize", this.onResize);
+    window.removeEventListener("resize", this.onResize)
   }
 
   protected onResize = () => {
-    const doc = document.documentElement;
-    const calc = (doc.clientHeight || window.innerHeight) * 0.01;
-    doc.style.setProperty("--vh", `${calc}px`);
-  };
+    const doc = document.documentElement
+    const calc = (doc.clientHeight || window.innerHeight) * 0.01
+    doc.style.setProperty("--vh", `${calc}px`)
+  }
 }

@@ -1,12 +1,12 @@
 import css from "./NotFoundPage.module.less"
 import React, { ForwardedRef, forwardRef, useRef } from "react"
 import { useStack } from "@cher-ami/router"
-import debug from "@wbe/debug";
+import debug from "@wbe/debug"
 
 interface IProps {}
 
-const componentName = "NotFoundPage";
-const log = debug(`front:${componentName}`);
+const componentName = "NotFoundPage"
+const log = debug(`front:${componentName}`)
 
 /**
  * @name NotFoundPage
