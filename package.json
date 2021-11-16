@@ -1,10 +1,13 @@
 {
   "name": "cher-vite",
+  "description": "Web base Boilerplate for cher-ami projects.",
   "version": "0.1.0",
   "main": "src/index.tsx",
+  "author": "cher-ami",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "setup": "node config/tasks/setup/setup.js",
     "scaffold": "node config/tasks/scaffold-component/scaffold-component.js",
     "prepare": "husky install",
     "postinstall": "cp -n .env .env.local || true",
@@ -20,6 +23,7 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@solid-js/cli": "^1.7.5",
     "@types/events": "^3.0.0",
     "@types/node": "^16.11.7",
     "@types/react": "^17.0.35",
