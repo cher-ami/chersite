@@ -1,4 +1,4 @@
-import couleur from "./couleur";
+const couleur = require("./couleur");
 
 const blue = couleur.rgb(0, 180, 180);
 const grey = couleur.rgb(121, 121, 121);
