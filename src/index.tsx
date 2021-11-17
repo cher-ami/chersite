@@ -14,7 +14,7 @@ const log = debug("front:index")
  * Init App
  */
 class InitApp {
-  protected reactApp
+  public reactApp
 
   constructor() {
     log("version:", packageJson.version)
@@ -30,6 +30,10 @@ class InitApp {
   protected render() {
     this.reactApp = ReactDOM.render(
       <React.StrictMode>
+        {/*
+           @cher-ami/router
+           @doc: https://github.com/cher-ami/router
+         */}
         <Router routes={routes} base={import.meta.env.VITE_APP_BASE as string}>
           <App />
         </Router>
