@@ -49,9 +49,10 @@ module.exports = {
   componentCompatibleFolders: ['components', 'pages', 'popin'],
   componentsTemplatesDir: resolve('config/tasks/scaffold-component/templates'),
   bundleType: ['react', 'dom'],
-  
+
   // setup
   taskSetupFolder: resolve("config/tasks/setup"),
   installFile: resolve("config/install"),
   setupFakeMode: false
+  
 };
