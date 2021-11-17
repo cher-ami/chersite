@@ -1,10 +1,13 @@
 {
   "name": "cher-vite",
+  "description": "Web base Boilerplate for cher-ami projects.",
   "version": "0.1.0",
   "main": "src/index.tsx",
+  "author": "cher-ami",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "setup": "node config/tasks/setup/setup.js",
     "scaffold": "node config/tasks/scaffold-component/scaffold-component.js",
     "prepare": "husky install",
     "postinstall": "cp -n .env .env.local || true",
