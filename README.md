@@ -217,7 +217,7 @@ These plugins are declared and configured in [vite.config.ts](vite.config.ts)
 ### <a name="BuildDotenv"></a>Vite plugin build dotenv
 
 [vite-plugin-build-dotenv.ts](config/vite-plugins/vite-plugin-build-dotenv.ts)
-fields the need to expose, in a `.env` file, external environment variables injected into the
+fields the need to expose, in a `.env` file, external environment variables injected into
 process.env by the CI or an other task; In addition to the .env files corresponding to the current
 [mode](https://vitejs.dev/guide/env-and-mode.html).
 Once a new file is composed, it is copied to the selected folder(s).
