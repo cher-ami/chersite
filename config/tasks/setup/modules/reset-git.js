@@ -11,7 +11,7 @@ const resetGit = ({ gitDir, fakeMode } = {}) =>
     const removeGitAnswer = await Inquirer.prompt({
       type: "confirm",
       name: "removeGit",
-      message: "Do you want to reset the current .git/ and reinit it?",
+      message: "Do you want to reset the current .git and re-init it?",
     })
 
     debug("removeGitAnswer", removeGitAnswer["removeGit"])

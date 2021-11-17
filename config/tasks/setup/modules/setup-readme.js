@@ -1,6 +1,7 @@
 const logs = require("../../../helpers/logger")
 const { quickTemplate } = require("../../../helpers/template-helper")
 const { Files } = require("@zouloux/files")
+Files.setVerbose(false)
 const debug = require("@wbe/debug")("config:manage-readme")
 
 /**
@@ -74,7 +75,6 @@ const setupReadme = ({
     }
 
     logs.note(`${readmeFileName} is created.`)
-    console.log(" ")
     resolve()
   })
 }

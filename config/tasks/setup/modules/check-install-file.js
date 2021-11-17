@@ -19,10 +19,12 @@ const checkInstallFile = (installFile) => {
   - setup package.json: erase name, description, author & version keys
   - ${".git will be removed!"}    
       `)
-    return false
-  } else {
-    debug(`${installFile} doesn't exist, continue`)
+
+    // file exist
     return true
+  } else {
+    debug(`${installFile} doesn't exist`)
+    return false
   }
 }
 

@@ -15,6 +15,7 @@ const setup = () =>
   new Promise(async (resolve) => {
     // check if cache file exist, if exist, do not continue
     const installFileExist = checkInstallFile(config.installFile)
+    debug("installFileExist", installFileExist)
     if (installFileExist) return
 
     // manage package json and get values
@@ -47,7 +48,9 @@ const setup = () =>
     })
 
     // FINAL
+    console.log("")
     logs.done("cher-vite is ready!")
+    console.log("")
     resolve()
   })
 

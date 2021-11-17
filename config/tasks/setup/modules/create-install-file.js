@@ -7,7 +7,8 @@ const debug = require("@wbe/debug")("config:setup-install-config")
  */
 const createInstallFile = ({ installFilePath, fakeMode } = {}) =>
   new Promise(async (resolve) => {
-    logs.start(`Create config file in ${installFilePath}`)
+    logs.start(`Create install file`)
+    logs.note(`path: ${installFilePath}`)
 
     if (!fakeMode && installFilePath) {
       Files.new(installFilePath).write(`install_date: "${new Date()}"`)
