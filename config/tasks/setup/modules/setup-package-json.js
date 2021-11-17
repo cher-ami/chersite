@@ -3,19 +3,13 @@ const Inquirer = require("inquirer")
 const changeCase = require("change-case")
 const logs = require("../../../helpers/logger")
 const debug = require("@wbe/debug")("config:manage-package-json")
-const { resolve } = require("path")
-const config = require("../../../config")
 
 /**
  * Setup package.json
  */
-const setupPackageJson = ({
-  packageJson = require(resolve("package.json")),
-  defaultProjectName = "cher-vite",
-  fakeMode = config.setupFakeMode,
-} = {}) => {
+const setupPackageJson = ({ packageJson, defaultProjectName, fakeMode } = {}) => {
   return new Promise(async (resolve) => {
-    logs.start("Setup package.json...")
+    logs.start("Setup package.json")
 
     // Read package.json
     let projectName = packageJson.name
@@ -82,8 +76,6 @@ const setupPackageJson = ({
     } else {
       debug("FakeMode is activated, do nothing.")
     }
-
-    logs.done()
 
     debug("Promise is resolve fn pass new package properties:", {
       projectName,

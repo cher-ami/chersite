@@ -53,5 +53,6 @@ module.exports = {
 
   // setup
   taskSetupFolder: resolve("config/tasks/setup"),
+  installFile: resolve("config/.install"),
   setupFakeMode: true
 };

@@ -2,8 +2,6 @@ const logs = require("../../../helpers/logger")
 const { quickTemplate } = require("../../../helpers/template-helper")
 const { Files } = require("@zouloux/files")
 const debug = require("@wbe/debug")("config:manage-readme")
-const { resolve } = require("path")
-const config = require("../../../config")
 
 /**
  * Manage README file
@@ -12,9 +10,9 @@ const config = require("../../../config")
  * @returns {Promise<unknown>}
  */
 const setupReadme = ({
-  templatesPath = `${config.taskSetupFolder}/templates`,
-  readmeFilePath = resolve("README.md"),
-  fakeMode = config.setupFakeMode,
+  templatesPath,
+  readmeFilePath,
+  fakeMode,
   readmeFileName = "README.md",
   readmeTemplateFileName = "README.md.template",
   readmeFrameworkFileName = "README-framework.md",
@@ -22,24 +20,14 @@ const setupReadme = ({
   projectAuthor = "[ PROJECT AUTHOR ]",
   projectDescription = "[ PROJECT DESCRIPTION ]",
 }) => {
-  debug("setupReadme params", {
-    templatesPath,
-    readmeFilePath,
-    readmeFileName,
-    readmeFrameworkFileName,
-    projectName,
-    projectAuthor,
-    projectDescription,
-  })
-
   return new Promise(async (resolve) => {
     logs.start(
-      `Change current ${readmeFileName} file as ${readmeFrameworkFileName}...`,
+      `Change current ${readmeFileName} file as ${readmeFrameworkFileName}`,
       true
     )
 
     // create new readme and add content on it
-    debug("create new readme and add content on it...")
+    debug("create new readme and add content on it")
     if (!fakeMode) {
       await Files.new(readmeFrameworkFileName).write(
         Files.getFiles(readmeFilePath).read()
@@ -49,14 +37,13 @@ const setupReadme = ({
       debug("FakeMode is activated, do nothing.")
     }
     logs.note(`${readmeFrameworkFileName} is created.`)
-    logs.done()
 
     // if file exist
     if (Files.getFiles(readmeFilePath).files.length > 0) {
-      logs.start(`Remove ${readmeFilePath}...`)
+      logs.start(`Create new README.md with inquired informations`)
 
       // if no fake mode
-      debug("file exist, remove it...")
+      debug("file exist, remove it.")
       if (!fakeMode) {
         Files.getFiles(readmeFilePath).remove()
         // else, if fake mode
@@ -87,7 +74,7 @@ const setupReadme = ({
     }
 
     logs.note(`${readmeFileName} is created.`)
-    logs.done()
+    console.log(" ")
     resolve()
   })
 }
