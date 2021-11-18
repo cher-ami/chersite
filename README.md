@@ -12,10 +12,10 @@ Given that the majority of cher-ami projects require a part of server-side rende
 cher base embeds a micro PHP framework by default. All entrypoints files are served from a twig file.
 
 This web-base remains as flexible as possible, all the compiler configuration can be modified from a configuration file.
-Thus, cher base also allows a simple index.html to be returned to the server if necessary. Also, the use of react is optional.
+Thus, cher base allows a simple index.html to be returned to the server if necessary. Also, the use of react is optional.
 It is quite possible for example to code vanilla js, and to manage views and templates on the server-side.
 
-Finally, cher-site has been designed in its tree structure to easily setup a back-end or an API from `dist` folder.
+Finally, cher-base has been designed in its tree structure to easily setup a back-end or an API from `dist` folder.
 The front-end side can then access this served API to build its templates.
 
 ## Summary

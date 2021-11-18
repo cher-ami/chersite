@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "setup": "node config/tasks/setup/setup.js",
+    "setup": "npm i && node config/tasks/setup/setup.js && npm run prepare",
     "scaffold": "node config/tasks/scaffold-component/scaffold-component.js",
     "prepare": "husky install",
     "postinstall": "cp -n .env .env.local || true",

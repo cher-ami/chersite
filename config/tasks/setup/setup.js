@@ -1,3 +1,4 @@
+const installDependencies = require("./modules/install-dependencies")
 const setupReadme = require("./modules/setup-readme")
 const setupPackageJson = require("./modules/setup-package-json")
 const resetGit = require("./modules/reset-git")
@@ -17,6 +18,9 @@ const setup = () =>
     const installFileExist = checkInstallFile(config.installFile)
     debug("installFileExist", installFileExist)
     if (installFileExist) return
+
+    // install deps
+    await installDependencies()
 
     // manage package json and get values
     const { projectName, projectDescription, projectAuthor } = await setupPackageJson({
@@ -47,8 +51,17 @@ const setup = () =>
       fakeMode: config.setupFakeMode,
     })
 
-    // FINAL
+    // FINAL note
     console.log("")
+    logs.error("Last thing ⚠️️")
+    logs.error("Set your personal VITE_APP_BASE in s.env.local file")
+    logs.note(
+      "ex: if distribution URL is http://localhost/cher-base/dist/front/www/ VITE_APP_BASE is /cher-base/dist/front/www/"
+    )
+    logs.note(
+      "(.env.local file is your personal .env file, all '.local' are gitignored.)\n"
+    )
+
     logs.done("cher-vite is ready!")
     console.log("")
     resolve()
