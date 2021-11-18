@@ -1,3 +1,4 @@
+const installDependencies = require("./modules/install-dependencies")
 const setupReadme = require("./modules/setup-readme")
 const setupPackageJson = require("./modules/setup-package-json")
 const resetGit = require("./modules/reset-git")
@@ -17,6 +18,9 @@ const setup = () =>
     const installFileExist = checkInstallFile(config.installFile)
     debug("installFileExist", installFileExist)
     if (installFileExist) return
+
+    // install deps
+    await installDependencies()
 
     // manage package json and get values
     const { projectName, projectDescription, projectAuthor } = await setupPackageJson({
