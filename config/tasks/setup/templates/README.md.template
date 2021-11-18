@@ -6,6 +6,14 @@
 
 ## Installation
 
+```shell
+$ npm i
+```
+
+## Deploy staging
+
+## Deploy production
+
 ## Credits
 
 %%projectAuthor%%

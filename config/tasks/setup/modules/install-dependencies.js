@@ -3,14 +3,10 @@ const logs = require("../../../helpers/logger")
 
 /**
  * Install dependencies
- * - node dependencies
  * - php dependencies
  */
 const installDependencies = async () => {
-  logs.start("Install dependencies")
-
-  logs.note(`npm install`)
-  await execSync(`npm install`, { stdio: "inherit" })
+  logs.start("Install PHP dependencies")
 
   logs.note(`cd dist/front/ && composer install`)
   await execSync(`cd dist/front/ && composer install`, { stdio: "inherit" })
