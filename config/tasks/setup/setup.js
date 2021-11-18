@@ -62,7 +62,8 @@ const setup = () =>
       "(.env.local file is your personal .env file, all '.local' are gitignored.)\n"
     )
 
-    logs.done("cher-vite is ready!")
+    logs.done(`${projectName} is ready!`)
+    logs.note(`start dev-server: npm run dev`)
     console.log("")
     resolve()
   })
