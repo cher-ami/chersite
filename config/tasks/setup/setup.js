@@ -56,7 +56,7 @@ const setup = () =>
     logs.error("Last thing ⚠️️")
     logs.error("Set your personal VITE_APP_BASE in s.env.local file")
     logs.note(
-      "ex: if distribution URL is http://localhost/cher-base/dist/front/www/ VITE_APP_BASE is /cher-base/dist/front/www/"
+      "ex: if distribution URL is http://localhost/chersite/dist/front/www/ VITE_APP_BASE is /chersite/dist/front/www/"
     )
     logs.note(
       "(.env.local file is your personal .env file, all '.local' are gitignored.)\n"
