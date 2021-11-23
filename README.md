@@ -1,21 +1,21 @@
-# 🪜 cher base
+# 🪜 chersite
 
-cher base is a web-base boilerplate for cher-ami projects based on
+chersite is a web-base boilerplate for cher-ami projects based on
 [vite](https://vitejs.dev/), [typescript](https://www.typescriptlang.org), [react](https://reactjs.org), [less](https://lesscss.org) and a micro PHP framework.
 
-![ci](https://github.com/cher-ami/cher-base/actions/workflows/ci.yml/badge.svg)
-<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/cher-ami/cher-base">
+![ci](https://github.com/cher-ami/chersite/actions/workflows/ci.yml/badge.svg)
+<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/cher-ami/chersite">
 
 ## Purpose
 
 Given that the majority of cher-ami projects require a part of server-side rendering, at least for meta-data,
-cher base embeds a micro PHP framework by default. All entrypoints files are served from a twig file.
+chersite embeds a micro PHP framework by default. All entrypoints files are served from a twig file.
 
 This web-base remains as flexible as possible, all the compiler configuration can be modified from a configuration file.
-Thus, cher base allows a simple index.html to be returned to the server if necessary. Also, the use of react is optional.
+Thus, chersite allows a simple index.html to be returned to the server if necessary. Also, the use of react is optional.
 It is quite possible for example to code vanilla js, and to manage views and templates on the server-side.
 
-Finally, cher-base has been designed in its tree structure to easily setup a back-end or an API from `dist` folder.
+Finally, chersite has been designed in its tree structure to easily setup a back-end or an API from `dist` folder.
 The front-end side can then access this served API to build its templates.
 
 ## Summary
@@ -68,13 +68,13 @@ This repos use out of the box:
 clone repos:
 
 ```shell script
-$ git clone git@github.com:cher-ami/cher-base.git
+$ git clone git@github.com:cher-ami/chersite.git
 ```
 
 move to folder:
 
 ```shell script
-$ cd cher-base
+$ cd chersite
 ```
 
 run setup project:
@@ -85,7 +85,7 @@ $ npm run setup
 
 ## <a name="ViteConfiguration"></a>Vite configuration
 
-cher base use [vite](https://vitejs.dev/) frontend tool.
+chersite use [vite](https://vitejs.dev/) frontend tool.
 This one supports the dev-server, HMR and transformation & compilation.
 
 ### <a name="ConfigurationFiles"></a>Configuration Files
@@ -195,7 +195,7 @@ By default `.env.local` file create on setup, is gitignore.
 
 ## <a name="VitePlugins"></a>Vite plugins
 
-By defaut, cher base implement:
+By defaut, chersite implement:
 
 Vite-core plugins:
 
@@ -206,7 +206,7 @@ Independant plugin:
 
 - [vite-plugin-checker](https://github.com/fi3ework/vite-plugin-checker)
 
-Internal cher-site plugin:
+Internal chersite plugin:
 
 - [vite-plugin-build-dotenv.ts](config/vite-plugins/vite-plugin-build-dotenv.ts)
 - [vite-plugin-build-htaccess.ts](config/vite-plugins/vite-plugin-build-htaccess.ts)
