@@ -14,10 +14,9 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
-    "@cher-ami/router": "^1.1.0",
+    "@cher-ami/router": "^2.0.0-beta-1",
     "@solid-js/css-flat": "^1.0.1",
     "@wbe/debug": "^1.0.0",
-    "events": "^3.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
