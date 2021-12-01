@@ -54,7 +54,7 @@ const setup = () =>
     // FINAL note
     console.log("")
     logs.error("Last thing ⚠️️")
-    logs.error("Set your personal VITE_APP_BASE in s.env.local file")
+    logs.error("Set your personal VITE_APP_BASE in .env.local file")
     logs.note(
       "ex: if distribution URL is http://localhost/chersite/dist/front/www/ VITE_APP_BASE is /chersite/dist/front/www/"
     )
