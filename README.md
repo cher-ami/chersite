@@ -167,9 +167,10 @@ dist/front/www/
 
 #### 6. Change `server.open` value
 
+in [vite.config.ts](vite.config.ts) change open this value:
+
 ```js
 server: {
-  // change open to true
   open: true
 }
 ```
