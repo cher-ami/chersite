@@ -28,16 +28,14 @@ class InitApp {
   }
 
   protected render() {
+    /*
+     * @cher-ami/router
+     * @doc: https://github.com/cher-ami/router
+     */
     this.reactApp = ReactDOM.render(
-      <React.StrictMode>
-        {/*
-           @cher-ami/router
-           @doc: https://github.com/cher-ami/router
-         */}
-        <Router routes={routes} base={import.meta.env.VITE_APP_BASE as string}>
-          <App />
-        </Router>
-      </React.StrictMode>,
+      <Router routes={routes} base={import.meta.env.VITE_APP_BASE as string}>
+        <App />
+      </Router>,
       document.getElementById("root")
     )
   }
