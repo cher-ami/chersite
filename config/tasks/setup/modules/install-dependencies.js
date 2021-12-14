@@ -8,8 +8,8 @@ const logs = require("../../../helpers/logger")
 const installDependencies = async () => {
   logs.start("Install PHP dependencies")
 
-  logs.note(`cd dist/front/ && composer install`)
-  await execSync(`cd dist/front/ && composer install`, { stdio: "inherit" })
+  logs.note(`Execute ./composer-install.sh`)
+  await execSync(`./composer-install.sh`, { stdio: "inherit" })
 }
 
 module.exports = installDependencies
