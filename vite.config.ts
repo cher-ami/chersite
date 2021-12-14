@@ -40,7 +40,7 @@ export default defineConfig(({ command, mode }) => {
     logLevel: "info",
 
     // "base" refer to folder where assets are served
-    base: `${process.env.VITE_APP_BASE}${config.buildDirname}/`,
+    base: `${process.env.VITE_APP_BASE}${config.buildDirname}/`.replace("//", "/"),
 
     // public folder content is copied in static build folder
     publicDir: config.publicDir,

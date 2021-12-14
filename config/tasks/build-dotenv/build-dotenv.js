@@ -75,6 +75,8 @@ const _prepareTemplate = (vars, envVars, additionalVarKeys) => {
  * @param additionalVarKeys Add some keys to generated .env files
  */
 module.exports = ({ envVars = {}, dotenvOutDir, additionalVarKeys = [] }) => {
+  if (dotenvOutDir?.length === 0) return
+
   logger.start("Build .env file(s)")
 
   // read all .env files and get all var keys
@@ -89,9 +91,8 @@ module.exports = ({ envVars = {}, dotenvOutDir, additionalVarKeys = [] }) => {
   const template = _prepareTemplate(vars, envVars, additionalVarKeys)
 
   // Create .env files
-  dotenvOutDir?.length > 0 &&
-    dotenvOutDir.forEach((path) => {
-      logger.note(`path: ${path}`)
-      Files.new(`${path}/.env`).write(template)
-    })
+  dotenvOutDir.forEach((path) => {
+    logger.note(`path: ${path}`)
+    Files.new(`${path}/.env`).write(template)
+  })
 }
