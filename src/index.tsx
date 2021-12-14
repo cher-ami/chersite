@@ -1,9 +1,9 @@
 import "./index.less"
 import React from "react"
-import ReactDOM, { Renderer } from "react-dom"
+import ReactDOM from "react-dom"
 import App from "./components/app/App"
 import { routes } from "./routes"
-import { Router } from "@cher-ami/router"
+import { LangService, Router } from "@cher-ami/router"
 import VhHelper from "./helpers/VhHelper"
 import * as packageJson from "../package.json"
 
