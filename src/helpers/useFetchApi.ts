@@ -38,13 +38,16 @@ const DATA_CACHE = {}
  * Allow to fetch API, return data and state
  *
  * ex:
- *    const url = builApidUrl("home") // -> {VITE_API_URL}/home
- *    const { response, isError, isLoading, isSuccess } = useFetchApi<MyPageInterface>(url)
+ *    const url = builApidUrl("home") // -> {VITE_BASE}/home
+ *    const { response, isError, isLoading, isSuccess } = useFetchApi<MyPageInterface>("")
  *
  * @param endpoint
  * @param apiUrl
  */
-export const useFetchApi = <GData>(url: string): IFetchState<GData> => {
+export const useFetchApi = <GData>(
+  url: string,
+  activeCache = true
+): IFetchState<GData> => {
   const dataFetchReducer = (state: IFetchState<GData>, action: IAction) => {
     switch (action.type) {
       case EFetchState.FETCH_INIT:
@@ -111,8 +114,7 @@ export const useFetchApi = <GData>(url: string): IFetchState<GData> => {
 
       // get data from cache
       const dataFromCache = getDataFromCache()
-
-      if (dataFromCache) {
+      if (dataFromCache && activeCache) {
         dispatch({ type: EFetchState.FETCH_SUCCESS, payload: dataFromCache })
       } else {
         // request API
@@ -126,7 +128,7 @@ export const useFetchApi = <GData>(url: string): IFetchState<GData> => {
           log(`request result`, result)
 
           // set data in cache
-          setDataInCache(result)
+          if (activeCache) setDataInCache(result)
 
           dispatch({ type: EFetchState.FETCH_SUCCESS, payload: result })
         } catch (error) {
@@ -136,7 +138,7 @@ export const useFetchApi = <GData>(url: string): IFetchState<GData> => {
     }
 
     fetchData()
-  }, [url])
+  }, [url, activeCache])
 
   return state
 }
@@ -148,20 +150,21 @@ export const useFetchApi = <GData>(url: string): IFetchState<GData> => {
  * @param endpoint Enpoint name to request
  * @param lang Language to request
  */
-export const builApidUrl = (
+export const builApiUrl = (
   endpoint: string,
   apiUrl = import.meta.env.VITE_API_URL as string,
   lang = Routers.langService?.currentLang?.key
 ): string => {
-  const url = [
-    apiUrl,
-    "/",
-    endpoint,
-    // add lang param only if param lang is not default lang
-    lang !== Routers.langService?.defaultLang.key && `?lang=${lang}`,
-  ]
+  let url = [apiUrl, "/", endpoint]
     .filter((e) => e)
     .join("")
     .replace(/(https?:\/\/)|(\/)+/g, "$1$2")
+
+  let operator: string = "?"
+  if (url.includes("?")) {
+    operator = "&"
+  }
+  url += `${operator}lang=${lang !== Routers.langService?.defaultLang.key ? lang : "en"}`
+
   return url
 }
