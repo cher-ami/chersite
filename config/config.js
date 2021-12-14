@@ -34,7 +34,7 @@ module.exports = {
 
   // Build dotenv outDir array
   // This task can build the same dotenv files in different directories
-  buildDotenvOutDir: [resolve('dist/front/www/')],
+  buildDotenvOutDir: [resolve('dist/front/')],
 
   // Build Atoms
   atomsDir: resolve('src/atoms'),

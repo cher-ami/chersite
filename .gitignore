@@ -1,7 +1,7 @@
 # Output application depend of project
+dist/front/.env
 dist/front/vendor
 dist/front/www/static
-dist/front/www/.env
 dist/front/www/.htaccess
 dist/front/www/.htpasswd
 
