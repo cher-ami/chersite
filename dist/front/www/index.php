@@ -20,7 +20,7 @@ $whoops->register();
 
 // load environment variables
 $dotenv = new Dotenv();
-$dotenv->load(__DIR__ . '/.env');
+$dotenv->load(__DIR__ . '/../.env');
 
 // ----------------------------------------------------------------------------- TWIG
 
