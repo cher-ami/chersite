@@ -4,6 +4,7 @@ dist/front/vendor
 dist/front/www/static
 dist/front/www/.htaccess
 dist/front/www/.htpasswd
+dist/api/web/app/.cache
 
 # Auto generated atoms
 src/atoms/atoms.ts
@@ -17,3 +18,4 @@ node_modules
 .history
 dist-ssr
 *.local
+.cache
