@@ -73,6 +73,12 @@ export default defineConfig(({ command, mode }) => {
       },
     },
 
+    resolve: {
+      alias: {
+        "~": resolve(__dirname, "src"),
+      },
+    },
+
     plugins: [
       react(),
 
