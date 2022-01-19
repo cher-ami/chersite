@@ -32,6 +32,7 @@ The front-end side can then access this served API to build its templates.
   - [dev](#dev)
   - [build](#build)
   - [scaffold](#scaffold)
+  - [scaffold-wp](#scaffold-wp)
   - [prettier](#prettier)
 - [Environment variables](#Environmentvariables)
 - [Vite plugins](#VitePlugins)
@@ -245,6 +246,14 @@ bundleType: ["react", "dom"]
 componentCompatibleFolders: ["components", "pages", "popin"]
 componentsTemplatesDir: resolve("config/tasks/scaffold-component/templates")
 ```
+
+### <a name="scaffold-wp"></a>scaffold-wp
+
+```shell
+$ npm run scaffold-wp
+```
+
+Used to create wordpress Post type, Page, Option Page and Block files template.
 
 ### <a name="prettier"></a>prettier
 
