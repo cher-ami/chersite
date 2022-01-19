@@ -46,10 +46,14 @@ module.exports = {
   // Build htaccess
   htaccessTemplateFilePath: resolve('src/.htaccess'),
 
-  // Scaffold
+  // Scaffold components
   bundleType: ['react', 'dom'],
   componentCompatibleFolders: ['components', 'pages', 'popin'],
   componentsTemplatesDir: resolve('config/tasks/scaffold-component/templates'),
+
+  // Scaffold WP 
+  wpTheme: resolve("dist/api/web/app/themes/CherAmi"),
+  wpTemplatesPath: resolve("config/tasks/scaffold-wp/templates"),
 
   // setup
   taskSetupFolder: resolve("config/tasks/setup"),

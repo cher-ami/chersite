@@ -1,0 +1,11 @@
+<?php
+
+include_once '%%pascalCasePageName%%Option.php';
+include_once '%%pascalCasePageName%%RestController.php';
+
+
+//Initialize page option routes
+add_action( 'rest_api_init', function () {
+  $%%pascalCasePageName%%Controller = new %%pascalCasePageName%%RestController();
+  $%%pascalCasePageName%%Controller->register_routes();
+});

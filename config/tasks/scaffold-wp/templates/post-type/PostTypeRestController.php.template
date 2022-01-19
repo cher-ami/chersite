@@ -1,0 +1,37 @@
+<?php
+
+
+class %%pascalCasePostType%%RestController extends PostRestController
+{
+
+    public function register_routes(): void{
+        parent::register_routes();
+    }
+
+    public static function format($post){
+        $data = [];
+
+        $blocks = parse_blocks($post->post_content);
+        foreach($blocks as $block){
+            $restBlock = null;
+            switch ($block["blockName"]) {
+                case "core/heading":
+                    $restBlock = TitleBlockController::format($block);
+                    break;
+                case "core/paragraph":
+                    $restBlock = TextBlockController::format($block);
+                    break;
+                case "core/list":
+                    $restBlock = ListBlockController::format($block);
+                    break;
+            }
+
+            if ($restBlock) {
+                $data['blocks'][] = $restBlock;
+            }
+        }
+
+        return $data;
+    }
+
+}
