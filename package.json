@@ -17,7 +17,6 @@
     "@cher-ami/router": "^2.0.0-beta-8.1",
     "@solid-js/css-flat": "^1.0.1",
     "@wbe/debug": "^1.0.0",
-    "events": "^3.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
@@ -30,6 +29,7 @@
     "@vitejs/plugin-react": "^1.0.9",
     "@zouloux/files": "^0.6.0",
     "change-case": "^4.1.2",
+    "env-cmd": "^10.1.0",
     "husky": "^7.0.4",
     "inquirer": "^8.2.0",
     "ip": "^1.1.5",
