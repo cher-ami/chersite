@@ -1,0 +1,9 @@
+<?php
+
+include_once '%%pascalCasePageName%%RestController.php';
+
+//Initialise post types routes
+add_action( 'rest_api_init', function () {
+  $%%camelCasePageName%%Controller = new %%pascalCasePageName%%RestController();
+  $%%camelCasePageName%%Controller->register_routes();
+});

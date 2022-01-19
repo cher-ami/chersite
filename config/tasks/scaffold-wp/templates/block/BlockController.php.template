@@ -1,0 +1,16 @@
+<?php
+
+
+class %%pascalCaseBlockName%%BlockController
+{
+    const BLOCK_NAME = BlockTypes::%%upperCaseBlockName%%;
+
+    public static function format($data): ?array
+    {
+        return [
+            "blockType" => self::BLOCK_NAME,
+            "blockData" => null
+        ];
+    }
+
+}

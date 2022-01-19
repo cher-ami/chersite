@@ -1,0 +1,29 @@
+<?php
+
+
+class %%pascalCasePageName%%RestController extends BaseRestController
+{
+    //The namespace and version for the REST SERVER
+
+    public function register_routes():void {
+        //GET PAGE
+        register_rest_route(
+            $this->namespace . '/v' . $this->version,
+            '/%%pageName%%',
+            array(
+                array(
+                    'methods' => \WP_REST_Server::READABLE,
+                    'callback' => array($this, 'get_page'),
+                    'permission_callback' => '__return_true'
+                )
+            )
+        );
+
+    }
+
+    public function get_page():WP_REST_Response{
+        return $this->successResponse([]);
+    }
+
+}
+

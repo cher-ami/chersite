@@ -1,0 +1,13 @@
+<?php
+
+define("POST_TYPE_%%upperCasePostTypeName%%","%%postTypeName%%");
+
+include_once '%%pascalCasePostType%%.php';
+include_once '%%pascalCasePostType%%RestController.php';
+
+
+//Initialise post types routes
+add_action( 'rest_api_init', function () {
+  $%%pascalCasePostType%%Controller = new %%pascalCasePostType%%RestController(POST_TYPE_%%upperCasePostTypeName%%);
+  $%%pascalCasePostType%%Controller->register_routes();
+});

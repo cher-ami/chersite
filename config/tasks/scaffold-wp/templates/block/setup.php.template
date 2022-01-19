@@ -1,0 +1,17 @@
+<?php
+
+include_once '%%pascalCaseBlockName%%Controller.php';
+
+if (function_exists('acf_add_local_field_group')):
+
+    acf_register_block(array(
+        'name' => 'g-%%blockName%%',
+        'title' => __('%%blockTitle%%'),
+        'description' => __('%%blockTitle%%'),
+        'render_callback' => 'gutenberg_render',
+        'category' => 'formatting',
+        'mode' => 'edit',
+        'keywords' => array('%%blockTitle%%'),
+    ));
+
+endif;
