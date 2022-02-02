@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "main": "src/index.tsx",
   "author": "cher-ami",
+  "browserslist": ["last 2 versions", "iOS >= 12"],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -29,6 +30,7 @@
     "@vitejs/plugin-legacy": "^1.6.2",
     "@vitejs/plugin-react": "^1.0.9",
     "@zouloux/files": "^0.6.0",
+    "autoprefixer": "^10.4.2",
     "change-case": "^4.1.2",
     "env-cmd": "^10.1.0",
     "husky": "^7.0.4",
