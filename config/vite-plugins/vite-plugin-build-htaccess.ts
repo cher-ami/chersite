@@ -16,7 +16,7 @@ export default function buildHtaccessPlugin({
 }): PluginOption {
   return {
     name: "vite-plugin-build-htaccess",
-    buildStart: () => {
+    renderStart: () => {
       buildHtaccess({
         user,
         serverWebRootPath,
