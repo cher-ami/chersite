@@ -8,6 +8,7 @@ import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
 import buildAtomsPlugin from "./config/vite-plugins/vite-plugin-build-atoms"
 import legacy from "@vitejs/plugin-legacy"
+import autoprefixer from "autoprefixer"
 
 const ip = require("ip")
 const portFinderSync = require("portfinder-sync")
@@ -59,6 +60,9 @@ export default defineConfig(({ command, mode }) => {
           ? "[name]__[local]__[hash:base64:5]"
           : "[hash:base64:5]",
       },
+      postcss:{
+        plugins: [autoprefixer()]
+      }
     },
 
     build: {
