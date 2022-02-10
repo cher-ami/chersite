@@ -1,9 +1,11 @@
 <?php
 
+namespace CherAmi\optionPage;
+
+use CherAmi\api\BaseRestController;
 
 class %%pascalCasePageName%%RestController extends BaseRestController
 {
-    //The namespace and version for the REST SERVER
 
     public function register_routes():void {
         //GET PAGE
@@ -13,7 +15,7 @@ class %%pascalCasePageName%%RestController extends BaseRestController
             array(
                 array(
                     'methods' => \WP_REST_Server::READABLE,
-                    'callback' => array($this, 'get_page'),
+                    'callback' => array($this, 'get_option_page'),
                     'permission_callback' => '__return_true'
                 )
             )
@@ -21,9 +23,21 @@ class %%pascalCasePageName%%RestController extends BaseRestController
 
     }
 
-    public function get_page():WP_REST_Response{
-        return $this->successResponse([]);
+    public function get_option_page(\WP_REST_Request $request):WP_REST_Response{
+        try{
+
+            return $this->successResponse([]);
+        }catch(\Exception $e){
+            return $this->failResponse($e->getMessage());
+        }
     }
+
+    public function format($post){
+        $data = [];
+
+        return $data;
+    }
+
 
 }
 

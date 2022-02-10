@@ -107,6 +107,7 @@ const _blockTypeTemplate = (
  * This file is generated on block creation via the wp-scaffold task
  */
 
+namespace CherAmi\block;
 
 const GUTENBERG_CUSTOM_BLOCKS = array(
     ${blockTypeList

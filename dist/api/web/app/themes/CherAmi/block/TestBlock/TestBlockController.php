@@ -3,9 +3,9 @@
 namespace CherAmi\block;
 use CherAmi\helpers\BlockHelper;
 
-class %%pascalCaseBlockName%%BlockController
+class TestBlockBlockController
 {
-    const BLOCK_NAME = BlockTypes::%%upperCaseBlockName%%;
+    const BLOCK_NAME = BlockTypes::TEST_BLOCK;
 
     public static function format($data): ?array
     {
