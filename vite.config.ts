@@ -60,9 +60,9 @@ export default defineConfig(({ command, mode }) => {
           ? "[name]__[local]__[hash:base64:5]"
           : "[hash:base64:5]",
       },
-      postcss:{
-        plugins: [autoprefixer()]
-      }
+      postcss: {
+        plugins: [autoprefixer()],
+      },
     },
 
     build: {
@@ -102,13 +102,17 @@ export default defineConfig(({ command, mode }) => {
         additionalVarKeys: ["HOST", "PORT", "COMMAND", "INPUT_FILES", "BUILD_DIRNAME"],
       }),
 
-      buildHtaccessPlugin({
-        serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
-        user: process.env.HTACCESS_AUTH_USER,
-        password: process.env.HTACCESS_AUTH_PASSWORD,
-        htaccessTemplatePath: config.htaccessTemplateFilePath,
-        outputPath: config.wwwDir,
-      }),
+      ...(process.env.BUILD_HTACCESS === "true"
+        ? [
+            buildHtaccessPlugin({
+              serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
+              user: process.env.HTACCESS_AUTH_USER,
+              password: process.env.HTACCESS_AUTH_PASSWORD,
+              htaccessTemplatePath: config.htaccessTemplateFilePath,
+              outputPath: config.distDir,
+            }),
+          ]
+        : []),
     ],
   }
 })
