@@ -77,7 +77,7 @@ export default defineConfig(({ command, mode }) => {
       manifest: true,
       assetsInlineLimit: 0,
       rollupOptions: {
-        input: config.input.map((el) => resolve(el)),
+        input: config.input.length > 0 ? config.input?.map((el) => resolve(el)) : null,
       },
     },
 
