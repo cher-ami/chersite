@@ -158,30 +158,38 @@ buildDirname: "",
 outDir: resolve('dist/front/www/'),
 ```
 
-#### 5. Change .gitignore
+#### 5. Remove enrtries from `input` array
 
-Replace all dist/... values by:
-
-```dotenv
-dist/front/www/
-```
-
-#### 6. Change `server.open` value
-
-in [vite.config.ts](vite.config.ts) change open this value:
+In [config/config.js](config/config.js), change `input` values to:
 
 ```js
-server: {
-  open: true
-}
+input: []
 ```
 
-#### 7. Disable `buildDotenvPlugin`
+#### 6. Disable `buildDotenvPlugin`
 
 In [config/config.js](config/config.js), change this values to:
 
 ```js
 buildDotenvOutDir: [],
+```
+
+#### 7. Change `server.open` value
+
+in [vite.config.ts](vite.config.ts) change open this value:
+
+```js
+server: {
+  open: process.env.DEV_SERVER_OPEN === "true"
+}
+```
+
+#### 8. Update .gitignore
+
+Replace all dist/... values by:
+
+```dotenv
+dist/front/www/
 ```
 
 ## <a name="Cli"></a>CLI

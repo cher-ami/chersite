@@ -1,12 +1,13 @@
+import { defineConfig, loadEnv } from "vite"
 import { resolve } from "path"
 import config from "./config/config.js"
-import { defineConfig, loadEnv } from "vite"
 import debug from "@wbe/debug"
 import react from "@vitejs/plugin-react"
 import checker from "vite-plugin-checker"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
 import buildAtomsPlugin from "./config/vite-plugins/vite-plugin-build-atoms"
+import devServerlogPlugin from "./config/vite-plugins/vite-plugin-dev-server-log"
 import legacy from "@vitejs/plugin-legacy"
 import autoprefixer from "autoprefixer"
 
@@ -23,11 +24,13 @@ export default defineConfig(({ command, mode }) => {
   const isDevelopment = mode === "development"
   const ipAddress = ip.address()
   const portFinder = portFinderSync.getPort(3000)
+  const protocol: "http" | "https" = "http"
 
   // merge loadEnv selected by vite in process.env
   process.env = {
     ...process.env,
     ...loadEnv(mode, process.cwd(), ""),
+    PROTOCOL: protocol,
     PORT: portFinder,
     HOST: ipAddress,
     COMMAND: command,
@@ -49,9 +52,13 @@ export default defineConfig(({ command, mode }) => {
     server: {
       port: portFinder,
       host: true,
+      https: process.env.PROTOCOL === "https",
       cors: true,
-      origin: `http://${ipAddress}:${portFinder}`,
-      open: `http://${ipAddress}${process.env.VITE_APP_BASE}`,
+      origin: `${protocol}://${ipAddress}:${portFinder}`,
+      open:
+        process.env.DEV_SERVER_OPEN === "true"
+          ? `${protocol}://${ipAddress}${process.env.VITE_APP_BASE}`
+          : false,
     },
 
     css: {
@@ -60,9 +67,9 @@ export default defineConfig(({ command, mode }) => {
           ? "[name]__[local]__[hash:base64:5]"
           : "[hash:base64:5]",
       },
-      postcss:{
-        plugins: [autoprefixer()]
-      }
+      postcss: {
+        plugins: [autoprefixer()],
+      },
     },
 
     build: {
@@ -73,7 +80,7 @@ export default defineConfig(({ command, mode }) => {
       manifest: true,
       assetsInlineLimit: 0,
       rollupOptions: {
-        input: config.input.map((el) => resolve(el)),
+        input: config.input.length > 0 ? config.input?.map((el) => resolve(el)) : null,
       },
     },
 
@@ -86,7 +93,7 @@ export default defineConfig(({ command, mode }) => {
     plugins: [
       react(),
 
-      checker({ typescript: true, enableBuild: true, overlay: true }),
+      checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
 
       legacy({ targets: ["defaults", "not IE 11"] }),
 
@@ -99,7 +106,14 @@ export default defineConfig(({ command, mode }) => {
       buildDotenvPlugin({
         envVars: process.env,
         dotenvOutDir: config.buildDotenvOutDir,
-        additionalVarKeys: ["HOST", "PORT", "COMMAND", "INPUT_FILES", "BUILD_DIRNAME"],
+        additionalVarKeys: [
+          "PROTOCOL",
+          "HOST",
+          "PORT",
+          "COMMAND",
+          "INPUT_FILES",
+          "BUILD_DIRNAME",
+        ],
       }),
 
       buildHtaccessPlugin({
@@ -108,6 +122,15 @@ export default defineConfig(({ command, mode }) => {
         password: process.env.HTACCESS_AUTH_PASSWORD,
         htaccessTemplatePath: config.htaccessTemplateFilePath,
         outputPath: config.wwwDir,
+        enable: process.env.BUILD_HTACCESS === "true",
+      }),
+
+      devServerlogPlugin({
+        protocol,
+        host: ipAddress,
+        base: process.env.VITE_APP_BASE,
+        // enable only if we don't use index.html, but ts/tsx entry points
+        enable: config.input?.length > 0,
       }),
     ],
   }
