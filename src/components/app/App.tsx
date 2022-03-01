@@ -6,7 +6,6 @@ export interface IProps {}
 
 function App(props: IProps): JSX.Element {
   // ...
-
   // ------------------------------------------------------------------------------- PAGE TRANSITIONS
 
   /**

@@ -1,6 +1,7 @@
+import { defineConfig, loadEnv } from "vite"
+import chalk from "chalk"
 import { resolve } from "path"
 import config from "./config/config.js"
-import { defineConfig, loadEnv } from "vite"
 import debug from "@wbe/debug"
 import react from "@vitejs/plugin-react"
 import checker from "vite-plugin-checker"
@@ -51,7 +52,10 @@ export default defineConfig(({ command, mode }) => {
       host: true,
       cors: true,
       origin: `http://${ipAddress}:${portFinder}`,
-      open: `http://${ipAddress}${process.env.VITE_APP_BASE}`,
+      open:
+        process.env.DEV_SERVER_OPEN === "true"
+          ? `http://${ipAddress}${process.env.VITE_APP_BASE}`
+          : false,
     },
 
     css: {
@@ -86,7 +90,7 @@ export default defineConfig(({ command, mode }) => {
     plugins: [
       react(),
 
-      checker({ typescript: true, enableBuild: true, overlay: true }),
+      checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
 
       legacy({ targets: ["defaults", "not IE 11"] }),
 
@@ -109,10 +113,30 @@ export default defineConfig(({ command, mode }) => {
               user: process.env.HTACCESS_AUTH_USER,
               password: process.env.HTACCESS_AUTH_PASSWORD,
               htaccessTemplatePath: config.htaccessTemplateFilePath,
-              outputPath: config.distDir,
+              outputPath: config.wwwDir,
             }),
           ]
         : []),
+
+      // prettier-ignore
+      (() => ({
+        name: "vite-plugin-log",
+        enforce: 'post',
+        apply: "serve",
+  
+        buildStart: () => {
+          // show only if we don't use index.html, but ts/tsx entry points
+          if (config.input?.length === 0) return;
+          const template = [
+            ` ${chalk.green("dev server environment running at:")}`,
+            ``, 
+            `  > local:      ${chalk.cyan(`http://localhost${process.env.VITE_APP_BASE}`)}`,
+            `  > network:    ${chalk.cyan(`http://${ipAddress}${process.env.VITE_APP_BASE}`)}`
+        ].join('\n');
+        // executed after vite log
+        setTimeout(()=> { console.log(template)}, 50)
+        },
+      }))(),
     ],
   }
 })
