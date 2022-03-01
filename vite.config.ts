@@ -1,5 +1,4 @@
 import { defineConfig, loadEnv } from "vite"
-import chalk from "chalk"
 import { resolve } from "path"
 import config from "./config/config.js"
 import debug from "@wbe/debug"
@@ -8,6 +7,7 @@ import checker from "vite-plugin-checker"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
 import buildAtomsPlugin from "./config/vite-plugins/vite-plugin-build-atoms"
+import devServerlogPlugin from "./config/vite-plugins/vite-plugin-dev-server-log"
 import legacy from "@vitejs/plugin-legacy"
 import autoprefixer from "autoprefixer"
 
@@ -24,11 +24,13 @@ export default defineConfig(({ command, mode }) => {
   const isDevelopment = mode === "development"
   const ipAddress = ip.address()
   const portFinder = portFinderSync.getPort(3000)
+  const protocol = "http"
 
   // merge loadEnv selected by vite in process.env
   process.env = {
     ...process.env,
     ...loadEnv(mode, process.cwd(), ""),
+    PROTOCOL: protocol,
     PORT: portFinder,
     HOST: ipAddress,
     COMMAND: command,
@@ -103,40 +105,31 @@ export default defineConfig(({ command, mode }) => {
       buildDotenvPlugin({
         envVars: process.env,
         dotenvOutDir: config.buildDotenvOutDir,
-        additionalVarKeys: ["HOST", "PORT", "COMMAND", "INPUT_FILES", "BUILD_DIRNAME"],
+        additionalVarKeys: [
+          "PROTOCOL",
+          "HOST",
+          "PORT",
+          "COMMAND",
+          "INPUT_FILES",
+          "BUILD_DIRNAME",
+        ],
       }),
 
-      ...(process.env.BUILD_HTACCESS === "true"
-        ? [
-            buildHtaccessPlugin({
-              serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
-              user: process.env.HTACCESS_AUTH_USER,
-              password: process.env.HTACCESS_AUTH_PASSWORD,
-              htaccessTemplatePath: config.htaccessTemplateFilePath,
-              outputPath: config.wwwDir,
-            }),
-          ]
-        : []),
+      buildHtaccessPlugin({
+        serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
+        user: process.env.HTACCESS_AUTH_USER,
+        password: process.env.HTACCESS_AUTH_PASSWORD,
+        htaccessTemplatePath: config.htaccessTemplateFilePath,
+        outputPath: config.wwwDir,
+        enable: process.env.BUILD_HTACCESS === "true",
+      }),
 
-      // prettier-ignore
-      (() => ({
-        name: "vite-plugin-log",
-        enforce: 'post',
-        apply: "serve",
-  
-        buildStart: () => {
-          // show only if we don't use index.html, but ts/tsx entry points
-          if (config.input?.length === 0) return;
-          const template = [
-            ` ${chalk.green("dev server environment running at:")}`,
-            ``, 
-            `  > local:      ${chalk.cyan(`http://localhost${process.env.VITE_APP_BASE}`)}`,
-            `  > network:    ${chalk.cyan(`http://${ipAddress}${process.env.VITE_APP_BASE}`)}`
-        ].join('\n');
-        // executed after vite log
-        setTimeout(()=> console.log(template), 10)
-        },
-      }))(),
+      devServerlogPlugin({
+        protocol,
+        host: ipAddress,
+        base: process.env.VITE_APP_BASE,
+        enable: config.input?.length > 0,
+      }),
     ],
   }
 })
