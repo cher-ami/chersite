@@ -33,14 +33,13 @@ export default function devServerlogPlugin({
     enforce: "post",
     apply: "serve",
     buildStart: () => {
-      // show only if we don't use index.html, but ts/tsx entry points
       if (!enable) return
       // prettier-ignore
       const template = [
         ` ${chalk.green("Project running at:")}`,
         ``, 
-        `  > local:      ${chalk.cyan(`${protocol}://localhost${base}`)}`,
-        `  > network:    ${chalk.cyan(`${protocol}://${host}${base}`)}`
+        `  > Local:      ${chalk.cyan(`${protocol}://localhost${base}`)}`,
+        `  > Network:    ${chalk.cyan(`${protocol}://${host}${base}`)}`
       ].join('\n');
       // executed after vite log
       setTimeout(() => console.log(template), 10)
