@@ -24,11 +24,6 @@ $dotenv->load(__DIR__ . '/../.env');
 
 // ----------------------------------------------------------------------------- TWIG
 
-$languages = [
-    "fr",
-    "en"
-];
-
 // Specify our Twig templates location
 $loader = new FilesystemLoader(__DIR__ . '/views/');
 
@@ -37,7 +32,7 @@ $twig = new Environment($loader);
 $template = $twig->load('layouts/base.twig');
 
 //Get metas data
-$metaData = new MetaManager($_ENV["API_URL"] ?? null, $_ENV['VITE_APP_BASE'] ?? null, $languages);
+$metaData = new MetaManager($_ENV["API_URL"] ?? null, $_ENV['VITE_APP_BASE'] ?? null);
 $meta = $metaData->getMetaData();
 
 
@@ -61,6 +56,7 @@ echo $template->render([
     'description' => $meta['description'] ?? null,
     'image' => $meta['openGraphImages'][0] ?? null,
     'canonical' => $meta['canonical'] ?? null,
+    'protocol' => $_ENV["PROTOCOL"] ?? "http",
     'host' => $_ENV["HOST"] ?? null,
     'port' => $_ENV["PORT"] ?? null,
     'api_url' => $_ENV["API_URL"] ?? null,

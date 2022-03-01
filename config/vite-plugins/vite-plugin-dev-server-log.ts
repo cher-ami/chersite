@@ -4,7 +4,8 @@ import { PluginOption } from "vite"
 /**
  * Expose specific log in case our dev server don't use an index.html
  *
- * The problem is, vite logs
+ * The problem is, vite logs display URLs of where files are served:
+ *
  *     > Local:    http://localhost:3000/chersite/dist/front/www/static/
  *     > Network:  http://192.168.1.39:3000/chersite/dist/front/www/static/
  *
@@ -13,7 +14,7 @@ import { PluginOption } from "vite"
  *   > local:      http://localhost/chersite/dist/front/www/
  *   > network:    http://192.168.1.39/chersite/dist/front/www/
  *
- * We want to log the two last URL for developers
+ * We want to log the two last URL for developers.
  *
  */
 export default function devServerlogPlugin({
@@ -36,7 +37,7 @@ export default function devServerlogPlugin({
       if (!enable) return
       // prettier-ignore
       const template = [
-        ` ${chalk.green("dev server environment running at:")}`,
+        ` ${chalk.green("Project running at:")}`,
         ``, 
         `  > local:      ${chalk.cyan(`${protocol}://localhost${base}`)}`,
         `  > network:    ${chalk.cyan(`${protocol}://${host}${base}`)}`

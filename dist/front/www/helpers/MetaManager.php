@@ -6,7 +6,6 @@ class MetaManager{
 
     private ?string $_apiUrl;
     private string $_appBase;
-    private string $languages;
     protected array $_request;
     protected string $endpoint = "metadata";
 
@@ -17,12 +16,10 @@ class MetaManager{
      * @param ?string $appBase
      * @param $languages
      */
-    public function __construct(?string $apiUrl, string $appBase, $languages){
+    public function __construct(?string $apiUrl, string $appBase){
         $this->_apiUrl = $apiUrl;
         $this->_appBase = $appBase;
-
         $this->dataHelper = new DataHelper($this->_apiUrl);
-
         $this->setRequestArgs();
     }
 

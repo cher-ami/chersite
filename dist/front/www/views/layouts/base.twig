@@ -49,15 +49,15 @@
 #}
 {% if command == "serve" %}
     <script type="module">
-      import RefreshRuntime from 'http://{{ host }}:{{ port }}{{ app_base }}{{ build_dirname }}/@react-refresh'
+      import RefreshRuntime from '{{ protocol }}://{{ host }}:{{ port }}{{ app_base }}{{ build_dirname }}/@react-refresh'
       RefreshRuntime.injectIntoGlobalHook(window);
       window.$RefreshReg$ = () => {};
       window.$RefreshSig$ = () => (type) => type;
       window.__vite_plugin_react_preamble_installed__ = true;
     </script>
-    <script type="module" src="http://{{ host }}:{{ port }}{{ app_base }}{{ build_dirname }}/@vite/client"></script>
+    <script type="module" src="{{ protocol }}://{{ host }}:{{ port }}{{ app_base }}{{ build_dirname }}/@vite/client"></script>
     {% for input in input_array %}
-        <script type="module" src="http://{{ host }}:{{ port }}{{ app_base }}{{ build_dirname }}/{{ input }}"></script>
+        <script type="module" src="{{ protocol }}://{{ host }}:{{ port }}{{ app_base }}{{ build_dirname }}/{{ input }}"></script>
     {% endfor %}
 {% endif %}
 

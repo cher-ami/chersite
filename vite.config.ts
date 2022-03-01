@@ -24,7 +24,7 @@ export default defineConfig(({ command, mode }) => {
   const isDevelopment = mode === "development"
   const ipAddress = ip.address()
   const portFinder = portFinderSync.getPort(3000)
-  const protocol = "http"
+  const protocol: "http" | "https" = "http"
 
   // merge loadEnv selected by vite in process.env
   process.env = {
@@ -52,11 +52,12 @@ export default defineConfig(({ command, mode }) => {
     server: {
       port: portFinder,
       host: true,
+      https: process.env.PROTOCOL === "https",
       cors: true,
-      origin: `http://${ipAddress}:${portFinder}`,
+      origin: `${protocol}://${ipAddress}:${portFinder}`,
       open:
         process.env.DEV_SERVER_OPEN === "true"
-          ? `http://${ipAddress}${process.env.VITE_APP_BASE}`
+          ? `${protocol}://${ipAddress}${process.env.VITE_APP_BASE}`
           : false,
     },
 
@@ -128,6 +129,7 @@ export default defineConfig(({ command, mode }) => {
         protocol,
         host: ipAddress,
         base: process.env.VITE_APP_BASE,
+        // enable only if we don't use index.html, but ts/tsx entry points
         enable: config.input?.length > 0,
       }),
     ],
