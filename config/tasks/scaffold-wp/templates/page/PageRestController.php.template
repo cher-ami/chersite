@@ -1,9 +1,14 @@
 <?php
 
+namespace CherAmi\page;
+
+use CherAmi\api\PostRestController;
+use CherAmi\block\ListBlockController;
+use CherAmi\block\TextBlockController;
+use CherAmi\block\TitleBlockController;
 
 class %%pascalCasePageName%%RestController extends BaseRestController
 {
-    //The namespace and version for the REST SERVER
 
     public function register_routes():void {
         //GET PAGE
@@ -21,32 +26,17 @@ class %%pascalCasePageName%%RestController extends BaseRestController
 
     }
 
-    public function get_page():WP_REST_Response{
-        return $this->successResponse([]);
+    public function get_page(\WP_REST_Request $request):\WP_REST_Response{
+        try{
+
+            return $this->successResponse([]);
+        }catch(\Exception $e){
+            return $this->failResponse($e->getMessage());
+        }
     }
 
     public function format($post){
         $data = [];
-
-        $blocks = parse_blocks($post->post_content);
-        foreach($blocks as $block){
-            $restBlock = null;
-            switch ($block["blockName"]) {
-                case "core/heading":
-                    $restBlock = TitleBlockController::format($block);
-                    break;
-                case "core/paragraph":
-                    $restBlock = TextBlockController::format($block);
-                    break;
-                case "core/list":
-                    $restBlock = ListBlockController::format($block);
-                    break;
-            }
-
-            if ($restBlock) {
-                $data['blocks'][] = $restBlock;
-            }
-        }
 
         return $data;
     }

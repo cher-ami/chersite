@@ -1,5 +1,7 @@
 <?php
 
+namespace CherAmi\block;
+use CherAmi\helpers\BlockHelper;
 
 class %%pascalCaseBlockName%%BlockController
 {
