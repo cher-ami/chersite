@@ -134,7 +134,7 @@ export default defineConfig(({ command, mode }) => {
             `  > network:    ${chalk.cyan(`http://${ipAddress}${process.env.VITE_APP_BASE}`)}`
         ].join('\n');
         // executed after vite log
-        setTimeout(()=> { console.log(template)}, 50)
+        setTimeout(()=> console.log(template), 10)
         },
       }))(),
     ],
