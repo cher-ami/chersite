@@ -59,6 +59,7 @@ export default defineConfig(({ command, mode }) => {
         process.env.DEV_SERVER_OPEN === "true"
           ? `${protocol}://${ipAddress}${process.env.VITE_APP_BASE}`
           : false,
+      hmr: process.env.DEV_SERVER_HMR === "true",
     },
 
     css: {
