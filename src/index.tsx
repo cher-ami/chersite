@@ -1,51 +1,37 @@
 import "./index.less"
 import React from "react"
-import ReactDOM from "react-dom"
+import { createRoot } from "react-dom/client"
 import App from "./components/app/App"
 import { routes } from "./routes"
 import { LangService, Router } from "@cher-ami/router"
 import VhHelper from "./helpers/VhHelper"
 import * as packageJson from "../package.json"
-
 import debug from "@wbe/debug"
-const log = debug("front:index")
+
+const appBase = import.meta.env.VITE_APP_BASE as string
 
 /**
- * Init App
+ * Logs
  */
-class InitApp {
-  public reactApp: void
-  public appBase = import.meta.env.VITE_APP_BASE as string
+const log = debug("front:index")
+log("version:", packageJson.version)
+log("public env:", import.meta.env)
 
-  constructor() {
-    log("version:", packageJson.version)
-    log("public env:", import.meta.env)
+/**
+ * Init global helpers
+ */
+new VhHelper()
 
-    this.initHelpers()
-    this.render()
-  }
+/**
+ * Render react app
+ *
+ *  Default use @cher-ami/router
+ *  @doc: https://github.com/cher-ami/router
+ */
+const root = createRoot(document.getElementById("root"))
 
-  /**
-   * Init global helpers
-   */
-  protected initHelpers(): void {
-    new VhHelper()
-  }
-
-  /**
-   * Render react app
-   *
-   *  Default use @cher-ami/router
-   *  @doc: https://github.com/cher-ami/router
-   */
-  protected render(): void {
-    this.reactApp = ReactDOM.render(
-      <Router routes={routes} base={this.appBase}>
-        <App />
-      </Router>,
-      document.getElementById("root")
-    )
-  }
-}
-
-export default new InitApp()
+root.render(
+  <Router routes={routes} base={appBase}>
+    <App />
+  </Router>
+)
