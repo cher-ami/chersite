@@ -2,12 +2,9 @@
 
 namespace CherAmi\page;
 
-use CherAmi\api\PostRestController;
-use CherAmi\block\ListBlockController;
-use CherAmi\block\TextBlockController;
-use CherAmi\block\TitleBlockController;
+use CherAmi\api\PageRestController;
 
-class %%pascalCasePageName%%RestController extends BaseRestController
+class %%pascalCasePageName%%RestController extends PageRestController
 {
 
     public function register_routes():void {
@@ -28,15 +25,16 @@ class %%pascalCasePageName%%RestController extends BaseRestController
 
     public function get_page(\WP_REST_Request $request):\WP_REST_Response{
         try{
-
             return $this->successResponse([]);
         }catch(\Exception $e){
             return $this->failResponse($e->getMessage());
         }
     }
 
-    public function format($post){
-        $data = [];
+    public static function format($post){
+        $data = [
+
+        ];
 
         return $data;
     }
