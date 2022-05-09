@@ -1,5 +1,7 @@
 <?php
 
+use CherAmi\page\%%pascalCasePageName%%RestController;
+
 include_once '%%pascalCasePageName%%RestController.php';
 
 //Initialise post types routes
