@@ -1,5 +1,7 @@
 <?php
 
+use CherAmi\postType\%%pascalCasePostType%%RestController;
+
 define("POST_TYPE_%%upperCasePostTypeName%%","%%postTypeName%%");
 
 include_once '%%pascalCasePostType%%.php';
