@@ -1,7 +1,7 @@
 import { useReducer, useEffect } from "react"
 import debug from "@wbe/debug"
 import { Routers } from "@cher-ami/router"
-const log = debug(`front:useFetchApi_`)
+const log = debug(`front:useFetchApiHook`)
 
 enum EFetchState {
   FETCH_INIT,
@@ -41,8 +41,8 @@ const DATA_CACHE = {}
  *    const url = builApidUrl("home") // -> {VITE_BASE}/home
  *    const { response, isError, isLoading, isSuccess } = useFetchApi<MyPageInterface>("")
  *
- * @param endpoint
- * @param apiUrl
+ * @param url
+ * @param activeCache
  */
 export const useFetchApi = <GData>(
   url: string,
@@ -149,11 +149,12 @@ export const useFetchApi = <GData>(
  * Build URL to request
  * @param endpoint Enpoint name to request
  * @param lang Language to request
+ * @param apiUrl
  */
-export const builApiUrl = (
+export const buildApiUrl = (
   endpoint: string,
-  apiUrl = import.meta.env.VITE_API_URL as string,
-  lang = Routers.langService?.currentLang?.key
+  lang = Routers.langService?.currentLang?.key,
+  apiUrl = import.meta.env.VITE_API_URL as string
 ): string => {
   let url = [apiUrl, "/", endpoint]
     .filter((e) => e)
@@ -164,7 +165,10 @@ export const builApiUrl = (
   if (url.includes("?")) {
     operator = "&"
   }
-  url += `${operator}lang=${lang !== Routers.langService?.defaultLang.key ? lang : "en"}`
+  url += [operator, lang && `lang=${Routers.langService?.defaultLang.key}`]
+    .filter((e) => e)
+    .join("")
 
+  // log("url", url)
   return url
 }
