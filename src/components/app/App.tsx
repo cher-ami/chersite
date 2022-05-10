@@ -2,6 +2,9 @@ import css from "./App.module.less"
 import React from "react"
 import { Link, Stack, TManageTransitions } from "@cher-ami/router"
 
+import debug from "@wbe/debug"
+const log = debug(`front:*`)
+
 export interface IProps {}
 
 function App(props: IProps): JSX.Element {
