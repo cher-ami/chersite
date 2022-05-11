@@ -3,6 +3,7 @@
 namespace CherAmi\page;
 
 use CherAmi\api\PageRestController;
+use CherAmi\helpers\FormatHelper;
 
 class %%pascalCasePageName%%RestController extends PageRestController
 {
