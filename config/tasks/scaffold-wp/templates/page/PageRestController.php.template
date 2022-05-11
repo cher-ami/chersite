@@ -7,8 +7,10 @@ use CherAmi\api\PageRestController;
 class %%pascalCasePageName%%RestController extends PageRestController
 {
 
+    // TODO specify your template file name ex: template-home.php
+    public static $template = "template-xxxx.php";
+
     public function register_routes():void {
-        //GET PAGE
         register_rest_route(
             $this->namespace . '/v' . $this->version,
             '/%%pageName%%',
@@ -20,24 +22,10 @@ class %%pascalCasePageName%%RestController extends PageRestController
                 )
             )
         );
-
     }
 
-    public function get_page(\WP_REST_Request $request):\WP_REST_Response{
-        try{
-            return $this->successResponse([]);
-        }catch(\Exception $e){
-            return $this->failResponse($e->getMessage());
-        }
+    public static function format($post): ?array {
+        return FormatHelper::formatGroup(get_fields($post->ID));
     }
-
-    public static function format($post){
-        $data = [
-
-        ];
-
-        return $data;
-    }
-
 }
 
