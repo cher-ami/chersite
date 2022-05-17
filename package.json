@@ -1,7 +1,7 @@
 {
   "name": "cher-vite",
   "description": "Web base Boilerplate for cher-ami projects.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "main": "src/index.tsx",
   "author": "cher-ami",
   "browserslist": [
