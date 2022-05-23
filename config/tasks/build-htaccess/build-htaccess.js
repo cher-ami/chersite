@@ -91,7 +91,7 @@ const _rewriteHttpToHttpsInHtaccess = (pNewHtaccessFilePath) => {
 
   const template = [
     `# Force http to https
-      RewriteCond %{HTTPS}  !=on
+      RewriteCond %{HTTPS} off
       RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
      `,
   ]
