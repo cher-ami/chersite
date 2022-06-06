@@ -32,7 +32,7 @@ $twig = new Environment($loader);
 $template = $twig->load('layouts/base.twig');
 
 //Get metas data
-$metaData = new MetaManager($_ENV["API_URL"] ?? null, $_ENV['VITE_APP_BASE'] ?? null);
+$metaData = new MetaManager($_ENV["VITE_API_URL"] ?? null, $_ENV['VITE_APP_BASE'] ?? null);
 $meta = $metaData->getMetaData();
 
 
@@ -67,4 +67,3 @@ echo $template->render([
     'manifest' => $manifest ?? null,
     'input_array' => $inputArray ?? []
 ]);
-
