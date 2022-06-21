@@ -54,7 +54,7 @@ $inputArray = explode(",",$_ENV['INPUT_FILES']);
 echo $template->render([
     'title' => $meta['title'] ?? "app",
     'description' => $meta['description'] ?? null,
-    'image' => $meta['openGraphImages'][0] ?? null,
+    'image' => $meta['imageUrl'] ?? null,
     'canonical' => $meta['canonical'] ?? null,
     'protocol' => $_ENV["PROTOCOL"] ?? "http",
     'host' => $_ENV["HOST"] ?? null,
