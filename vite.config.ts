@@ -26,10 +26,22 @@ export default defineConfig(({ command, mode }) => {
   const portFinder = portFinderSync.getPort(3000)
   const protocol: "http" | "https" = "http"
 
+  // get env variables from selected .env (depend of mode)
+  const loadEnvVars = loadEnv(mode, process.cwd(), "")
+
+  // replace "{{LOCAL_IP}}" by the real local IP in .ENV VAR
+  const localIpString = `{{LOCAL_IP}}`
+  Object.keys(loadEnv(mode, process.cwd(), "")).forEach((e) => {
+    if (!loadEnvVars?.[e] || typeof loadEnvVars?.[e] !== "string") return
+    if (loadEnvVars[e].includes(localIpString)) {
+      loadEnvVars[e] = loadEnvVars[e].replace(localIpString, ipAddress)
+    }
+  })
+
   // merge loadEnv selected by vite in process.env
   process.env = {
     ...process.env,
-    ...loadEnv(mode, process.cwd(), ""),
+    ...loadEnvVars,
     PROTOCOL: protocol,
     PORT: portFinder,
     HOST: ipAddress,
@@ -37,7 +49,6 @@ export default defineConfig(({ command, mode }) => {
     INPUT_FILES: config.input.join(","),
     BUILD_DIRNAME: config.buildDirname,
   }
-  log("process.env", process.env)
 
   return {
     clearScreen: true,
