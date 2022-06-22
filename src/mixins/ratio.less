@@ -21,24 +21,24 @@ Get VH value from ratio
 /**
 Get VW value for property according to value in pixels
  */
-.propertyVW(@property, @n1, @n2 : @viewport-reference-width, @aspect-ratio: true) {
+ .propertyVW(@property, @n1, @n2 : @viewport-reference-width) {
   @{property}: .ratioVW(@n1, @n2) [ @returns];
-
-  & when (@aspect-ratio = true) {
-    // calc viewport height
-    @local-viewport-height: @viewport-reference-height + 1;
-
-    @media (min-aspect-ratio: ~"@{n2} / @{local-viewport-height}") {
-      .propertyVH(@property, @n1, @n2 : @viewport-reference-height);
-    }
-  }
 }
 
 /**
 Get VH value for property according to value in pixels
  */
-.propertyVH(@property, @n1, @n2 : @viewport-reference-height) {
+.propertyVH(@property, @n1, @n2 : @viewport-reference-height, @aspect-ratio: true) {
   @{property}: .ratioVH(@n1, @n2) [ @returns];
+
+  & when (@aspect-ratio = true) {
+    // calc viewport height
+    @local-viewport-height: @viewport-reference-desktop-height + 1;
+
+    @media (max-aspect-ratio: ~"calc(@{viewport-reference-desktop-width} / @{local-viewport-height})") {
+      .propertyVW(@property, @n1, @n2 : @viewport-reference-height);
+    }
+  }
 }
 
 /**
@@ -51,9 +51,9 @@ Responsive Property
   @breakpoint: @breakpoint-tablet,
   @aspect-ratio: true
 ) {
-  .propertyVW(@property, @value1, @n2 : @viewport-reference-width, @aspect-ratio);
+  .propertyVW(@property, @value1, @n2 : @viewport-reference-width);
   @media (min-width: @breakpoint) {
-    .propertyVH(@property, @value2, @n2 : @viewport-reference-desktop-height);
+    .propertyVH(@property, @value2, @n2 : @viewport-reference-desktop-height, @aspect-ratio);
   }
   @media (min-width: @breakpoint-desktop) {
     @returns: (@value2);
