@@ -144,6 +144,10 @@ In order to always keep the same folder structure, this config generate statics 
 
 It will be regenerated on demand.
 
+#### 2.2 Remove [./composer-install.sh](composer-install.sh)
+
+We don't need this script anymore since we don't use the PHP framework.
+
 #### 3. Modify your `VITE_APP_BASE` in .env.local and .env
 
 The app base need to be `/` : `VITE_APP_BASE=/`
@@ -187,7 +191,9 @@ in [vite.config.ts](vite.config.ts) change open this value:
 
 ```js
 server: {
+  // ...
   open: process.env.DEV_SERVER_OPEN === "true"
+  // ...
 }
 ```
 
