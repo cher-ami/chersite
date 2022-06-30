@@ -8,6 +8,7 @@
     "last 2 versions",
     "iOS >= 12"
   ],
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

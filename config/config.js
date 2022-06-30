@@ -1,7 +1,7 @@
-const { resolve } = require("path")
+import { resolve } from "path"
 
 // prettier-ignore
-module.exports = {
+export default {
 
   // --------------------------------------------------------------------------- PATHS / VITE CONFIG
 
@@ -51,7 +51,7 @@ module.exports = {
   componentCompatibleFolders: ['components', 'pages', 'popin'],
   componentsTemplatesDir: resolve('config/tasks/scaffold-component/templates'),
 
-  // Scaffold WP 
+  // Scaffold WP
   wpTheme: resolve("dist/api/web/app/themes/CherAmi"),
   wpTemplatesPath: resolve("config/tasks/scaffold-wp/templates"),
 
