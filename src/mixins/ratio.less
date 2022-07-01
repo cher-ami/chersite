@@ -167,15 +167,15 @@ Pixel to Rem property, mobile & desktop
 /**
  * Set a property size to rem from px size
  */
-.toRem(@pixValue, @emRatio: 16) {
-  @isnumber: isnumber(@pixValue);
-  @returns: if(isnumber(@pixValue), unit(@pixValue, rem), @pixValue);
+.toRem(@value) {
+  @isnumber: isnumber(@value);
+  @returns: if(isnumber(@value), unit(@value, rem), @value);
 }
 
 /**
  * Set a property size to rem from px size
  */
-.toPx(@pixValue) {
-  @isnumber: isnumber(@pixValue);
-  @returns: if(isnumber(@pixValue), unit(@pixValue, px), @pixValue);
+.toPx(@value) {
+  @isnumber: isnumber(@value);
+  @returns: if(isnumber(@value), unit(@value, px), @value);
 }
