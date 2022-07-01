@@ -1,14 +1,25 @@
 @import (reference) "./references.less";
 @import (inline) "../node_modules/@solid-js/css-flat/css-flat.css";
 @import "./fonts/fonts.less";
+@import "./variables.less";
 
-html,
+html {
+  // When you use --font-size var, 1px = 1rem
+  font-size: var(--font-size);
+}
+
 body {
   font-family: sans-serif;
   background: @color-bg;
   color: @color-text;
+  font-size: 16rem;
   .font-roboto-regular();
 
   #root {
+    // USE
+    // .propertyRem(margin, 20 40, 30 30);
+    // OR
+    // margin: 20rem 40rem;
+    // @media (min-width: @breakpoint-tablet) { margin: 30rem 30rem; }
   }
 }

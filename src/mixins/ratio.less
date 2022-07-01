@@ -21,7 +21,7 @@ Get VH value from ratio
 /**
 Get VW value for property according to value in pixels
  */
- .propertyVW(@property, @n1, @n2 : @viewport-reference-width) {
+.propertyVW(@property, @n1, @n2 : @viewport-reference-width) {
   @{property}: .ratioVW(@n1, @n2) [ @returns];
 }
 
@@ -35,8 +35,8 @@ Get VH value for property according to value in pixels
     // calc viewport height
     @local-viewport-height: @viewport-reference-desktop-height + 1;
 
-    @media (max-aspect-ratio: ~"calc(@{viewport-reference-desktop-width} / @{local-viewport-height})") {
-      .propertyVW(@property, @n1, @n2 : @viewport-reference-height);
+    @media (max-aspect-ratio: ~"@{viewport-reference-desktop-width} / @{local-viewport-height}") {
+      .propertyVW(@property, @n1, @n2 : @viewport-reference-desktop-width);
     }
   }
 }
@@ -44,7 +44,7 @@ Get VH value for property according to value in pixels
 /**
 Responsive Property
 */
-.R(
+.propertyViewport(
   @property,
   @value1,
   @value2: @value1,
@@ -59,4 +59,62 @@ Responsive Property
     @returns: (@value2);
     @{property}: unit(@returns, px);
   }
+}
+
+/**
+Pixel to Rem property, mobile & desktop
+*/
+.propertyRem(@property, @value-mobile, @value-desktop: false, @breakpoint: @breakpoint-tablet) {
+  @value-length-mobile: length(@value-mobile);
+
+  & when (@value-length-mobile = 1) {
+    @{property}: .toRem(@value-mobile) [ @returns];
+  }
+  & when (@value-length-mobile = 2) {
+    @{property}: .toRem(extract(@value-mobile, 1)) [ @returns]
+      .toRem(extract(@value-mobile, 2)) [ @returns];
+  }
+  & when (@value-length-mobile = 3) {
+    @{property}: .toRem(extract(@value-mobile, 1)) [ @returns]
+      .toRem(extract(@value-mobile, 2)) [ @returns] .toRem(extract(@value-mobile, 3)) [
+      @returns];
+  }
+  & when (@value-length-mobile = 4) {
+    @{property}: .toRem(extract(@value-mobile, 1)) [ @returns]
+      .toRem(extract(@value-mobile, 2)) [ @returns] .toRem(extract(@value-mobile, 3)) [
+      @returns] .toRem(extract(@value-mobile, 4)) [ @returns];
+  }
+
+  & when (not (@value-desktop = false)) {
+    @value-length-desktop: length(@value-desktop);
+
+    @media (min-width: @breakpoint) {
+      & when (@value-length-desktop = 1) {
+        @{property}: .toRem(@value-desktop) [ @returns];
+      }
+      & when (@value-length-desktop = 2) {
+        @{property}: .toRem(extract(@value-desktop, 1)) [ @returns]
+          .toRem(extract(@value-desktop, 2)) [ @returns];
+      }
+      & when (@value-length-desktop = 3) {
+        @{property}: .toRem(extract(@value-desktop, 1)) [ @returns]
+          .toRem(extract(@value-desktop, 2)) [ @returns]
+          .toRem(extract(@value-desktop, 3)) [ @returns];
+      }
+      & when (@value-length-desktop = 4) {
+        @{property}: .toRem(extract(@value-desktop, 1)) [ @returns]
+          .toRem(extract(@value-desktop, 2)) [ @returns]
+          .toRem(extract(@value-desktop, 3)) [ @returns]
+          .toRem(extract(@value-desktop, 4)) [ @returns];
+      }
+    }
+  }
+}
+
+/**
+ * Set a property size to rem from px size
+ */
+.toRem(@pixValue, @emRatio: 16) {
+  @isnumber: isnumber(@pixValue);
+  @returns: if(isnumber(@pixValue), unit(@pixValue, rem), @pixValue);
 }
