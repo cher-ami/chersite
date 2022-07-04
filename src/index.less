@@ -1,7 +1,7 @@
 @import (reference) "./references.less";
 @import (inline) "../node_modules/@solid-js/css-flat/css-flat.css";
 @import "./fonts/fonts.less";
-@import "./variables.less";
+@import "atoms/atoms";
 
 html {
   // When you use --font-size var, 1px = 1rem
@@ -10,17 +10,20 @@ html {
 
 body {
   font-family: sans-serif;
-  background: @color-bg;
-  color: @color-text;
-  font-size: 16rem;
   .font-roboto-regular();
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 16rem;
 
-  #root {
-    .propertyViewport(margin, 30 auto, 20 20 auto)
-    // USE
-    // .propertyRem(margin, 20 40, 30 30);
-    // OR
-    // margin: 20rem 40rem;
-    // @media (min-width: @breakpoint-tablet) { margin: 30rem 30rem; }
-  }
+  /**
+ Use shortcut mixin
+ .propertyViewport(margin, 30 auto, 20 20 auto)
+
+ Or "rem" values:
+
+ margin: 30rem auto;
+ @media (min-width: @breakpoint-tablet) {
+   margin: 20rem 20rem auto;
+ }
+ */
 }

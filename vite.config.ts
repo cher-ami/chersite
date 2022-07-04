@@ -6,7 +6,6 @@ import react from "@vitejs/plugin-react"
 import checker from "vite-plugin-checker"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
-import buildAtomsPlugin from "./config/vite-plugins/vite-plugin-build-atoms"
 import devServerlogPlugin from "./config/vite-plugins/vite-plugin-dev-server-log"
 import legacy from "@vitejs/plugin-legacy"
 import autoprefixer from "autoprefixer"
@@ -109,12 +108,6 @@ export default defineConfig(({ command, mode }) => {
       checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
 
       legacy({ targets: ["defaults", "not IE 11"] }),
-
-      buildAtomsPlugin({
-        varFilesToWatch: config.atomsFilesToWatch,
-        outputPath: config.atomsDir,
-        outputFilename: config.atomsGeneratedFilename,
-      }),
 
       buildDotenvPlugin({
         envVars: process.env,
