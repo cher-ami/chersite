@@ -1,14 +1,17 @@
 @import (reference) "./references.less";
 @import (inline) "../node_modules/@solid-js/css-flat/css-flat.css";
 @import "./fonts/fonts.less";
+@import "variables/variables";
 
-html,
+html {
+  // When you use --font-size var, 1px = 1rem
+  font-size: var(--font-size);
+}
+
 body {
   font-family: sans-serif;
-  background: @color-bg;
-  color: @color-text;
   .font-roboto-regular();
-
-  #root {
-  }
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 16rem;
 }

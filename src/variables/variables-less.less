@@ -1,0 +1,32 @@
+/**
+  LESS variables
+  Only modify vars bellow, but don't add new one.
+  Add native css vars instead in "variables-css.less"
+ */
+
+/**
+ * viewport vars
+ * Used by ratio.less mixins
+ */
+@viewport-reference-width: 375;
+@viewport-reference-height: 667;
+@viewport-reference-desktop-width: 1400;
+@viewport-reference-desktop-height: 900;
+
+/**
+   IMPORTANT:
+    Because we can't use css variables in media queries,
+    these breakpoint variables need to duplicate and used as LESS variables too here.
+    Theses vars need to be sync with "variables-css.less"
+
+    here:
+      @breakpoint-mobile: 320px;
+    Equivalent in "variables-css.less":
+      --breakpoint-mobile: 320px;
+ */
+@breakpoint-mobile: 320px;
+@breakpoint-phablet: 600px;
+@breakpoint-tablet: 768px;
+@breakpoint-laptop: 1024px;
+@breakpoint-bigLaptop: 1440px;
+@breakpoint-desktop: 1680px;
