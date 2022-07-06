@@ -86,30 +86,34 @@ Responsive Property
   @value1,
   @value2: @value1,
   @breakpoint: @breakpoint-tablet,
+  @capValue: false,
   @aspect-ratio: true
 ) {
   .propertyVW(@property, @value1, @n2 : @viewport-reference-width);
   @media (min-width: @breakpoint) {
     .propertyVH(@property, @value2, @n2 : @viewport-reference-desktop-height, @aspect-ratio);
   }
-  @media (min-width: @breakpoint-desktop) {
-    @value2-length: length(@value2);
 
-    & when (@value2-length = 1) {
-      @{property}: .toPx(@value2) [ @returns];
-    }
-    & when (@value2-length = 2) {
-      @{property}: .toPx(extract(@value2, 1)) [ @returns] .toPx(extract(@value2, 2)) [
-        @returns];
-    }
-    & when (@value2-length = 3) {
-      @{property}: .toPx(extract(@value2, 1)) [ @returns] .toPx(extract(@value2, 2)) [
-        @returns] .toPx(extract(@value2, 3)) [ @returns];
-    }
-    & when (@value2-length = 4) {
-      @{property}: .toPx(extract(@value2, 1)) [ @returns] .toPx(extract(@value2, 2)) [
-        @returns] .toPx(extract(@value2, 3)) [ @returns] .toPx(extract(@value2, 4)) [
-        @returns];
+  & when(@capValue) {
+    @media (min-width: @breakpoint-desktop) {
+      @value2-length: length(@value2);
+
+      & when (@value2-length = 1) {
+        @{property}: .toPx(@value2) [ @returns];
+      }
+      & when (@value2-length = 2) {
+        @{property}: .toPx(extract(@value2, 1)) [ @returns] .toPx(extract(@value2, 2)) [
+          @returns];
+      }
+      & when (@value2-length = 3) {
+        @{property}: .toPx(extract(@value2, 1)) [ @returns] .toPx(extract(@value2, 2)) [
+          @returns] .toPx(extract(@value2, 3)) [ @returns];
+      }
+      & when (@value2-length = 4) {
+        @{property}: .toPx(extract(@value2, 1)) [ @returns] .toPx(extract(@value2, 2)) [
+          @returns] .toPx(extract(@value2, 3)) [ @returns] .toPx(extract(@value2, 4)) [
+          @returns];
+      }
     }
   }
 }
