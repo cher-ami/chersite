@@ -188,6 +188,8 @@ buildHtaccessPlugin({
 })
 ```
 
+- Update `.htaccess` template in `src/.htaccess` to redirect to `index.html`
+
 - Update .gitignore. Replace all `dist/front/...` values by `dist/...`
 
 ## <a name="Cli"></a>CLI
