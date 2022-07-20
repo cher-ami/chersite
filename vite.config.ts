@@ -42,8 +42,8 @@ export default defineConfig(({ command, mode }) => {
     ...process.env,
     ...loadEnvVars,
     PROTOCOL: protocol,
-    PORT: portFinder,
-    HOST: ipAddress,
+    PORT: loadEnvVars['PORT'] ?? portFinder,
+    HOST: loadEnvVars['HOST'] ?? ipAddress,
     COMMAND: command,
     INPUT_FILES: config.input.join(","),
     BUILD_DIRNAME: config.buildDirname,
@@ -60,14 +60,14 @@ export default defineConfig(({ command, mode }) => {
     publicDir: config.publicDir,
 
     server: {
-      port: portFinder,
+      port: process.env.PORT,
       host: true,
       https: process.env.PROTOCOL === "https",
       cors: true,
-      origin: `${protocol}://${ipAddress}:${portFinder}`,
+      origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
       open:
         process.env.DEV_SERVER_OPEN === "true"
-          ? `${protocol}://${ipAddress}${process.env.VITE_APP_BASE}`
+          ? `${protocol}://${process.env.HOST}${process.env.VITE_APP_BASE}`
           : false,
     },
 
@@ -133,7 +133,7 @@ export default defineConfig(({ command, mode }) => {
 
       devServerlogPlugin({
         protocol,
-        host: ipAddress,
+        host: process.env.HOST,
         base: process.env.VITE_APP_BASE,
         // enable only if we don't use index.html, but ts/tsx entry points
         enable: config.input?.length > 0,
