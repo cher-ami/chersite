@@ -23,6 +23,7 @@ The front-end side can then access this served API to build its templates.
 - [Default tools](#DefaultTools)
 - [Requirements](#Requirements)
 - [Installation](#Installation)
+- [Docker installation](#Docker)
 - [Vite configuration](#ViteConfiguration)
   - [Configuration files](#ConfigurationFiles)
   - [Entry points](#Entrypoints)
@@ -83,6 +84,24 @@ run setup project:
 
 ```shell script
 $ npm run setup
+```
+
+## <a name="Docker"></a>Docker
+
+A ["docker-compose.yml"](docker-compose.yml) file is available in the project root.
+
+- in .env.local, set your IP address in `HOST`.
+- start docker desktop
+- start the container
+
+```shell
+$ docker compose up
+```
+
+- when docker container is mounted, you can now install your project from the container.
+
+```shell
+$ docker compose exec node npm run setup
 ```
 
 ## <a name="ViteConfiguration"></a>Vite configuration
