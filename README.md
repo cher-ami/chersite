@@ -91,7 +91,7 @@ $ npm run setup
 A ["docker-compose.yml"](docker-compose.yml) file is available in the project root.
 
 - in .env.local, set your IP address in `HOST`.
-- start docker desktop
+- start the docker daemon
 - start the container
 
 ```shell
@@ -101,7 +101,7 @@ $ docker compose up
 - when docker container is mounted, you can now install your project from the container.
 
 ```shell
-$ docker compose exec node npm run setup
+$ docker compose exec npm run setup
 ```
 
 ## <a name="ViteConfiguration"></a>Vite configuration
