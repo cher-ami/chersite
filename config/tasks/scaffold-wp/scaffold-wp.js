@@ -1,10 +1,7 @@
 //const Inquirer = require("inquirer")
 import Inquirer from "inquirer"
 import logs from "../../helpers/logger.js"
-//const logs = require("../../helpers/logger")
 import { Files } from "@zouloux/files"
-//const { Files } = require("@zouloux/files")
-
 import config from "../../config.js"
 
 // remove Files lib logs

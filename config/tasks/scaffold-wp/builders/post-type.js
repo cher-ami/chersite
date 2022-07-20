@@ -1,9 +1,8 @@
-const Inquirer = require("inquirer")
-const changeCase = require("change-case")
-const createFile = require("../../../helpers/create-file")
-const logs = require("../../../helpers/logger")
-const config = require("../../../config")
-const debug = require("@wbe/debug")
+import logs from "../../../helpers/logger"
+import config from "../../../config"
+import Inquirer from "inquirer"
+import changeCase from "change-case"
+import createFile from "../../../helpers/create-file"
 
 const _askPostTypeName = () => {
   return Inquirer.prompt([
@@ -125,4 +124,4 @@ const buildPostType = () => {
   })
 }
 
-module.exports = buildPostType
+export default buildPostType

@@ -1,10 +1,12 @@
-const Inquirer = require("inquirer")
-const changeCase = require("change-case")
-const { Files } = require("@zouloux/files")
+import Inquirer from "inquirer"
+import changeCase from "change-case"
+import { Files } from "@zouloux/files"
+import debug from "@wbe/debug"
+import createFile from "../../helpers/create-file"
+
+const log = debug("config:scaffold")
+import logger from "../../helpers/logger"
 Files.setVerbose(false)
-const debug = require("@wbe/debug")("config:scaffold")
-const logs = require("../../helpers/logger")
-const createFile = require("../../helpers/create-file")
 
 const {
   componentCompatibleFolders,

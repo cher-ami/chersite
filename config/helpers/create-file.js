@@ -1,6 +1,5 @@
-const { Files } = require("@zouloux/files")
-const { quickTemplate } = require("./template-helper")
-const debug = require("@wbe/debug")("config:create-file")
+import { Files } from "@zouloux/files"
+import { quickTemplate } from "./template-helper"
 const logs = require("./logger")
 
 /**
@@ -20,10 +19,9 @@ const createFile = ({
     return
   }
 
-  debug("create file with template and replace expression")
   Files.new(destinationFilePath).write(
     quickTemplate(Files.getFiles(templateFilePath).read(), replaceExpressions)
   )
 }
 
-module.exports = createFile
+export default createFile

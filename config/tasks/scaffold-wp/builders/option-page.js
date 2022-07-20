@@ -1,8 +1,8 @@
-const Inquirer = require("inquirer")
-const changeCase = require("change-case")
-const createFile = require("../../../helpers/create-file")
-const logs = require("../../../helpers/logger")
-const config = require("../../../config")
+import logs from "../../../helpers/logger"
+import config from "../../../config"
+import Inquirer from "inquirer"
+import changeCase from "change-case"
+import createFile from "../../../helpers/create-file"
 
 const _askOptionName = () => {
   return Inquirer.prompt([
@@ -88,4 +88,4 @@ const buildOptionPage = () => {
   })
 }
 
-module.exports = buildOptionPage
+export default buildOptionPage

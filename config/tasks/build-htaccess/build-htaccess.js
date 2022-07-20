@@ -1,7 +1,7 @@
-const { Files } = require("@zouloux/files")
-const debug = require("@wbe/debug")("config:build-htaccess")
-const logger = require("../../helpers/logger")
-
+import { Files } from "@zouloux/files"
+import debug from "@wbe/debug"
+const log = debug("config:build-htaccess")
+import logger from "../../helpers/logger"
 /**
  * Create htaccess file
  * @param pOutputPath
@@ -105,7 +105,7 @@ const _rewriteHttpToHttpsInHtaccess = (pNewHtaccessFilePath) => {
  * Prebuild .htaccess file
  * Useful is this file
  */
-module.exports = ({
+export default ({
   serverWebRootPath,
   user,
   password,

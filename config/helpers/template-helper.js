@@ -1,6 +1,6 @@
 let templateRegex
 
-module.exports = {
+export default {
   setDelimiters(pLeft, pRight) {
     templateRegex = new RegExp(pLeft + "(.*?)" + pRight, "g")
   },

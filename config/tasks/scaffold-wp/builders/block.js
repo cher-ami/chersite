@@ -1,9 +1,9 @@
-const Inquirer = require("inquirer")
-const changeCase = require("change-case")
-const createFile = require("../../../helpers/create-file")
-const logs = require("../../../helpers/logger")
-const config = require("../../../config")
-const { Files } = require("@zouloux/files")
+import logs from "../../../helpers/logger"
+import config from "../../../config"
+import Inquirer from "inquirer"
+import changeCase from "change-case"
+import { Files } from "@zouloux/files"
+import createFile from "../../../helpers/create-file"
 
 const _askBlockName = () => {
   return Inquirer.prompt([
@@ -149,4 +149,4 @@ const buildBlockType = () => {
   })
 }
 
-module.exports = buildBlock
+export default buildBlock
