@@ -22,6 +22,7 @@ const log = debug("config:vite.config")
 export default defineConfig(({ command, mode }) => {
   const isDevelopment = mode === "development"
   const ipAddress = ip.address()
+  // port 3000 is the port used by docker-compose, so we use it as default
   const portFinder = portFinderSync.getPort(3000)
   const protocol: "http" | "https" = "http"
 
@@ -29,6 +30,7 @@ export default defineConfig(({ command, mode }) => {
   const loadEnvVars = loadEnv(mode, process.cwd(), "")
 
   // replace "{{LOCAL_IP}}" by the real local IP in .ENV VAR
+  // Works only without docker because  docker use process.env.HOST
   const localIpString = `{{LOCAL_IP}}`
   Object.keys(loadEnv(mode, process.cwd(), "")).forEach((e) => {
     if (!loadEnvVars?.[e] || typeof loadEnvVars?.[e] !== "string") return
@@ -42,8 +44,8 @@ export default defineConfig(({ command, mode }) => {
     ...process.env,
     ...loadEnvVars,
     PROTOCOL: protocol,
-    PORT: loadEnvVars['PORT'] ?? portFinder,
-    HOST: loadEnvVars['HOST'] ?? ipAddress,
+    PORT: `${portFinder}`,
+    HOST: loadEnvVars["HOST"] ?? ipAddress,
     COMMAND: command,
     INPUT_FILES: config.input.join(","),
     BUILD_DIRNAME: config.buildDirname,
@@ -134,6 +136,8 @@ export default defineConfig(({ command, mode }) => {
       devServerlogPlugin({
         protocol,
         host: process.env.HOST,
+        // this value need to be sync with docker compose external port
+        port: "4321",
         base: process.env.VITE_APP_BASE,
         // enable only if we don't use index.html, but ts/tsx entry points
         enable: config.input?.length > 0,

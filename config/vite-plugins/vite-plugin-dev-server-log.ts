@@ -20,12 +20,14 @@ import { PluginOption } from "vite"
 export default function devServerlogPlugin({
   protocol,
   host,
+  port,
   base,
   enable,
 }: {
   protocol: "http" | "https"
-  host: string
-  base: string
+  host: string | undefined
+  port: string | undefined
+  base: string | undefined
   enable: boolean
 }): PluginOption {
   return {
@@ -38,8 +40,8 @@ export default function devServerlogPlugin({
       const template = [
         ` ${chalk.green("Project running at:")}`,
         ``, 
-        `  > Local:      ${chalk.cyan(`${protocol}://localhost${base}`)}`,
-        `  > Network:    ${chalk.cyan(`${protocol}://${host}${base}`)}`
+        `  > Local:      ${chalk.cyan(`${protocol}://localhost:${port}${base}`)}`,
+        `  > Network:    ${chalk.cyan(`${protocol}://${host}:${port}${base}`)}`
       ].join('\n');
       // executed after vite log
       setTimeout(() => console.log(template), 10)

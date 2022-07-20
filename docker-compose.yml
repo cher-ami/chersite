@@ -3,7 +3,7 @@ services:
   app:
     image: flycherami/php7.4-node16:latest
     ports:
-      - "80:80"
+      - "4321:80"
     volumes:
       - "./dist:/app"
     working_dir: /app
