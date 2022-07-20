@@ -88,7 +88,7 @@ $ npm run setup
 
 ## <a name="Docker"></a>Docker
 
-A ["docker-compose.yml"](docker-compose.yml) file is available in the project root.
+A [docker-compose.yml](docker-compose.yml) file is available in the project root.
 
 - in .env.local, set your IP address in `HOST`.
 - start docker desktop
