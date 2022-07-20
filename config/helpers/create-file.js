@@ -1,6 +1,6 @@
-import { Files } from "@zouloux/files"
+import Files from "@zouloux/files"
 import { quickTemplate } from "./template-helper"
-const logs = require("./logger")
+import logs from "./logger"
 
 /**
  * Create File with template

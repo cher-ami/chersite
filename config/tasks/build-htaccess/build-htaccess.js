@@ -1,4 +1,4 @@
-import { Files } from "@zouloux/files"
+import { File } from "@zouloux/files"
 import debug from "@wbe/debug"
 const log = debug("config:build-htaccess")
 import logger from "../../helpers/logger"
@@ -11,10 +11,10 @@ import logger from "../../helpers/logger"
 const _createHtaccessFile = ({ outputPath, htaccessTemplatePath }) => {
   const newHtaccessFilePath = `${outputPath}/.htaccess`
 
-  debug({ htaccessTemplatePath, newHtaccessFilePath })
+  log({ htaccessTemplatePath, newHtaccessFilePath })
 
-  const templateExist = Files.getFiles(htaccessTemplatePath).files.length === 1
-  debug("templateExist", templateExist)
+  const templateExist = File.find(htaccessTemplatePath).length === 1
+  log("templateExist", templateExist)
 
   if (!templateExist) {
     console.log(
@@ -25,7 +25,7 @@ const _createHtaccessFile = ({ outputPath, htaccessTemplatePath }) => {
   }
 
   // create and dispatch file from template
-  Files.new(newHtaccessFilePath).write(Files.getFiles(htaccessTemplatePath).read())
+  Files.new(newHtaccessFilePath).write(File.find(htaccessTemplatePath).read())
   return newHtaccessFilePath
 }
 
@@ -33,23 +33,23 @@ const _createHtaccessFile = ({ outputPath, htaccessTemplatePath }) => {
  * Create htpasswdFile
  */
 const _createHtpasswdFile = ({ outputPath, user, password }) => {
-  debug("create htpasswd file", {
+  log("create htpasswd file", {
     outputPath,
     user,
     password,
   })
 
   if (!outputPath || !user || !password) {
-    debug("Missing param, aborting.")
+    log("Missing param, aborting.")
     return
   }
   // create htpasswd file and add password in it
   const htpasswdFilePath = `${outputPath}/.htpasswd`
-  debug("htpasswdFilePath", htpasswdFilePath)
+  log("htpasswdFilePath", htpasswdFilePath)
 
   // define content
   const htpasswdContent = `${user}:${password}`
-  debug("htpasswdContent", htpasswdContent)
+  log("htpasswdContent", htpasswdContent)
 
   // write content user:pass in htpasswd file
   Files.new(htpasswdFilePath).write(htpasswdContent)
@@ -76,7 +76,7 @@ const _htpasswdLinkInHtaccess = ({ newHtaccessFilePath, serverWebRootPath }) => 
     .join("\n")
     .replace(/  +/g, "")
 
-  Files.getFiles(newHtaccessFilePath).append(template)
+  File.find(newHtaccessFilePath).append(template)
 }
 
 /**
@@ -98,7 +98,7 @@ const _rewriteHttpToHttpsInHtaccess = (pNewHtaccessFilePath) => {
     .join("\n")
     .replace(/  +/g, "")
 
-  Files.getFiles(pNewHtaccessFilePath).append(template)
+  File.find(pNewHtaccessFilePath).append(template)
 }
 
 /**

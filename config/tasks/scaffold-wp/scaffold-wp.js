@@ -1,8 +1,11 @@
-//const Inquirer = require("inquirer")
 import Inquirer from "inquirer"
 import logs from "../../helpers/logger.js"
-import { Files } from "@zouloux/files"
+import Files from "@zouloux/files"
 import config from "../../config.js"
+import buildPostType from "./builders/post-type"
+import buildPage from "./builders/page"
+import buildOptionPage from "./builders/option-page"
+import buildBlock from "./builders/option-page"
 
 // remove Files lib logs
 Files.setVerbose(false)
@@ -13,19 +16,19 @@ Files.setVerbose(false)
 const _scaffolders = [
   {
     name: "Post Type",
-    exec: () => require("./builders/post-type")(),
+    exec: () => buildPostType(),
   },
   {
     name: "Page",
-    exec: () => require("./builders/page")(),
+    exec: () => buildPage(),
   },
   {
     name: "Option Page",
-    exec: () => require("./builders/option-page")(),
+    exec: () => buildOptionPage(),
   },
   {
     name: "Block",
-    exec: () => require("./builders/block")(),
+    exec: () => buildBlock(),
   },
 ]
 

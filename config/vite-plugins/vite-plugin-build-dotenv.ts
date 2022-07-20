@@ -6,7 +6,7 @@ export default function buildDotenvPlugin({
   dotenvOutDir,
   additionalVarKeys,
 }: {
-  envVars: { [x: string]: string }
+  envVars: { [x: string]: any }
   dotenvOutDir: string[]
   additionalVarKeys: string[]
 }): PluginOption {

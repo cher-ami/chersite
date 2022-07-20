@@ -1,6 +1,6 @@
 import Inquirer from "inquirer"
 import changeCase from "change-case"
-import { Files } from "@zouloux/files"
+import Files from "@zouloux/files"
 import debug from "@wbe/debug"
 import createFile from "../../helpers/create-file"
 
@@ -8,11 +8,7 @@ const log = debug("config:scaffold")
 import logger from "../../helpers/logger"
 Files.setVerbose(false)
 
-const {
-  componentCompatibleFolders,
-  componentsTemplatesDir,
-  srcDir,
-} = require("../../config")
+import { componentCompatibleFolders, componentsTemplatesDir, srcDir } from "../../config"
 
 // ----------------------------------------------------------------------------- PRIVATE API
 

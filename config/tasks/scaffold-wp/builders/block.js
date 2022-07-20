@@ -2,7 +2,7 @@ import logs from "../../../helpers/logger"
 import config from "../../../config"
 import Inquirer from "inquirer"
 import changeCase from "change-case"
-import { Files } from "@zouloux/files"
+import Files from "@zouloux/files"
 import createFile from "../../../helpers/create-file"
 
 const _askBlockName = () => {

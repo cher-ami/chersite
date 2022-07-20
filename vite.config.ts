@@ -10,8 +10,8 @@ import devServerlogPlugin from "./config/vite-plugins/vite-plugin-dev-server-log
 import legacy from "@vitejs/plugin-legacy"
 import autoprefixer from "autoprefixer"
 
-const ip = require("ip")
-const portFinderSync = require("portfinder-sync")
+import ip from "ip"
+import portFinderSync from "portfinder-sync"
 const log = debug("config:vite.config")
 
 /**
@@ -112,7 +112,7 @@ export default defineConfig(({ command, mode }) => {
       legacy({ targets: ["defaults", "not IE 11"] }),
 
       buildDotenvPlugin({
-        envVars: process.env as { [x: string]: any },
+        envVars: process.env,
         dotenvOutDir: config.buildDotenvOutDir,
         additionalVarKeys: [
           "PROTOCOL",
@@ -124,14 +124,14 @@ export default defineConfig(({ command, mode }) => {
         ],
       }),
 
-      buildHtaccessPlugin({
-        serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH as string,
-        user: process.env.HTACCESS_AUTH_USER as string,
-        password: process.env.HTACCESS_AUTH_PASSWORD as string,
-        htaccessTemplatePath: config.htaccessTemplateFilePath,
-        outputPath: config.wwwDir,
-        enable: process.env.BUILD_HTACCESS === "true",
-      }),
+      // buildHtaccessPlugin({
+      //   serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
+      //   user: process.env.HTACCESS_AUTH_USER,
+      //   password: process.env.HTACCESS_AUTH_PASSWORD,
+      //   htaccessTemplatePath: config.htaccessTemplateFilePath,
+      //   outputPath: config.wwwDir,
+      //   enable: process.env.BUILD_HTACCESS === "true",
+      // }),
 
       devServerlogPlugin({
         protocol,
