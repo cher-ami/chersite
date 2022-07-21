@@ -23,6 +23,7 @@
     "@cher-ami/router": "^3.0.0-beta.6",
     "@solid-js/css-flat": "^1.0.1",
     "@wbe/debug": "^1.0.0",
+    "fs": "^0.0.1-security",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

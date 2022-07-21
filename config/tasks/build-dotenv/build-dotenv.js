@@ -1,4 +1,4 @@
-import { File } from "@zouloux/files"
+import Fs from "../../helpers/Fs.js"
 import path from "path"
 import debug from "@wbe/debug"
 const log = debug("config:build-dotenv")
@@ -11,8 +11,10 @@ const _getRaws = (files = []) => {
     const rawsList = []
     files.forEach(async (file) => {
       count++
-      await file.load()
-      rawsList.push(file.data)
+      const fs = new Fs(file)
+      const data = await fs.readFile()
+      log("data", data)
+      rawsList.push(data)
       if (count === files.length) {
         resolve(rawsList)
       }
@@ -102,8 +104,10 @@ export default async ({ envVars = {}, dotenvOutDir, additionalVarKeys = [] }) =>
   logger.start("Build .env file(s)")
 
   // read all .env files and get all var keys
-  const envFiles = await File.find(path.resolve(".env*"))
-  // log("available env files", envFiles)
+  const rootFiles = new Fs(path.resolve("./"))
+  const readRootFiles = await rootFiles.readDir(false)
+  const envFiles = readRootFiles.filter((e) => e.includes(".env"))
+  log("available env files", envFiles)
 
   // get raws version of file
   const raws = await _getRaws(envFiles)
@@ -119,8 +123,7 @@ export default async ({ envVars = {}, dotenvOutDir, additionalVarKeys = [] }) =>
   // Create .env files
   dotenvOutDir.forEach(async (path) => {
     logger.note(`path: ${path}`)
-    const file = new File(`${path}/.env`)
-    file.append(template)
-    await file.create()
+    const file = new Fs(`${path}/.env`)
+    file.writeFile(template)
   })
 }
