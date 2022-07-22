@@ -35,7 +35,7 @@ export default defineConfig(({ command, mode }) => {
   Object.keys(loadEnv(mode, process.cwd(), "")).forEach((e) => {
     if (!loadEnvVars?.[e] || typeof loadEnvVars?.[e] !== "string") return
     if (loadEnvVars[e].includes(localIpString)) {
-      loadEnvVars[e] = loadEnvVars[e].replace(localIpString, ipAddress)
+      loadEnvVars[e] = ipAddress ? loadEnvVars[e].replace(localIpString, ipAddress) : ""
     }
   })
 
