@@ -62,15 +62,19 @@ export default defineConfig(({ command, mode }) => {
     publicDir: config.publicDir,
 
     server: {
-      port: process.env.PORT,
-      host: true,
-      https: process.env.PROTOCOL === "https",
       cors: true,
+      host: true,
+      port: process.env.PORT,
+      https: process.env.PROTOCOL === "https",
       origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
       open:
         process.env.DEV_SERVER_OPEN === "true"
           ? `${protocol}://${process.env.HOST}${process.env.VITE_APP_BASE}`
           : false,
+      watch: {
+        // do not watch .env files to avoid reloading when build-dotenv is processed
+        ignored: [...(config.buildDotenvOutDir.map((path) => `${path}/.env`) || [])],
+      },
     },
 
     css: {
