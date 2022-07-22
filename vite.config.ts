@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv } from "vite"
+import { ConfigEnv, defineConfig, loadEnv, UserConfig } from "vite"
 import { resolve } from "path"
 import config from "./config/config.js"
 import debug from "@wbe/debug"
@@ -19,7 +19,7 @@ const log = debug("config:vite.config")
  * @doc https://vitejs.dev/config/
  *
  */
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   const isDevelopment = mode === "development"
   const ipAddress = ip.address()
   // port 3000 is the port used by docker-compose, so we use it as default
@@ -64,7 +64,7 @@ export default defineConfig(({ command, mode }) => {
     server: {
       cors: true,
       host: true,
-      port: process.env.PORT,
+      port: portFinder,
       https: process.env.PROTOCOL === "https",
       origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
       open:
@@ -128,6 +128,7 @@ export default defineConfig(({ command, mode }) => {
         ],
       }),
 
+      // FIXME replace by Files by fs
       // buildHtaccessPlugin({
       //   serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
       //   user: process.env.HTACCESS_AUTH_USER,
