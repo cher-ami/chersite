@@ -1,4 +1,4 @@
-import Fs from "../../helpers/Fs.js"
+import * as Fs from "../../helpers/Fs.js"
 import path from "path"
 import debug from "@wbe/debug"
 const log = debug("config:build-dotenv")
@@ -11,9 +11,7 @@ const _getRaws = (files = []) => {
     const rawsList = []
     files.forEach(async (file) => {
       count++
-      const fs = new Fs(file)
-      const data = await fs.readFile()
-      log("data", data)
+      const data = await Fs.readFile(file)
       rawsList.push(data)
       if (count === files.length) {
         resolve(rawsList)
@@ -104,8 +102,8 @@ export default async ({ envVars = {}, dotenvOutDir, additionalVarKeys = [] }) =>
   logger.start("Build .env file(s)")
 
   // read all .env files and get all var keys
-  const rootFiles = new Fs(path.resolve("./"))
-  const readRootFiles = await rootFiles.readDir(false)
+
+  const readRootFiles = await Fs.readDir(path.resolve("./"), false)
   const envFiles = readRootFiles.filter((e) => e.includes(".env"))
   log("available env files", envFiles)
 
@@ -123,7 +121,8 @@ export default async ({ envVars = {}, dotenvOutDir, additionalVarKeys = [] }) =>
   // Create .env files
   dotenvOutDir.forEach(async (path) => {
     logger.note(`path: ${path}`)
-    const file = new Fs(`${path}/.env`)
-    file.writeFile(template)
+    await Fs.writeFile(`${path}/.env`, template)
   })
+
+  return true
 }
