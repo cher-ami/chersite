@@ -53,5 +53,4 @@ function initCouleur() {
   }
 }
 
-const couleur = initCouleur()
-module.exports = couleur
+export default initCouleur()

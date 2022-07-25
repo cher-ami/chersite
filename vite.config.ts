@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv } from "vite"
+import { ConfigEnv, defineConfig, loadEnv, UserConfig } from "vite"
 import { resolve } from "path"
 import config from "./config/config.js"
 import debug from "@wbe/debug"
@@ -10,8 +10,8 @@ import devServerlogPlugin from "./config/vite-plugins/vite-plugin-dev-server-log
 import legacy from "@vitejs/plugin-legacy"
 import autoprefixer from "autoprefixer"
 
-const ip = require("ip")
-const portFinderSync = require("portfinder-sync")
+import ip from "ip"
+import portFinderSync from "portfinder-sync"
 const log = debug("config:vite.config")
 
 /**
@@ -19,7 +19,7 @@ const log = debug("config:vite.config")
  * @doc https://vitejs.dev/config/
  *
  */
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   const isDevelopment = mode === "development"
   const ipAddress = ip.address()
   // port 3000 is the port used by docker-compose, so we use it as default
@@ -35,7 +35,7 @@ export default defineConfig(({ command, mode }) => {
   Object.keys(loadEnv(mode, process.cwd(), "")).forEach((e) => {
     if (!loadEnvVars?.[e] || typeof loadEnvVars?.[e] !== "string") return
     if (loadEnvVars[e].includes(localIpString)) {
-      loadEnvVars[e] = loadEnvVars[e].replace(localIpString, ipAddress)
+      loadEnvVars[e] = ipAddress ? loadEnvVars[e].replace(localIpString, ipAddress) : ""
     }
   })
 
@@ -62,15 +62,19 @@ export default defineConfig(({ command, mode }) => {
     publicDir: config.publicDir,
 
     server: {
-      port: process.env.PORT,
-      host: true,
-      https: process.env.PROTOCOL === "https",
       cors: true,
+      host: true,
+      port: portFinder,
+      https: process.env.PROTOCOL === "https",
       origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
       open:
         process.env.DEV_SERVER_OPEN === "true"
           ? `${protocol}://${process.env.HOST}${process.env.VITE_APP_BASE}`
           : false,
+      watch: {
+        // do not watch .env files to avoid reloading when build-dotenv is processed
+        ignored: [...(config.buildDotenvOutDir.map((path) => `${path}/.env`) || [])],
+      },
     },
 
     css: {
@@ -136,11 +140,9 @@ export default defineConfig(({ command, mode }) => {
       devServerlogPlugin({
         protocol,
         host: process.env.HOST,
-        // this value need to be sync with docker compose external port
-        port: "4321",
+        port: "4321", // this value need to be sync with docker compose external port
         base: process.env.VITE_APP_BASE,
-        // enable only if we don't use index.html, but ts/tsx entry points
-        enable: config.input?.length > 0,
+        enable: config.input?.length > 0, // enable only if we don't use index.html, but ts/tsx entry points
       }),
     ],
   }

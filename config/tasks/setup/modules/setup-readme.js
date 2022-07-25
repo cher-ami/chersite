@@ -1,8 +1,7 @@
-const logs = require("../../../helpers/logger")
-const { quickTemplate } = require("../../../helpers/template-helper")
-const { Files } = require("@zouloux/files")
-Files.setVerbose(false)
-const debug = require("@wbe/debug")("config:manage-readme")
+import * as mfs from "../../../helpers/mfs.js"
+import logs from "../../../helpers/logger.js"
+import debug from "@wbe/debug"
+const log = debug("config:manage-readme")
 
 /**
  * Manage README file
@@ -10,7 +9,7 @@ const debug = require("@wbe/debug")("config:manage-readme")
  * and create new project README with setup information
  * @returns {Promise<unknown>}
  */
-const setupReadme = ({
+export default async ({
   templatesPath,
   readmeFilePath,
   fakeMode,
@@ -28,28 +27,28 @@ const setupReadme = ({
     )
 
     // create new readme and add content on it
-    debug("create new readme and add content on it")
+    log("create new readme and add content on it")
     if (!fakeMode) {
-      await Files.new(readmeFrameworkFileName).write(
-        Files.getFiles(readmeFilePath).read()
-      )
+      const content = await mfs.readFile(readmeFilePath)
+      await mfs.createFile(readmeFrameworkFileName, content)
+
       //if fake mode
     } else {
-      debug("FakeMode is activated, do nothing.")
+      log("FakeMode is activated, do nothing.")
     }
     logs.note(`${readmeFrameworkFileName} is created.`)
 
-    // if file exist
-    if (Files.getFiles(readmeFilePath).files.length > 0) {
+    const exist = await mfs.fileExists(readmeFilePath)
+    if (exist) {
       logs.start(`Create new README.md with inquired informations`)
 
       // if no fake mode
-      debug("file exist, remove it.")
+      log("file exist, remove it.")
       if (!fakeMode) {
-        Files.getFiles(readmeFilePath).remove()
+        mfs.removeFile(readmeFilePath)
         // else, if fake mode
       } else {
-        debug("FakeMode is activated, do nothing.")
+        log("FakeMode is activated, do nothing.")
       }
       // if file doesn't exist
     } else {
@@ -57,26 +56,30 @@ const setupReadme = ({
       logs.error(`${readmeFilePath} doesn't exist.`)
     }
 
-    debug("create new template README.md from template")
+    log("create new template README.md from template")
     if (!fakeMode) {
-      await Files.new(readmeFileName).write(
-        quickTemplate(
-          Files.getFiles(`${templatesPath}/${readmeTemplateFileName}`).read(),
-          // replace these variables
-          {
-            projectName,
-            projectDescription,
-            projectAuthor,
-          }
-        )
-      )
+      const replaceExpressions = { projectName, projectDescription, projectAuthor }
+      const newReadmePath = `${templatesPath}/${readmeTemplateFileName}`
+
+      // copy readme
+      await mfs.copyFile(newReadmePath, readmeFileName, {
+        force: true,
+        transform: (fileContent) =>
+          new Promise((resolve) => {
+            Object.keys(replaceExpressions).forEach((e) => {
+              fileContent = fileContent.replace(
+                new RegExp(`%%${e}%%`, "g"),
+                replaceExpressions[e]
+              )
+            })
+            resolve(fileContent)
+          }),
+      })
     } else {
-      debug("FakeMode is activated, do nothing.")
+      log("FakeMode is activated, do nothing.")
     }
 
     logs.note(`${readmeFileName} is created.`)
     resolve()
   })
 }
-
-module.exports = setupReadme

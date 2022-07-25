@@ -1,36 +1,57 @@
-const { Files } = require("@zouloux/files")
-const path = require("path")
-const debug = require("@wbe/debug")("config:build-dotenv")
-const logger = require("../../helpers/logger")
+import * as mfs from "../../helpers/mfs.js"
+import path from "path"
+import debug from "@wbe/debug"
+const log = debug("config:build-dotenv")
+import logger from "../../helpers/logger"
+import packageJson from "../../../package.json"
+
+const _getRaws = (files = []) => {
+  return new Promise((resolve) => {
+    let count = 0
+    const rawsList = []
+    files.forEach(async (file) => {
+      count++
+      const data = await mfs.readFile(file)
+      rawsList.push(data)
+      if (count === files.length) {
+        resolve(rawsList)
+      }
+    })
+  })
+}
 
 /**
  * Prepare env vars
- * @param envFiles
+ * @param envFilesRaw
  */
-const _prepareVars = (envFiles) =>
-  envFiles
-    .map((el) =>
-      // read current .env file
-      Files.getFiles(el)
-        .read()
-        // split each lines
-        .split("\n")
-        // for each line, filter comments and keep only var name
-        .map((el) => {
-          const isComment = el.includes("#")
-          const containsEqual = el.includes("=")
-          if (!isComment && containsEqual) {
-            const varName = el.split("=")[0]
-            return varName ? varName : null
-          }
-        })
-        // remove empty lines
-        .filter((e) => e)
-    )
-    // flat arrays results
-    .flat()
-    // remove double entries
-    .filter((elem, index, self) => index === self.indexOf(elem))
+const _prepareVars = (envFilesRaw) => {
+  return (
+    envFilesRaw
+      .map((file) => {
+        // read current .env file
+        return (
+          file
+            // split each lines
+            .split("\n")
+            // for each line, filter comments and keep only var name
+            .map((el) => {
+              const isComment = el.includes("#")
+              const containsEqual = el.includes("=")
+              if (!isComment && containsEqual) {
+                const varName = el.split("=")[0]
+                return varName ? varName : null
+              }
+            })
+            // remove empty lines
+            .filter((e) => e)
+        )
+      })
+      // flat arrays results
+      .flat()
+      // remove double entries
+      .filter((elem, index, self) => index === self.indexOf(elem))
+  )
+}
 
 /**
  * Prepare template
@@ -40,6 +61,7 @@ const _prepareVars = (envFiles) =>
  * @return {string} Template
  * @private
  */
+
 const _prepareTemplate = (vars, envVars, additionalVarKeys) => {
   let template
 
@@ -52,7 +74,7 @@ const _prepareTemplate = (vars, envVars, additionalVarKeys) => {
   );
 
   // push current version in it
-  template.push(`VERSION=${require(path.resolve("package.json")).version}`)
+  template.push(`VERSION=${packageJson.version}`)
 
   // Add additional var keys in template
   additionalVarKeys?.length > 0 &&
@@ -62,7 +84,7 @@ const _prepareTemplate = (vars, envVars, additionalVarKeys) => {
 
   // filter to remove empty lines
   template = template.filter((e) => e).join("\n")
-  debug("template to write in file", template)
+  log("template to write in file", template)
 
   return template
 }
@@ -74,25 +96,32 @@ const _prepareTemplate = (vars, envVars, additionalVarKeys) => {
  * @param dotenvOutDir Build .env paths array
  * @param additionalVarKeys Add some keys to generated .env files
  */
-module.exports = ({ envVars = {}, dotenvOutDir, additionalVarKeys = [] }) => {
+export default async ({ envVars = {}, dotenvOutDir, additionalVarKeys = [] }) => {
   if (dotenvOutDir?.length === 0) return
 
-  logger.start("Build .env file(s)")
-
   // read all .env files and get all var keys
-  const envFiles = Files.getFiles(path.resolve(".env*")).files
-  debug("available env files", envFiles)
+
+  const readRootFiles = await mfs.readDir(path.resolve("./"), false)
+  const envFiles = readRootFiles.filter((e) => e.includes(".env"))
+  log("available env files", envFiles)
+
+  // get raws version of file
+  const raws = await _getRaws(envFiles)
+  log("raws", raws)
 
   // match var keys from envFiles
-  const vars = _prepareVars(envFiles)
-  debug("available vars after merge vars from all .env files", vars)
+  const vars = _prepareVars(raws)
+  log("available vars after merge vars from all .env files", vars)
 
   // create template with varNames and envVars values
   const template = _prepareTemplate(vars, envVars, additionalVarKeys)
 
+  logger.start("Build .env file(s)")
   // Create .env files
-  dotenvOutDir.forEach((path) => {
+  dotenvOutDir.forEach(async (path) => {
     logger.note(`path: ${path}`)
-    Files.new(`${path}/.env`).write(template)
+    await mfs.createFile(`${path}/.env`, template)
   })
+
+  return true
 }

@@ -44,7 +44,7 @@ export default function devServerlogPlugin({
         `  > Network:    ${chalk.cyan(`${protocol}://${host}:${port}${base}`)}`
       ].join('\n');
       // executed after vite log
-      setTimeout(() => console.log(template), 10)
+      setTimeout(() => console.log(template), 20)
     },
   }
 }

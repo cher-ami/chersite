@@ -1,20 +1,21 @@
-const { Files } = require("@zouloux/files")
-const debug = require("@wbe/debug")("config:build-htaccess")
-const logger = require("../../helpers/logger")
-
+import debug from "@wbe/debug"
+import * as mfs from "../../helpers/mfs.js"
+const log = debug("config:build-htaccess")
+import logger from "../../helpers/logger"
+import { LOADIPHLPAPI } from "dns"
 /**
  * Create htaccess file
  * @param pOutputPath
  * @param htaccessTemplatePath
  * @private
  */
-const _createHtaccessFile = ({ outputPath, htaccessTemplatePath }) => {
+const _createHtaccessFile = async ({ outputPath, htaccessTemplatePath }) => {
   const newHtaccessFilePath = `${outputPath}/.htaccess`
 
-  debug({ htaccessTemplatePath, newHtaccessFilePath })
+  log({ htaccessTemplatePath, newHtaccessFilePath })
 
-  const templateExist = Files.getFiles(htaccessTemplatePath).files.length === 1
-  debug("templateExist", templateExist)
+  const templateExist = await mfs.fileExists(htaccessTemplatePath)
+  log("templateExist", templateExist)
 
   if (!templateExist) {
     console.log(
@@ -24,35 +25,37 @@ const _createHtaccessFile = ({ outputPath, htaccessTemplatePath }) => {
     return
   }
 
+  const readTemplate = await mfs.readFile(htaccessTemplatePath)
+
   // create and dispatch file from template
-  Files.new(newHtaccessFilePath).write(Files.getFiles(htaccessTemplatePath).read())
+  mfs.createFile(newHtaccessFilePath, readTemplate)
   return newHtaccessFilePath
 }
 
 /**
  * Create htpasswdFile
  */
-const _createHtpasswdFile = ({ outputPath, user, password }) => {
-  debug("create htpasswd file", {
+const _createHtpasswdFile = async ({ outputPath, user, password }) => {
+  log("create htpasswd file", {
     outputPath,
     user,
     password,
   })
 
   if (!outputPath || !user || !password) {
-    debug("Missing param, aborting.")
+    log("Missing param, aborting.")
     return
   }
   // create htpasswd file and add password in it
   const htpasswdFilePath = `${outputPath}/.htpasswd`
-  debug("htpasswdFilePath", htpasswdFilePath)
+  log("htpasswdFilePath", htpasswdFilePath)
 
   // define content
   const htpasswdContent = `${user}:${password}`
-  debug("htpasswdContent", htpasswdContent)
+  log("htpasswdContent", htpasswdContent)
 
   // write content user:pass in htpasswd file
-  Files.new(htpasswdFilePath).write(htpasswdContent)
+  await mfs.createFile(htpasswdFilePath, htpasswdContent)
 }
 
 /**
@@ -62,31 +65,32 @@ const _createHtpasswdFile = ({ outputPath, user, password }) => {
  * @return {null}
  * @private
  */
-const _htpasswdLinkInHtaccess = ({ newHtaccessFilePath, serverWebRootPath }) => {
+const _htpasswdLinkInHtaccess = async ({ newHtaccessFilePath, serverWebRootPath }) => {
   if (!serverWebRootPath) return null
 
   const template = [
     `# Add password
       AuthUserFile ${serverWebRootPath}.htpasswd
       AuthType Basic
-      AuthName "My restricted Area"
+      AuthName "Restricted Area"
       Require valid-user
       `,
   ]
     .join("\n")
     .replace(/  +/g, "")
 
-  Files.getFiles(newHtaccessFilePath).append(template)
+  const readHtaccessFile = await mfs.readFile(newHtaccessFilePath)
+  await mfs.createFile(newHtaccessFilePath, readHtaccessFile + "\n" + template)
 }
 
 /**
  * rewrite http To https
- * @param pNewHtaccessFilePath
+ * @param newHtaccessFilePath
  * @returns {string|null}
  */
-const _rewriteHttpToHttpsInHtaccess = (pNewHtaccessFilePath) => {
+const _rewriteHttpToHttpsInHtaccess = async (newHtaccessFilePath) => {
   debug("rewrite http to https in htaccess", {
-    pNewHtaccessFilePath,
+    newHtaccessFilePath,
   })
 
   const template = [
@@ -98,37 +102,37 @@ const _rewriteHttpToHttpsInHtaccess = (pNewHtaccessFilePath) => {
     .join("\n")
     .replace(/  +/g, "")
 
-  Files.getFiles(pNewHtaccessFilePath).append(template)
+  const readHtaccessFile = await mfs.readFile(newHtaccessFilePath)
+  await mfs.createFile(newHtaccessFilePath, readHtaccessFile + "\n" + template)
 }
 
 /**
  * Prebuild .htaccess file
  * Useful is this file
  */
-module.exports = ({
+export default async ({
   serverWebRootPath,
   user,
   password,
   outputPath,
   htaccessTemplatePath,
 }) => {
-  logger.start("Build .htaccess")
-
   // create htaccess file and get returned newHtaccessFilePath
-  const newHtaccessFilePath = _createHtaccessFile({
+  const newHtaccessFilePath = await _createHtaccessFile({
     outputPath,
     htaccessTemplatePath,
   })
 
   if (!newHtaccessFilePath) return
+  logger.start("Build .htaccess")
   logger.note(`path: ${newHtaccessFilePath}`)
 
   if (process.env.HTACCESS_ENABLE_AUTH === "true") {
-    _createHtpasswdFile({ outputPath, user, password })
-    _htpasswdLinkInHtaccess({ newHtaccessFilePath, serverWebRootPath })
+    await _createHtpasswdFile({ outputPath, user, password })
+    await _htpasswdLinkInHtaccess({ newHtaccessFilePath, serverWebRootPath })
   }
 
   if (process.env.HTACCESS_ENABLE_HTTPS_REDIRECTION === "true") {
-    _rewriteHttpToHttpsInHtaccess(newHtaccessFilePath)
+    await _rewriteHttpToHttpsInHtaccess(newHtaccessFilePath)
   }
 }

@@ -1,12 +1,14 @@
-const logs = require("../../../helpers/logger")
-const debug = require("@wbe/debug")("config:clean-framework-files")
-const Inquirer = require("inquirer")
-const { execSync } = require("child_process")
+import logs from "../../../helpers/logger.js"
+import debug from "@wbe/debug"
+import Inquirer from "inquirer"
+import { execSync } from "child_process"
+
+const log = debug("config:clean-framework-files")
 
 /**
  * Reset git
  */
-const resetGit = ({ gitDir, fakeMode } = {}) =>
+export default async ({ gitDir, fakeMode } = {}) =>
   new Promise(async (resolve) => {
     const removeGitAnswer = await Inquirer.prompt({
       type: "confirm",
@@ -14,7 +16,7 @@ const resetGit = ({ gitDir, fakeMode } = {}) =>
       message: "Do you want to reset the current .git and re-init it?",
     })
 
-    debug("removeGitAnswer", removeGitAnswer["removeGit"])
+    log("removeGitAnswer", removeGitAnswer["removeGit"])
 
     if (!fakeMode && removeGitAnswer["removeGit"]) {
       logs.start("Remove .git folder")
@@ -27,10 +29,8 @@ const resetGit = ({ gitDir, fakeMode } = {}) =>
 
       await execSync(`git init`, { stdio: "inherit" })
     } else {
-      debug("FakeMode is activated or removeGitAnswer is false, do nothing.")
+      log("FakeMode is activated or removeGitAnswer is false, do nothing.")
     }
 
     resolve()
   })
-
-module.exports = resetGit

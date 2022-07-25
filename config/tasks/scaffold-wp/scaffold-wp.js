@@ -1,11 +1,10 @@
-const Inquirer = require("inquirer")
-const logs = require("../../helpers/logger")
-const { Files } = require("@zouloux/files")
-const config = require("../../config")
-const debug = require("@wbe/debug")("config:scaffold")
-
-// remove Files lib logs
-Files.setVerbose(false)
+import Inquirer from "inquirer"
+import logs from "../../helpers/logger.js"
+import config from "../../config.js"
+import buildPostType from "./builders/post-type.js"
+import buildPage from "./builders/page.js"
+import buildOptionPage from "./builders/option-page.js"
+import buildBlock from "./builders/block.js"
 
 /**
  * Ask bundle Type to
@@ -13,19 +12,19 @@ Files.setVerbose(false)
 const _scaffolders = [
   {
     name: "Post Type",
-    exec: () => require("./builders/post-type")(),
+    exec: buildPostType,
   },
   {
     name: "Page",
-    exec: () => require("./builders/page")(),
+    exec: buildPage,
   },
   {
     name: "Option Page",
-    exec: () => require("./builders/option-page")(),
+    exec: buildOptionPage,
   },
   {
     name: "Block",
-    exec: () => require("./builders/block")(),
+    exec: buildBlock,
   },
 ]
 
@@ -51,12 +50,12 @@ const wpScaffold = () => {
       message: "What kind of component to create?",
       choices: scaffolderTypes,
       pageSize: 20,
-    }).then((answer) => {
+    }).then(async (answer) => {
       // Get scaffolder index
       const scaffolderIndex = scaffolderTypes.indexOf(answer.type)
 
       // Start this scaffolder
-      _scaffolders[scaffolderIndex].exec()
+      await _scaffolders[scaffolderIndex].exec()
       resolve()
     })
   })

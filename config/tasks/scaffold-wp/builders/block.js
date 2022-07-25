@@ -1,9 +1,9 @@
-const Inquirer = require("inquirer")
-const changeCase = require("change-case")
-const createFile = require("../../../helpers/create-file")
-const logs = require("../../../helpers/logger")
-const config = require("../../../config")
-const { Files } = require("@zouloux/files")
+import logs from "../../../helpers/logger.js"
+import config from "../../../config.js"
+import Inquirer from "inquirer"
+import changeCase from "change-case"
+import * as mfs from "../../../helpers/mfs.js"
+import createFile from "../../../helpers/create-file.js"
 
 const _askBlockName = () => {
   return Inquirer.prompt([
@@ -27,14 +27,14 @@ const _askBlockName = () => {
  * @param blockTitle,
  * @private
  */
-const _blockBuilder = ({ blockPath, blockName, blockTitle }) => {
+const _blockBuilder = async ({ blockPath, blockName, blockTitle }) => {
   // choose between page and postType type
   const camelCaseBlockName = changeCase.camelCase(blockName),
     upperCaseBlockName = changeCase.constantCase(blockName),
     pascalCaseBlockName = changeCase.pascalCase(blockName)
 
   // scaffold postType file
-  createFile({
+  await createFile({
     templateFilePath: `${config.wpTemplatesPath}/block/setup.php.template`,
     destinationFilePath: `${blockPath}/setup.php`,
     replaceExpressions: {
@@ -46,14 +46,14 @@ const _blockBuilder = ({ blockPath, blockName, blockTitle }) => {
   })
 
   // scaffold controller
-  createFile({
+  await createFile({
     templateFilePath: `${config.wpTemplatesPath}/block/blockController.php.template`,
     destinationFilePath: `${blockPath}/${pascalCaseBlockName}Controller.php`,
     replaceExpressions: { pascalCaseBlockName, camelCaseBlockName, upperCaseBlockName },
   })
 }
 
-const buildBlock = () => {
+const buildBlock = async () => {
   return new Promise(async (resolve) => {
     let wpFolder = `${config.wpTheme}/block`
 
@@ -75,7 +75,7 @@ const buildBlock = () => {
      * Build block
      */
     try {
-      _blockBuilder({
+      await _blockBuilder({
         blockPath,
         blockName,
         blockTitle,
@@ -127,13 +127,16 @@ ${blockTypeList
 }`.replace(pFileTabRegex, "\n")
 }
 
-const buildBlockType = () => {
+const buildBlockType = async () => {
   return new Promise(async (resolve) => {
     const generatedFilePath = `${config.wpTheme}/block/BlockType.php`
-    const blockFolder = Files.getFolders(`${config.wpTheme}/block/*`).files
+
+    const blockFolderContent = await mfs.readDir(`${config.wpTheme}/block/`, false)
+    const blockFolder = blockFolderContent.filter(async (e) => await mfs.dirExists(e))
+    console.log("blockFolder", blockFolder)
+
     const formatedBlocks = blockFolder.map((block) => {
       const blockName = block.substring(block.lastIndexOf("/") + 1)
-
       return {
         name: changeCase.paramCase(blockName),
         upperCaseBlockName: changeCase.constantCase(blockName),
@@ -142,11 +145,11 @@ const buildBlockType = () => {
     })
 
     const blockTypeFile = _blockTypeTemplate(formatedBlocks)
-    Files.new(generatedFilePath).write(blockTypeFile)
+    await mfs.createFile(generatedFilePath, blockTypeFile)
 
     logs.done("Block Types file updated.")
     resolve()
   })
 }
 
-module.exports = buildBlock
+export default buildBlock

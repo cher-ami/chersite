@@ -1,15 +1,12 @@
-const { execSync } = require("child_process")
-const logs = require("../../../helpers/logger")
+import { execSync } from "child_process"
+import logs from "../../../helpers/logger.js"
 
 /**
  * Install dependencies
  * - php dependencies
  */
-const installDependencies = async () => {
+export default async () => {
   logs.start("Install PHP dependencies")
-
   logs.note(`Execute ./composer-install.sh`)
   await execSync(`./composer-install.sh`, { stdio: "inherit" })
 }
-
-module.exports = installDependencies

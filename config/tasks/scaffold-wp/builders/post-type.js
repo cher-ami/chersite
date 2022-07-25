@@ -1,9 +1,8 @@
-const Inquirer = require("inquirer")
-const changeCase = require("change-case")
-const createFile = require("../../../helpers/create-file")
-const logs = require("../../../helpers/logger")
-const config = require("../../../config")
-const debug = require("@wbe/debug")
+import logs from "../../../helpers/logger.js"
+import config from "../../../config.js"
+import Inquirer from "inquirer"
+import changeCase from "change-case"
+import createFile from "../../../helpers/create-file.js"
 
 const _askPostTypeName = () => {
   return Inquirer.prompt([
@@ -34,7 +33,7 @@ const _askPostTypeName = () => {
  * @param upperSingularPostTypeName,
  * @private
  */
-const _postTypeBuilder = ({
+const _postTypeBuilder = async ({
   postTypePath,
   postTypeName,
   upperPluralPostTypeName,
@@ -46,7 +45,7 @@ const _postTypeBuilder = ({
     upperCasePostTypeName = changeCase.constantCase(postTypeName)
 
   // scaffold postType file
-  createFile({
+  await createFile({
     templateFilePath: `${config.wpTemplatesPath}/post-type/PostType.php.template`,
     destinationFilePath: `${postTypePath}/${pascalCasePostType}.php`,
     replaceExpressions: {
@@ -58,7 +57,7 @@ const _postTypeBuilder = ({
     },
   })
   // scaffold controller
-  createFile({
+  await createFile({
     templateFilePath: `${config.wpTemplatesPath}/post-type/PostTypeRestController.php.template`,
     destinationFilePath: `${postTypePath}/${pascalCasePostType}RestController.php`,
     replaceExpressions: {
@@ -70,7 +69,7 @@ const _postTypeBuilder = ({
   })
 
   // scaffold setup
-  createFile({
+  await createFile({
     templateFilePath: `${config.wpTemplatesPath}/post-type/setup.php.template`,
     destinationFilePath: `${postTypePath}/setup.php`,
     replaceExpressions: {
@@ -82,7 +81,7 @@ const _postTypeBuilder = ({
   })
 }
 
-const buildPostType = () => {
+const buildPostType = async () => {
   return new Promise(async (resolve) => {
     /**
      * Ask questions
@@ -109,7 +108,7 @@ const buildPostType = () => {
      * Build postType
      */
     try {
-      _postTypeBuilder({
+      await _postTypeBuilder({
         postTypePath,
         postTypeName,
         upperSingularPostTypeName,
@@ -125,4 +124,4 @@ const buildPostType = () => {
   })
 }
 
-module.exports = buildPostType
+export default buildPostType

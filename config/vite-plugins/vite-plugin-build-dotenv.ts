@@ -6,14 +6,14 @@ export default function buildDotenvPlugin({
   dotenvOutDir,
   additionalVarKeys,
 }: {
-  envVars: { [x: string]: string }
+  envVars: { [x: string]: any }
   dotenvOutDir: string[]
   additionalVarKeys: string[]
 }): PluginOption {
   return {
     name: "vite-plugin-dotenv",
-    buildStart: () => {
-      buildDotenv({ envVars, dotenvOutDir, additionalVarKeys })
+    buildStart: async () => {
+      await buildDotenv({ envVars, dotenvOutDir, additionalVarKeys })
     },
   }
 }

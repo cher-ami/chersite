@@ -1,13 +1,18 @@
-const installDependencies = require("./modules/install-dependencies")
-const setupReadme = require("./modules/setup-readme")
-const setupPackageJson = require("./modules/setup-package-json")
-const resetGit = require("./modules/reset-git")
-const checkInstallFile = require("./modules/check-install-file")
-const createInstallFile = require("./modules/create-install-file")
-const logs = require("../../helpers/logger")
-const config = require("../../config")
-const path = require("path")
-const debug = require("@wbe/debug")("config:setup")
+import checkInstallFile from "./modules/check-install-file.js"
+import installDependencies from "./modules/install-dependencies.js"
+import setupReadme from "./modules/setup-readme.js"
+import setupPackageJson from "./modules/setup-package-json.js"
+import resetGit from "./modules/reset-git.js"
+import createInstallFile from "./modules/create-install-file.js"
+import logs from "../../helpers/logger.js"
+import config from "../../config.js"
+import path from "path"
+
+// TODO  assert { type: "json" } will change in the future
+import packageJson from "../../../package.json" assert { type: "json" }
+
+import debug from "debug"
+const log = debug(`config:setup`)
 
 /**
  * Setup
@@ -15,17 +20,15 @@ const debug = require("@wbe/debug")("config:setup")
 const setup = () =>
   new Promise(async (resolve) => {
     // check if cache file exist, if exist, do not continue
-    const installFileExist = checkInstallFile(config.installFile)
-    debug("installFileExist", installFileExist)
-    if (installFileExist) return
+    if (await checkInstallFile(config.installFile)) return
 
     // install deps
     await installDependencies()
 
     // manage package json and get values
     const { projectName, projectDescription, projectAuthor } = await setupPackageJson({
-      packageJson: require(path.resolve("package.json")),
-      defaultProjectName: "cher-vite",
+      packageJson,
+      defaultProjectName: "chersite",
       fakeMode: config.setupFakeMode,
     })
 

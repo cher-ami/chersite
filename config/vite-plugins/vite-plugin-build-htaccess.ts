@@ -9,30 +9,27 @@ export default function buildHtaccessPlugin({
   outputPath,
   enable,
 }: {
-  user: string
-  password: string
-  serverWebRootPath: string
+  user: string | undefined
+  password: string | undefined
+  serverWebRootPath: string | undefined
   htaccessTemplatePath: string
   outputPath: string
   enable: boolean
 }): PluginOption {
-
-
-  const build = () =>
-  {
+  const build = () => {
     if (!enable) return
-  buildHtaccess({
-    user,
-    serverWebRootPath,
-    password,
-    htaccessTemplatePath,
-    outputPath,
-  })
+    buildHtaccess({
+      user,
+      serverWebRootPath,
+      password,
+      htaccessTemplatePath,
+      outputPath,
+    })
   }
 
   return {
     name: "vite-plugin-build-htaccess",
     buildStart: build,
-    renderStart: build
+    renderStart: build,
   }
 }
