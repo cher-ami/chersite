@@ -28,12 +28,11 @@
   },
   "devDependencies": {
     "@types/events": "^3.0.0",
-    "@types/node": "^18.0.6",
+    "@types/node": "^18.6.1",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-legacy": "^2.0.0",
     "@vitejs/plugin-react": "^2.0.0",
-    "@zouloux/files": "3.0.1",
     "autoprefixer": "^10.4.7",
     "change-case": "^4.1.2",
     "env-cmd": "^10.1.0",
@@ -45,7 +44,7 @@
     "portfinder-sync": "^0.0.2",
     "prettier": "^2.7.1",
     "typescript": "^4.7.4",
-    "vite": "^3.0.2",
+    "vite": "^3.0.3",
     "vite-plugin-checker": "^0.4.9"
   },
   "lint-staged": {
