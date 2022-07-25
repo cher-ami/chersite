@@ -2,7 +2,7 @@ let templateRegex
 
 export default {
   setDelimiters(pLeft, pRight) {
-    templateRegex = new RegExp(pLeft + "(.*?)" + pRight, "g")
+    templateRegex = new RegExp("%%" + "(.*?)" + "%%", "g")
   },
 
   // Quick and dirty template method
@@ -10,8 +10,11 @@ export default {
     if (templateRegex == null) {
       module.exports.setDelimiters("%%", "%%")
     }
-    return pTemplate.replace(templateRegex, function (i, pMatch) {
-      return pValues && pValues[pMatch]
-    })
+    return pTemplate.replace(
+      new RegExp("%%" + "(.*?)" + "%%", "g"),
+      function (i, pMatch) {
+        return pValues && pValues[pMatch]
+      }
+    )
   },
 }

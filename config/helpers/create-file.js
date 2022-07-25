@@ -1,6 +1,5 @@
-import Files from "@zouloux/files"
-import { quickTemplate } from "./template-helper"
-import logs from "./logger"
+import * as mfs from "./mfs.js"
+import logs from "./logger.js"
 
 /**
  * Create File with template
@@ -8,20 +7,34 @@ import logs from "./logger"
  * @param destinationFilePath: Where we want to create file ex: "path/to/file/foo.tsx"
  * @param replaceExpressions Expressions list to replace
  */
-const createFile = ({
+const createFile = async ({
   templateFilePath = "",
   destinationFilePath = "",
   replaceExpressions = {},
 }) => {
   // Check if component already exists
-  if (Files.getFiles(destinationFilePath).files.length > 0) {
+
+  const exist = await mfs.fileExists(destinationFilePath)
+  if (exist) {
     logs.error(`This file already exists. Aborting.`)
     return
   }
 
-  Files.new(destinationFilePath).write(
-    quickTemplate(Files.getFiles(templateFilePath).read(), replaceExpressions)
-  )
+  await mfs.copyFile(templateFilePath, destinationFilePath, {
+    transform: (fileContent) =>
+      new Promise((resolve) => {
+        replaceExpressions &&
+          Object.keys(replaceExpressions).forEach((e) => {
+            if (replaceExpressions[e]) {
+              fileContent = fileContent.replace(
+                new RegExp(`%%${e}%%`, "g"),
+                replaceExpressions[e]
+              )
+            }
+          })
+        resolve(fileContent)
+      }),
+  })
 }
 
 export default createFile

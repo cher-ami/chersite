@@ -1,14 +1,12 @@
 import Inquirer from "inquirer"
 import changeCase from "change-case"
-import Files from "@zouloux/files"
+import createFile from "../../helpers/create-file.js"
+
 import debug from "@wbe/debug"
-import createFile from "../../helpers/create-file"
-
 const log = debug("config:scaffold")
-import logger from "../../helpers/logger"
-Files.setVerbose(false)
+import logs from "../../helpers/logger.js"
 
-import { componentCompatibleFolders, componentsTemplatesDir, srcDir } from "../../config"
+import config from "../../config.js"
 
 // ----------------------------------------------------------------------------- PRIVATE API
 
@@ -32,7 +30,7 @@ const _askComponentName = () => {
 /**
  * React Component Builder
  */
-const _reactComponentBuilder = ({
+const _reactComponentBuilder = async ({
   subFolder,
   componentPath,
   upperComponentName,
@@ -41,13 +39,13 @@ const _reactComponentBuilder = ({
   // choose between page and component type
   const componentType = subFolder === "pages" ? "page" : "component"
   // scaffold component file
-  createFile({
+  await createFile({
     templateFilePath: `${componentsTemplatesDir}/react/${componentType}.tsx.template`,
     destinationFilePath: `${componentPath}/${upperComponentName}.tsx`,
     replaceExpressions: { upperComponentName },
   })
   // scaffold less module
-  createFile({
+  await createFile({
     templateFilePath: `${componentsTemplatesDir}/react/component.less.template`,
     destinationFilePath: `${componentPath}/${upperComponentName}.module.less`,
     replaceExpressions: { upperComponentName },
@@ -57,19 +55,19 @@ const _reactComponentBuilder = ({
 /**
  * DOM Component builder
  */
-const _domComponentBuilder = ({
+const _domComponentBuilder = async ({
   componentPath,
   upperComponentName,
   componentsTemplatesDir,
 }) => {
   // scaffold component file
-  createFile({
+  await createFile({
     templateFilePath: `${componentsTemplatesDir}/dom/component.ts.template`,
     destinationFilePath: `${componentPath}/${upperComponentName}.ts`,
     replaceExpressions: { upperComponentName },
   })
   // scaffold less module
-  createFile({
+  await createFile({
     templateFilePath: `${componentsTemplatesDir}/dom/component.less.template`,
     destinationFilePath: `${componentPath}/${upperComponentName}.less`,
     replaceExpressions: { upperComponentName },
@@ -92,7 +90,7 @@ const _scaffoldComponent = ({
     await _askWhichComponentFolder(componentCompatibleFolders).then(
       (answer) => (subFolder = answer.subFolder)
     )
-    debug("subFolder", subFolder)
+    log("subFolder", subFolder)
 
     // Get component name
     let componentName = ""
@@ -106,11 +104,11 @@ const _scaffoldComponent = ({
     let upperComponentName = changeCase.pascalCase(componentName)
     // Base path of the component (no extension at the end here)
     let componentPath = `${srcDir}/${subFolder}/${lowerComponentName}`
-    debug("component will be created here: componentPath", componentPath)
+    log("component will be created here: componentPath", componentPath)
 
     // build REACT component
     if (pComponentType === "react") {
-      _reactComponentBuilder({
+      await _reactComponentBuilder({
         subFolder,
         upperComponentName,
         componentPath,
@@ -121,7 +119,7 @@ const _scaffoldComponent = ({
 
     // build DOM component
     if (pComponentType === "dom") {
-      _domComponentBuilder({
+      await _domComponentBuilder({
         upperComponentName,
         componentPath,
         componentCompatibleFolders,
@@ -144,9 +142,9 @@ const scaffoldComponent = () => {
       exec: () =>
         _scaffoldComponent({
           pComponentType: "react",
-          componentCompatibleFolders,
-          componentsTemplatesDir,
-          srcDir,
+          componentCompatibleFolders: config.componentCompatibleFolders,
+          componentsTemplatesDir: config.componentsTemplatesDir,
+          srcDir: config.srcDir,
         }),
     },
     {
@@ -154,9 +152,9 @@ const scaffoldComponent = () => {
       exec: () =>
         _scaffoldComponent({
           pComponentType: "dom",
-          componentCompatibleFolders,
-          componentsTemplatesDir,
-          srcDir,
+          componentCompatibleFolders: config.componentCompatibleFolders,
+          componentsTemplatesDir: config.componentsTemplatesDir,
+          srcDir: config.srcDir,
         }),
     },
   ]
@@ -177,4 +175,5 @@ const scaffoldComponent = () => {
     TYPES[scaffolderIndex].exec()
   })
 }
+
 scaffoldComponent()
