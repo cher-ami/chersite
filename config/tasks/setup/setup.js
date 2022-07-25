@@ -31,21 +31,21 @@ const setup = () =>
       fakeMode: config.setupFakeMode,
     })
 
-    // setup readme
-    await setupReadme({
-      templatesPath: `${config.taskSetupFolder}/templates`,
-      readmeFilePath: path.resolve("README.md"),
-      fakeMode: config.setupFakeMode,
-      projectName,
-      projectDescription,
-      projectAuthor,
-    })
+    // // setup readme
+    // await setupReadme({
+    //   templatesPath: `${config.taskSetupFolder}/templates`,
+    //   readmeFilePath: path.resolve("README.md"),
+    //   fakeMode: config.setupFakeMode,
+    //   projectName,
+    //   projectDescription,
+    //   projectAuthor,
+    // })
 
-    // create install file
-    await createInstallFile({
-      installFilePath: config.installFile,
-      fakeMode: config.setupFakeMode,
-    })
+    // // create install file
+    // await createInstallFile({
+    //   installFilePath: config.installFile,
+    //   fakeMode: config.setupFakeMode,
+    // })
 
     // remove unused files and directories
     // FIXME
