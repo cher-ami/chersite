@@ -1,8 +1,8 @@
-import logs from "../../../helpers/logger"
-import config from "../../../config"
+import logs from "../../../helpers/logger.js"
+import config from "../../../config.js"
 import Inquirer from "inquirer"
 import changeCase from "change-case"
-import createFile from "../../../helpers/create-file"
+import createFile from "../../../helpers/create-file.js"
 
 const _askPageName = () => {
   return Inquirer.prompt([
@@ -21,20 +21,20 @@ const _askPageName = () => {
 
  * @private
  */
-const _pageBuilder = ({ pagePath, pageName }) => {
+const _pageBuilder = async ({ pagePath, pageName }) => {
   // choose between page and page type
   const camelCasePageName = changeCase.camelCase(pageName),
     pascalCasePageName = changeCase.pascalCase(pageName)
 
   // scaffold controller
-  createFile({
+  await createFile({
     templateFilePath: `${config.wpTemplatesPath}/page/PageRestController.php.template`,
     destinationFilePath: `${pagePath}/${pascalCasePageName}RestController.php`,
     replaceExpressions: { pageName, pascalCasePageName },
   })
 
   // scaffold setup
-  createFile({
+  await createFile({
     templateFilePath: `${config.wpTemplatesPath}/page/setup.php.template`,
     destinationFilePath: `${pagePath}/setup.php`,
     replaceExpressions: { camelCasePageName, pascalCasePageName },
@@ -61,7 +61,7 @@ const buildPage = () => {
      * Build page
      */
     try {
-      _pageBuilder({
+      await _pageBuilder({
         pagePath,
         pageName,
       })

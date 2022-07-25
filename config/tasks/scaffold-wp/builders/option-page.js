@@ -1,8 +1,8 @@
-import logs from "../../../helpers/logger"
-import config from "../../../config"
+import logs from "../../../helpers/logger.js"
+import config from "../../../config.js"
+import createFile from "../../../helpers/create-file.js"
 import Inquirer from "inquirer"
 import changeCase from "change-case"
-import createFile from "../../../helpers/create-file"
 
 const _askOptionName = () => {
   return Inquirer.prompt([
@@ -25,26 +25,26 @@ const _askOptionName = () => {
  * @param pageName,
  * @private
  */
-const _optionPageBuilder = ({ pagePath, pageName, pageTitle }) => {
+const _optionPageBuilder = async ({ pagePath, pageName, pageTitle }) => {
   // choose between page and page type
   const pascalCasePageName = changeCase.pascalCase(pageName)
 
   // scaffold controller
-  createFile({
+  await createFile({
     templateFilePath: `${config.wpTemplatesPath}/option-page/PageOption.php.template`,
     destinationFilePath: `${pagePath}/${pascalCasePageName}Option.php`,
     replaceExpressions: { pageName, pageTitle },
   })
 
   // scaffold controller
-  createFile({
+  await createFile({
     templateFilePath: `${config.wpTemplatesPath}/option-page/PageRestController.php.template`,
     destinationFilePath: `${pagePath}/${pascalCasePageName}RestController.php`,
     replaceExpressions: { pageName, pascalCasePageName },
   })
 
   // scaffold setup
-  createFile({
+  await createFile({
     templateFilePath: `${config.wpTemplatesPath}/option-page/setup.php.template`,
     destinationFilePath: `${pagePath}/setup.php`,
     replaceExpressions: { pascalCasePageName },
@@ -73,7 +73,7 @@ const buildOptionPage = () => {
      * Build page
      */
     try {
-      _optionPageBuilder({
+      await _optionPageBuilder({
         pagePath,
         pageName,
         pageTitle,

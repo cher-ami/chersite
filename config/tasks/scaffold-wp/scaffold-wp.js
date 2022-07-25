@@ -1,14 +1,10 @@
 import Inquirer from "inquirer"
 import logs from "../../helpers/logger.js"
-import Files from "@zouloux/files"
 import config from "../../config.js"
-import buildPostType from "./builders/post-type"
-import buildPage from "./builders/page"
-import buildOptionPage from "./builders/option-page"
-import buildBlock from "./builders/option-page"
-
-// remove Files lib logs
-Files.setVerbose(false)
+import buildPostType from "./builders/post-type.js"
+import buildPage from "./builders/page.js"
+import buildOptionPage from "./builders/option-page.js"
+import buildBlock from "./builders/block.js"
 
 /**
  * Ask bundle Type to
@@ -16,19 +12,19 @@ Files.setVerbose(false)
 const _scaffolders = [
   {
     name: "Post Type",
-    exec: () => buildPostType(),
+    exec: buildPostType,
   },
   {
     name: "Page",
-    exec: () => buildPage(),
+    exec: buildPage,
   },
   {
     name: "Option Page",
-    exec: () => buildOptionPage(),
+    exec: buildOptionPage,
   },
   {
     name: "Block",
-    exec: () => buildBlock(),
+    exec: buildBlock,
   },
 ]
 
@@ -54,12 +50,12 @@ const wpScaffold = () => {
       message: "What kind of component to create?",
       choices: scaffolderTypes,
       pageSize: 20,
-    }).then((answer) => {
+    }).then(async (answer) => {
       // Get scaffolder index
       const scaffolderIndex = scaffolderTypes.indexOf(answer.type)
 
       // Start this scaffolder
-      _scaffolders[scaffolderIndex].exec()
+      await _scaffolders[scaffolderIndex].exec()
       resolve()
     })
   })
