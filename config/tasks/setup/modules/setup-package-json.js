@@ -67,26 +67,21 @@ export default async ({ packageJson, defaultProjectName, fakeMode } = {}) => {
     log("> new project version:", projectVersion)
 
     // Set new values
-    log(" packageJson -------------------", packageJson)
+    log("packageJson before edit -------------------", packageJson)
     packageJson.version = projectVersion
     packageJson.name = projectName
     packageJson.description = projectDescription
     packageJson.name = projectName
     packageJson.author = projectAuthor
-    log("packageJson", packageJson)
+    log("packageJson after edit -------------------", packageJson)
 
     // Set name and version into package.json
     if (!fakeMode) {
       log("Modify package.json")
-      mfs.createFile(path.resolve("../../../package.json"), packageJson)
-
-      // Files.getFiles("package.json").alterJSON((packageObject) => {
-      //   packageObject.version = projectVersion
-      //   packageObject.name = projectName
-      //   packageObject.author = projectAuthor
-      //   packageObject.description = projectDescription
-      //   return packageObject
-      // })
+      await mfs.createFile(
+        path.resolve("./package.json"),
+        JSON.stringify(packageJson, null, 2)
+      )
     } else {
       log("FakeMode is activated, do nothing.")
     }
