@@ -12,8 +12,8 @@ export default function buildDotenvPlugin({
 }): PluginOption {
   return {
     name: "vite-plugin-dotenv",
-    buildStart: () => {
-      buildDotenv({ envVars, dotenvOutDir, additionalVarKeys })
+    buildStart: async () => {
+      await buildDotenv({ envVars, dotenvOutDir, additionalVarKeys })
     },
   }
 }

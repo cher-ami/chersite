@@ -128,15 +128,14 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         ],
       }),
 
-      // FIXME replace by Files by fs
-      // buildHtaccessPlugin({
-      //   serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
-      //   user: process.env.HTACCESS_AUTH_USER,
-      //   password: process.env.HTACCESS_AUTH_PASSWORD,
-      //   htaccessTemplatePath: config.htaccessTemplateFilePath,
-      //   outputPath: config.wwwDir,
-      //   enable: process.env.BUILD_HTACCESS === "true",
-      // }),
+      buildHtaccessPlugin({
+        serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
+        user: process.env.HTACCESS_AUTH_USER,
+        password: process.env.HTACCESS_AUTH_PASSWORD,
+        htaccessTemplatePath: config.htaccessTemplateFilePath,
+        outputPath: config.wwwDir,
+        enable: process.env.BUILD_HTACCESS === "true",
+      }),
 
       devServerlogPlugin({
         protocol,
