@@ -58,36 +58,23 @@ export default async ({
 
     log("create new template README.md from template")
     if (!fakeMode) {
-      await mfs.copyFile(`${templatesPath}/${readmeTemplateFileName}`, readmeFileName, {
+      const replaceExpressions = { projectName, projectDescription, projectAuthor }
+      const newReadmePath = `${templatesPath}/${readmeTemplateFileName}`
+
+      // copy readme
+      await mfs.copyFile(newReadmePath, readmeFileName, {
+        force: true,
         transform: (fileContent) =>
           new Promise((resolve) => {
-            Object.keys({
-              projectName,
-              projectDescription,
-              projectAuthor,
-            }).forEach((e) => {
-              if (replaceExpressions[e]) {
-                fileContent = fileContent.replace(
-                  new RegExp(`%%${e}%%`, "g"),
-                  replaceExpressions[e]
-                )
-              }
+            Object.keys(replaceExpressions).forEach((e) => {
+              fileContent = fileContent.replace(
+                new RegExp(`%%${e}%%`, "g"),
+                replaceExpressions[e]
+              )
             })
             resolve(fileContent)
           }),
       })
-
-      // await Files.new(readmeFileName).write(
-      //   quickTemplate(
-      //     Files.getFiles(`${templatesPath}/${readmeTemplateFileName}`).read(),
-      //     // replace these variables
-      // {
-      //   projectName,
-      //   projectDescription,
-      //   projectAuthor,
-      // }
-      //   )
-      // )
     } else {
       log("FakeMode is activated, do nothing.")
     }
