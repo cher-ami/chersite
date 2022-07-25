@@ -7,12 +7,12 @@ import logs from "../../../helpers/logger.js"
  */
 export default async (installFile) => {
   // check if config file exist
-  const exist = await mfs.fileExists(installFile)
-  if (exist) {
+
+  if (await mfs.fileExists(installFile)) {
     logs.error("\nconfig/install file already exist, Aborting.\n")
     console.log(`If you want to setup this project again like the first time you installed it, you need to: \n
   - remove ${installFile} file
-  - npm run setupa
+  - npm run setup
   `)
     return true
   } else {

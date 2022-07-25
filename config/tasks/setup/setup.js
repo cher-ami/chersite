@@ -21,8 +21,7 @@ const setup = () =>
     if (await checkInstallFile(config.installFile)) return
 
     // install deps
-    // FIXME
-    // await installDependencies()
+    await installDependencies()
 
     // manage package json and get values
     const { projectName, projectDescription, projectAuthor } = await setupPackageJson({
@@ -41,18 +40,17 @@ const setup = () =>
       projectAuthor,
     })
 
-    // // create install file
-    // await createInstallFile({
-    //   installFilePath: config.installFile,
-    //   fakeMode: config.setupFakeMode,
-    // })
+    // create install file
+    await createInstallFile({
+      installFilePath: config.installFile,
+      fakeMode: config.setupFakeMode,
+    })
 
     // remove unused files and directories
-    // FIXME
-    // await resetGit({
-    //   gitDir: path.resolve(".git"),
-    //   fakeMode: config.setupFakeMode,
-    // })
+    await resetGit({
+      gitDir: path.resolve(".git"),
+      fakeMode: config.setupFakeMode,
+    })
 
     logs.done(`${projectName} is ready!`)
     logs.note(`start dev-server: npm run dev`)
