@@ -29,9 +29,9 @@ export default async ({
     // create new readme and add content on it
     log("create new readme and add content on it")
     if (!fakeMode) {
-      await Files.new(readmeFrameworkFileName).write(
-        Files.getFiles(readmeFilePath).read()
-      )
+      const content = await mfs.readFile(readmeFilePath)
+      await mfs.createFile(readmeFrameworkFileName, content)
+
       //if fake mode
     } else {
       log("FakeMode is activated, do nothing.")
