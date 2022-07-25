@@ -21,7 +21,8 @@ const setup = () =>
     if (await checkInstallFile(config.installFile)) return
 
     // install deps
-    await installDependencies()
+    // FIXME
+    // await installDependencies()
 
     // manage package json and get values
     const { projectName, projectDescription, projectAuthor } = await setupPackageJson({
