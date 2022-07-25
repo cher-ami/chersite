@@ -3,13 +3,14 @@ import * as mfs from "../../../helpers/mfs.js"
 import Inquirer from "inquirer"
 import changeCase from "change-case"
 import logs from "../../../helpers/logger.js"
+import path from "path"
 import debug from "@wbe/debug"
 const log = debug("config:manage-package-json")
 
 /**
  * Setup package.json
  */
-const setupPackageJson = ({ packageJson, defaultProjectName, fakeMode } = {}) => {
+export default async ({ packageJson, defaultProjectName, fakeMode } = {}) => {
   return new Promise(async (resolve) => {
     logs.start("Setup package.json")
 
@@ -65,12 +66,19 @@ const setupPackageJson = ({ packageJson, defaultProjectName, fakeMode } = {}) =>
     projectVersion = "0.1.0"
     log("> new project version:", projectVersion)
 
+    // Set new values
+    log(" packageJson -------------------", packageJson)
+    packageJson.version = projectVersion
+    packageJson.name = projectName
+    packageJson.description = projectDescription
+    packageJson.name = projectName
+    packageJson.author = projectAuthor
+    log("packageJson", packageJson)
+
     // Set name and version into package.json
     if (!fakeMode) {
       log("Modify package.json")
-
-      const readPackageJson = await mfs.readFile(packageJson)
-      log(" readPackageJson----------------", readPackageJson)
+      mfs.createFile(path.resolve("../../../package.json"), packageJson)
 
       // Files.getFiles("package.json").alterJSON((packageObject) => {
       //   packageObject.version = projectVersion
@@ -92,5 +100,3 @@ const setupPackageJson = ({ packageJson, defaultProjectName, fakeMode } = {}) =>
     resolve({ projectName, projectAuthor, projectDescription })
   })
 }
-
-module.exports = setupPackageJson

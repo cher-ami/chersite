@@ -7,7 +7,7 @@ import createInstallFile from "./modules/create-install-file.js"
 import logs from "../../helpers/logger.js"
 import config from "../../config.js"
 import path from "path"
-import packageJson from "../../../package.json"
+import packageJson from "../../../package.json" assert { type: "json" }
 
 import debug from "debug"
 const log = debug(`config:setup`)
@@ -18,15 +18,14 @@ const log = debug(`config:setup`)
 const setup = () =>
   new Promise(async (resolve) => {
     // check if cache file exist, if exist, do not continue
-    const installFileExist = await checkInstallFile(config.installFile)
-    if (installFileExist) return
+    if (await checkInstallFile(config.installFile)) return
 
     // install deps
     await installDependencies()
 
     // manage package json and get values
     const { projectName, projectDescription, projectAuthor } = await setupPackageJson({
-      packageJson: packageJson,
+      packageJson,
       defaultProjectName: "chersite",
       fakeMode: config.setupFakeMode,
     })
@@ -48,10 +47,11 @@ const setup = () =>
     })
 
     // remove unused files and directories
-    await resetGit({
-      gitDir: path.resolve(".git"),
-      fakeMode: config.setupFakeMode,
-    })
+    // FIXME
+    // await resetGit({
+    //   gitDir: path.resolve(".git"),
+    //   fakeMode: config.setupFakeMode,
+    // })
 
     logs.done(`${projectName} is ready!`)
     logs.note(`start dev-server: npm run dev`)
