@@ -17,7 +17,6 @@ const log = debug("config:vite.config")
 /**
  * Vite config
  * @doc https://vitejs.dev/config/
- *
  */
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   const isDevelopment = mode === "development"
@@ -125,6 +124,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
           "COMMAND",
           "INPUT_FILES",
           "BUILD_DIRNAME",
+          "DOCKER_PORT",
         ],
       }),
 
@@ -140,7 +140,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       devServerlogPlugin({
         protocol,
         host: process.env.HOST,
-        port: "4321", // this value need to be sync with docker compose external port
+        port: process.env.DOCKER_PORT,
         base: process.env.VITE_APP_BASE,
         enable: config.input?.length > 0, // enable only if we don't use index.html, but ts/tsx entry points
       }),

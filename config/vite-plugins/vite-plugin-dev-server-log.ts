@@ -40,8 +40,8 @@ export default function devServerlogPlugin({
       const template = [
         ` ${chalk.green("Project running at:")}`,
         ``, 
-        `  > Local:      ${chalk.cyan(`${protocol}://localhost:${port}${base}`)}`,
-        `  > Network:    ${chalk.cyan(`${protocol}://${host}:${port}${base}`)}`
+        `  > Local:      ${chalk.cyan(`${protocol}://localhost${port ? `:${port}` : ""}${base}`)}`,
+        `  > Network:    ${chalk.cyan(`${protocol}://${host}${port ? `:${port}` : ""}${base}`)}`
       ].join('\n');
       // executed after vite log
       setTimeout(() => console.log(template), 20)
