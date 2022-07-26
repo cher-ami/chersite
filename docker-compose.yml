@@ -1,14 +1,14 @@
 version: "3.7"
 services:
   app:
-    image: flycherami/php7.4-node16:latest
+    image: registry.gitlab.cher-ami.tv/interne/infra/docker/php-node:7.4-16
     ports:
       - "4321:80"
     volumes:
       - "./dist:/app"
     working_dir: /app
   node:
-    image: flycherami/php7.4-node16:latest
+    image: registry.gitlab.cher-ami.tv/interne/infra/docker/php-node:7.4-16
     ports:
       - "3000:3000"
     volumes:
