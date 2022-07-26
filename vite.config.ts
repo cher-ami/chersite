@@ -140,7 +140,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       devServerlogPlugin({
         protocol,
         host: process.env.HOST,
-        port: process.env.DOCKER_PORT,
+        port: process.env.DOCKER_APACHE_PORT,
         base: process.env.VITE_APP_BASE,
         enable: config.input?.length > 0, // enable only if we don't use index.html, but ts/tsx entry points
       }),
