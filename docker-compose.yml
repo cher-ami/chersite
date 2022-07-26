@@ -14,4 +14,4 @@ services:
     volumes:
       - "./:/app"
     working_dir: /app
-    command: bash -c "npm install"
+    command: bash -c "npm install --legacy-peer-deps"
