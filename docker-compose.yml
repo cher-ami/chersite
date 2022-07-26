@@ -5,13 +5,12 @@ services:
     ports:
       - "${DOCKER_APACHE_PORT:-4321}:80"
     volumes:
-      - "./dist:/app"
+      - "./:/app"
     working_dir: /app
   node:
     image: registry.gitlab.cher-ami.tv/docker/docker-images/php-node:7.4-16
     ports:
-      - "3000:3000"
+      - "${DOCKER_NODE_PORT:-3000}:3000"
     volumes:
       - "./:/app"
     working_dir: /app
-    command: bash -c "npm install --legacy-peer-deps"

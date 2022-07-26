@@ -21,8 +21,9 @@ const log = debug("config:vite.config")
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   const isDevelopment = mode === "development"
   const ipAddress = ip.address()
-  // port 3000 is the port used by docker-compose, so we use it as default
-  const portFinder = portFinderSync.getPort(3000)
+
+  // use docker port
+  const port = process.env.DOCKER_PORT ?? portFinderSync.getPort(3000)
   const protocol: "http" | "https" = "http"
 
   // get env variables from selected .env (depend of mode)
@@ -43,7 +44,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     ...process.env,
     ...loadEnvVars,
     PROTOCOL: protocol,
-    PORT: `${portFinder}`,
+    PORT: `${port}`,
     HOST: loadEnvVars["HOST"] ?? ipAddress,
     COMMAND: command,
     INPUT_FILES: config.input.join(","),
@@ -63,7 +64,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     server: {
       cors: true,
       host: true,
-      port: portFinder,
+      port: port,
       https: process.env.PROTOCOL === "https",
       origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
       open:
@@ -137,6 +138,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         enable: process.env.BUILD_HTACCESS === "true",
       }),
 
+      // Useful in case we serve the app on apache server
       devServerlogPlugin({
         protocol,
         host: process.env.HOST,
