@@ -22,6 +22,7 @@
   "dependencies": {
     "@cher-ami/css-flat": "^1.0.1",
     "@cher-ami/router": "^3.0.0-beta.6",
+    "@cher-ami/utils": "^0.1.0",
     "@wbe/debug": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
