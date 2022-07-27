@@ -1,17 +1,17 @@
 version: "3.7"
 services:
   app:
-    image: registry.gitlab.cher-ami.tv/docker/docker-images/php-node:7.4-16
+    image: registry.gitlab.cher-ami.tv/docker/docker-images/php:7.4
     ports:
-      - "4321:80"
-    volumes:
-      - "./dist:/app"
-    working_dir: /app
-  node:
-    image: registry.gitlab.cher-ami.tv/docker/docker-images/php-node:7.4-16
-    ports:
-      - "3000:3000"
+      - "${DOCKER_APACHE_PORT:-4321}:80"
     volumes:
       - "./:/app"
     working_dir: /app
-    command: bash -c "npm install && npm run dev"
+  node:
+    image: node:16.16.0
+    ports:
+      - "${DOCKER_NODE_PORT:-3000}:3000"
+    volumes:
+      - "./:/app"
+    working_dir: /app
+    tty: true
