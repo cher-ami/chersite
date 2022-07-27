@@ -44,7 +44,7 @@ export default {
   atomsGeneratedFilename: 'atoms.ts',
 
   // Build htaccess
-  htaccessTemplateFilePath: resolve('src/.htaccess'),
+  htaccessTemplateFilePath: resolve('config/tasks/build-htaccess/templates/.htaccess.template'),
 
   // Scaffold components
   bundleType: ['react', 'dom'],
