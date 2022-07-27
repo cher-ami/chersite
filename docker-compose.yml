@@ -5,7 +5,7 @@ services:
     ports:
       - "${DOCKER_APACHE_PORT:-4321}:80"
     volumes:
-      - "./:/app"
+      - "./dist:/app"
     working_dir: /app
   node:
     image: node:16.16.0
