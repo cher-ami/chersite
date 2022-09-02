@@ -10,8 +10,8 @@ const _getRaws = (files = []) => {
     let count = 0
     const rawsList = []
     files.forEach(async (file) => {
-      count++
       const data = await mfs.readFile(file)
+      count++
       rawsList.push(data)
       if (count === files.length) {
         resolve(rawsList)
