@@ -313,7 +313,6 @@ Internal chersite plugin:
 
 - [vite-plugin-build-dotenv.ts](config/vite-plugins/vite-plugin-build-dotenv.ts)
 - [vite-plugin-build-htaccess.ts](config/vite-plugins/vite-plugin-build-htaccess.ts)
-- [vite-plugin-build-atoms.ts](config/vite-plugins/vite-plugin-build-atoms.ts)
 
 These plugins are declared and configured in [vite.config.ts](vite.config.ts)
 
