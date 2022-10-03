@@ -39,7 +39,6 @@ The front-end side can then access this served API to build its templates.
 - [Vite plugins](#VitePlugins)
   - [Vite plugin build dotenv](#BuildDotenv)
   - [Vite plugin build htaccess](#BuildHtaccess)
-  - [Vite plugin build atoms](#BuildAtoms)
 - [Less mixins](#LessMixins)
 - [CSS workflow](#CssWorkflow)
   - [BEM for .module.less](#BemForModuleLess)
@@ -361,31 +360,6 @@ Second part of the configuration is defined from [config/config.js](config/confi
 
 ```js
 htaccessTemplateFilePath: resolve("src/.htaccess")
-```
-
-### <a name="BuildAtoms"></a>Vite plugin build atoms
-
-[vite-plugin-build-atoms.ts](config/vite-plugins/vite-plugin-build-atoms.ts)
-will parses some less variables and expose them as javascript object in new files.
-This file is rebuilt each time one less variable change.
-
-By default, variables from [partials files](src/atoms/partials) are listen. Atoms file
-generated looks like:
-
-```ts
-export default {
-  "breakpoint-mobile": "320px",
-  "breakpoint-phablet": "600px",
-  "breakpoint-tablet": "768px",
-  // ...
-}
-```
-
-Use one variable in JS:
-
-```ts
-import atoms from "src/atoms/atoms.ts"
-atoms["breakpoint-mobile"] // "320px"
 ```
 
 ## <a name="LessMixins"></a>Less Mixins
