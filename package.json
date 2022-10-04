@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@cher-ami/css-flat": "^1.0.1",
-    "@cher-ami/router": "^3.0.0-beta.6",
+    "@cher-ami/router": "^3.0.0-beta.9",
     "@cher-ami/utils": "^0.1.0",
     "@wbe/debug": "^1.0.0",
     "react": "^18.2.0",
@@ -29,25 +29,25 @@
   },
   "devDependencies": {
     "@types/events": "^3.0.0",
-    "@types/node": "^18.6.1",
-    "@types/react": "^18.0.15",
+    "@types/node": "^18.8.1",
+    "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
-    "@vitejs/plugin-legacy": "^2.0.0",
-    "@vitejs/plugin-react": "^2.0.0",
-    "autoprefixer": "^10.4.7",
+    "@vitejs/plugin-legacy": "^2.2.0",
+    "@vitejs/plugin-react": "^2.1.0",
+    "autoprefixer": "^10.4.12",
     "change-case": "^4.1.2",
     "env-cmd": "^10.1.0",
     "husky": "^8.0.1",
-    "inquirer": "^9.0.2",
+    "inquirer": "^9.1.2",
     "ip": "^1.1.8",
     "less": "^4.1.3",
     "lint-staged": "^13.0.3",
     "portfinder-sync": "^0.0.2",
     "prettier": "^2.7.1",
     "terser": "^5.15.0",
-    "typescript": "^4.7.4",
-    "vite": "^3.0.3",
-    "vite-plugin-checker": "^0.4.9"
+    "typescript": "^4.8.4",
+    "vite": "^3.1.4",
+    "vite-plugin-checker": "^0.5.1"
   },
   "lint-staged": {
     "*.{tsx,ts,jsx,js,less,css,json,md}": [
