@@ -58,6 +58,6 @@ export default {
   // setup
   taskSetupFolder: resolve("config/tasks/setup"),
   installFile: resolve("config/install"),
-  setupFakeMode: true
+  setupFakeMode: false
 
 };
