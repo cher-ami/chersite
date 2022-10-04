@@ -7,6 +7,7 @@ import checker from "vite-plugin-checker"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
 import devServerLogPlugin from "./config/vite-plugins/vite-plugin-dev-server-log"
+import { envVarsLocalIp } from "./config/helpers/env-vars-local-ip.js"
 import legacy from "@vitejs/plugin-legacy"
 import autoprefixer from "autoprefixer"
 import ip from "ip"
@@ -20,26 +21,19 @@ const log = debug("config:vite.config")
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   const isDevelopment = mode === "development"
   const ipAddress = ip.address()
+  const protocol: "http" | "https" = "http"
 
   // get env variables from selected .env (depend of mode)
   const loadEnvVars = loadEnv(mode, process.cwd(), "")
 
-  // TODO: externalize this method
   // replace "{{LOCAL_IP}}" by the real local IP in .ENV VAR
   // Works only without docker because  docker use process.env.HOST
-  const localIpString = `{{LOCAL_IP}}`
-  Object.keys(loadEnv(mode, process.cwd(), "")).forEach((e) => {
-    if (!loadEnvVars?.[e] || typeof loadEnvVars?.[e] !== "string") return
-    if (loadEnvVars[e].includes(localIpString)) {
-      loadEnvVars[e] = ipAddress ? loadEnvVars[e].replace(localIpString, ipAddress) : ""
-    }
-  })
+  const formattedLoadEnvVars = envVarsLocalIp(loadEnvVars, ipAddress)
 
-  const protocol: "http" | "https" = "http"
   // merge loadEnv selected by vite in process.env
   process.env = {
     ...process.env,
-    ...loadEnvVars,
+    ...formattedLoadEnvVars,
     PROTOCOL: protocol,
     PORT: `${loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)}`,
     HOST: loadEnvVars["HOST"] ?? ipAddress,
