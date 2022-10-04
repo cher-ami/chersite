@@ -37,12 +37,6 @@ export default {
   // This task can build the same dotenv files in different directories
   buildDotenvOutDir: [resolve('dist/front/')],
 
-  // Build Atoms
-  atomsDir: resolve('src/atoms'),
-  atomsPartialsDir: resolve('src/atoms/partials'),
-  atomsFilesToWatch: resolve('src/atoms/partials/*.less'),
-  atomsGeneratedFilename: 'atoms.ts',
-
   // Build htaccess
   htaccessTemplateFilePath: resolve('config/tasks/build-htaccess/templates/.htaccess.template'),
 
