@@ -22,7 +22,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   const ipAddress = ip.address()
 
   // use docker port
-  const port = process.env.DOCKER_PORT ?? portFinderSync.getPort(3000)
+  const port = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)
   const protocol: "http" | "https" = "http"
 
   // get env variables from selected .env (depend of mode)
