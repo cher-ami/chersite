@@ -12,7 +12,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "setup": "npm i && node config/tasks/setup/setup.js && npm run prepare",
+    "setup": "node config/tasks/setup/setup.js && npm run prepare",
     "scaffold": "node config/tasks/scaffold-component/scaffold-component.js",
     "scaffold-wp": "node config/tasks/scaffold-wp/scaffold-wp.js",
     "prepare": "husky install",
@@ -44,6 +44,7 @@
     "lint-staged": "^13.0.3",
     "portfinder-sync": "^0.0.2",
     "prettier": "^2.7.1",
+    "terser": "^5.15.0",
     "typescript": "^4.7.4",
     "vite": "^3.0.3",
     "vite-plugin-checker": "^0.4.9"

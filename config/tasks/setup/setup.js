@@ -1,5 +1,4 @@
 import checkInstallFile from "./modules/check-install-file.js"
-import installDependencies from "./modules/install-dependencies.js"
 import setupReadme from "./modules/setup-readme.js"
 import setupPackageJson from "./modules/setup-package-json.js"
 import resetGit from "./modules/reset-git.js"
@@ -11,7 +10,7 @@ import path from "path"
 // TODO  assert { type: "json" } will change in the future
 import packageJson from "../../../package.json" assert { type: "json" }
 
-import debug from "debug"
+import debug from "@wbe/debug"
 const log = debug(`config:setup`)
 
 /**
@@ -21,9 +20,6 @@ const setup = () =>
   new Promise(async (resolve) => {
     // check if cache file exist, if exist, do not continue
     if (await checkInstallFile(config.installFile)) return
-
-    // install deps
-    await installDependencies()
 
     // manage package json and get values
     const { projectName, projectDescription, projectAuthor } = await setupPackageJson({

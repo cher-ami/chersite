@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  app:
+  apache:
     image: registry.gitlab.cher-ami.tv/docker/docker-images/php:7.4
     ports:
       - "${DOCKER_APACHE_PORT:-4321}:80"
