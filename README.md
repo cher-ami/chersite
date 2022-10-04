@@ -1,10 +1,21 @@
-# 🪜 chersite
+<h1 align="center" style="text-align:center">🪜 chersite</h1>
 
+<p align="center">
 chersite is a web-base boilerplate for cher-ami projects based on
-[vite](https://vitejs.dev/), [typescript](https://www.typescriptlang.org), [react](https://reactjs.org), [less](https://lesscss.org), [prettier](https://prettier.io/) and a micro PHP framework.
 
+<a href="https://vitejs.dev/">vite</a>, 
+<a href="https://www.typescriptlang.org">typescript</a>,
+<a href="https://reactjs.org">react</a>,
+<a href="https://lesscss.org">less</a>,
+and a micro PHP framework.
+
+<br/>
+<br/>
 ![ci](https://github.com/cher-ami/chersite/actions/workflows/ci.yml/badge.svg)
 <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/cher-ami/chersite">
+</p>
+
+<br/>
 
 ## Purpose
 
