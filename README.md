@@ -1,8 +1,7 @@
 <h1 align="center" style="text-align:center">🪜 chersite</h1>
 
 <p align="center">
-chersite is a web-base boilerplate for cher-ami projects based on
-
+chersite is a web boilerplate for cher-ami projects based on 
 <a href="https://vitejs.dev/">vite</a>, 
 <a href="https://www.typescriptlang.org">typescript</a>,
 <a href="https://reactjs.org">react</a>,
@@ -11,7 +10,7 @@ and a micro PHP framework.
 
 <br/>
 <br/>
-![ci](https://github.com/cher-ami/chersite/actions/workflows/ci.yml/badge.svg)
+<img alt="ci" src="https://github.com/cher-ami/chersite/actions/workflows/ci.yml/badge.svg">
 <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/cher-ami/chersite">
 </p>
 
