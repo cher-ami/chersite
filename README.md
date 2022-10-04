@@ -18,9 +18,9 @@ Also, the use of React is optional. It is quite possible for example to code van
 Finally, chersite has been designed in its tree structure to easily set up a back-end or an API from `dist` folder.
 The front-end side can then access this served API to build its templates.
 
-## requirements:
+## requirements
 
-- [node v14.17.0](https://nodejs.org/en)
+- [node v16.16](https://nodejs.org/en)
 - [npm](https://www.npmjs.com/)
 - [PHP 7.4](https://www.php.net/releases/7_4_0.php)
 - [composer](https://getcomposer.org/)
