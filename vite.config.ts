@@ -21,13 +21,10 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   const isDevelopment = mode === "development"
   const ipAddress = ip.address()
 
-  // use docker port
-  const port = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)
-  const protocol: "http" | "https" = "http"
-
   // get env variables from selected .env (depend of mode)
   const loadEnvVars = loadEnv(mode, process.cwd(), "")
 
+  // TODO: externalize this method
   // replace "{{LOCAL_IP}}" by the real local IP in .ENV VAR
   // Works only without docker because  docker use process.env.HOST
   const localIpString = `{{LOCAL_IP}}`
@@ -38,12 +35,13 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     }
   })
 
+  const protocol: "http" | "https" = "http"
   // merge loadEnv selected by vite in process.env
   process.env = {
     ...process.env,
     ...loadEnvVars,
     PROTOCOL: protocol,
-    PORT: `${port}`,
+    PORT: `${loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)}`,
     HOST: loadEnvVars["HOST"] ?? ipAddress,
     COMMAND: command,
     INPUT_FILES: config.input.join(","),
@@ -63,7 +61,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     server: {
       cors: true,
       host: true,
-      port: port,
+      port: process.env.PORT as any,
       https: process.env.PROTOCOL === "https",
       origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
       open:
