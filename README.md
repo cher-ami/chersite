@@ -12,13 +12,13 @@ Given that the majority of cher-ami projects require a part of server-side rende
 chersite embeds a micro PHP framework by default. All entrypoint files are served from a twig file.
 
 This web-base remains as flexible as possible, all the compiler configuration can be modified from a configuration file.
-Thus, chersite allows a simple index.html to be returned to the server if necessary. ([check "simple SPA installation"](#SimpleSpaInstallation)).
+Thus, chersite allows a simple index.html to be returned to the server if necessary.
 Also, the use of React is optional. It is quite possible for example to code vanilla js, and to manage views and templates on the server-side.
 
 Finally, chersite has been designed in its tree structure to easily set up a back-end or an API from `dist` folder.
 The front-end side can then access this served API to build its templates.
 
-## requirements
+## Requirements
 
 - [node v16.16](https://nodejs.org/en)
 - [npm](https://www.npmjs.com/)
