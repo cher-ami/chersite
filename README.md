@@ -1,7 +1,7 @@
 # 🪜 chersite
 
 chersite is a web-base boilerplate for cher-ami projects based on
-[vite](https://vitejs.dev/), [typescript](https://www.typescriptlang.org), [react](https://reactjs.org), [less](https://lesscss.org) and a micro PHP framework.
+[vite](https://vitejs.dev/), [typescript](https://www.typescriptlang.org), [react](https://reactjs.org), [less](https://lesscss.org), [prettier](https://prettier.io/) and a micro PHP framework.
 
 ![ci](https://github.com/cher-ami/chersite/actions/workflows/ci.yml/badge.svg)
 <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/cher-ami/chersite">
@@ -18,16 +18,7 @@ Also, the use of React is optional. It is quite possible for example to code van
 Finally, chersite has been designed in its tree structure to easily set up a back-end or an API from `dist` folder.
 The front-end side can then access this served API to build its templates.
 
-This repo use out of the box:
-
-- [twig](https://twig.symfony.com/)
-- [vite](https://vitejs.dev/)
-- [typescript](https://www.typescriptlang.org/)
-- [react](https://reactjs.org/)
-- [less](http://lesscss.org/)
-- [prettier](https://prettier.io/)
-
-requirements:
+## requirements:
 
 - [node v14.17.0](https://nodejs.org/en)
 - [npm](https://www.npmjs.com/)
