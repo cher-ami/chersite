@@ -7,6 +7,7 @@ import checker from "vite-plugin-checker"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
 import devServerLogPlugin from "./config/vite-plugins/vite-plugin-dev-server-log"
+import { envVarsLocalIp } from "./config/helpers/env-vars-local-ip.js"
 import legacy from "@vitejs/plugin-legacy"
 import autoprefixer from "autoprefixer"
 import ip from "ip"
@@ -20,9 +21,6 @@ const log = debug("config:vite.config")
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   const isDevelopment = mode === "development"
   const ipAddress = ip.address()
-
-  // use docker port
-  const port = process.env.DOCKER_PORT ?? portFinderSync.getPort(3000)
   const protocol: "http" | "https" = "http"
 
   // get env variables from selected .env (depend of mode)
@@ -30,20 +28,14 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
 
   // replace "{{LOCAL_IP}}" by the real local IP in .ENV VAR
   // Works only without docker because  docker use process.env.HOST
-  const localIpString = `{{LOCAL_IP}}`
-  Object.keys(loadEnv(mode, process.cwd(), "")).forEach((e) => {
-    if (!loadEnvVars?.[e] || typeof loadEnvVars?.[e] !== "string") return
-    if (loadEnvVars[e].includes(localIpString)) {
-      loadEnvVars[e] = ipAddress ? loadEnvVars[e].replace(localIpString, ipAddress) : ""
-    }
-  })
+  const formattedLoadEnvVars = envVarsLocalIp(loadEnvVars, ipAddress)
 
   // merge loadEnv selected by vite in process.env
   process.env = {
     ...process.env,
-    ...loadEnvVars,
+    ...formattedLoadEnvVars,
     PROTOCOL: protocol,
-    PORT: `${port}`,
+    PORT: `${loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)}`,
     HOST: loadEnvVars["HOST"] ?? ipAddress,
     COMMAND: command,
     INPUT_FILES: config.input.join(","),
@@ -63,7 +55,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     server: {
       cors: true,
       host: true,
-      port: port,
+      port: process.env.PORT as any,
       https: process.env.PROTOCOL === "https",
       origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
       open:

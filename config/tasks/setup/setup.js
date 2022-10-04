@@ -50,8 +50,8 @@ const setup = () =>
       fakeMode: config.setupFakeMode,
     })
 
-    logs.done(`${projectName} is ready!`)
-    logs.note(`start dev-server: npm run dev`)
+    console.log("")
+    logs.done(`> ${projectName} is ready!`)
     console.log("")
     resolve()
   })
