@@ -1,5 +1,6 @@
 import chalk from "chalk"
 import { PluginOption } from "vite"
+import packageJson from "../../package.json"
 
 /**
  * Expose specific log in case our dev server don't use an index.html
@@ -38,13 +39,15 @@ export default function devServerlogPlugin({
       if (!enable) return
       // prettier-ignore
       const template = [
-        ` ${chalk.green("Project running at:")}`,
-        ``, 
-        `  > Local:      ${chalk.cyan(`${protocol}://localhost${port ? `:${port}` : ""}${base}`)}`,
-        `  > Network:    ${chalk.cyan(`${protocol}://${host}${port ? `:${port}` : ""}${base}`)}`
+        ``,
+        `  ${chalk.green.bold.underline(packageJson.name)}`,
+        ``,
+        `  Local:      ${chalk.cyan(`${protocol}://localhost${port ? `:${port}` : ""}${base}`)}`,
+        `  Network:    ${chalk.cyan(`${protocol}://${host}${port ? `:${port}` : ""}${base}`)}`,
       ].join('\n');
-      // executed after vite log
-      setTimeout(() => console.log(template), 20)
+
+      // Log!
+      console.log(template)
     },
   }
 }

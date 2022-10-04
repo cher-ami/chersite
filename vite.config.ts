@@ -6,10 +6,9 @@ import react from "@vitejs/plugin-react"
 import checker from "vite-plugin-checker"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
-import devServerlogPlugin from "./config/vite-plugins/vite-plugin-dev-server-log"
+import devServerLogPlugin from "./config/vite-plugins/vite-plugin-dev-server-log"
 import legacy from "@vitejs/plugin-legacy"
 import autoprefixer from "autoprefixer"
-
 import ip from "ip"
 import portFinderSync from "portfinder-sync"
 const log = debug("config:vite.config")
@@ -52,8 +51,8 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   }
 
   return {
-    clearScreen: true,
-    logLevel: "info",
+    clearScreen: false,
+    logLevel: isDevelopment ? "warn" : "info",
 
     // "base" refer to folder where assets are served
     base: `${process.env.VITE_APP_BASE}${config.buildDirname}/`.replace("//", "/"),
@@ -139,7 +138,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       }),
 
       // Useful in case we serve the app on apache server
-      devServerlogPlugin({
+      devServerLogPlugin({
         protocol,
         host: process.env.HOST,
         port: process.env.DOCKER_APACHE_PORT,
