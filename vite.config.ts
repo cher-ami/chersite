@@ -6,7 +6,7 @@ import react from "@vitejs/plugin-react"
 import checker from "vite-plugin-checker"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
-import devServerLogPlugin from "./config/vite-plugins/vite-plugin-dev-server-log"
+import { chersiteCustomLogger } from "./config/vite-plugins/chersiteCustomLogger"
 import { envVarsLocalIp } from "./config/helpers/env-vars-local-ip.js"
 import legacy from "@vitejs/plugin-legacy"
 import autoprefixer from "autoprefixer"
@@ -43,8 +43,14 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   }
 
   return {
-    clearScreen: false,
-    logLevel: isDevelopment ? "warn" : "info",
+    customLogger: chersiteCustomLogger({
+      protocol,
+      host: process.env.HOST,
+      port: process.env.DOCKER_APACHE_PORT,
+      base: process.env.VITE_APP_BASE,
+      // enable only if we don't use index.html, but ts/tsx entry points
+      enable: config.input?.length > 0,
+    }),
 
     // "base" refer to folder where assets are served
     base: `${process.env.VITE_APP_BASE}${config.buildDirname}/`.replace("//", "/"),
@@ -100,12 +106,6 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     },
 
     plugins: [
-      react(),
-
-      checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
-
-      legacy({ targets: ["defaults", "not IE 11"] }),
-
       buildDotenvPlugin({
         envVars: process.env,
         dotenvOutDir: config.buildDotenvOutDir,
@@ -129,14 +129,11 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         enable: process.env.BUILD_HTACCESS === "true",
       }),
 
-      // Useful in case we serve the app on apache server
-      devServerLogPlugin({
-        protocol,
-        host: process.env.HOST,
-        port: process.env.DOCKER_APACHE_PORT,
-        base: process.env.VITE_APP_BASE,
-        enable: config.input?.length > 0, // enable only if we don't use index.html, but ts/tsx entry points
-      }),
+      react(),
+
+      checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
+
+      legacy({ targets: ["defaults", "not IE 11"] }),
     ],
   }
 })
