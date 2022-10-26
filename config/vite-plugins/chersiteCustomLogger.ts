@@ -7,27 +7,22 @@ export const chersiteCustomLogger = ({
   host,
   port,
   base,
-  enable,
 }: {
   protocol: "http" | "https"
-  host: string | undefined
-  port: string | undefined
-  base: string | undefined
-  enable: boolean
+  host: string
+  port: string
+  base: string
 }): Logger => {
-  const logger = createLogger("info", {
-    allowClearScreen: true,
-  })
-
+  const logger = createLogger("info", { allowClearScreen: true })
+  const hostIsLocalhost = host === "localhost"
   // prettier-ignore
   const template = [
       ``,
-      `  ${chalk.green.bold.underline(packageJson.name)} ${chalk.gray("v" + packageJson.version)}`,
-      ``,
-            `  ${chalk.bold("Local")}:      ${chalk.cyan(`${protocol}://${chalk.bold('localhost')}${port ?? ""}${base}`)}`,
-    host && `  ${chalk.bold("Network")}:    ${chalk.cyan(`${protocol}://${chalk.bold(host)}${port ?? ""}${base}`)}`,
-    // host && `  ${chalk.bold("BO")}:         ${chalk.cyan(`${protocol}://${chalk.bold(host)}${port ?? ""}${base}wp/wp-admin`)}`,
-    ].join('\n');
+      `  ${chalk.green.bold.underline(packageJson.name)} ${chalk.gray("v" + packageJson.version)} \n`,
+                        `  ${chalk.bold("Local")}:      ${chalk.cyan(`${protocol}://${chalk.bold('localhost')}:${port ?? ""}${base}`)}`,
+    !hostIsLocalhost && `  ${chalk.bold("Network")}:    ${chalk.cyan(`${protocol}://${chalk.bold(host)}:${port ?? ""}${base}`)}`,
+    // !hostIsLocalhost && `  ${chalk.bold("BO")}:         ${chalk.cyan(`${protocol}://${chalk.bold(host)}${port ?? ""}${base}wp/wp-admin`)}`,
+    ].filter(e => e).join('\n');
 
   logger.warnOnce(template)
 

@@ -48,8 +48,6 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       host: process.env.HOST,
       port: process.env.DOCKER_APACHE_PORT,
       base: process.env.VITE_APP_BASE,
-      // enable only if we don't use index.html, but ts/tsx entry points
-      enable: config.input?.length > 0,
     }),
 
     // "base" refer to folder where assets are served
@@ -64,10 +62,6 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       port: process.env.PORT as any,
       https: process.env.PROTOCOL === "https",
       origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
-      open:
-        process.env.DEV_SERVER_OPEN === "true"
-          ? `${protocol}://${process.env.HOST}${process.env.VITE_APP_BASE}`
-          : false,
       watch: {
         // do not watch .env files to avoid reloading when build-dotenv is processed
         ignored: [...(config.buildDotenvOutDir.map((path) => `${path}/.env`) || [])],
@@ -121,12 +115,12 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       }),
 
       buildHtaccessPlugin({
+        enable: process.env.BUILD_HTACCESS === "true",
         serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
         user: process.env.HTACCESS_AUTH_USER,
         password: process.env.HTACCESS_AUTH_PASSWORD,
         htaccessTemplatePath: config.htaccessTemplateFilePath,
         outputPath: config.wwwDir,
-        enable: process.env.BUILD_HTACCESS === "true",
       }),
 
       react(),
