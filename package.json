@@ -2,12 +2,8 @@
   "name": "chersite",
   "description": "Web base Boilerplate for cher-ami projects.",
   "version": "0.5.0",
-  "main": "src/index.tsx",
   "author": "cher-ami",
-  "browserslist": [
-    "last 2 versions",
-    "iOS >= 12"
-  ],
+  "main": "src/index.tsx",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -50,9 +46,17 @@
     "vite-plugin-checker": "^0.5.1",
     "vitest": "^0.23.4"
   },
+  "browserslist": [
+    "last 2 versions",
+    "iOS >= 12"
+  ],
   "lint-staged": {
     "*.{tsx,ts,jsx,js,less,css,json,md}": [
       "prettier --write"
     ]
+  },
+  "prettier": {
+    "printWidth": 90,
+    "semi": false
   }
 }
