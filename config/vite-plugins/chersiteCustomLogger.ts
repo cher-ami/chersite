@@ -15,13 +15,14 @@ export const chersiteCustomLogger = ({
 }): Logger => {
   const logger = createLogger("info", { allowClearScreen: true })
   const hostIsLocalhost = host === "localhost"
+  const formatBase = base === "/" ? "" : base
   // prettier-ignore
   const template = [
       ``,
       `  ${chalk.green.bold.underline(packageJson.name)} ${chalk.gray("v" + packageJson.version)} \n`,
-                        `  ${chalk.bold("Local")}:      ${chalk.cyan(`${protocol}://${chalk.bold('localhost')}:${port ?? ""}${base}`)}`,
-    !hostIsLocalhost && `  ${chalk.bold("Network")}:    ${chalk.cyan(`${protocol}://${chalk.bold(host)}:${port ?? ""}${base}`)}`,
-    // !hostIsLocalhost && `  ${chalk.bold("BO")}:         ${chalk.cyan(`${protocol}://${chalk.bold(host)}${port ?? ""}${base}wp/wp-admin`)}`,
+                        `  ${chalk.bold("Local")}:      ${chalk.cyan(`${protocol}://${chalk.bold('localhost')}:${port ?? ""}${formatBase}`)}`,
+    !hostIsLocalhost && `  ${chalk.bold("Network")}:    ${chalk.cyan(`${protocol}://${chalk.bold(host)}:${port ?? ""}${formatBase}`)}`,
+    // !hostIsLocalhost && `  ${chalk.bold("BO")}:         ${chalk.cyan(`${protocol}://${chalk.bold(host)}${port ?? ""}${formatBase}wp/wp-admin`)}`,
     ].filter(e => e).join('\n');
 
   logger.warnOnce(template)
