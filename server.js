@@ -5,7 +5,6 @@ import { createServer as createViteServer } from "vite"
 import compression from "compression"
 import ip from "ip"
 import portFinderSync from "portfinder-sync"
-import palette from "./config/helpers/palette.js"
 import config from "./config/config.js"
 import debug from "@wbe/debug"
 const log = debug("server")
