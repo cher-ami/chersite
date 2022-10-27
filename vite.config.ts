@@ -43,12 +43,16 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   }
 
   return {
-    customLogger: chersiteCustomLogger({
-      protocol,
-      host: process.env.HOST,
-      port: process.env.PORT,
-      base: process.env.VITE_APP_BASE,
-    }),
+    ...(isDevelopment
+      ? {
+          customLogger: chersiteCustomLogger({
+            protocol,
+            host: process.env.HOST,
+            port: process.env.PORT,
+            base: process.env.VITE_APP_BASE,
+          }),
+        }
+      : {}),
 
     // "base" refer to folder where assets are served
     // TODO base php
