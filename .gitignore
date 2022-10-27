@@ -1,14 +1,6 @@
 # Output application depend of project
-dist/front/.env
-dist/front/vendor
-dist/front/www/static
-dist/front/www/.htaccess
-dist/front/www/.htpasswd
-dist/front/www/sitemap.xml
+dist/front
 dist/api/web/app/.cache
-
-# Auto generated atoms
-src/atoms/atoms.ts
 
 vendor
 .env.local

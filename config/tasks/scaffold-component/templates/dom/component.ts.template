@@ -1,51 +1,19 @@
-import './%%upperComponentName%%.less';
+import "./%%upperComponentName%%.less"
+import { Component } from "@wbe/compose"
 import debug from "@wbe/debug"
 
-const componentName = "%%upperComponentName%%";
-const log = debug(`front:${componentName}`);
+type TStaticProps = {}
+
+const componentName = "%%upperComponentName%%"
+const log = debug(`front:${componentName}`)
 
 /**
  * @name %%upperComponentName%%
  */
-class %%upperComponentName%% {
+export default class %%upperComponentName%% extends Component<TStaticProps> {
+  static attrName = componentName
 
-  /**
-   * Prepare dependencies with DependencyManager
-   */
-  protected prepareDependencies() {}
+  mounted() {
 
-  /**
-   * Middleware called just before init sequence
-   */
-  protected beforeInit() {}
-
-  /**
-   * Target our root if not already defined via constructor params
-   */
-  protected targetRoot() {}
-
-  /**
-   * Prepare node targeting from $root
-   */
-  protected prepareNodes() {}
-
-  /**
-   * Init components
-   */
-  protected initComponents() {}
-
-  /**
-   * Prepare events
-   */
-  protected prepareEvents() {}
-
-  /**
-   * Middleware called just after init sequence
-   */
-  protected afterInit() {}
-
+  }
 }
-
-
-export default %%upperComponentName%%;
-

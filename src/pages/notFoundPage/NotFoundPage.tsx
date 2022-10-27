@@ -1,9 +1,12 @@
 import css from "./NotFoundPage.module.less"
-import React, { ForwardedRef, forwardRef, useRef } from "react"
+import React, { ForwardedRef, forwardRef, useEffect, useRef } from "react"
 import { useStack } from "@cher-ami/router"
 import debug from "@wbe/debug"
+import { MetasManager, TMetaTags } from "~/managers/MetaManager"
 
-interface IProps {}
+interface IProps {
+  meta: TMetaTags
+}
 
 const componentName = "NotFoundPage"
 const log = debug(`front:${componentName}`)
@@ -11,8 +14,15 @@ const log = debug(`front:${componentName}`)
 /**
  * @name NotFoundPage
  */
-const NotFoundPage = forwardRef((props: IProps, handleRef: ForwardedRef<any>) => {
+function NotFoundPage(props: IProps, handleRef: ForwardedRef<any>) {
   const rootRef = useRef<HTMLDivElement>(null)
+
+  /**
+   * Client meta
+   */
+  useEffect(() => {
+    MetasManager.inject({ values: props.meta })
+  }, [props.meta])
 
   /**
    * playIn page transition
@@ -38,7 +48,7 @@ const NotFoundPage = forwardRef((props: IProps, handleRef: ForwardedRef<any>) =>
       {componentName}
     </div>
   )
-})
+}
 
 NotFoundPage.displayName = componentName
-export default NotFoundPage
+export default forwardRef(NotFoundPage)

@@ -1,4 +1,4 @@
 dist
 node_modules
 src/mixins/mixins.less
-src/index.html
+index.html
