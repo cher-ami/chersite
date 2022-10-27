@@ -12,3 +12,5 @@ node_modules
 dist-ssr
 *.local
 .cache
+
+vite.config.ts.timestamp*
