@@ -31,7 +31,6 @@ async function createDevServer() {
 
   app.use("*", async (req, res, next) => {
     const url = req.originalUrl
-    if (url === "/favicon.ico") return
 
     try {
       // 1. Read index.html
@@ -117,8 +116,7 @@ async function createProdServer() {
  * Let's go!
  */
 const isProd = process.env.NODE_ENV === "production"
-const host = process.env.HOST ?? ip.address()
-const port = process.env.DOCKER_PORT ?? portFinderSync.getPort(3000)
+const port = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)
 
 if (!isProd) {
   createDevServer().then(({ app }) => app.listen(port))
