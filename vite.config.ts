@@ -46,7 +46,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     customLogger: chersiteCustomLogger({
       protocol,
       host: process.env.HOST,
-      port: process.env.DOCKER_APACHE_PORT,
+      port: process.env.PORT,
       base: process.env.VITE_APP_BASE,
     }),
 
