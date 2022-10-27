@@ -1,12 +1,11 @@
 <h1 align="center" style="text-align:center">🪜 chersite</h1>
 
 <p align="center">
-chersite is a web boilerplate for cher-ami projects based on 
+chersite is a web static-site generator for cher-ami projects based on 
 <a href="https://vitejs.dev/">vite</a>, 
 <a href="https://www.typescriptlang.org">typescript</a>,
 <a href="https://reactjs.org">react</a>,
-<a href="https://lesscss.org">less</a>,
-and a micro PHP framework.
+<a href="https://lesscss.org">less</a>
 
 <br/>
 <br/>
@@ -18,22 +17,17 @@ and a micro PHP framework.
 
 ## Purpose
 
-Given that the majority of cher-ami projects require a part of server-side rendering, at least for metadata,
-chersite embeds a micro PHP framework by default. All entrypoint files are served from a twig file.
+Chersite is a React static-site generator build in order to obtain a static server rendering for best performance.
+The build step prepare a server script, a prerender script and a SPA version to leave choice of use.
+This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server request static props routes transitions or languages.
 
-This web-base remains as flexible as possible, all the compiler configuration can be modified from a configuration file.
-Thus, chersite allows a simple index.html to be returned to the server if necessary.
-Also, the use of React is optional. It is quite possible for example to code vanilla js, and to manage views and templates on the server-side.
-
-Finally, chersite has been designed in its tree structure to easily set up a back-end or an API from `dist` folder.
+This framework has been designed in its tree structure to easily set up a back-end or an API from `dist` folder.
 The front-end side can then access this served API to build its templates.
 
 ## Requirements
 
 - [node v16.16](https://nodejs.org/en)
 - [npm](https://www.npmjs.com/)
-- [PHP 7.4](https://www.php.net/releases/7_4_0.php)
-- [composer](https://getcomposer.org/)
 - [git](https://git-scm.com/)
 
 ## Summary
