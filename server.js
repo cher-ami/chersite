@@ -118,23 +118,11 @@ async function createProdServer() {
  * Let's go!
  */
 const isProd = process.env.NODE_ENV === "production"
-const host = ip.address()
+const host = process.env.HOST ?? ip.address()
 const port = process.env.DOCKER_PORT ?? portFinderSync.getPort(3000)
 
 if (!isProd) {
-  createDevServer().then(({ app }) =>
-    app.listen(port, () => {
-      console.log(`> ${palette.green(`Chersite node`)}`)
-      console.log(`> Local:   ${palette.blue(`http://localhost:${port}`)}`)
-      console.log(`> Network: ${palette.blue(`http://${host}:${port}`)}`)
-    })
-  )
+  createDevServer().then(({ app }) => app.listen(port))
 } else {
-  createProdServer().then(({ app }) =>
-    app.listen(port, () => {
-      console.log(`> ${palette.green(`Chersite node`)}`)
-      console.log(`> Local:   ${palette.blue(`http://localhost:${port}`)}`)
-      console.log(`> Network: ${palette.blue(`http://${host}:${port}`)}`)
-    })
-  )
+  createProdServer().then(({ app }) => app.listen(port))
 }
