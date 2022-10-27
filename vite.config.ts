@@ -51,7 +51,9 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     }),
 
     // "base" refer to folder where assets are served
-    base: `${process.env.VITE_APP_BASE}${config.buildDirname}/`.replace("//", "/"),
+    // TODO base php
+    // base: `${process.env.VITE_APP_BASE}${config.buildDirname}/`.replace("//", "/"),
+    base: process.env.VITE_APP_BASE,
 
     // public folder content is copied in static build folder
     publicDir: config.publicDir,
@@ -100,6 +102,12 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     },
 
     plugins: [
+      react(),
+
+      checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
+
+      legacy({ targets: ["defaults", "not IE 11"] }),
+
       buildDotenvPlugin({
         envVars: process.env,
         dotenvOutDir: config.buildDotenvOutDir,
@@ -122,12 +130,6 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         htaccessTemplatePath: config.htaccessTemplateFilePath,
         outputPath: config.wwwDir,
       }),
-
-      react(),
-
-      checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
-
-      legacy({ targets: ["defaults", "not IE 11"] }),
     ],
   }
 })

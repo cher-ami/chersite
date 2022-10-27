@@ -7,9 +7,9 @@ import { Router } from "@cher-ami/router"
 import { createBrowserHistory } from "history"
 import VhHelper from "./helpers/VhHelper"
 import * as packageJson from "../package.json"
+import { GlobalDataContext } from "./GlobalDataContext"
+import { langServiceInstance } from "~/LangService"
 import debug from "@wbe/debug"
-
-const appBase = import.meta.env.VITE_APP_BASE as string
 
 /**
  * Logs
@@ -19,12 +19,17 @@ log("version:", packageJson.version)
 log("public env:", import.meta.env)
 
 /**
+ * Base
+ */
+const base = import.meta.env.VITE_APP_BASE
+
+/**
  * Init global helpers
  */
 new VhHelper()
 
 /**
- * Create an history for the global router instance
+ * Create a history for the global router instance
  * https://github.com/remix-run/history/blob/dev/docs/api-reference.md
  */
 const history = createBrowserHistory()
@@ -37,7 +42,15 @@ const history = createBrowserHistory()
  */
 const root = createRoot(document.getElementById("root"))
 root.render(
-  <Router routes={routes} base={appBase} history={history}>
-    <App />
+  <Router
+    routes={routes}
+    base={base}
+    history={history}
+    initialStaticProps={window["__SSR_STATIC_PROPS__"]}
+    langService={langServiceInstance(base)}
+  >
+    <GlobalDataContext.Provider value={{ globalData: window["__GLOBAL_DATA__"] }}>
+      <App />
+    </GlobalDataContext.Provider>
   </Router>
 )

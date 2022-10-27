@@ -1,9 +1,16 @@
 import css from "./HomePage.module.less"
-import React, { ForwardedRef, forwardRef, useRef } from "react"
+import React, { ForwardedRef, forwardRef, useEffect, useRef } from "react"
 import { useStack } from "@cher-ami/router"
 import debug from "@wbe/debug"
+import { MetasManager, TMetaTags } from "~/managers/MetaManager"
 
-interface IProps {}
+interface IProps {
+  // data from getStaticProps
+  meta: TMetaTags
+  time?: {
+    utc_datetime: string
+  }
+}
 
 const componentName = "HomePage"
 const log = debug(`front:${componentName}`)
@@ -11,8 +18,15 @@ const log = debug(`front:${componentName}`)
 /**
  * @name HomePage
  */
-const HomePage = forwardRef((props: IProps, handleRef: ForwardedRef<any>) => {
+function HomePage(props: IProps, handleRef: ForwardedRef<any>) {
   const rootRef = useRef<HTMLDivElement>(null)
+
+  /**
+   * Client meta
+   */
+  useEffect(() => {
+    MetasManager.inject({ values: props.meta })
+  }, [props.meta])
 
   /**
    * playIn page transition
@@ -36,9 +50,13 @@ const HomePage = forwardRef((props: IProps, handleRef: ForwardedRef<any>) => {
   return (
     <div className={css.root} ref={rootRef}>
       {componentName}
+      <br />
+      <br />
+      <div>data from getStaticProps: </div>
+      <em>{props.time?.utc_datetime}</em>
     </div>
   )
-})
+}
 
 HomePage.displayName = componentName
-export default HomePage
+export default forwardRef(HomePage)
