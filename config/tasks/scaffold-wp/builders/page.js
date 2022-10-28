@@ -28,14 +28,14 @@ const _pageBuilder = async ({ pagePath, pageName }) => {
 
   // scaffold controller
   await createFile({
-    templateFilePath: `${config.wpTemplatesPath}/page/PageRestController.php.template`,
+    templateFilePath: `${config.wpTemplatesPath}/pages/PageRestController.php.template`,
     destinationFilePath: `${pagePath}/${pascalCasePageName}RestController.php`,
     replaceExpressions: { pageName, pascalCasePageName },
   })
 
   // scaffold setup
   await createFile({
-    templateFilePath: `${config.wpTemplatesPath}/page/setup.php.template`,
+    templateFilePath: `${config.wpTemplatesPath}/pages/setup.php.template`,
     destinationFilePath: `${pagePath}/setup.php`,
     replaceExpressions: { camelCasePageName, pascalCasePageName },
   })
