@@ -21,7 +21,7 @@ app.get("/generate", async (req, res) => {
   }
 
   await prerender(urlsArray)
-  res?.send("Static pages are generated!")
+  res?.send("Generated static pages: " + urlsArray.join(", "))
 })
 
 app.listen(port, () => {
