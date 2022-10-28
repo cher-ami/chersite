@@ -4,7 +4,8 @@ services:
     image: node:16.16.0
     ports:
       - "${DOCKER_NODE_PORT:-3000}:3000"
-      - "24678:24678"
+      - "24678:24678" # vite hot reload port
+      - "1234:1234" # expose node server for generating pages
     volumes:
       - "./:/app"
     working_dir: /app
