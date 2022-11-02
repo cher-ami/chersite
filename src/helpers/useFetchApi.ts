@@ -165,9 +165,7 @@ export const buildApiUrl = (
   if (url.includes("?")) {
     operator = "&"
   }
-  url += [operator, lang && `lang=${Routers.langService?.defaultLang.key}`]
-    .filter((e) => e)
-    .join("")
+  url += [operator, lang && `lang=${lang}`].filter((e) => e).join("")
 
   // log("url", url)
   return url
