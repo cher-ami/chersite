@@ -23,7 +23,7 @@ export const prerender = async (urls: string[]) => {
     // get react app HTML render to string
     try {
       const { meta, renderToString, ssrStaticProps, globalData, languages } =
-        await render(preparedUrl)
+        await render(preparedUrl, true)
       if (preparedUrl === "/") preparedUrl = "/index"
 
       if (languages && languages.some((e) => `/${e.key}` === preparedUrl)) {

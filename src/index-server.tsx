@@ -6,15 +6,21 @@ import App from "./components/app/App"
 import { langServiceInstance } from "./LangService"
 import { requestStaticPropsFromRoute, Router } from "@cher-ami/router"
 import { GlobalDataContext } from "./GlobalDataContext"
-
-export async function render(url: string) {
-  // Prepare common
-  const base = process.env.VITE_APP_BASE
+import { preventSlashes } from "../config/helpers/prevent-slashes.js"
+import palette from "../config/helpers/palette.js"
+import { loadEnv } from "vite"
+export async function render(url: string, prerender = false) {
+  // Prepare
+  const loadEnvVars = loadEnv("", process.cwd(), "")
+  const base = loadEnvVars?.VITE_APP_BASE || process.env.VITE_APP_BASE
   const langService = langServiceInstance(base, url)
+  const preparedUrl = preventSlashes(`${base}${url}`)
+  prerender &&
+    console.log(palette.grey(` Prepared URL (VITE_APP_BASE + URL) → ${preparedUrl}`))
 
   // Request static props
   const ssrStaticProps = await requestStaticPropsFromRoute({
-    url,
+    url: preparedUrl,
     base,
     routes,
     langService,
@@ -34,7 +40,7 @@ export async function render(url: string) {
     <Router
       base={base}
       routes={routes}
-      staticLocation={url}
+      staticLocation={preparedUrl}
       initialStaticProps={ssrStaticProps}
       langService={langService}
     >
