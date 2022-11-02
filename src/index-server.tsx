@@ -49,5 +49,6 @@ export async function render(url: string) {
     renderToString,
     ssrStaticProps,
     globalData,
+    languages: langService.languages,
   }
 }
