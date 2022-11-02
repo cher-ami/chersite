@@ -132,7 +132,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         user: process.env.HTACCESS_AUTH_USER,
         password: process.env.HTACCESS_AUTH_PASSWORD,
         htaccessTemplatePath: config.htaccessTemplateFilePath,
-        outputPath: config.wwwDir,
+        outputPath: config.outDirStatic,
       }),
     ],
   }
