@@ -6,6 +6,7 @@ const log = debug("config:vite.config")
 
 export default defineConfig(({ command, mode }) => {
   return {
+    base: process.env.VITE_APP_BASE,
     build: {
       assetsDir: "./",
       write: true,
