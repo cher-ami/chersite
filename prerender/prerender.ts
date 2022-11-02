@@ -22,21 +22,26 @@ export const prerender = async (urls: string[]) => {
 
     // get react app HTML render to string
     try {
-      const { meta, renderToString, ssrStaticProps, globalData } = await render(
-        preparedUrl
-      )
+      const { meta, renderToString, ssrStaticProps, globalData, languages } =
+        await render(preparedUrl)
       if (preparedUrl === "/") preparedUrl = "/index"
+
+      if (languages && languages.some((e) => `/${e.key}` === preparedUrl)) {
+        preparedUrl = `${preparedUrl}/index`
+      }
 
       // include it in the template
       const template = layout
-        .replaceAll(`<!--meta-title-->`, meta?.title ?? "")
-        .replaceAll(`<!--meta-description-->`, meta?.description ?? "")
-        .replaceAll(`<!--meta-imageUrl-->`, meta?.imageUrl ?? "")
-        .replaceAll(`<!--meta-url-->`, meta?.url ?? "")
-        .replaceAll(`<!--meta-siteName-->`, meta?.siteName ?? "")
-        .replace(`<!--app-html-->`, renderToString)
-        .replace(`"<!--ssr-static-props-->"`, JSON.stringify(ssrStaticProps))
-        .replace(`"<!--ssr-global-data-->"`, JSON.stringify(globalData))
+        ? layout
+            .replaceAll(`<!--meta-title-->`, meta?.title ?? "")
+            .replaceAll(`<!--meta-description-->`, meta?.description ?? "")
+            .replaceAll(`<!--meta-imageUrl-->`, meta?.imageUrl ?? "")
+            .replaceAll(`<!--meta-url-->`, meta?.url ?? "")
+            .replaceAll(`<!--meta-siteName-->`, meta?.siteName ?? "")
+            .replace(`<!--app-html-->`, renderToString)
+            .replace(`"<!--ssr-static-props-->"`, JSON.stringify(ssrStaticProps))
+            .replace(`"<!--ssr-global-data-->"`, JSON.stringify(globalData))
+        : ""
 
       // prepare sub folder templates if exist
       const routePath = path.resolve(`${config.outDirStatic}/${preparedUrl}`)
