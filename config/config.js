@@ -15,6 +15,7 @@ export default {
 
   // outDir: where files are built
   // If this value is change, add this new path in .gitignore
+  distDir: resolve("dist"),
   outDir: resolve("dist/front"),
   outDirScripts: resolve("dist/front/_scripts"),
   outDirClient: resolve("dist/front/client"),

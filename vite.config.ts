@@ -28,8 +28,8 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
 
   // merge loadEnv selected by vite in process.env
   process.env = {
-    ...process.env,
     ...loadEnvVars,
+    ...process.env,
     VITE_APP_BASE: process.env.VITE_APP_BASE || loadEnvVars.VITE_APP_BASE,
     PORT: `${loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)}`,
     HOST: loadEnvVars["HOST"] ?? ipAddress,
