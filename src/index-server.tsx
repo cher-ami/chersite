@@ -12,11 +12,13 @@ import { loadEnv } from "vite"
 export async function render(url: string, prerender = false) {
   // Prepare
   const loadEnvVars = loadEnv("", process.cwd(), "")
-  const base = loadEnvVars?.VITE_APP_BASE || process.env.VITE_APP_BASE
+  const base = process.env.VITE_APP_BASE || loadEnvVars?.VITE_APP_BASE
   const langService = langServiceInstance(base, url)
   const preparedUrl = preventSlashes(`${base}${url}`)
-  prerender &&
+
+  if (prerender) {
     console.log(palette.grey(` Prepared URL (VITE_APP_BASE + URL) → ${preparedUrl}`))
+  }
 
   // Request static props
   const ssrStaticProps = await requestStaticPropsFromRoute({

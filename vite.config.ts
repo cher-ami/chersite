@@ -1,3 +1,5 @@
+// @ts-ignore
+import autoprefixer from "autoprefixer"
 import { ConfigEnv, defineConfig, loadEnv, UserConfig } from "vite"
 import { resolve } from "path"
 import config from "./config/config.js"
@@ -7,9 +9,7 @@ import checker from "vite-plugin-checker"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
 import { chersiteCustomLogger } from "./config/vite-plugins/chersiteCustomLogger"
-import { envVarsLocalIp } from "./config/helpers/env-vars-local-ip.js"
 import legacy from "@vitejs/plugin-legacy"
-import autoprefixer from "autoprefixer"
 import ip from "ip"
 import portFinderSync from "portfinder-sync"
 const log = debug("config:vite.config")
@@ -26,17 +26,14 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   // get env variables from selected .env (depend of mode)
   const loadEnvVars = loadEnv(mode, process.cwd(), "")
 
-  // replace "{{LOCAL_IP}}" by the real local IP in .ENV VAR
-  // Works only without docker because  docker use process.env.HOST
-  const formattedLoadEnvVars = envVarsLocalIp(loadEnvVars, ipAddress)
-
   // merge loadEnv selected by vite in process.env
   process.env = {
     ...process.env,
-    ...formattedLoadEnvVars,
-    PROTOCOL: protocol,
+    ...loadEnvVars,
+    VITE_APP_BASE: process.env.VITE_APP_BASE || loadEnvVars.VITE_APP_BASE,
     PORT: `${loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)}`,
     HOST: loadEnvVars["HOST"] ?? ipAddress,
+    PROTOCOL: protocol,
     COMMAND: command,
     INPUT_FILES: config.input.join(","),
     BUILD_DIRNAME: config.buildDirname,
