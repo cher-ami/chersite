@@ -6,7 +6,7 @@ import compression from "compression"
 import portFinderSync from "portfinder-sync"
 import config from "./config/config.js"
 import debug from "@wbe/debug"
-const log = debug("server")
+const log = debug("server:server")
 
 /**
  * Create development server

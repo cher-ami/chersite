@@ -6,7 +6,6 @@ const log = debug("config:vite.config")
 
 export default defineConfig(({ command, mode }) => {
   return {
-    base: process.env.VITE_APP_BASE,
     build: {
       assetsDir: "./",
       write: true,
@@ -15,7 +14,9 @@ export default defineConfig(({ command, mode }) => {
       manifest: false,
       assetsInlineLimit: 0,
       ssr: true,
-
+      define: {
+        "process.env.VITE_APP_BASE": JSON.stringify(process.env.VITE_APP_BASE),
+      },
       rollupOptions: {
         input: [
           resolve("server.js"),
@@ -31,7 +32,6 @@ export default defineConfig(({ command, mode }) => {
         },
       },
     },
-
     resolve: {
       alias: {
         "~": resolve(__dirname, "src"),

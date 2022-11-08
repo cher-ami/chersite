@@ -20,8 +20,11 @@ log("public env:", import.meta.env)
 
 /**
  * Base
+ * Load process.env base if is available by external load, else we get vite app base
+ * (process.env.VITE_APP_BASE is replaced on build by vite (check vite.config.ts)
  */
-const base = import.meta.env.VITE_APP_BASE
+const base: string = process.env.VITE_APP_BASE || import.meta.env.VITE_APP_BASE
+log("Selected base", base)
 
 /**
  * Init global helpers
