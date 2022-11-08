@@ -29,8 +29,10 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   // merge loadEnv selected by vite in process.env
   process.env = {
     ...loadEnvVars,
+    // Merge "process.env" vars AFTER loadEnvVars!
+    // In some case, process.env vars are loaded via external service like gitlab-ci
+    // and must overwrite .env vars loaded by loadEnv()
     ...process.env,
-    VITE_APP_BASE: process.env.VITE_APP_BASE || loadEnvVars.VITE_APP_BASE,
     PORT: `${loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)}`,
     HOST: loadEnvVars["HOST"] ?? ipAddress,
     PROTOCOL: protocol,
@@ -51,6 +53,9 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         }
       : {}),
 
+    define: {
+      "process.env.VITE_APP_BASE": JSON.stringify(process.env.VITE_APP_BASE),
+    },
     // "base" refer to folder where assets are served
     // TODO base php
     // base: `${process.env.VITE_APP_BASE}${config.buildDirname}/`.replace("//", "/"),
@@ -123,13 +128,14 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         ],
       }),
 
+      // Htaccess dist/ with password
       buildHtaccessPlugin({
         enable: process.env.BUILD_HTACCESS === "true",
         serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
         user: process.env.HTACCESS_AUTH_USER,
         password: process.env.HTACCESS_AUTH_PASSWORD,
         htaccessTemplatePath: config.htaccessTemplateFilePath,
-        outputPath: config.outDirStatic,
+        outputPath: config.distDir,
       }),
     ],
   }

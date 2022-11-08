@@ -9,16 +9,22 @@ import { GlobalDataContext } from "./GlobalDataContext"
 import { preventSlashes } from "../config/helpers/prevent-slashes.js"
 import palette from "../config/helpers/palette.js"
 import { loadEnv } from "vite"
-export async function render(url: string, prerender = false) {
-  // Prepare
+export async function render(url: string, isPrerender = false) {
   const loadEnvVars = loadEnv("", process.cwd(), "")
-  const base = process.env.VITE_APP_BASE || loadEnvVars?.VITE_APP_BASE
-  const langService = langServiceInstance(base, url)
-  const preparedUrl = preventSlashes(`${base}${url}`)
 
-  if (prerender) {
-    console.log(palette.grey(` Prepared URL (VITE_APP_BASE + URL) → ${preparedUrl}`))
+  // Load process.env base if is available by external load, else we get vite app base
+  // (process.env.VITE_APP_BASE is replaced on build by vite (check vite.config.ts)
+  let base: string = process.env.VITE_APP_BASE || loadEnvVars.VITE_APP_BASE
+  const preparedUrl = preventSlashes(`${isPrerender ? base : ""}${url}`)
+
+  if (isPrerender) {
+    console.log(palette.grey(` base → ${base}`))
+    console.log(palette.grey(` URL → ${url}`))
+    console.log(palette.grey(` preparedUrl (base + URL) → ${preparedUrl}`))
   }
+
+  // Init lang service
+  const langService = langServiceInstance(base, preparedUrl)
 
   // Request static props
   const ssrStaticProps = await requestStaticPropsFromRoute({
@@ -46,7 +52,7 @@ export async function render(url: string, prerender = false) {
       initialStaticProps={ssrStaticProps}
       langService={langService}
     >
-      <GlobalDataContext.Provider value={{ globalData }}>
+      <GlobalDataContext.Provider value={globalData}>
         <App />
       </GlobalDataContext.Provider>
     </Router>
