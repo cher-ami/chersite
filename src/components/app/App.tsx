@@ -13,7 +13,7 @@ function App(props: IProps): JSX.Element {
   // ------------------------------------------------------------------------------- PAGE TRANSITIONS
 
   /**
-   * Manage page tranisitons senario
+   * Manage page transitions scenario
    * https://github.com/cher-ami/router/tree/main#manage-transitions
    * @param TManageTransitions
    * @returns Promise <void>
