@@ -19,7 +19,6 @@
     "scaffold": "node config/tasks/scaffold-component/scaffold-component.js",
     "scaffold-wp": "node config/tasks/scaffold-wp/scaffold-wp.js",
     "prepare": "husky install",
-    "postinstall": "cp -n .env .env.local || true",
     "prettier": "prettier --write .",
     "test": "vitest run"
   },
