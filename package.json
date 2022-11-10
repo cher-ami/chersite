@@ -56,6 +56,10 @@
     "vite-plugin-checker": "^0.5.1",
     "vitest": "^0.24.3"
   },
+  "optionalDependencies": {
+    "esbuild-android-arm64": "^0.15.13",
+    "fsevents": "^2.3.2"
+  },
   "browserslist": [
     "last 2 versions",
     "iOS >= 12"
