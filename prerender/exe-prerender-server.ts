@@ -20,7 +20,9 @@ app.get("/generate", async (req, res) => {
     }
   }
 
-  await prerender(urlsArray)
+  // second arg "./static" is matching cher-ami deploy conf
+  // need to be edited if we want to start this server locally
+  await prerender(urlsArray, "./static")
   res?.send("Generated static pages: " + urlsArray.join(", "))
 })
 
