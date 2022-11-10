@@ -2,7 +2,7 @@ name: CI
 
 on: push
 jobs:
-  ci:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -13,3 +13,15 @@ jobs:
 
       - name: 🙏🏽 build
         run: npm run build
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: node -v
+
+      - name: 🌎 install dependencies
+        run: npm ci --unsafe-perm
+
+      - name: 🙏🏽 test
+        run: npm run test

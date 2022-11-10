@@ -5,13 +5,14 @@ import config from "../config/config.js"
 import palette from "../config/helpers/palette.js"
 const { log } = console
 
-export const prerender = async (urls: string[]) => {
+export const prerender = async (urls: string[], outDirStatic = config.outDirStatic) => {
   log("URLs to generate", urls)
-  const indexTemplateSrc = `${config.outDirStatic}/index-template.html`
+
+  const indexTemplateSrc = `${outDirStatic}/index-template.html`
 
   // copy index as template to avoid the override with the generated static index.html bellow
   if (!(await mfs.fileExists(indexTemplateSrc)))
-    await mfs.copyFile(`${config.outDirStatic}/index.html`, indexTemplateSrc)
+    await mfs.copyFile(`${outDirStatic}/index.html`, indexTemplateSrc)
 
   // now the layout is index-template.html
   const layout = await mfs.readFile(indexTemplateSrc)
@@ -44,7 +45,7 @@ export const prerender = async (urls: string[]) => {
         : ""
 
       // prepare sub folder templates if exist
-      const routePath = path.resolve(`${config.outDirStatic}/${preparedUrl}`)
+      const routePath = path.resolve(`${outDirStatic}/${preparedUrl}`)
 
       // add .html to the end of th pat
       const htmlFilePath = `${routePath}.html`

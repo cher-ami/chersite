@@ -20,7 +20,8 @@
     "scaffold-wp": "node config/tasks/scaffold-wp/scaffold-wp.js",
     "prepare": "husky install",
     "postinstall": "cp -n .env .env.local || true",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "test": "vitest run"
   },
   "dependencies": {
     "@cher-ami/css-flat": "^1.0.1",

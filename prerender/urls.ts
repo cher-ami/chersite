@@ -6,9 +6,8 @@ import fetch from "cross-fetch"
  *
  *
  */
-export const fetchAvailableUrls = async () => {
+export const fetchAvailableUrls = async (): Promise<string[]> => {
   /**
-
    If urls come from API, fetch and return URLS instead
 
    let data
@@ -22,10 +21,12 @@ export const fetchAvailableUrls = async () => {
 
   // return static urls
   // prettier-ignore
-  return [
+  return new Promise(resolve => {
+   resolve([
     "/",
     "/work/first-work",
     "/work/second-work",
     "/404"
-  ]
+  ])
+  })
 }
