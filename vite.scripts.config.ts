@@ -1,3 +1,5 @@
+// @ts-ignore
+import autoprefixer from "autoprefixer"
 import { resolve } from "path"
 import { defineConfig } from "vite"
 import config from "./config/config.js"
@@ -30,6 +32,14 @@ export default defineConfig(({ command, mode }) => {
           chunkFileNames: `[name].js`,
           assetFileNames: `[name].[ext]`,
         },
+      },
+    },
+    css: {
+      modules: {
+        generateScopedName: "[name]__[local]__[hash:base64:5]",
+      },
+      postcss: {
+        plugins: [autoprefixer()],
       },
     },
     resolve: {
