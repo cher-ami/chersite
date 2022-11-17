@@ -28,7 +28,7 @@ export const routes: TRoute[] = [
     },
   },
   {
-    path: "/work/:slug",
+    path: "/work/:slug?",
     name: EPages.WORK,
     component: WorkPage,
     getStaticProps: async (props) => {
