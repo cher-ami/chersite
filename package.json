@@ -3,10 +3,10 @@
   "description": "Web base Boilerplate for cher-ami projects.",
   "version": "0.5.0",
   "author": "cher-ami",
-  "main": "src/index.tsx",
+  "main": "src/index-client.tsx",
   "type": "module",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "node server/server.js",
     "build:client": "vite build --outDir dist/front/client",
     "build:server": "vite build --ssr src/index-server.tsx --outDir dist/front/server",
     "build:scripts": "vite build -c vite.scripts.config.ts",

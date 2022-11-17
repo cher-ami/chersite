@@ -4,6 +4,7 @@ import { render } from "~/index-server"
 import config from "../config/config.js"
 import palette from "../config/helpers/palette.js"
 import { isRouteIndex } from "./helpers/isRouteIndex"
+import { prepareTemplate } from "../server/prepareTemplate.js"
 
 export const prerender = async (urls: string[], outDirStatic = config.outDirStatic) => {
   console.log("URLs to generate", urls)
@@ -30,18 +31,12 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
       // Case url is index of root or of index of a group
       if (isRouteIndex(preparedUrl, urls)) preparedUrl = `${preparedUrl}/index`
 
-      // include it in the template
-      const template = layout
-        ? layout
-            .replaceAll(`<!--meta-title-->`, meta?.title ?? "")
-            .replaceAll(`<!--meta-description-->`, meta?.description ?? "")
-            .replaceAll(`<!--meta-imageUrl-->`, meta?.imageUrl ?? "")
-            .replaceAll(`<!--meta-url-->`, meta?.url ?? "")
-            .replaceAll(`<!--meta-siteName-->`, meta?.siteName ?? "")
-            .replace(`<!--app-html-->`, renderToString)
-            .replace(`"<!--ssr-static-props-->"`, JSON.stringify(ssrStaticProps))
-            .replace(`"<!--ssr-global-data-->"`, JSON.stringify(globalData))
-        : ""
+      const template = prepareTemplate(layout, {
+        app: renderToString,
+        ssrStaticProps,
+        globalData,
+        meta,
+      })
 
       // prepare sub folder templates if exist
       const routePath = path.resolve(`${outDirStatic}/${preparedUrl}`)
