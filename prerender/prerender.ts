@@ -3,11 +3,10 @@ import path from "path"
 import { render } from "~/index-server"
 import config from "../config/config.js"
 import palette from "../config/helpers/palette.js"
-const { log } = console
+import { isRouteIndex } from "./helpers/isRouteIndex"
 
 export const prerender = async (urls: string[], outDirStatic = config.outDirStatic) => {
-  log("URLs to generate", urls)
-
+  console.log("URLs to generate", urls)
   const indexTemplateSrc = `${outDirStatic}/index-template.html`
 
   // copy index as template to avoid the override with the generated static index.html bellow
@@ -21,15 +20,15 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
   for (const url of urls) {
     let preparedUrl = url.startsWith("/") ? url : `/${url}`
 
-    // get react app HTML render to string
     try {
-      const { meta, renderToString, ssrStaticProps, globalData, languages } =
-        await render(preparedUrl, true)
-      if (preparedUrl === "/") preparedUrl = "/index"
+      // Request information from render method
+      const { renderToString, ssrStaticProps, globalData, meta } = await render(
+        preparedUrl,
+        true
+      )
 
-      if (languages && languages.some((e) => `/${e.key}` === preparedUrl)) {
-        preparedUrl = `${preparedUrl}/index`
-      }
+      // Case url is index of root or of index of a group
+      if (isRouteIndex(preparedUrl, urls)) preparedUrl = `${preparedUrl}/index`
 
       // include it in the template
       const template = layout

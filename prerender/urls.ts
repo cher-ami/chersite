@@ -24,6 +24,7 @@ export const fetchAvailableUrls = async (): Promise<string[]> => {
   return new Promise(resolve => {
    resolve([
     "/",
+    "/work",
     "/work/first-work",
     "/work/second-work",
     "/404"
