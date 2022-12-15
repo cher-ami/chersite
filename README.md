@@ -15,26 +15,21 @@ chersite is a web static-site generator for cher-ami projects based on
 
 <br/>
 
-## Purpose
+## About
 
 Chersite is a React static-site generator build in order to obtain a static server rendering for best performance.
 The build step prepare a server script, a prerender script and a SPA version to leave choice of use.
 This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server request static props routes transitions or languages.
 
-This framework has been designed in its tree structure to easily set up a back-end or an API from `dist` folder.
-The front-end side can then access this served API to build its templates.
-
 ## Requirements
 
 - [node v16.16](https://nodejs.org/en)
 - [npm](https://www.npmjs.com/)
-- [git](https://git-scm.com/)
 
 ## Summary
 
 - [Installation](./docs/01.installation.md)
 - [Vite configuration](./docs/02.vite-configuration.md)
-- [Vite simple SPA installation](./docs/03.vite-simple-spa-installation.md)
 - [CLI](./docs/04.cli.md)
 - [Environment variables](./docs/05.environment-variables.md)
 - [Vite plugins](./docs/06.vite-plugins.md)
