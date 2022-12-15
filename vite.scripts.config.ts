@@ -8,6 +8,8 @@ const log = debug("config:vite.config")
 
 export default defineConfig(({ command, mode }) => {
   return {
+    base: process.env.VITE_APP_BASE,
+
     build: {
       assetsDir: "./",
       write: true,
@@ -30,7 +32,6 @@ export default defineConfig(({ command, mode }) => {
           manualChunks: undefined,
           entryFileNames: `[name].js`,
           chunkFileNames: `[name].js`,
-          assetFileNames: `[name].[ext]`,
         },
       },
     },

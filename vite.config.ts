@@ -57,8 +57,6 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       "process.env.VITE_APP_BASE": JSON.stringify(process.env.VITE_APP_BASE),
     },
     // "base" refer to folder where assets are served
-    // TODO base php
-    // base: `${process.env.VITE_APP_BASE}${config.buildDirname}/`.replace("//", "/"),
     base: process.env.VITE_APP_BASE,
 
     // public folder content is copied in static build folder
