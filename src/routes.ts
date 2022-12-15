@@ -1,5 +1,5 @@
 import fetch from "cross-fetch"
-import { TRoute } from "@cher-ami/router"
+import { TLanguage, TRoute } from "@cher-ami/router"
 import { TMetaTags } from "./managers/MetaManager"
 import HomePage from "./pages/homePage/HomePage"
 import WorkPage from "./pages/workPage/WorkPage"
@@ -16,7 +16,7 @@ export const routes: TRoute[] = [
     path: "/",
     component: HomePage,
     name: EPages.HOME,
-    getStaticProps: async (props) => {
+    getStaticProps: async (props, currentLang: TLanguage) => {
       const res = await fetch("https://worldtimeapi.org/api/ip")
       const time = await res.json()
       const meta: TMetaTags = {
@@ -31,7 +31,7 @@ export const routes: TRoute[] = [
     path: "/work/:slug?",
     name: EPages.WORK,
     component: WorkPage,
-    getStaticProps: async (props) => {
+    getStaticProps: async (props, currentLang: TLanguage) => {
       const meta: TMetaTags = {
         title: `Work - ${props.params.slug}`,
         description: "Work description",
@@ -44,7 +44,7 @@ export const routes: TRoute[] = [
     path: "/:rest",
     name: EPages.NOT_FOUND,
     component: NotFoundPage,
-    getStaticProps: async (props) => {
+    getStaticProps: async (props, currentLang: TLanguage) => {
       const meta = {
         title: `404`,
         description: "Not found",
