@@ -1,12 +1,11 @@
 import Inquirer from "inquirer"
 import changeCase from "change-case"
 import createFile from "../../helpers/create-file.js"
-
-import debug from "@wbe/debug"
-const log = debug("config:scaffold")
-import logs from "../../helpers/logger.js"
-
 import config from "../../config.js"
+import logs from "../../helpers/logger.js"
+import debug from "@wbe/debug"
+
+const log = debug("config:scaffold")
 
 // ----------------------------------------------------------------------------- PRIVATE API
 
@@ -59,6 +58,7 @@ const _domComponentBuilder = async ({
   componentPath,
   upperComponentName,
   componentsTemplatesDir,
+  twigComponentPath,
 }) => {
   // scaffold component file
   await createFile({
@@ -70,6 +70,12 @@ const _domComponentBuilder = async ({
   await createFile({
     templateFilePath: `${componentsTemplatesDir}/dom/component.less.template`,
     destinationFilePath: `${componentPath}/${upperComponentName}.less`,
+    replaceExpressions: { upperComponentName },
+  })
+  // scaffold Twig
+  await createFile({
+    templateFilePath: `${componentsTemplatesDir}/dom/component.twig.template`,
+    destinationFilePath: `${twigComponentPath}/${upperComponentName}.twig`,
     replaceExpressions: { upperComponentName },
   })
 }
@@ -104,6 +110,7 @@ const _scaffoldComponent = ({
     let upperComponentName = changeCase.pascalCase(componentName)
     // Base path of the component (no extension at the end here)
     let componentPath = `${srcDir}/${subFolder}/${lowerComponentName}`
+    let twigComponentPath = `${config.twigTemplates}/${subFolder}`
     log("component will be created here: componentPath", componentPath)
 
     // build REACT component
@@ -122,6 +129,7 @@ const _scaffoldComponent = ({
       await _domComponentBuilder({
         upperComponentName,
         componentPath,
+        twigComponentPath,
         componentCompatibleFolders,
         componentsTemplatesDir,
       })

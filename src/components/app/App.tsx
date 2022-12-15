@@ -3,6 +3,7 @@ import React from "react"
 import { Link, Stack, TManageTransitions } from "@cher-ami/router"
 
 import debug from "@wbe/debug"
+import { EPages } from "~/routes"
 const log = debug(`front:*`)
 
 export interface IProps {}
@@ -12,7 +13,7 @@ function App(props: IProps): JSX.Element {
   // ------------------------------------------------------------------------------- PAGE TRANSITIONS
 
   /**
-   * Manage page tranisitons senario
+   * Manage page transitions scenario
    * https://github.com/cher-ami/router/tree/main#manage-transitions
    * @param TManageTransitions
    * @returns Promise <void>
@@ -57,7 +58,14 @@ function App(props: IProps): JSX.Element {
             <Link to={"/"}>Home</Link>
           </li>
           <li>
-            <Link to={"/work/first-work"}>Work - id: "first-work"</Link>
+            <Link to={{ name: EPages.WORK, params: { slug: "first-work" } }}>
+              Work - id: "first-work"
+            </Link>
+          </li>
+          <li>
+            <Link to={{ name: EPages.WORK, params: { slug: "second-work" } }}>
+              Work - id: "second-work"
+            </Link>
           </li>
         </ul>
       </nav>

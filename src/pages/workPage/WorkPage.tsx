@@ -1,11 +1,13 @@
 import css from "./WorkPage.module.less"
-import React, { ForwardedRef, forwardRef, useRef } from "react"
+import React, { ForwardedRef, forwardRef, useEffect, useRef } from "react"
 import { useStack } from "@cher-ami/router"
 import debug from "@wbe/debug"
+import { MetasManager, TMetaTags } from "~/managers/MetaManager"
 
 interface IProps {
+  meta: TMetaTags
   params: {
-    id: string
+    slug: string
   }
 }
 
@@ -15,8 +17,15 @@ const log = debug(`front:${componentName}`)
 /**
  * @name WorkPage
  */
-const WorkPage = forwardRef((props: IProps, handleRef: ForwardedRef<any>) => {
+function WorkPage(props: IProps, handleRef: ForwardedRef<any>) {
   const rootRef = useRef<HTMLDivElement>(null)
+
+  /**
+   * Client meta
+   */
+  useEffect(() => {
+    MetasManager.inject({ values: props.meta })
+  }, [props])
 
   /**
    * playIn page transition
@@ -39,10 +48,10 @@ const WorkPage = forwardRef((props: IProps, handleRef: ForwardedRef<any>) => {
 
   return (
     <div className={css.root} ref={rootRef}>
-      {componentName} with id: <em>{props.params?.id}</em>
+      {componentName} with slug: <em>{props.params?.slug}</em>
     </div>
   )
-})
+}
 
 WorkPage.displayName = componentName
-export default WorkPage
+export default forwardRef(WorkPage)

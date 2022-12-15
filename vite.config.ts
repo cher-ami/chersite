@@ -1,15 +1,15 @@
+// @ts-ignore
+import autoprefixer from "autoprefixer"
 import { ConfigEnv, defineConfig, loadEnv, UserConfig } from "vite"
 import { resolve } from "path"
 import config from "./config/config.js"
 import debug from "@wbe/debug"
-import react from "@vitejs/plugin-react"
+import react from "@vitejs/plugin-react-swc"
 import checker from "vite-plugin-checker"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
 import { chersiteCustomLogger } from "./config/vite-plugins/chersiteCustomLogger"
-import { envVarsLocalIp } from "./config/helpers/env-vars-local-ip.js"
 import legacy from "@vitejs/plugin-legacy"
-import autoprefixer from "autoprefixer"
 import ip from "ip"
 import portFinderSync from "portfinder-sync"
 const log = debug("config:vite.config")
@@ -26,32 +26,38 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   // get env variables from selected .env (depend of mode)
   const loadEnvVars = loadEnv(mode, process.cwd(), "")
 
-  // replace "{{LOCAL_IP}}" by the real local IP in .ENV VAR
-  // Works only without docker because  docker use process.env.HOST
-  const formattedLoadEnvVars = envVarsLocalIp(loadEnvVars, ipAddress)
-
   // merge loadEnv selected by vite in process.env
   process.env = {
+    ...loadEnvVars,
+    // Merge "process.env" vars AFTER loadEnvVars!
+    // In some case, process.env vars are loaded via external service like gitlab-ci
+    // and must overwrite .env vars loaded by loadEnv()
     ...process.env,
-    ...formattedLoadEnvVars,
-    PROTOCOL: protocol,
     PORT: `${loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)}`,
     HOST: loadEnvVars["HOST"] ?? ipAddress,
+    PROTOCOL: protocol,
     COMMAND: command,
     INPUT_FILES: config.input.join(","),
     BUILD_DIRNAME: config.buildDirname,
   }
 
   return {
-    customLogger: chersiteCustomLogger({
-      protocol,
-      host: process.env.HOST,
-      port: process.env.DOCKER_APACHE_PORT,
-      base: process.env.VITE_APP_BASE,
-    }),
+    ...(isDevelopment
+      ? {
+          customLogger: chersiteCustomLogger({
+            protocol,
+            host: process.env.HOST,
+            port: process.env.PORT,
+            base: process.env.VITE_APP_BASE,
+          }),
+        }
+      : {}),
 
+    define: {
+      "process.env.VITE_APP_BASE": JSON.stringify(process.env.VITE_APP_BASE),
+    },
     // "base" refer to folder where assets are served
-    base: `${process.env.VITE_APP_BASE}${config.buildDirname}/`.replace("//", "/"),
+    base: process.env.VITE_APP_BASE,
 
     // public folder content is copied in static build folder
     publicDir: config.publicDir,
@@ -70,9 +76,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
 
     css: {
       modules: {
-        generateScopedName: isDevelopment
-          ? "[name]__[local]__[hash:base64:5]"
-          : "[hash:base64:5]",
+        generateScopedName: "[name]__[local]__[hash:base64:5]",
       },
       postcss: {
         plugins: [autoprefixer()],
@@ -100,6 +104,12 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     },
 
     plugins: [
+      react(),
+
+      checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
+
+      legacy({ targets: ["defaults", "not IE 11"] }),
+
       buildDotenvPlugin({
         envVars: process.env,
         dotenvOutDir: config.buildDotenvOutDir,
@@ -114,20 +124,15 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         ],
       }),
 
+      // Htaccess dist/ with password
       buildHtaccessPlugin({
         enable: process.env.BUILD_HTACCESS === "true",
         serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
         user: process.env.HTACCESS_AUTH_USER,
         password: process.env.HTACCESS_AUTH_PASSWORD,
         htaccessTemplatePath: config.htaccessTemplateFilePath,
-        outputPath: config.wwwDir,
+        outputPath: config.distDir,
       }),
-
-      react(),
-
-      checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
-
-      legacy({ targets: ["defaults", "not IE 11"] }),
     ],
   }
 })

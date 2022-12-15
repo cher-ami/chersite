@@ -1,17 +1,20 @@
 version: "3.7"
 services:
-  apache:
-    image: registry.gitlab.cher-ami.tv/docker/docker-images/php:7.4
-    ports:
-      - "${DOCKER_APACHE_PORT:-4321}:80"
-    volumes:
-      - "./dist:/app"
-    working_dir: /app
   node:
     image: node:16.16.0
     ports:
       - "${DOCKER_NODE_PORT:-3000}:3000"
+      - "24678:24678" # vite hot reload port
+      - "1234:1234" # expose node server for generating pages
     volumes:
       - "./:/app"
     working_dir: /app
     tty: true
+
+#  apache:
+#    image: registry.gitlab.cher-ami.tv/docker/docker-images/php:7.4-1
+#    ports:
+#      - "${DOCKER_APACHE_PORT:-4321}:80"
+#    volumes:
+#      - "./:/app"
+#    working_dir: /app

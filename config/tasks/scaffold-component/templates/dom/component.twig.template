@@ -1,0 +1,7 @@
+{#
+    %%upperComponentName%%
+    @props className {string}
+#}
+<div class="%%upperComponentName%% {{ className }}" data-component="%%upperComponentName%%">
+    %%upperComponentName%%
+</div>
