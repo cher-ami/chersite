@@ -3,7 +3,7 @@
   "description": "Web base Boilerplate for cher-ami projects.",
   "version": "0.5.0",
   "author": "cher-ami",
-  "main": "src/index-client.tsx",
+  "main": "src/index.tsx",
   "type": "module",
   "scripts": {
     "dev": "node server/server.js",

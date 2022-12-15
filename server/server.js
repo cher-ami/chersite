@@ -50,8 +50,8 @@ async function createDevServer() {
 
       // 4. render the app HTML. This assumes entry-server.js's exported `render`
       //    function calls appropriate framework SSR APIs
-      const { meta, renderToString, ssrStaticProps, globalData } = await render(url)
-      log({ url, renderToString, ssrStaticProps, globalData })
+      const { meta, renderToString, ssrStaticProps, globalData, lang } = await render(url)
+      log({ url, renderToString, ssrStaticProps, globalData, lang })
 
       // 5. Inject the app-rendered HTML into the template.
       const html = prepareTemplate(layout, {
@@ -59,6 +59,7 @@ async function createDevServer() {
         ssrStaticProps,
         globalData,
         meta,
+        lang,
       })
 
       // 6. Send the rendered HTML back.

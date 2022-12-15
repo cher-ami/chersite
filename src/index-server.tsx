@@ -64,5 +64,6 @@ export async function render(url: string, isPrerender = false) {
     ssrStaticProps,
     globalData,
     languages: langService.languages,
+    lang: langService.currentLang?.key,
   }
 }

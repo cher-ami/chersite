@@ -23,7 +23,7 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
 
     try {
       // Request information from render method
-      const { renderToString, ssrStaticProps, globalData, meta } = await render(
+      const { renderToString, ssrStaticProps, globalData, meta, lang } = await render(
         preparedUrl,
         true
       )
@@ -36,6 +36,7 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
         ssrStaticProps,
         globalData,
         meta,
+        lang,
       })
 
       // prepare sub folder templates if exist
