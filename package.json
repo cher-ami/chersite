@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@cher-ami/css-flat": "^1.0.1",
-    "@cher-ami/router": "^3.0.0-beta.13",
+    "@cher-ami/router": "^3.0.0-beta.16",
     "@cher-ami/utils": "^1.0.0",
     "@wbe/debug": "^1.1.0",
     "cross-fetch": "^3.1.5",
