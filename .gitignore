@@ -13,3 +13,4 @@ dist-ssr
 *.local
 .cache
 vite.config.ts.timestamp*
+build-stats.html
