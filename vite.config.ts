@@ -5,6 +5,7 @@ import { resolve } from "path"
 import config from "./config/config.js"
 import debug from "@wbe/debug"
 import react from "@vitejs/plugin-react-swc"
+import { visualizer } from "rollup-plugin-visualizer"
 import checker from "vite-plugin-checker"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
@@ -132,6 +133,12 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         password: process.env.HTACCESS_AUTH_PASSWORD,
         htaccessTemplatePath: config.htaccessTemplateFilePath,
         outputPath: process.env.HTACCESS_OUTPUT_PATH,
+      }),
+
+      visualizer({
+        filename: "./build-stats.html",
+        gzipSize: true,
+        title: "Generated bundle stats",
       }),
     ],
   }
