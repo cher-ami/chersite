@@ -19,7 +19,7 @@ chersite is a web static-site generator for cher-ami projects based on
 
 Chersite is a React static-site generator build in order to obtain a static server rendering for best performance.
 The build step prepare a server script, a prerender script and a SPA version to leave choice of use.
-This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server request static props routes transitions or languages.
+This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
 
 ## Requirements
 
