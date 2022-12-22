@@ -35,32 +35,22 @@ async function createDevServer() {
     const url = req.originalUrl
 
     try {
-      // 1. Read index.html
-      let layout = await mfs.readFile(resolve("index.html"))
-
-      // 2. Apply Vite HTML transforms. This injects the Vite HMR client, and
-      //    also applies HTML transforms from Vite plugins, e.g. global preambles
-      //    from @vitejs/plugin-react
-      layout = await vite.transformIndexHtml(url, layout)
-
       // 3. Load the server entry. vite.ssrLoadModule automatically transforms
       //    your ESM source code to be usable in Node.js! There is no bundling
       //    required, and provides efficient invalidation similar to HMR.
       const { render } = await vite.ssrLoadModule(`${config.srcDir}/index-server.tsx`)
-
       // 4. render the app HTML. This assumes entry-server.js's exported `render`
       //    function calls appropriate framework SSR APIs
-      const { meta, renderToString, ssrStaticProps, globalData, lang } = await render(url)
-      log({ url, renderToString, ssrStaticProps, globalData, lang })
+      //      log({ url, renderToString, ssrStaticProps, globalData, lang })
 
-      // 5. Inject the app-rendered HTML into the template.
-      const html = prepareTemplate(layout, {
-        app: renderToString,
-        ssrStaticProps,
-        globalData,
-        meta,
-        lang,
-      })
+      // 1. Read index.html
+      //    let layout = await mfs.readFile(resolve("index.html"))
+
+      // 2. Apply Vite HTML transforms. This injects the Vite HMR client, and
+      //    also applies HTML transforms from Vite plugins, e.g. global preambles
+      //    from @vitejs/plugin-react
+      let html = await render(url)
+      html = await vite.transformIndexHtml(url, html)
 
       // 6. Send the rendered HTML back.
       res.status(200).set({ "Content-Type": "text/html" }).end(html)

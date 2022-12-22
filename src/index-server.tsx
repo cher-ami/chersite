@@ -1,6 +1,6 @@
 import fetch from "cross-fetch"
 import * as React from "react"
-import ReactDOMServer from "react-dom/server"
+import { renderToString } from "react-dom/server"
 import { routes } from "./routes"
 import App from "./components/app/App"
 import { langServiceInstance } from "./LangService"
@@ -9,6 +9,29 @@ import { GlobalDataContext } from "./GlobalDataContext"
 import { preventSlashes } from "../config/helpers/prevent-slashes.js"
 import palette from "../config/helpers/palette.js"
 import { loadEnv } from "vite"
+
+/**
+ * Insert script
+ * @param name
+ * @param obj
+ */
+const InsertScript = ({ name, data }) => {
+  const stringify = (e): string => JSON.stringify(e, null, 2).replace(/\s/g, "")
+  return (
+    <script
+      type="text/javascript"
+      dangerouslySetInnerHTML={{
+        __html: `window.${name}=${stringify(data)}`,
+      }}
+    />
+  )
+}
+
+/**
+ * Server render
+ * @param url
+ * @param isPrerender
+ */
 export async function render(url: string, isPrerender = false) {
   const loadEnvVars = loadEnv("", process.cwd(), "")
 
@@ -34,6 +57,10 @@ export async function render(url: string, isPrerender = false) {
     langService,
   })
 
+  const {
+    props: { meta },
+  } = ssrStaticProps
+
   // Request Global data example-client
   const requestGlobalData = async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/users")
@@ -44,26 +71,55 @@ export async function render(url: string, isPrerender = false) {
   const globalData = await requestGlobalData()
 
   // Template for server
-  const renderToString = ReactDOMServer.renderToString(
-    <Router
-      base={base}
-      routes={routes}
-      staticLocation={preparedUrl}
-      initialStaticProps={ssrStaticProps}
-      langService={langService}
-    >
-      <GlobalDataContext.Provider value={globalData}>
-        <App />
-      </GlobalDataContext.Provider>
-    </Router>
-  )
+  return renderToString(
+    <html>
+      {/* Head */}
+      <head>
+        <meta charSet="UTF-8" />
+        <meta httpEquiv="imagetoolbar" content="no" />
+        <meta httpEquiv="x-ua-compatible" content="IE=Edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  return {
-    meta: ssrStaticProps?.props?.meta,
-    renderToString,
-    ssrStaticProps,
-    globalData,
-    languages: langService.languages,
-    lang: langService.currentLang?.key,
-  }
+        <title>{meta?.title}</title>
+        <meta name="description" content={meta.description} />
+        <link rel="canonical" href={meta.url} />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={meta.siteName} />
+        <meta property="og:url" content={meta.url} />
+        <meta property="og:title" content={meta.title} />
+        <meta property="og:description" content={meta.description} />
+        <meta property="og:image" content={meta.image} />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content={meta.siteName} />
+        <meta name="twitter:url" content={meta.url} />
+        <meta name="twitter:title" content={meta.title} />
+        <meta name="twitter:description" content={meta.description} />
+        <meta name="twitter:image" content={meta.image} />
+      </head>
+
+      {/* ROOT */}
+      <body>
+        <div id="root">
+          <Router
+            base={base}
+            routes={routes}
+            langService={langService}
+            staticLocation={preparedUrl}
+            initialStaticProps={ssrStaticProps}
+          >
+            <GlobalDataContext.Provider value={globalData}>
+              <App />
+            </GlobalDataContext.Provider>
+          </Router>
+        </div>
+
+        {/* INJECT */}
+        <script type="module" src="/src/index.tsx"></script>
+        <InsertScript name={"__SSR_STATIC_PROPS__"} data={ssrStaticProps} />
+        <InsertScript name={"__GLOBAL_DATA__"} data={globalData} />
+      </body>
+    </html>
+  )
 }

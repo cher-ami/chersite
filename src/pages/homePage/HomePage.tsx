@@ -5,7 +5,6 @@ import debug from "@wbe/debug"
 import { MetasManager, TMetaTags } from "~/managers/MetaManager"
 
 interface IProps {
-  // data from getStaticProps
   meta: TMetaTags
   time?: {
     utc_datetime: string

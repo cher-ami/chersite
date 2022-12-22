@@ -23,21 +23,10 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
 
     try {
       // Request information from render method
-      const { renderToString, ssrStaticProps, globalData, meta, lang } = await render(
-        preparedUrl,
-        true
-      )
+      const html = await render(preparedUrl, true)
 
       // Case url is index of root or of index of a group
       if (isRouteIndex(preparedUrl, urls)) preparedUrl = `${preparedUrl}/index`
-
-      const template = prepareTemplate(layout, {
-        app: renderToString,
-        ssrStaticProps,
-        globalData,
-        meta,
-        lang,
-      })
 
       // prepare sub folder templates if exist
       const routePath = path.resolve(`${outDirStatic}/${preparedUrl}`)
@@ -46,7 +35,7 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
       const htmlFilePath = `${routePath}.html`
 
       // write file on the server
-      await mfs.createFile(htmlFilePath, template)
+      await mfs.createFile(htmlFilePath, html)
 
       console.log(palette.green(` → ${htmlFilePath.split("static")[1]}`))
     } catch (e) {
