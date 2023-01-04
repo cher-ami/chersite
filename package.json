@@ -11,7 +11,7 @@
     "build:server": "vite build --ssr src/index-server.tsx --outDir dist/front/server",
     "build:scripts": "vite build -c vite.scripts.config.ts",
     "build:static": "vite build --outDir dist/front/static",
-    "build": "npm run build:client && npm run build:server && npm run build:scripts && npm run build:static && npm run generate",
+    "build": "npm run build:server && npm run build:scripts && npm run build:static && npm run generate",
     "serve": "NODE_ENV=production node server",
     "generate": "node dist/front/_scripts/exe-prerender.js",
     "preview": "serve dist/front/static",
@@ -29,7 +29,8 @@
     "@wbe/debug": "^1.1.0",
     "cross-fetch": "^3.1.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "@types/events": "^3.0.0",
@@ -49,12 +50,12 @@
     "lint-staged": "^13.1.0",
     "portfinder-sync": "^0.0.2",
     "prettier": "^2.8.1",
+    "rollup-plugin-visualizer": "^5.8.3",
     "terser": "^5.16.1",
     "typescript": "^4.9.4",
     "vite": "^4.0.1",
     "vite-plugin-checker": "^0.5.2",
-    "vitest": "^0.25.8",
-    "rollup-plugin-visualizer": "^5.8.3"
+    "vitest": "^0.25.8"
   },
   "optionalDependencies": {
     "esbuild-android-arm64": "^0.15.18",

@@ -1,0 +1,44 @@
+{
+  "index-legacy.html": {
+    "file": "index-legacy-e92b0b23.js",
+    "src": "index-legacy.html",
+    "isEntry": true,
+    "assets": [
+      "roboto-regular-8cef0863.woff2",
+      "roboto-regular-18ab5ae4.woff",
+      "roboto-regular-b122d9b1.ttf"
+    ]
+  },
+  "vite/legacy-polyfills-legacy": {
+    "file": "polyfills-legacy-163e9122.js",
+    "src": "vite/legacy-polyfills-legacy",
+    "isEntry": true
+  },
+  "src/fonts/roboto-regular/roboto-regular.woff2": {
+    "file": "roboto-regular-8cef0863.woff2",
+    "src": "src/fonts/roboto-regular/roboto-regular.woff2"
+  },
+  "src/fonts/roboto-regular/roboto-regular.woff": {
+    "file": "roboto-regular-18ab5ae4.woff",
+    "src": "src/fonts/roboto-regular/roboto-regular.woff"
+  },
+  "src/fonts/roboto-regular/roboto-regular.ttf": {
+    "file": "roboto-regular-b122d9b1.ttf",
+    "src": "src/fonts/roboto-regular/roboto-regular.ttf"
+  },
+  "index.css": {
+    "file": "index-ef71c845.css",
+    "src": "index.css"
+  },
+  "index.html": {
+    "file": "index-475b5da0.js",
+    "src": "index.html",
+    "isEntry": true,
+    "css": ["index-ef71c845.css"],
+    "assets": [
+      "roboto-regular-8cef0863.woff2",
+      "roboto-regular-18ab5ae4.woff",
+      "roboto-regular-b122d9b1.ttf"
+    ]
+  }
+}

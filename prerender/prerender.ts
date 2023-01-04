@@ -4,7 +4,7 @@ import { render } from "~/index-server"
 import config from "../config/config.js"
 import palette from "../config/helpers/palette.js"
 import { isRouteIndex } from "./helpers/isRouteIndex"
-import { prepareTemplate } from "../server/prepareTemplate.js"
+import { ManifestParser } from "./helpers/ManifestParser"
 
 export const prerender = async (urls: string[], outDirStatic = config.outDirStatic) => {
   console.log("URLs to generate", urls)
@@ -16,6 +16,11 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
 
   // now the layout is index-template.html
   const layout = await mfs.readFile(indexTemplateSrc)
+
+  const manifest = await mfs.readFile(`${outDirStatic}/manifest.json`)
+  const parser = new ManifestParser(manifest)
+
+  //  console.log("assets", parser.getScriptTags())
 
   // pre-render each route...
   for (const url of urls) {
