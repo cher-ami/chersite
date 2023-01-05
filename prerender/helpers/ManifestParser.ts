@@ -1,6 +1,10 @@
 export type TAssetsList = string[]
 export type TAssetsByType = { [x: string]: string[] }
-export type TScriptTags = { [x: string]: string[] }
+
+export type TScript = { tag: string; attr: { [x: string]: string } }
+export type TScriptsObj = {
+  [ext: string]: TScript[]
+}
 
 /**
  * ManifestParser
@@ -14,31 +18,32 @@ export class ManifestParser {
    * Directly get script Tags from raw manifest string
    * @param manifestRaw
    */
-  static getScriptTagFromManifest(manifestRaw: string): TScriptTags {
+  static getScriptTagFromManifest(manifestRaw: string): TScriptsObj {
     const assets = ManifestParser.getAssets(manifestRaw)
     const assetsByType = ManifestParser.sortAssetsByType(assets)
-    return ManifestParser.getScriptTags(assetsByType)
+    return ManifestParser.getScripts(assetsByType)
   }
 
   /**
    * Get script tags
-   *  ex:
    *
+   *  ex:
    *  {
    *   js: [
-   *     '<script nomodule crossorigin src="/index-legacy-e92b0b23.js"></script>',
-   *     '<script module crossorigin src="/index-475b5da0.js"></script>'
-   *   ],
-   *   woff2: [
-   *     '<link rel="preload" as=“font” type=“font/woff2" crossorigin href="/roboto-regular-8cef0863.woff2">'
-   *   ],
-   *   css: [ '<link rel="stylesheet" crossorigin href="/index-ef71c845.css">' ]
+   *     {
+   *        tag: 'script',
+   *        attr: {
+   *          src: ""
+   *          noModule: "",
+   *       }
+   *     },
    * }
+   * ...
    *
    * @param assetListByType
    * @param base
    */
-  static getScriptTags(assetListByType: TAssetsByType, base = "/"): TScriptTags {
+  static getScripts(assetListByType: TAssetsByType, base = "/"): TScriptsObj {
     if (typeof assetListByType !== "object" || !assetListByType) {
       console.error("assetListByType is not valid, return", assetListByType)
       return
@@ -47,24 +52,41 @@ export class ManifestParser {
     return Object.keys(assetListByType).reduce((a, b: string) =>
     {
       const scriptURLs = assetListByType[b]
-      let scriptTags: string[]
+      let scripts: TScript[]
       if (b === "js") {
-        scriptTags = scriptURLs.map(url => {
-          const moduleType = url.includes("legacy") ? "nomodule" : "module"
-          return `<script ${moduleType} crossorigin src="${base}${url}"></script>`
+        scripts = scriptURLs.map(url => {
+          return {
+            tag: "script",
+            attr: {
+              ...(url.includes("legacy")  ? {noModule: ""} : {type: "module"}),
+              crossOrigin:"anonymous",
+              src: `${base}${url}`
+            }
+          }
         })
       }
       else if (b === "css") {
-        scriptTags = scriptURLs.map(url =>
-          `<link rel="stylesheet" crossorigin href="${base}${url}">`
-        )
+        scripts = scriptURLs.map(url => ({
+            tag: "link",
+            attr: {
+              rel: "stylesheet",
+              href: `${base}${url}`
+            }
+        }))
       }
       else if (b === "woff2") {
-        scriptTags = scriptURLs.map(url =>
-          `<link rel="preload" as=“font” type=“font/woff2" crossorigin href="${base}${url}">`
-        )
+        scripts = scriptURLs.map(url => ({
+          tag: "link",
+          attr: {
+            rel: "preload",
+            as: "font",
+            type:"font/woff2",
+            crossOrigin:"anonymous",
+            href: `${base}${url}`
+          }
+        }))
       }
-      return { ...a, ...(scriptTags ? {[b]: scriptTags} : {}) }
+      return { ...a, ...(scripts ? {[b]: scripts} : {}) }
     },{})
   }
 

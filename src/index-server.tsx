@@ -9,7 +9,10 @@ import { GlobalDataContext } from "./GlobalDataContext"
 import { preventSlashes } from "../config/helpers/prevent-slashes.js"
 import palette from "../config/helpers/palette.js"
 import { loadEnv } from "vite"
+import { TScript, TScriptsObj } from "../prerender/helpers/ManifestParser"
 
+// ----------------------------------------------------------------------------- PREPARE
+// TODO à sortir
 /**
  * Insert script
  * @param name
@@ -26,13 +29,29 @@ const InsertScript = ({ name, data }) => {
     />
   )
 }
+const ScriptTag = ({ tag, attr }: TScript): JSX.Element => {
+  const T = tag
+  // @ts-ignore
+  if (attr.noModule === "") return <T noModule={true} {...attr} />
+  else return <T {...attr} />
+}
+const CherScripts = ({ scripts }: { scripts: TScript[] }): JSX.Element => (
+  <>
+    {scripts?.map((script, i) => (
+      <ScriptTag key={i} {...script} />
+    ))}
+  </>
+)
+
+// ----------------------------------------------------------------------------- PREPARE
 
 /**
  * Server render
  * @param url
  * @param isPrerender
+ * @param scripts
  */
-export async function render(url: string, isPrerender = false) {
+export async function render(url: string, scripts: TScriptsObj, isPrerender = false) {
   const loadEnvVars = loadEnv("", process.cwd(), "")
 
   // Load process.env base if is available by external load, else we get vite app base
@@ -56,18 +75,13 @@ export async function render(url: string, isPrerender = false) {
     routes,
     langService,
   })
-
-  const {
-    props: { meta },
-  } = ssrStaticProps
-
+  const meta = ssrStaticProps.props?.meta
   // Request Global data example-client
   const requestGlobalData = async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/users")
     const users = await res.json()
     return { users }
   }
-
   const globalData = await requestGlobalData()
 
   // Template for server
@@ -79,24 +93,25 @@ export async function render(url: string, isPrerender = false) {
         <meta httpEquiv="imagetoolbar" content="no" />
         <meta httpEquiv="x-ua-compatible" content="IE=Edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
         <title>{meta?.title}</title>
-        <meta name="description" content={meta.description} />
-        <link rel="canonical" href={meta.url} />
-
+        <meta name="description" content={meta?.description} />
+        <link rel="canonical" href={meta?.url} />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content={meta.siteName} />
-        <meta property="og:url" content={meta.url} />
-        <meta property="og:title" content={meta.title} />
-        <meta property="og:description" content={meta.description} />
-        <meta property="og:image" content={meta.image} />
-
+        <meta property="og:site_name" content={meta?.siteName} />
+        <meta property="og:url" content={meta?.url} />
+        <meta property="og:title" content={meta?.title} />
+        <meta property="og:description" content={meta?.description} />
+        <meta property="og:image" content={meta?.image} />
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:site" content={meta.siteName} />
-        <meta name="twitter:url" content={meta.url} />
-        <meta name="twitter:title" content={meta.title} />
-        <meta name="twitter:description" content={meta.description} />
-        <meta name="twitter:image" content={meta.image} />
+        <meta name="twitter:site" content={meta?.siteName} />
+        <meta name="twitter:url" content={meta?.url} />
+        <meta name="twitter:title" content={meta?.title} />
+        <meta name="twitter:description" content={meta?.description} />
+        <meta name="twitter:image" content={meta?.image} />
+
+        {/* INJECT */}
+        <CherScripts scripts={scripts.css} />
+        <CherScripts scripts={scripts.woff2} />
       </head>
 
       {/* ROOT */}
@@ -116,7 +131,7 @@ export async function render(url: string, isPrerender = false) {
         </div>
 
         {/* INJECT */}
-        <script type="module" src="/src/index.tsx"></script>
+        <CherScripts scripts={scripts.js} />
         <InsertScript name={"__SSR_STATIC_PROPS__"} data={ssrStaticProps} />
         <InsertScript name={"__GLOBAL_DATA__"} data={globalData} />
       </body>

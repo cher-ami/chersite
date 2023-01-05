@@ -18,7 +18,7 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
   const layout = await mfs.readFile(indexTemplateSrc)
 
   const manifest = await mfs.readFile(`${outDirStatic}/manifest.json`)
-  const parser = new ManifestParser(manifest)
+  const scriptTags = ManifestParser.getScriptTagFromManifest(manifest)
 
   //  console.log("assets", parser.getScriptTags())
 
@@ -28,7 +28,7 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
 
     try {
       // Request information from render method
-      const html = await render(preparedUrl, true)
+      const html = await render(preparedUrl, scriptTags, true)
 
       // Case url is index of root or of index of a group
       if (isRouteIndex(preparedUrl, urls)) preparedUrl = `${preparedUrl}/index`
