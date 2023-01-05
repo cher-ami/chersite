@@ -4,10 +4,10 @@ import * as mfs from "../../config/helpers/mfs.js"
 import config from "../../config/config.js"
 
 const manifestRaw = await mfs.readFile(`${config.outDirStatic}/manifest.json`)
-const parser = new ManifestParser(manifestRaw)
 
 it("should return assets list", () => {
-  expect(parser.getAssets()).toEqual([
+  const assets = ManifestParser.getAssets(manifestRaw)
+  expect(assets).toEqual([
     "index-legacy-e92b0b23.js",
     "roboto-regular-8cef0863.woff2",
     "roboto-regular-18ab5ae4.woff",
@@ -21,6 +21,23 @@ it("should return assets list", () => {
   ])
 })
 
-it("should return l", () => {
-  expect(parser.getAssetsByType(parser.getAssets())).toEqual("")
+it("should return a list of assets by type", () => {
+  const assets = ManifestParser.getAssets(manifestRaw)
+  const assetsByType = ManifestParser.sortAssetsByType(assets)
+  const extensions = ["js", "woff2", "woff", "ttf", "css"]
+  expect(Object.keys(assetsByType)).toEqual(extensions)
+
+  extensions.forEach((e) => {
+    expect(
+      assetsByType[e].every((f) => f.split(".")[f.split(".").length - 1] === e)
+    ).toBe(true)
+  })
+})
+
+it("should return a list of script tag", () => {
+  const assets = ManifestParser.getAssets(manifestRaw)
+  const assetsByType = ManifestParser.sortAssetsByType(assets)
+  const scriptTags = ManifestParser.getScriptTags(assetsByType)
+  const scriptTagsFromManifest = ManifestParser.getScriptTagFromManifest(manifestRaw)
+  expect(scriptTags).toEqual(scriptTagsFromManifest)
 })
