@@ -10,38 +10,9 @@ import { preventSlashes } from "../config/helpers/prevent-slashes.js"
 import palette from "../config/helpers/palette.js"
 import { loadEnv } from "vite"
 import { TScript, TScriptsObj } from "../prerender/helpers/ManifestParser"
-
-// ----------------------------------------------------------------------------- PREPARE
-// TODO à sortir
-/**
- * Insert script
- * @param name
- * @param obj
- */
-const InsertScript = ({ name, data }) => {
-  const stringify = (e): string => JSON.stringify(e, null, 2).replace(/\s/g, "")
-  return (
-    <script
-      type="text/javascript"
-      dangerouslySetInnerHTML={{
-        __html: `window.${name}=${stringify(data)}`,
-      }}
-    />
-  )
-}
-const ScriptTag = ({ tag, attr }: TScript): JSX.Element => {
-  const T = tag
-  // @ts-ignore
-  if (attr.noModule === "") return <T noModule={true} {...attr} />
-  else return <T {...attr} />
-}
-const CherScripts = ({ scripts }: { scripts: TScript[] }): JSX.Element => (
-  <>
-    {scripts?.map((script, i) => (
-      <ScriptTag key={i} {...script} />
-    ))}
-  </>
-)
+import { CherScripts } from "~/server/helpers/CherScripts"
+import { patchScriptAttribute } from "~/server/helpers/patchScriptAttribute"
+import { InsertScript } from "~/server/helpers/InsertScript"
 
 // ----------------------------------------------------------------------------- PREPARE
 
@@ -75,17 +46,17 @@ export async function render(url: string, scripts: TScriptsObj, isPrerender = fa
     routes,
     langService,
   })
-  const meta = ssrStaticProps.props?.meta
+  const meta = ssrStaticProps?.props?.meta
   // Request Global data example-client
   const requestGlobalData = async () => {
-    const res = await fetch("https://jsonplaceholder.typicode.com/users")
+    const res = await fetch("https://jsonplaceholder.typicode.com/users/1")
     const users = await res.json()
     return { users }
   }
   const globalData = await requestGlobalData()
 
   // Template for server
-  return renderToString(
+  const rToString = renderToString(
     <html>
       {/* Head */}
       <head>
@@ -137,4 +108,6 @@ export async function render(url: string, scripts: TScriptsObj, isPrerender = fa
       </body>
     </html>
   )
+
+  return patchScriptAttribute(rToString)
 }

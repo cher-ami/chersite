@@ -5,7 +5,6 @@ import { createServer as createViteServer } from "vite"
 import compression from "compression"
 import portFinderSync from "portfinder-sync"
 import config from "../config/config.js"
-import { prepareTemplate } from "./prepareTemplate.js"
 import debug from "@wbe/debug"
 const log = debug("server:server")
 
@@ -40,21 +39,10 @@ async function createDevServer() {
       // required, and provides efficient invalidation similar to HMR.
       const { render } = await vite.ssrLoadModule(`${config.srcDir}/index-server.tsx`)
 
-      const scripts = {
-        js: [
-          {
-            tag: "script",
-            attr: { type: "module", src: "/src/index.tsx" },
-          },
-        ],
-        css: [
-          {
-            tag: "link",
-            attr: { rel: "stylesheet", href: `/test.css` },
-          },
-        ],
-      }
       // get HTML from JSX
+      const scripts = {
+        js: [{ tag: "script", attr: { type: "module", src: "/src/index.tsx" } }],
+      }
       let html = await render(url, scripts, false)
 
       // Apply Vite HTML and plugins transforms. This injects the Vite HMR client
@@ -75,7 +63,7 @@ async function createDevServer() {
 
 /**
  * Create production server
- *
+ * TODO
  *
  */
 async function createProdServer() {
@@ -91,17 +79,13 @@ async function createProdServer() {
   app.use((await import("compression")).default())
   app.use("*", async (req, res) => {
     try {
-      const url = req.originalUrl
-      const layout = await mfs.readFile(`${config.outDirClient}/index.html`)
-      const { render } = await import(`${config.outDirServer}/index-server.js`)
-      const { meta, renderToString, ssrStaticProps, globalData } = await render(url)
-      const html = prepareTemplate(layout, {
-        app: renderToString,
-        ssrStaticProps,
-        globalData,
-        meta,
-      })
-      res.status(200).set({ "Content-Type": "text/html" }).end(html)
+      // TODO
+      // const url = req.originalUrl
+      // const layout = await mfs.readFile(`${config.outDirClient}/index.html`)
+      // const { render } = await import(`${config.outDirServer}/index-server.js`)
+      // const { meta, renderToString, ssrStaticProps, globalData } = await render(url)
+      // ...
+      // res.status(200).set({ "Content-Type": "text/html" }).end(html)
     } catch (e) {
       console.log(e.stack)
       res.status(500).end(e.stack)

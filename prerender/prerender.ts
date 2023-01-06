@@ -7,41 +7,32 @@ import { isRouteIndex } from "./helpers/isRouteIndex"
 import { ManifestParser } from "./helpers/ManifestParser"
 
 export const prerender = async (urls: string[], outDirStatic = config.outDirStatic) => {
-  console.log("URLs to generate", urls)
   const indexTemplateSrc = `${outDirStatic}/index-template.html`
 
   // copy index as template to avoid the override with the generated static index.html bellow
-  if (!(await mfs.fileExists(indexTemplateSrc)))
+  if (!(await mfs.fileExists(indexTemplateSrc))) {
     await mfs.copyFile(`${outDirStatic}/index.html`, indexTemplateSrc)
+  }
 
-  // now the layout is index-template.html
-  const layout = await mfs.readFile(indexTemplateSrc)
-
+  // get script tags to inject in render
   const manifest = await mfs.readFile(`${outDirStatic}/manifest.json`)
   const scriptTags = ManifestParser.getScriptTagFromManifest(manifest)
 
-  //  console.log("assets", parser.getScriptTags())
-
-  // pre-render each route...
+  // pre-render each route
   for (const url of urls) {
     let preparedUrl = url.startsWith("/") ? url : `/${url}`
 
     try {
       // Request information from render method
       const html = await render(preparedUrl, scriptTags, true)
-
       // Case url is index of root or of index of a group
       if (isRouteIndex(preparedUrl, urls)) preparedUrl = `${preparedUrl}/index`
-
-      // prepare sub folder templates if exist
+      // Prepare sub folder templates if exist
       const routePath = path.resolve(`${outDirStatic}/${preparedUrl}`)
-
-      // add .html to the end of th pat
+      // Add .html to the end of th pat
       const htmlFilePath = `${routePath}.html`
-
-      // write file on the server
+      // Write file on the server
       await mfs.createFile(htmlFilePath, html)
-
       console.log(palette.green(` → ${htmlFilePath.split("static")[1]}`))
     } catch (e) {
       console.log(e)
