@@ -23,10 +23,9 @@ import { InsertScript } from "~/server/helpers/InsertScript"
  * @param scripts
  */
 export async function render(url: string, scripts: TScriptsObj, isPrerender = false) {
-  const loadEnvVars = loadEnv("", process.cwd(), "")
-
   // Load process.env base if is available by external load, else we get vite app base
   // (process.env.VITE_APP_BASE is replaced on build by vite (check vite.config.ts)
+  const loadEnvVars = loadEnv("", process.cwd(), "")
   let base: string = process.env.VITE_APP_BASE || loadEnvVars.VITE_APP_BASE
   const preparedUrl = preventSlashes(`${isPrerender ? base : ""}${url}`)
 
