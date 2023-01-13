@@ -148,19 +148,23 @@ export class ManifestParser {
     if (!manifestRawFile) return
     const jsonManifest = JSON.parse(manifestRawFile)
 
-    return Object.keys(jsonManifest)
+    const list = Object.keys(jsonManifest)
       .reduce(
         (a, b) =>
-          jsonManifest[b].isEntry
+          jsonManifest[b].isEntry || jsonManifest[b].isDynamicEntry
             ? [
                 ...a,
                 jsonManifest[b].file,
                 ...(jsonManifest[b]?.assets || []),
                 ...(jsonManifest[b]?.css || []),
+                ...(jsonManifest[b]?.dynamicImports?.map((e) => jsonManifest[e]?.file) ||
+                  []),
               ]
             : a,
         []
       )
       .filter((e) => e)
+
+    return [...new Set(list)]
   }
 }

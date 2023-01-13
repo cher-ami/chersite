@@ -1,8 +1,14 @@
 {
+  "src/pages/homePage/LazyTest-legacy.tsx": {
+    "file": "LazyTest-legacy-34db0d0e.js",
+    "src": "src/pages/homePage/LazyTest-legacy.tsx",
+    "isDynamicEntry": true
+  },
   "index-legacy.html": {
-    "file": "index-legacy-e92b0b23.js",
+    "file": "index-legacy-f6f65bee.js",
     "src": "index-legacy.html",
     "isEntry": true,
+    "dynamicImports": ["src/pages/homePage/LazyTest-legacy.tsx"],
     "assets": [
       "roboto-regular-8cef0863.woff2",
       "roboto-regular-18ab5ae4.woff",
@@ -30,10 +36,16 @@
     "file": "index-ef71c845.css",
     "src": "index.css"
   },
+  "src/pages/homePage/LazyTest.tsx": {
+    "file": "LazyTest-4e648f24.js",
+    "src": "src/pages/homePage/LazyTest.tsx",
+    "isDynamicEntry": true
+  },
   "index.html": {
-    "file": "index-475b5da0.js",
+    "file": "index-611aa38e.js",
     "src": "index.html",
     "isEntry": true,
+    "dynamicImports": ["src/pages/homePage/LazyTest.tsx"],
     "css": ["index-ef71c845.css"],
     "assets": [
       "roboto-regular-8cef0863.woff2",
