@@ -145,6 +145,7 @@ export class ManifestParser {
    * @param manifestRawFile
    */
   static getAssets(manifestRawFile: string): TAssetsList {
+    if (!manifestRawFile) return
     const jsonManifest = JSON.parse(manifestRawFile)
 
     return Object.keys(jsonManifest)

@@ -39,6 +39,5 @@ it("should return a list of script tag", () => {
   const assetsByType = ManifestParser.sortAssetsByType(assets)
   const scriptTags = ManifestParser.getScripts(assetsByType)
   const scriptTagsFromManifest = ManifestParser.getScriptTagFromManifest(manifestRaw)
-  console.log(scriptTags)
   expect(scriptTags).toEqual(scriptTagsFromManifest)
 })
