@@ -151,14 +151,12 @@ export class ManifestParser {
     const list = Object.keys(jsonManifest)
       .reduce(
         (a, b) =>
-          jsonManifest[b].isEntry || jsonManifest[b].isDynamicEntry
+          jsonManifest[b].isEntry
             ? [
                 ...a,
                 jsonManifest[b].file,
                 ...(jsonManifest[b]?.assets || []),
                 ...(jsonManifest[b]?.css || []),
-                ...(jsonManifest[b]?.dynamicImports?.map((e) => jsonManifest[e]?.file) ||
-                  []),
               ]
             : a,
         []

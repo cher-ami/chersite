@@ -53,6 +53,7 @@ async function createDevServer() {
           stream.pipe(res)
         },
         onError(x) {
+          res.statusCode = 500
           console.error(x)
         },
       })

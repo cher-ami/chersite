@@ -1,6 +1,6 @@
 import "./index.less"
 import React from "react"
-import { createRoot } from "react-dom/client"
+import { createRoot, hydrateRoot } from "react-dom/client"
 import App from "./components/app/App"
 import { routes } from "./routes"
 import { Router } from "@cher-ami/router"
@@ -43,8 +43,8 @@ const history = createBrowserHistory()
  *  Default use @cher-ami/router
  *  @doc: https://github.com/cher-ami/router
  */
-const root = createRoot(document.getElementById("root"))
-root.render(
+hydrateRoot(
+  document.getElementById("root"),
   <Router
     routes={routes}
     base={base}
