@@ -5,6 +5,8 @@ import config from "../config/config.js"
 import palette from "../config/helpers/palette.js"
 import { isRouteIndex } from "./helpers/isRouteIndex"
 import { ManifestParser } from "./helpers/ManifestParser"
+import { renderToPipeableStream, renderToString } from "react-dom/server"
+import { patchScriptAttribute } from "~/server/helpers/patchScriptAttribute"
 
 export const prerender = async (urls: string[], outDirStatic = config.outDirStatic) => {
   const indexTemplateSrc = `${outDirStatic}/index-template.html`
@@ -24,16 +26,23 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
 
     try {
       // Request information from render method
-      const html = await render(preparedUrl, scriptTags, true)
-      // Case url is index of root or of index of a group
-      if (isRouteIndex(preparedUrl, urls)) preparedUrl = `${preparedUrl}/index`
-      // Prepare sub folder templates if exist
-      const routePath = path.resolve(`${outDirStatic}/${preparedUrl}`)
-      // Add .html to the end of th pat
-      const htmlFilePath = `${routePath}.html`
-      // Write file on the server
-      await mfs.createFile(htmlFilePath, html)
-      console.log(palette.green(` → ${htmlFilePath.split("static")[1]}`))
+      const dom = await render(preparedUrl, scriptTags, true)
+
+      // create stream and return it
+      const stream = renderToPipeableStream(dom, {
+        async onAllReady() {
+          // Prepare file
+          if (isRouteIndex(preparedUrl, urls)) preparedUrl = `${preparedUrl}/index`
+          const routePath = path.resolve(`${outDirStatic}/${preparedUrl}`)
+          const htmlFilePath = `${routePath}.html`
+          // Create file
+          await mfs.createFile(htmlFilePath, patchScriptAttribute(renderToString(dom)))
+          console.log(palette.green(` → ${htmlFilePath.split("static")[1]}`))
+        },
+        onError(x) {
+          console.error(x)
+        },
+      })
     } catch (e) {
       console.log(e)
     }

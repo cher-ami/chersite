@@ -1,6 +1,5 @@
 import fetch from "cross-fetch"
 import * as React from "react"
-import { renderToString } from "react-dom/server"
 import { routes } from "./routes"
 import App from "./components/app/App"
 import { langServiceInstance } from "./LangService"
@@ -11,7 +10,6 @@ import palette from "../config/helpers/palette.js"
 import { loadEnv } from "vite"
 import { TScript, TScriptsObj } from "../prerender/helpers/ManifestParser"
 import { CherScripts } from "~/server/helpers/CherScripts"
-import { patchScriptAttribute } from "~/server/helpers/patchScriptAttribute"
 import { InsertScript } from "~/server/helpers/InsertScript"
 
 // ----------------------------------------------------------------------------- PREPARE
@@ -55,7 +53,7 @@ export async function render(url: string, scripts: TScriptsObj, isPrerender = fa
   const globalData = await requestGlobalData()
 
   // Template for server
-  const rToString = renderToString(
+  const dom = (
     <html>
       {/* Head */}
       <head>
@@ -108,5 +106,5 @@ export async function render(url: string, scripts: TScriptsObj, isPrerender = fa
     </html>
   )
 
-  return patchScriptAttribute(rToString)
+  return dom
 }
