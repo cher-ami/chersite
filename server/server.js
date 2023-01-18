@@ -43,8 +43,10 @@ async function createDevServer() {
       const { render } = await vite.ssrLoadModule(`${config.srcDir}/index-server.tsx`)
       // get DOM from render
       const dom = await render(url, devScripts, false)
+      // FIXME - on ne peut pas utiliser render to string sur DOM si dom contient un suspense
       // Apply Vite HTML and plugins transforms. This injects the Vite HMR client
       const html = await vite.transformIndexHtml(url, renderToString(dom))
+      console.log(html)
       // create stream and return it
       const stream = renderToPipeableStream(parse(html), {
         async onShellReady() {
