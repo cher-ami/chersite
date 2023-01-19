@@ -11,6 +11,7 @@ import { loadEnv } from "vite"
 import { TScript, TScriptsObj } from "../prerender/helpers/ManifestParser"
 import { CherScripts } from "~/server/helpers/CherScripts"
 import { InsertScript } from "~/server/helpers/InsertScript"
+import { ViteDevScripts } from "~/server/helpers/ViteDevScripts"
 
 // ----------------------------------------------------------------------------- PREPARE
 
@@ -55,29 +56,15 @@ export async function render(url: string, scripts: TScriptsObj, isPrerender = fa
   // Template for server
   const dom = (
     <html>
-      {/* Head */}
+      {/* prettier-ignore */}
       <head>
         <meta charSet="UTF-8" />
-        <meta httpEquiv="imagetoolbar" content="no" />
         <meta httpEquiv="x-ua-compatible" content="IE=Edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{meta?.title}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <title>{meta?.title || "app"}</title>
         <meta name="description" content={meta?.description} />
-        <link rel="canonical" href={meta?.url} />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content={meta?.siteName} />
-        <meta property="og:url" content={meta?.url} />
-        <meta property="og:title" content={meta?.title} />
-        <meta property="og:description" content={meta?.description} />
-        <meta property="og:image" content={meta?.image} />
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:site" content={meta?.siteName} />
-        <meta name="twitter:url" content={meta?.url} />
-        <meta name="twitter:title" content={meta?.title} />
-        <meta name="twitter:description" content={meta?.description} />
-        <meta name="twitter:image" content={meta?.image} />
-
-        {/* INJECT */}
+        <link rel="canonical" href={meta?.url || url} />
+        <ViteDevScripts />
         <CherScripts scripts={scripts.css} />
         <CherScripts scripts={scripts.woff2} />
       </head>

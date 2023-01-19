@@ -25,7 +25,7 @@ function HomePage(props: IProps, handleRef: ForwardedRef<any>) {
    * Client meta
    */
   useEffect(() => {
-    MetasManager.inject({ values: props.meta })
+    // MetasManager.inject({ values: props.meta })
   }, [props.meta])
 
   /**

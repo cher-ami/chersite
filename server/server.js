@@ -1,12 +1,10 @@
 import * as React from "react"
 import express from "express"
-import { createServer as createViteServer } from "vite"
-import compression from "compression"
+import { createServer } from "vite"
 import portFinderSync from "portfinder-sync"
 import config from "../config/config.js"
 import debug from "@wbe/debug"
-import { renderToString, renderToPipeableStream } from "react-dom/server"
-import parse from "html-react-parser"
+import { renderToPipeableStream } from "react-dom/server"
 const log = debug("server:server")
 
 /**
@@ -27,49 +25,43 @@ async function createDevServer() {
   // serving logic and let the parent server take control.
   // In middleware mode, if you want to use Vite's own HTML serving logic
   // use `'html'` as the `middlewareMode` (ref https://vitejs.dev/config/#server-middlewaremode)
-  const vite = await createViteServer({
+  const vite = await createServer({
     logLevel: "info",
     server: { middlewareMode: true },
-    appType: "custom", // don't include Vite's default HTML handling middlewares
+    appType: "custom",
   })
+
   // use vite's connect instance as middleware
   app.use(vite.middlewares)
   app.use("*", async (req, res, next) => {
-    const url = req.originalUrl
     try {
       // Load the server entry. vite.ssrLoadModule automatically transforms
       // your ESM source code to be usable in Node.js! There is no bundling
       // required, and provides efficient invalidation similar to HMR.
       const { render } = await vite.ssrLoadModule(`${config.srcDir}/index-server.tsx`)
-      // get DOM from render
-      const dom = await render(url, devScripts, false)
-      // FIXME - on ne peut pas utiliser render to string sur DOM si dom contient un suspense
-      // Apply Vite HTML and plugins transforms. This injects the Vite HMR client
-      const html = await vite.transformIndexHtml(url, renderToString(dom))
-      console.log(html)
+
+      // get react-dom from the render method
+      const dom = await render(req.originalUrl, devScripts, false)
+
       // create stream and return it
-      const stream = renderToPipeableStream(parse(html), {
-        async onShellReady() {
+      const stream = renderToPipeableStream(dom, {
+        onShellReady() {
           res.setHeader("Content-type", "text/html")
           res.statusCode = 200
           stream.pipe(res)
         },
-        onError(x) {
+        onError(e) {
           res.statusCode = 500
-          console.error(x)
+          console.error(e)
         },
       })
-      // 6. Send the rendered HTML back.
-      // res.status(200).set({ "Content-Type": "text/html" }).end(html)
     } catch (e) {
-      // If an error is caught, let Vite fix the stracktrace so it maps back to
-      // your actual source code.
       vite.ssrFixStacktrace(e)
       next(e)
     }
   })
 
-  return { app, vite }
+  return { app, vite: vite }
 }
 
 /**
@@ -81,22 +73,16 @@ async function createProdServer() {
   console.log("prod server")
   const app = express()
 
-  const vite = await createViteServer({
+  const vite = await createServer({
     logLevel: "info",
     server: { middlewareMode: true },
-    appType: "custom", // don't include Vite's default HTML handling middlewares
+    appType: "custom",
   })
 
   app.use((await import("compression")).default())
   app.use("*", async (req, res) => {
     try {
       // TODO
-      // const url = req.originalUrl
-      // const layout = await mfs.readFile(`${config.outDirClient}/index.html`)
-      // const { render } = await import(`${config.outDirServer}/index-server.js`)
-      // const { meta, renderToString, ssrStaticProps, globalData } = await render(url)
-      // ...
-      // res.status(200).set({ "Content-Type": "text/html" }).end(html)
     } catch (e) {
       console.log(e.stack)
       res.status(500).end(e.stack)
