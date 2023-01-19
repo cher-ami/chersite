@@ -11,6 +11,7 @@ import { TScriptsObj } from "../prerender/helpers/ManifestParser"
 import { CherScripts } from "~/server/helpers/CherScripts"
 import { InsertScript } from "~/server/helpers/InsertScript"
 import { ViteDevScripts } from "~/server/helpers/ViteDevScripts"
+import { JSXElementConstructor, ReactElement } from "react"
 
 // ----------------------------------------------------------------------------- PREPARE
 
@@ -20,19 +21,21 @@ import { ViteDevScripts } from "~/server/helpers/ViteDevScripts"
  * @param isPrerender
  * @param scripts
  */
-export async function render(url: string, scripts: TScriptsObj, isPrerender = false) {
-  // Load process.env base if is available by external load, else we use VITE_APP_BASE
-  // (process.env.VITE_APP_BASE is replaced on build by vite (check vite.config.ts)
-  const loadEnvVars = loadEnv("", process.cwd(), "")
-  let base: string = process.env.VITE_APP_BASE || loadEnvVars.VITE_APP_BASE
-  const preparedUrl = preventSlashes(`${isPrerender ? base : ""}${url}`)
+export async function render(
+  url: string,
+  scripts: TScriptsObj,
+  isPrerender = false
+): Promise<ReactElement> {
+  // prepare base
+  const base = process.env.VITE_APP_BASE || loadEnv("", process.cwd(), "").VITE_APP_BASE
+  url = preventSlashes(`${isPrerender ? base : ""}${url}`)
 
   // Init lang service
-  const langService = langServiceInstance(base, preparedUrl)
+  const langService = langServiceInstance(base, url)
 
   // Request static props
   const ssrStaticProps = await requestStaticPropsFromRoute({
-    url: preparedUrl,
+    url,
     base,
     routes,
     langService,
@@ -70,7 +73,7 @@ export async function render(url: string, scripts: TScriptsObj, isPrerender = fa
             base={base}
             routes={routes}
             langService={langService}
-            staticLocation={preparedUrl}
+            staticLocation={url}
             initialStaticProps={ssrStaticProps}
           >
             <GlobalDataContext.Provider value={globalData}>

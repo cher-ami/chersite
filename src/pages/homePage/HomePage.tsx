@@ -25,7 +25,7 @@ function HomePage(props: IProps, handleRef: ForwardedRef<any>) {
    * Client meta
    */
   useEffect(() => {
-    // MetasManager.inject({ values: props.meta })
+    MetasManager.inject({ values: props.meta })
   }, [props.meta])
 
   /**
@@ -49,7 +49,7 @@ function HomePage(props: IProps, handleRef: ForwardedRef<any>) {
 
   return (
     <div className={css.root} ref={rootRef}>
-      <Suspense fallback="hello">
+      <Suspense fallback="...">
         <TestComponent />
       </Suspense>
       {componentName}
