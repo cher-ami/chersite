@@ -7,7 +7,14 @@ import { isRouteIndex } from "./helpers/isRouteIndex"
 import { ManifestParser } from "./helpers/ManifestParser"
 import { renderToPipeableStream, renderToString } from "react-dom/server"
 import { patchScriptAttribute } from "~/server/helpers/patchScriptAttribute"
+import { JSXElementConstructor, ReactElement } from "react"
 
+/**
+ * Prerender
+ * Create static HTML files from react render DOM
+ * @param urls: Urls to generate
+ * @param outDirStatic: Generation destination directory
+ */
 export const prerender = async (urls: string[], outDirStatic = config.outDirStatic) => {
   const indexTemplateSrc = `${outDirStatic}/index-template.html`
 
@@ -21,23 +28,16 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
   const scriptTags = ManifestParser.getScriptTagFromManifest(manifest)
 
   // pre-render each route
-  for (const url of urls) {
-    let preparedUrl = url.startsWith("/") ? url : `/${url}`
+  for (let url of urls) {
+    url = url.startsWith("/") ? url : `/${url}`
 
     try {
-      // Request information from render method
-      const dom = await render(preparedUrl, scriptTags, true)
-
-      // create stream and return it
-      const stream = renderToPipeableStream(dom, {
-        async onAllReady() {
-          // Prepare file
-          if (isRouteIndex(preparedUrl, urls)) preparedUrl = `${preparedUrl}/index`
-          const routePath = path.resolve(`${outDirStatic}/${preparedUrl}`)
-          const htmlFilePath = `${routePath}.html`
-          // Create file
-          await mfs.createFile(htmlFilePath, patchScriptAttribute(renderToString(dom)))
-          console.log(palette.green(` → ${htmlFilePath.split("static")[1]}`))
+      // Request DOM
+      const dom = await render(url, scriptTags, true)
+      // create stream and generate current file when all DOM is ready
+      renderToPipeableStream(dom, {
+        onAllReady() {
+          createHtmlFile(urls, url, outDirStatic, dom)
         },
         onError(x) {
           console.error(x)
@@ -47,4 +47,26 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
       console.log(e)
     }
   }
+}
+
+/**
+ * Create a single HTML file
+ * @param urls: All urls to generate
+ * @param url: Current URL to generate
+ * @param outDir:  Generation destination directory
+ * @param dom: React DOM from index-server.tsx
+ */
+const createHtmlFile = async (
+  urls: string[],
+  url: string,
+  outDir: string,
+  dom: ReactElement<any, string | JSXElementConstructor<any>>
+): Promise<void> => {
+  // Prepare file
+  if (isRouteIndex(url, urls)) url = `${url}/index`
+  const routePath = path.resolve(`${outDir}/${url}`)
+  const htmlFilePath = `${routePath}.html`
+  // Create file
+  await mfs.createFile(htmlFilePath, patchScriptAttribute(renderToString(dom)))
+  console.log(palette.green(` → ${htmlFilePath.split("static")[1]}`))
 }

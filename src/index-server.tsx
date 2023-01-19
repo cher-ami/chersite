@@ -22,17 +22,11 @@ import { ViteDevScripts } from "~/server/helpers/ViteDevScripts"
  * @param scripts
  */
 export async function render(url: string, scripts: TScriptsObj, isPrerender = false) {
-  // Load process.env base if is available by external load, else we get vite app base
+  // Load process.env base if is available by external load, else we use VITE_APP_BASE
   // (process.env.VITE_APP_BASE is replaced on build by vite (check vite.config.ts)
   const loadEnvVars = loadEnv("", process.cwd(), "")
   let base: string = process.env.VITE_APP_BASE || loadEnvVars.VITE_APP_BASE
   const preparedUrl = preventSlashes(`${isPrerender ? base : ""}${url}`)
-
-  if (isPrerender) {
-    console.log(palette.grey(` base → ${base}`))
-    console.log(palette.grey(` URL → ${url}`))
-    console.log(palette.grey(` preparedUrl (base + URL) → ${preparedUrl}`))
-  }
 
   // Init lang service
   const langService = langServiceInstance(base, preparedUrl)
