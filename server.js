@@ -2,7 +2,7 @@ import * as React from "react"
 import express from "express"
 import { createServer } from "vite"
 import portFinderSync from "portfinder-sync"
-import config from "../config/config.js"
+import config from "./config/config.js"
 import { renderToPipeableStream } from "react-dom/server"
 import debug from "@wbe/debug"
 
