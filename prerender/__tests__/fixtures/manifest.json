@@ -1,0 +1,56 @@
+{
+  "src/pages/homePage/LazyTest-legacy.tsx": {
+    "file": "LazyTest-legacy-34db0d0e.js",
+    "src": "src/pages/homePage/LazyTest-legacy.tsx",
+    "isDynamicEntry": true
+  },
+  "index-legacy.html": {
+    "file": "index-legacy-f6f65bee.js",
+    "src": "index-legacy.html",
+    "isEntry": true,
+    "dynamicImports": ["src/pages/homePage/LazyTest-legacy.tsx"],
+    "assets": [
+      "roboto-regular-8cef0863.woff2",
+      "roboto-regular-18ab5ae4.woff",
+      "roboto-regular-b122d9b1.ttf"
+    ]
+  },
+  "vite/legacy-polyfills-legacy": {
+    "file": "polyfills-legacy-163e9122.js",
+    "src": "vite/legacy-polyfills-legacy",
+    "isEntry": true
+  },
+  "src/fonts/roboto-regular/roboto-regular.woff2": {
+    "file": "roboto-regular-8cef0863.woff2",
+    "src": "src/fonts/roboto-regular/roboto-regular.woff2"
+  },
+  "src/fonts/roboto-regular/roboto-regular.woff": {
+    "file": "roboto-regular-18ab5ae4.woff",
+    "src": "src/fonts/roboto-regular/roboto-regular.woff"
+  },
+  "src/fonts/roboto-regular/roboto-regular.ttf": {
+    "file": "roboto-regular-b122d9b1.ttf",
+    "src": "src/fonts/roboto-regular/roboto-regular.ttf"
+  },
+  "index.css": {
+    "file": "index-ef71c845.css",
+    "src": "index.css"
+  },
+  "src/pages/homePage/LazyTest.tsx": {
+    "file": "LazyTest-4e648f24.js",
+    "src": "src/pages/homePage/LazyTest.tsx",
+    "isDynamicEntry": true
+  },
+  "index.html": {
+    "file": "index-611aa38e.js",
+    "src": "index.html",
+    "isEntry": true,
+    "dynamicImports": ["src/pages/homePage/LazyTest.tsx"],
+    "css": ["index-ef71c845.css"],
+    "assets": [
+      "roboto-regular-8cef0863.woff2",
+      "roboto-regular-18ab5ae4.woff",
+      "roboto-regular-b122d9b1.ttf"
+    ]
+  }
+}

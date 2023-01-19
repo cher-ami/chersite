@@ -9,9 +9,6 @@ const log = debug(`front:*`)
 export interface IProps {}
 
 function App(props: IProps): JSX.Element {
-  // ...
-  // ------------------------------------------------------------------------------- PAGE TRANSITIONS
-
   /**
    * Manage page transitions scenario
    * https://github.com/cher-ami/router/tree/main#manage-transitions

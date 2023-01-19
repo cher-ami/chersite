@@ -1,11 +1,11 @@
 import css from "./HomePage.module.less"
-import React, { ForwardedRef, forwardRef, useEffect, useRef } from "react"
+import React, { ForwardedRef, forwardRef, Suspense, useEffect, useRef } from "react"
 import { useStack } from "@cher-ami/router"
 import debug from "@wbe/debug"
 import { MetasManager, TMetaTags } from "~/managers/MetaManager"
+const TestComponent = React.lazy(() => import("./LazyTest") as any)
 
 interface IProps {
-  // data from getStaticProps
   meta: TMetaTags
   time?: {
     utc_datetime: string
@@ -49,6 +49,9 @@ function HomePage(props: IProps, handleRef: ForwardedRef<any>) {
 
   return (
     <div className={css.root} ref={rootRef}>
+      <Suspense fallback="...">
+        <TestComponent />
+      </Suspense>
       {componentName}
       <br />
       <br />

@@ -6,13 +6,12 @@
   "main": "src/index.tsx",
   "type": "module",
   "scripts": {
-    "dev": "node server/server.js",
+    "dev": "node server.js",
     "build:client": "vite build --outDir dist/front/client",
     "build:server": "vite build --ssr src/index-server.tsx --outDir dist/front/server",
     "build:scripts": "vite build -c vite.scripts.config.ts",
     "build:static": "vite build --outDir dist/front/static",
-    "build": "npm run build:client && npm run build:server && npm run build:scripts && npm run build:static && npm run generate",
-    "serve": "NODE_ENV=production node server",
+    "build": "npm run build:server && npm run build:scripts && npm run build:static && npm run generate",
     "generate": "node dist/front/_scripts/exe-prerender.js",
     "preview": "serve dist/front/static",
     "setup": "node config/tasks/setup/setup.js && npm run prepare",
@@ -20,6 +19,7 @@
     "scaffold-wp": "node config/tasks/scaffold-wp/scaffold-wp.js",
     "prepare": "husky install",
     "prettier": "prettier --write .",
+    "test:watch": "vitest",
     "test": "vitest run"
   },
   "dependencies": {
@@ -37,7 +37,7 @@
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@vitejs/plugin-legacy": "^3.0.1",
-    "@vitejs/plugin-react-swc": "^3.0.0",
+    "@vitejs/plugin-react": "^3.0.1",
     "autoprefixer": "^10.4.13",
     "change-case": "^4.1.2",
     "compression": "^1.7.4",
@@ -49,12 +49,12 @@
     "lint-staged": "^13.1.0",
     "portfinder-sync": "^0.0.2",
     "prettier": "^2.8.1",
+    "rollup-plugin-visualizer": "^5.8.3",
     "terser": "^5.16.1",
     "typescript": "^4.9.4",
-    "vite": "^4.0.1",
+    "vite": "^4.0.4",
     "vite-plugin-checker": "^0.5.2",
-    "vitest": "^0.25.8",
-    "rollup-plugin-visualizer": "^5.8.3"
+    "vitest": "^0.25.8"
   },
   "optionalDependencies": {
     "esbuild-android-arm64": "^0.15.18",

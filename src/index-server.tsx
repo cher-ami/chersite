@@ -1,69 +1,82 @@
 import fetch from "cross-fetch"
 import * as React from "react"
-import ReactDOMServer from "react-dom/server"
 import { routes } from "./routes"
 import App from "./components/app/App"
-import { langServiceInstance } from "./LangService"
-import { requestStaticPropsFromRoute, Router } from "@cher-ami/router"
-import { GlobalDataContext } from "./GlobalDataContext"
+import { languages, showDefaultLangInUrl } from "./languages"
+import { LangService, requestStaticPropsFromRoute, Router } from "@cher-ami/router"
+import { GlobalDataContext } from "./store/GlobalDataContext"
 import { preventSlashes } from "../config/helpers/prevent-slashes.js"
-import palette from "../config/helpers/palette.js"
 import { loadEnv } from "vite"
-export async function render(url: string, isPrerender = false) {
-  const loadEnvVars = loadEnv("", process.cwd(), "")
+import { TScriptsObj } from "../prerender/helpers/ManifestParser"
+import { CherScripts } from "~/server/helpers/CherScripts"
+import { RawScript } from "~/server/helpers/RawScript"
+import { ViteDevScripts } from "~/server/helpers/ViteDevScripts"
+import { ReactElement } from "react"
 
-  // Load process.env base if is available by external load, else we get vite app base
-  // (process.env.VITE_APP_BASE is replaced on build by vite (check vite.config.ts)
-  let base: string = process.env.VITE_APP_BASE || loadEnvVars.VITE_APP_BASE
-  const preparedUrl = preventSlashes(`${isPrerender ? base : ""}${url}`)
+// ----------------------------------------------------------------------------- PREPARE
 
-  if (isPrerender) {
-    console.log(palette.grey(` base → ${base}`))
-    console.log(palette.grey(` URL → ${url}`))
-    console.log(palette.grey(` preparedUrl (base + URL) → ${preparedUrl}`))
-  }
+/**
+ * Server render
+ * @param url
+ * @param isPrerender
+ * @param scripts
+ */
+// prettier-ignore
+export async function render(
+  url: string,
+  scripts: TScriptsObj,
+  isPrerender = false
+): Promise<ReactElement> {
+  // prepare base & URL
+  const base = process.env.VITE_APP_BASE || loadEnv("", process.cwd(), "").VITE_APP_BASE
+  url = preventSlashes(`${isPrerender ? base : ""}${url}`)
 
   // Init lang service
-  const langService = langServiceInstance(base, preparedUrl)
-
-  // Request static props
-  const ssrStaticProps = await requestStaticPropsFromRoute({
-    url: preparedUrl,
+  const langService = new LangService({
+    staticLocation: url,
+    showDefaultLangInUrl,
+    languages,
     base,
-    routes,
-    langService,
   })
 
-  // Request Global data example-client
-  const requestGlobalData = async () => {
-    const res = await fetch("https://jsonplaceholder.typicode.com/users")
-    const users = await res.json()
-    return { users }
-  }
+  // Request static props
+  const ssrStaticProps = await requestStaticPropsFromRoute({ url, base, routes, langService })
+  const meta = ssrStaticProps?.props?.meta
+  const globalData = { foo: "bar" }
 
-  const globalData = await requestGlobalData()
+  return (
+    <html lang={langService.currentLang.key}>
+      <head>
+        <meta charSet="UTF-8" />
+        <meta httpEquiv="x-ua-compatible" content="IE=Edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <title>{meta?.title || "app"}</title>
+        <meta name="description" content={meta?.description} />
+        <link rel="canonical" href={meta?.url || url} />
+        <ViteDevScripts />
+        <CherScripts scripts={scripts.css} />
+        <CherScripts scripts={scripts.woff2} />
+      </head>
 
-  // Template for server
-  const renderToString = ReactDOMServer.renderToString(
-    <Router
-      base={base}
-      routes={routes}
-      staticLocation={preparedUrl}
-      initialStaticProps={ssrStaticProps}
-      langService={langService}
-    >
-      <GlobalDataContext.Provider value={globalData}>
-        <App />
-      </GlobalDataContext.Provider>
-    </Router>
+      <body>
+        <div id="root">
+          <Router
+            base={base}
+            routes={routes}
+            langService={langService}
+            staticLocation={url}
+            initialStaticProps={ssrStaticProps}
+          >
+            <GlobalDataContext.Provider value={globalData}>
+              <App />
+            </GlobalDataContext.Provider>
+          </Router>
+        </div>
+
+        <CherScripts scripts={scripts.js} />
+        <RawScript name={"__SSR_STATIC_PROPS__"} data={ssrStaticProps} />
+        <RawScript name={"__GLOBAL_DATA__"} data={globalData} />
+      </body>
+    </html>
   )
-
-  return {
-    meta: ssrStaticProps?.props?.meta,
-    renderToString,
-    ssrStaticProps,
-    globalData,
-    languages: langService.languages,
-    lang: langService.currentLang?.key,
-  }
 }

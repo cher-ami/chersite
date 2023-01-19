@@ -1,18 +1,18 @@
 import "./index.less"
 import React from "react"
-import { createRoot } from "react-dom/client"
+import { hydrateRoot } from "react-dom/client"
 import App from "./components/app/App"
 import { routes } from "./routes"
-import { Router } from "@cher-ami/router"
+import { LangService, Router } from "@cher-ami/router"
 import { createBrowserHistory } from "history"
 import VhHelper from "./helpers/VhHelper"
 import * as packageJson from "../package.json"
-import { GlobalDataContext } from "./GlobalDataContext"
-import { langServiceInstance } from "~/LangService"
+import { GlobalDataContext } from "./store/GlobalDataContext"
+import { languages, showDefaultLangInUrl } from "~/languages"
 import debug from "@wbe/debug"
 
 /**
- * Logs
+ * Initial logs
  */
 const log = debug("front:index")
 log("version:", packageJson.version)
@@ -33,24 +33,32 @@ new VhHelper()
 
 /**
  * Create a history for the global router instance
- * https://github.com/remix-run/history/blob/dev/docs/api-reference.md
+ * @doc https://github.com/remix-run/history/blob/dev/docs/api-reference.md
  */
 const history = createBrowserHistory()
 
 /**
- * Render react app
- *
- *  Default use @cher-ami/router
- *  @doc: https://github.com/cher-ami/router
+ *  Init router lang service
+ *  @doc https://github.com/cher-ami/router/tree/v3#LangService
  */
-const root = createRoot(document.getElementById("root"))
-root.render(
+const langService = new LangService({
+  showDefaultLangInUrl,
+  languages,
+  base,
+})
+
+/**
+ * Render react app wrapped by @cher-ami/router
+ *  @doc https://github.com/cher-ami/router
+ */
+hydrateRoot(
+  document.getElementById("root"),
   <Router
     routes={routes}
     base={base}
     history={history}
     initialStaticProps={window["__SSR_STATIC_PROPS__"]}
-    langService={langServiceInstance(base)}
+    langService={langService}
   >
     <GlobalDataContext.Provider value={{ globalData: window["__GLOBAL_DATA__"] }}>
       <App />
