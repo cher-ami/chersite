@@ -1,3 +1,7 @@
+# Output application depend of project
+dist/front
+dist/api/web/app/.cache
+
 vendor
 .env.local
 node_modules

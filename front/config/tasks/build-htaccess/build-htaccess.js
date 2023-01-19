@@ -1,7 +1,7 @@
 import debug from "@wbe/debug"
 import * as mfs from "../../helpers/mfs.js"
 const log = debug("config:build-htaccess")
-import logger from "../../helpers/logger"
+import logger from "../../helpers/logger.js"
 import { LOADIPHLPAPI } from "dns"
 /**
  * Create htaccess file

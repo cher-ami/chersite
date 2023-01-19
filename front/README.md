@@ -28,13 +28,13 @@ This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage
 
 ## Summary
 
-- [Installation](./docs/01.installation.md)
-- [Vite configuration](./docs/02.vite-configuration.md)
-- [CLI](./docs/04.cli.md)
-- [Environment variables](./docs/05.environment-variables.md)
-- [Vite plugins](./docs/06.vite-plugins.md)
-- [Less mixins](./docs/08.less-mixins.md)
-- [CSS workflow](./docs/07.css-workflow.md)
+- [Installation](docs/01.installation.md)
+- [Vite configuration](docs/02.vite-configuration.md)
+- [CLI](docs/04.cli.md)
+- [Environment variables](docs/05.environment-variables.md)
+- [Vite plugins](docs/06.vite-plugins.md)
+- [Less mixins](docs/08.less-mixins.md)
+- [CSS workflow](docs/07.css-workflow.md)
 
 ## Credits
 

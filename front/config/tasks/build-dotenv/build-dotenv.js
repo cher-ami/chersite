@@ -2,7 +2,7 @@ import * as mfs from "../../helpers/mfs.js"
 import path from "path"
 import debug from "@wbe/debug"
 const log = debug("config:build-dotenv")
-import logger from "../../helpers/logger"
+import logger from "../../helpers/logger.js"
 import packageJson from "../../../package.json"
 
 const _getRaws = (files = []) => {
