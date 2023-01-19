@@ -7,7 +7,7 @@ import { Router } from "@cher-ami/router"
 import { createBrowserHistory } from "history"
 import VhHelper from "./helpers/VhHelper"
 import * as packageJson from "../package.json"
-import { GlobalDataContext } from "./GlobalDataContext"
+import { GlobalDataContext } from "./store/GlobalDataContext"
 import { langServiceInstance } from "~/LangService"
 import debug from "@wbe/debug"
 
