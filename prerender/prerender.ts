@@ -6,8 +6,8 @@ import palette from "../config/helpers/palette.js"
 import { isRouteIndex } from "./helpers/isRouteIndex"
 import { ManifestParser } from "./helpers/ManifestParser"
 import { renderToPipeableStream, renderToString } from "react-dom/server"
-import { patchScriptAttribute } from "~/server/helpers/patchScriptAttribute"
 import { JSXElementConstructor, ReactElement } from "react"
+import { htmlReplacement } from "../src/server/helpers/htmlReplacement"
 
 /**
  * Prerender
@@ -67,6 +67,6 @@ const createHtmlFile = async (
   const routePath = path.resolve(`${outDir}/${url}`)
   const htmlFilePath = `${routePath}.html`
   // Create file
-  await mfs.createFile(htmlFilePath, patchScriptAttribute(renderToString(dom)))
+  await mfs.createFile(htmlFilePath, htmlReplacement(renderToString(dom)))
   console.log(palette.green(` → ${htmlFilePath.split("static")[1]}`))
 }

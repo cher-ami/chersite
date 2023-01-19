@@ -6,9 +6,8 @@ import { langServiceInstance } from "./LangService"
 import { requestStaticPropsFromRoute, Router } from "@cher-ami/router"
 import { GlobalDataContext } from "./GlobalDataContext"
 import { preventSlashes } from "../config/helpers/prevent-slashes.js"
-import palette from "../config/helpers/palette.js"
 import { loadEnv } from "vite"
-import { TScript, TScriptsObj } from "../prerender/helpers/ManifestParser"
+import { TScriptsObj } from "../prerender/helpers/ManifestParser"
 import { CherScripts } from "~/server/helpers/CherScripts"
 import { InsertScript } from "~/server/helpers/InsertScript"
 import { ViteDevScripts } from "~/server/helpers/ViteDevScripts"
@@ -39,18 +38,20 @@ export async function render(url: string, scripts: TScriptsObj, isPrerender = fa
     langService,
   })
   const meta = ssrStaticProps?.props?.meta
+
   // Request Global data example-client
   const requestGlobalData = async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/users/1")
     const users = await res.json()
     return { users }
   }
+
   const globalData = await requestGlobalData()
 
   // Template for server
-  const dom = (
-    <html>
-      {/* prettier-ignore */}
+  // prettier-ignore
+  return (
+    <html lang={langService.currentLang.key}>
       <head>
         <meta charSet="UTF-8" />
         <meta httpEquiv="x-ua-compatible" content="IE=Edge" />
@@ -63,7 +64,6 @@ export async function render(url: string, scripts: TScriptsObj, isPrerender = fa
         <CherScripts scripts={scripts.woff2} />
       </head>
 
-      {/* ROOT */}
       <body>
         <div id="root">
           <Router
@@ -79,13 +79,10 @@ export async function render(url: string, scripts: TScriptsObj, isPrerender = fa
           </Router>
         </div>
 
-        {/* INJECT */}
         <CherScripts scripts={scripts.js} />
         <InsertScript name={"__SSR_STATIC_PROPS__"} data={ssrStaticProps} />
         <InsertScript name={"__GLOBAL_DATA__"} data={globalData} />
       </body>
     </html>
   )
-
-  return dom
 }
