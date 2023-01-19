@@ -1,12 +1,12 @@
 import * as React from "react"
 
 /**
- * Insert script
+ * Insert raw script in window variable
  * @param name
  * @param obj
  */
-export const InsertScript = ({ name, data }) => {
-  const stringify = (e): string => JSON.stringify(e, null, 2).replace(/\s/g, "")
+export const RawScript = ({ name, data }) => {
+  const stringify = (e): string => JSON.stringify(e, null, 2).replace(/\n\s+/g, "")
   return (
     <script
       type="text/javascript"

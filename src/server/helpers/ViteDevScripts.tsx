@@ -1,5 +1,4 @@
 import * as React from "react"
-import * as process from "process"
 
 export const ViteDevScripts = () => {
   if (process.env.NODE_ENV !== "development") return null

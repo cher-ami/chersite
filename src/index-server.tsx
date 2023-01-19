@@ -9,9 +9,9 @@ import { preventSlashes } from "../config/helpers/prevent-slashes.js"
 import { loadEnv } from "vite"
 import { TScriptsObj } from "../prerender/helpers/ManifestParser"
 import { CherScripts } from "~/server/helpers/CherScripts"
-import { InsertScript } from "~/server/helpers/InsertScript"
+import { RawScript } from "~/server/helpers/RawScript"
 import { ViteDevScripts } from "~/server/helpers/ViteDevScripts"
-import { JSXElementConstructor, ReactElement } from "react"
+import { ReactElement } from "react"
 
 // ----------------------------------------------------------------------------- PREPARE
 
@@ -26,7 +26,7 @@ export async function render(
   scripts: TScriptsObj,
   isPrerender = false
 ): Promise<ReactElement> {
-  // prepare base
+  // prepare base & URL
   const base = process.env.VITE_APP_BASE || loadEnv("", process.cwd(), "").VITE_APP_BASE
   url = preventSlashes(`${isPrerender ? base : ""}${url}`)
 
@@ -83,8 +83,8 @@ export async function render(
         </div>
 
         <CherScripts scripts={scripts.js} />
-        <InsertScript name={"__SSR_STATIC_PROPS__"} data={ssrStaticProps} />
-        <InsertScript name={"__GLOBAL_DATA__"} data={globalData} />
+        <RawScript name={"__SSR_STATIC_PROPS__"} data={ssrStaticProps} />
+        <RawScript name={"__GLOBAL_DATA__"} data={globalData} />
       </body>
     </html>
   )
