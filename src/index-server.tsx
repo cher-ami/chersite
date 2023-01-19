@@ -2,8 +2,8 @@ import fetch from "cross-fetch"
 import * as React from "react"
 import { routes } from "./routes"
 import App from "./components/app/App"
-import { langServiceInstance } from "./LangService"
-import { requestStaticPropsFromRoute, Router } from "@cher-ami/router"
+import { languages, showDefaultLangInUrl } from "./languages"
+import { LangService, requestStaticPropsFromRoute, Router } from "@cher-ami/router"
 import { GlobalDataContext } from "./store/GlobalDataContext"
 import { preventSlashes } from "../config/helpers/prevent-slashes.js"
 import { loadEnv } from "vite"
@@ -21,6 +21,7 @@ import { ReactElement } from "react"
  * @param isPrerender
  * @param scripts
  */
+// prettier-ignore
 export async function render(
   url: string,
   scripts: TScriptsObj,
@@ -31,28 +32,18 @@ export async function render(
   url = preventSlashes(`${isPrerender ? base : ""}${url}`)
 
   // Init lang service
-  const langService = langServiceInstance(base, url)
+  const langService = new LangService({
+    staticLocation: url,
+    showDefaultLangInUrl,
+    languages,
+    base,
+  })
 
   // Request static props
-  const ssrStaticProps = await requestStaticPropsFromRoute({
-    url,
-    base,
-    routes,
-    langService,
-  })
+  const ssrStaticProps = await requestStaticPropsFromRoute({ url, base, routes, langService })
   const meta = ssrStaticProps?.props?.meta
+  const globalData = { foo: "bar" }
 
-  // Request Global data example-client
-  const requestGlobalData = async () => {
-    const res = await fetch("https://jsonplaceholder.typicode.com/users/1")
-    const users = await res.json()
-    return { users }
-  }
-
-  const globalData = await requestGlobalData()
-
-  // Template for server
-  // prettier-ignore
   return (
     <html lang={langService.currentLang.key}>
       <head>
