@@ -3,13 +3,15 @@ import express from "express"
 import { createServer } from "vite"
 import portFinderSync from "portfinder-sync"
 import config from "../config/config.js"
-import debug from "@wbe/debug"
 import { renderToPipeableStream } from "react-dom/server"
+import debug from "@wbe/debug"
+
 const log = debug("server:server")
+const isProduction = process.env.NODE_ENV === "production"
+const port = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)
 
 /**
- * Create development server
- *
+ * Dev server
  *
  *
  */
@@ -21,10 +23,9 @@ async function createDevServer() {
     js: [{ tag: "script", attr: { type: "module", src: "/src/index.tsx" } }],
   }
 
-  // Create Vite server in middleware mode. This disables Vite's own HTML
-  // serving logic and let the parent server take control.
-  // In middleware mode, if you want to use Vite's own HTML serving logic
-  // use `'html'` as the `middlewareMode` (ref https://vitejs.dev/config/#server-middlewaremode)
+  // Create Vite server in middleware mode.
+  // This disables Vite's own HTML serving logic and let the parent server take control.
+  // https://vitejs.dev/config/server-options.html#server-middlewaremode
   const vite = await createServer({
     logLevel: "info",
     server: { middlewareMode: true },
@@ -35,15 +36,11 @@ async function createDevServer() {
   app.use(vite.middlewares)
   app.use("*", async (req, res, next) => {
     try {
-      // Load the server entry. vite.ssrLoadModule automatically transforms
-      // your ESM source code to be usable in Node.js! There is no bundling
-      // required, and provides efficient invalidation similar to HMR.
+      // Transforms the ESM source code to be usable in Node.js
       const { render } = await vite.ssrLoadModule(`${config.srcDir}/index-server.tsx`)
-
-      // get react-dom from the render method
+      // Get react-dom from the render method
       const dom = await render(req.originalUrl, devScripts, false)
-
-      // create stream and return it
+      // Create stream with renderToPipeableStream to support Suspense API
       const stream = renderToPipeableStream(dom, {
         onShellReady() {
           res.setHeader("Content-type", "text/html")
@@ -60,44 +57,19 @@ async function createDevServer() {
       next(e)
     }
   })
-
-  return { app, vite: vite }
-}
-
-/**
- * Create production server
- * TODO
- *
- */
-async function createProdServer() {
-  console.log("prod server")
-  const app = express()
-
-  const vite = await createServer({
-    logLevel: "info",
-    server: { middlewareMode: true },
-    appType: "custom",
-  })
-
-  app.use((await import("compression")).default())
-  app.use("*", async (req, res) => {
-    try {
-      // TODO
-    } catch (e) {
-      console.log(e.stack)
-      res.status(500).end(e.stack)
-    }
-  })
-
   return { app, vite }
 }
 
 /**
+ * Production server
+ * TODO
+ *
+ *
+ */
+async function createProdServer() {}
+
+/**
  * Let's go!
  */
-const isProd = process.env.NODE_ENV === "production"
-const port = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)
 
-isProd
-  ? createProdServer().then(({ app }) => app.listen(port))
-  : createDevServer().then(({ app }) => app.listen(port))
+;(isProduction ? createProdServer : createDevServer)().then(({ app }) => app.listen(port))

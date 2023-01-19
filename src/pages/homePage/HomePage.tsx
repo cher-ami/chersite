@@ -49,7 +49,7 @@ function HomePage(props: IProps, handleRef: ForwardedRef<any>) {
 
   return (
     <div className={css.root} ref={rootRef}>
-      <Suspense fallback="...">
+      <Suspense fallback="hello">
         <TestComponent />
       </Suspense>
       {componentName}
