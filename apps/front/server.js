@@ -37,7 +37,9 @@ async function createDevServer() {
   app.use("*", async (req, res, next) => {
     try {
       // Transforms the ESM source code to be usable in Node.js
-      const { render } = await vite.ssrLoadModule(`${config.srcDir}/index-server.tsx`)
+      const { render } = await vite.ssrLoadModule(
+        `${config.srcDir}/server/index-server.tsx`
+      )
       // Get react-dom from the render method
       const dom = await render(req.originalUrl, devScripts, false)
       // Create stream with renderToPipeableStream to support Suspense API
