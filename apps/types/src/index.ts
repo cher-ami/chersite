@@ -1,4 +1,4 @@
-export type HomePage = {
+export interface HomePage {
   title: string
   text: string
 }

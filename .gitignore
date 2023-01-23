@@ -11,3 +11,4 @@ dist-ssr
 vite.config.ts.timestamp*
 build-stats.html
 .turbo
+dist

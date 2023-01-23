@@ -5,7 +5,7 @@
   "author": "cher-ami",
   "private": true,
   "scripts": {
-    "dev:api": "turbo run dev --filter @cher-ami/api",
+    "dev:api": "",
     "dev:front": "pnpm --filter @cher-ami/front run dev",
     "test:front": "pnpm --filter @cher-ami/front run test",
     "build": "turbo run build",

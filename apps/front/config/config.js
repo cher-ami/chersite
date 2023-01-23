@@ -9,29 +9,17 @@ export default {
   // public assets from this folder will be copied in build folder
   publicDir: resolve("src/public"),
 
-  // TODO revoir
   // folder to deploy on front server
-  wwwDir: resolve("dist/front/www/"),
+  wwwDir: resolve("dist/www/"),
 
   // outDir: where files are built
   // If this value is change, add this new path in .gitignore
   distDir: resolve("dist"),
-  outDir: resolve("dist/front"),
-  outDirScripts: resolve("dist/front/_scripts"),
-  outDirClient: resolve("dist/front/client"),
-  outDirServer: resolve("dist/front/server"),
-  outDirStatic: resolve("dist/front/static"),
-
-  // TODO uniquement pour version PHP
-  // Directory name of the build folder (will be cleaned before build)
-  // If this value is change, modify "outDir" last folder with this new one
-  // buildDirname: "static",
-
-  // TODO uniquement pour version PHP
-  // outDir: where files are built
-  // last folder need to be sync with `buildDirname`
-  // If this value is change, add this new path in .gitignore
-  // outDir: resolve("dist/front/www/static/"),
+  outDir: resolve("dist"),
+  outDirScripts: resolve("dist/_scripts"),
+  outDirClient: resolve("dist/client"),
+  outDirServer: resolve("dist/server"),
+  outDirStatic: resolve("dist/static"),
 
   // Input entry files array
   // Set the relative paths, don't resolve them.
@@ -45,7 +33,7 @@ export default {
   // Build dotenv outDir array
   // This task can build the same dotenv files in different directories
   buildDotenvOutDir: [
-    // resolve("dist/front/")
+    // resolve("dist/")
   ],
 
   // Build htaccess
