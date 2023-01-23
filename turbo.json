@@ -1,6 +1,13 @@
 {
   "pipeline": {
+    "dev": {
+      "cache": false
+    },
+    "type-check": {
+      "outputs": []
+    },
     "build": {
+      "dependsOn": ["type-check"],
       "outputs": ["dist/**"]
     }
   }

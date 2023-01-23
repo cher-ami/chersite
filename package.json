@@ -4,6 +4,7 @@
   "version": "2.1.0",
   "author": "cher-ami",
   "private": true,
+  "workspaces": ["apps/*"],
   "scripts": {
     "dev:api": "",
     "dev:front": "pnpm -F @cher-ami/front run dev",
