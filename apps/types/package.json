@@ -1,0 +1,24 @@
+{
+  "name": "@cher-ami/types",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "type-check": "tsc",
+    "reset": "rm -rf node_modules && rm -rf .turbo"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.4",
+    "lint-staged": "^13.1.0",
+    "prettier": "^2.8.1"
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --write"
+    ]
+  },
+  "prettier": {
+    "printWidth": 90,
+    "semi": false
+  }
+}

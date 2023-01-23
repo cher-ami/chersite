@@ -5,10 +5,12 @@
   "author": "cher-ami",
   "private": true,
   "scripts": {
-    "dev:api": "turbo run dev --filter api",
-    "dev:front": "pnpm --filter ./packages/front run dev",
-    "test:front": "pnpm --filter ./packages/front run test",
-    "build": "turbo run build"
+    "dev:api": "turbo run dev --filter @cher-ami/api",
+    "dev:front": "pnpm --filter @cher-ami/front run dev",
+    "test:front": "pnpm --filter @cher-ami/front run test",
+    "build": "turbo run build",
+    "reset": "rm -rf node_modules && pnpm -F {apps/*} run reset",
+    "re-install": "npm run reset && pnpm install"
   },
   "devDependencies": {
     "turbo": "^1.7.0"

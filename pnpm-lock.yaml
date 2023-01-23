@@ -8,7 +8,7 @@ importers:
     devDependencies:
       turbo: 1.7.0
 
-  packages/front:
+  apps/front:
     specifiers:
       '@cher-ami/css-flat': ^1.0.1
       '@cher-ami/router': ^3.0.0-beta.16
@@ -86,10 +86,14 @@ importers:
       vite-plugin-checker: 0.5.3_gl4qsmwzp7wy5uclz4tx77gbli
       vitest: 0.25.8_less@4.1.3+terser@5.16.1
 
-  packages/types:
+  apps/types:
     specifiers:
+      lint-staged: ^13.1.0
+      prettier: ^2.8.1
       typescript: ^4.9.4
     devDependencies:
+      lint-staged: 13.1.0
+      prettier: 2.8.3
       typescript: 4.9.4
 
 packages:
