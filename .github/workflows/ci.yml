@@ -4,12 +4,23 @@ on: push
 jobs:
   build_test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
     steps:
       - uses: actions/checkout@v2
-      - run: node -v
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
 
-      - name: 🌎 install dependencies
-        run: pnpm install
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 6.32.11
+          run_install: true
+
+      - run: node -v
 
       - name: ⚡️build
         run: npm run build
