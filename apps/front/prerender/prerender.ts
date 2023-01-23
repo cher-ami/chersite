@@ -1,6 +1,8 @@
-import * as mfs from "../config/helpers/mfs.js"
+// @ts-ignore
 import path from "path"
+// @ts-ignore
 import { render } from "~/index-server"
+import * as mfs from "../config/helpers/mfs.js"
 import config from "../config/config.js"
 import palette from "../config/helpers/palette.js"
 import { isRouteIndex } from "./helpers/isRouteIndex"
