@@ -4,8 +4,12 @@ importers:
 
   .:
     specifiers:
+      husky: ^8.0.2
+      lint-staged: ^13.1.0
       turbo: ^1.7.0
     devDependencies:
+      husky: 8.0.3
+      lint-staged: 13.1.0
       turbo: 1.7.0
 
   apps/front:

@@ -20,7 +20,6 @@
     "prettier": "prettier --write ",
     "test:watch": "vitest",
     "test": "vitest run",
-    "prepare": "cd ../../ && husky install",
     "reset": "rm -rf dist && rm -rf node_modules && rm -rf .turbo && rm -rf build-stats.html"
   },
   "dependencies": {

@@ -4,16 +4,20 @@
   "version": "2.1.0",
   "author": "cher-ami",
   "private": true,
-  "workspaces": ["apps/*"],
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
-    "dev:api": "",
     "dev:front": "pnpm -F @cher-ami/front run dev",
     "test:front": "pnpm -F @cher-ami/front run test",
     "build": "turbo run build",
     "reset": "rm -rf node_modules && rm -rf pnpm-lock.yaml && pnpm -F {apps/*} run reset",
-    "re-install": "npm run reset && pnpm install"
+    "re-install": "npm run reset && pnpm install",
+    "prepare": "husky install"
   },
   "devDependencies": {
-    "turbo": "^1.7.0"
+    "turbo": "^1.7.0",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.1.0"
   }
 }

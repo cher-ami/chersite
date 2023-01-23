@@ -10,12 +10,6 @@ import * as packageJson from "../package.json"
 import { GlobalDataContext } from "./store/GlobalDataContext"
 import { languages, showDefaultLangInUrl } from "~/languages"
 import debug from "@wbe/debug"
-import { HomePage } from "@cher-ami/types"
-
-const test: HomePage = {
-  title: "test",
-  text: "test",
-}
 
 /**
  * Initial logs
