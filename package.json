@@ -1,0 +1,15 @@
+{
+  "name": "@cher-ami/chersite",
+  "description": "Web base Boilerplate for cher-ami projects.",
+  "version": "2.1.0",
+  "author": "cher-ami",
+  "private": true,
+  "scripts": {
+    "dev:api": "turbo run dev --filter api",
+    "dev:front": "pnpm --filter ./packages/front run dev",
+    "build": "turbo run build"
+  },
+  "devDependencies": {
+    "turbo": "^1.7.0"
+  }
+}

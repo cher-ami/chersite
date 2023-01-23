@@ -2,10 +2,17 @@ lockfileVersion: 5.4
 
 importers:
 
-  front:
+  .:
+    specifiers:
+      turbo: ^1.7.0
+    devDependencies:
+      turbo: 1.7.0
+
+  packages/front:
     specifiers:
       '@cher-ami/css-flat': ^1.0.1
       '@cher-ami/router': ^3.0.0-beta.16
+      '@cher-ami/types': workspace:*
       '@cher-ami/utils': ^1.0.1
       '@types/events': ^3.0.0
       '@types/node': ^18.11.15
@@ -29,6 +36,7 @@ importers:
       less: ^4.1.3
       lint-staged: ^13.1.0
       portfinder-sync: ^0.0.2
+      postcss: ^8.1.0
       prettier: ^2.8.1
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -51,13 +59,14 @@ importers:
       esbuild-android-arm64: 0.15.18
       fsevents: 2.3.2
     devDependencies:
+      '@cher-ami/types': link:../types
       '@types/events': 3.0.0
       '@types/node': 18.11.18
       '@types/react': 18.0.27
       '@types/react-dom': 18.0.10
       '@vitejs/plugin-legacy': 3.0.1_terser@5.16.1+vite@4.0.4
       '@vitejs/plugin-react': 3.0.1_vite@4.0.4
-      autoprefixer: 10.4.13
+      autoprefixer: 10.4.13_postcss@8.4.21
       chalk: 5.2.0
       change-case: 4.1.2
       compression: 1.7.4
@@ -68,6 +77,7 @@ importers:
       less: 4.1.3
       lint-staged: 13.1.0
       portfinder-sync: 0.0.2
+      postcss: 8.4.21
       prettier: 2.8.3
       rollup-plugin-visualizer: 5.9.0
       terser: 5.16.1
@@ -75,6 +85,12 @@ importers:
       vite: 4.0.4_25ccpcpgpj6lg6lpj5keiqybuq
       vite-plugin-checker: 0.5.3_gl4qsmwzp7wy5uclz4tx77gbli
       vitest: 0.25.8_less@4.1.3+terser@5.16.1
+
+  packages/types:
+    specifiers:
+      typescript: ^4.9.4
+    devDependencies:
+      typescript: 4.9.4
 
 packages:
 
@@ -775,7 +791,7 @@ packages:
       lodash: 4.17.21
     dev: true
 
-  /autoprefixer/10.4.13:
+  /autoprefixer/10.4.13_postcss@8.4.21:
     resolution: {integrity: sha512-49vKpMqcZYsJjwotvt4+h/BCjJVnhGwcLpDt5xkcaOG3eLrG/HUYLagrihYsQ+qrIBgIzX1Rw7a6L8I/ZA1Atg==}
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
@@ -787,6 +803,7 @@ packages:
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
+      postcss: 8.4.21
       postcss-value-parser: 4.2.0
     dev: true
 
@@ -2696,6 +2713,67 @@ packages:
 
   /tslib/2.4.1:
     resolution: {integrity: sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==}
+    dev: true
+
+  /turbo-darwin-64/1.7.0:
+    resolution: {integrity: sha512-hSGAueSf5Ko8J67mpqjpt9FsP6ePn1nMcl7IVPoJq5dHsgX3anCP/BPlexJ502bNK+87DDyhQhJ/LPSJXKrSYQ==}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-darwin-arm64/1.7.0:
+    resolution: {integrity: sha512-BLLOW5W6VZxk5+0ZOj5AO1qjM0P5isIgjbEuyAl8lHZ4s9antUbY4CtFrspT32XxPTYoDl4UjviPMcSsbcl3WQ==}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-64/1.7.0:
+    resolution: {integrity: sha512-aw2qxmfZa+kT87SB3GNUoFimqEPzTlzlRqhPgHuAAT6Uf0JHnmebPt4K+ZPtDNl5yfVmtB05bhHPqw+5QV97Yg==}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-arm64/1.7.0:
+    resolution: {integrity: sha512-AJEx2jX+zO5fQtJpO3r6uhTabj4oSA5ZhB7zTs/rwu/XqoydsvStA4X8NDW4poTbOjF7DcSHizqwi04tSMzpJw==}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-windows-64/1.7.0:
+    resolution: {integrity: sha512-ewj7PPv2uxqv0r31hgnBa3E5qwUu7eyVRP5M1gB/TJXfSHduU79gbxpKCyxIZv2fL/N2/3U7EPOQPSZxBAoljA==}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-windows-arm64/1.7.0:
+    resolution: {integrity: sha512-LzjOUzveWkvTD0jP8DBMYiAnYemmydsvqxdSmsUapHHJkl6wKZIOQNSO7pxsy+9XM/1/+0f9Y9F9ZNl5lePTEA==}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo/1.7.0:
+    resolution: {integrity: sha512-cwympNwQNnQZ/TffBd8yT0i0O10Cf/hlxccCYgUcwhcGEb9rDjE5thDbHoHw1hlJQUF/5ua7ERJe7Zr0lNE/ww==}
+    hasBin: true
+    requiresBuild: true
+    optionalDependencies:
+      turbo-darwin-64: 1.7.0
+      turbo-darwin-arm64: 1.7.0
+      turbo-linux-64: 1.7.0
+      turbo-linux-arm64: 1.7.0
+      turbo-windows-64: 1.7.0
+      turbo-windows-arm64: 1.7.0
     dev: true
 
   /type-detect/4.0.8:
