@@ -9,9 +9,6 @@ export default {
   // public assets from this folder will be copied in build folder
   publicDir: resolve("src/public"),
 
-  // folder to deploy on front server
-  wwwDir: resolve("dist/www/"),
-
   // outDir: where files are built
   // If this value is change, add this new path in .gitignore
   distDir: resolve("dist"),

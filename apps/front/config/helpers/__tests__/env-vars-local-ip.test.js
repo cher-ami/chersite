@@ -1,5 +1,5 @@
 import { expect, it } from "vitest"
-import { envVarsLocalIp } from "./env-vars-local-ip.js"
+import { envVarsLocalIp } from "../env-vars-local-ip.js"
 
 const testObj = {
   VITE_APP_BASE: "/test/dist/web/",
