@@ -5,13 +5,13 @@ import App from "../components/app/App"
 import { languages, showDefaultLangInUrl } from "~/languages"
 import { LangService, requestStaticPropsFromRoute, Router } from "@cher-ami/router"
 import { GlobalDataContext } from "~/store/GlobalDataContext"
-import { preventSlashes } from "../../config/helpers/prevent-slashes.js"
 import { loadEnv } from "vite"
 import { TScriptsObj } from "../../prerender/helpers/ManifestParser"
 import { CherScripts } from "~/server/helpers/CherScripts"
 import { RawScript } from "~/server/helpers/RawScript"
 import { ViteDevScripts } from "~/server/helpers/ViteDevScripts"
 import { ReactElement } from "react"
+import { preventSlashes } from "~/server/helpers/preventSlashes"
 
 // ----------------------------------------------------------------------------- PREPARE
 

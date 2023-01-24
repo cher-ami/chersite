@@ -12,7 +12,7 @@
     "dev:front": "pnpm -F @chersite/front run dev",
     "test:front": "pnpm -F @chersite/front run test",
     "build": "turbo run build",
-    "reset": "rm -rf node_modules && rm -rf pnpm-lock.yaml && pnpm -F {apps/*} run reset",
+    "reset": "rm -rf node_modules && rm -rf .pnpm-store && rm -rf pnpm-lock.yaml && pnpm -F {apps/*} run reset",
     "re-install": "npm run reset && pnpm install",
     "prepare": "husky install",
     "setup": "pnpm -F @chersite/cli run setup",

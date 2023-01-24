@@ -1,6 +1,6 @@
 import path from "path"
 import debug from "@wbe/debug"
-import { mfs, logger } from "@chersite/cli/src"
+import { mfs, logger } from "@chersite/cli"
 import packageJson from "../../../package.json"
 
 const log = debug("config:build-dotenv")

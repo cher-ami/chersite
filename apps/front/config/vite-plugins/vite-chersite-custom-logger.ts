@@ -2,7 +2,7 @@ import { createLogger, Logger } from "vite"
 import chalk from "chalk"
 import packageJson from "../../package.json"
 
-export const chersiteCustomLogger = ({
+export const viteChersiteCustomLogger = ({
   protocol,
   host,
   port,

@@ -2,7 +2,8 @@
 import path from "path"
 // @ts-ignore
 import { render } from "~/server/index-server"
-import { palette, mfs } from "@chersite/cli"
+import { mfs } from "@chersite/cli"
+import chalk from "chalk"
 import config from "../config/config.js"
 import { isRouteIndex } from "./helpers/isRouteIndex"
 import { ManifestParser } from "./helpers/ManifestParser"
@@ -69,5 +70,5 @@ const createHtmlFile = async (
   const htmlFilePath = `${routePath}.html`
   // Create file
   await mfs.createFile(htmlFilePath, htmlReplacement(renderToString(dom)))
-  console.log(palette.green(` → ${htmlFilePath.split("static")[1]}`))
+  console.log(chalk.green(` → ${htmlFilePath.split("static")[1]}`))
 }

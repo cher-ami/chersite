@@ -5,16 +5,17 @@
   "main": "src/index.js",
   "scripts": {
     "setup": "node src/tasks/setup/setup.js",
-    "reset": "rm -rf node_modules && rm -rf .turbo",
     "scaffold": "node src/tasks/scaffold-component/scaffold-component.js",
-    "scaffold-wp": "node src/tasks/scaffold-wp/scaffold-wp.js"
+    "scaffold-wp": "node src/tasks/scaffold-wp/scaffold-wp.js",
+    "reset": "rm -rf node_modules && rm -rf .turbo"
   },
   "devDependencies": {
+    "@wbe/debug": "^1.1.0",
+    "chalk": "^5.2.0",
+    "change-case": "^4.1.2",
+    "inquirer": "^9.1.4",
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.1",
-    "@wbe/debug": "^1.1.0",
-    "inquirer": "^9.1.4",
-    "change-case": "^4.1.2",
     "vitest": "^0.25.8"
   },
   "lint-staged": {
