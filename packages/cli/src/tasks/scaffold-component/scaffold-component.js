@@ -1,9 +1,9 @@
 import Inquirer from "inquirer"
 import changeCase from "change-case"
 import createFile from "../../helpers/create-file.js"
-import config from "../../config.js"
 import logs from "../../helpers/logger.js"
 import debug from "@wbe/debug"
+import config from "../../config.js"
 
 const log = debug("config:scaffold")
 

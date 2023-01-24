@@ -1,6 +1,6 @@
 import express from "express"
 import { prerender } from "./prerender"
-import palette from "../config/helpers/palette.js"
+import { palette } from "@chersite/cli"
 import { fetchAvailableUrls } from "./urls"
 
 const port = "1234"

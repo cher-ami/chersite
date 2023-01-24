@@ -1,9 +1,9 @@
-import * as mfs from "../../helpers/mfs.js"
 import path from "path"
 import debug from "@wbe/debug"
-const log = debug("config:build-dotenv")
-import logger from "../../helpers/logger.js"
+import { mfs, logger } from "@chersite/cli/src"
 import packageJson from "../../../package.json"
+
+const log = debug("config:build-dotenv")
 
 const _getRaws = (files = []) => {
   return new Promise((resolve) => {

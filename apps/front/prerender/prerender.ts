@@ -2,9 +2,8 @@
 import path from "path"
 // @ts-ignore
 import { render } from "~/server/index-server"
-import * as mfs from "../config/helpers/mfs.js"
+import { palette, mfs } from "@chersite/cli"
 import config from "../config/config.js"
-import palette from "../config/helpers/palette.js"
 import { isRouteIndex } from "./helpers/isRouteIndex"
 import { ManifestParser } from "./helpers/ManifestParser"
 import { renderToPipeableStream, renderToString } from "react-dom/server"

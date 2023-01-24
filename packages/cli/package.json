@@ -2,9 +2,12 @@
   "name": "@chersite/cli",
   "version": "1.0.0",
   "type": "module",
+  "main": "src/index.js",
   "scripts": {
     "setup": "node src/tasks/setup/setup.js",
-    "reset": "rm -rf node_modules && rm -rf .turbo"
+    "reset": "rm -rf node_modules && rm -rf .turbo",
+    "scaffold": "node src/tasks/scaffold-component/scaffold-component.js",
+    "scaffold-wp": "node src/tasks/scaffold-wp/scaffold-wp.js"
   },
   "devDependencies": {
     "lint-staged": "^13.1.0",

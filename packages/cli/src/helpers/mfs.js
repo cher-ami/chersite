@@ -54,8 +54,8 @@ export async function readFile(path) {
 
 /**
  * Copy a file.
- * @param src Source path of the file to copy. ex: "src/index.ts"
- * @param dest Destination path of the file to copy. ex: "dist/index.ts" (specify the file name)
+ * @param src Source path of the file to copy. ex: "src/index.js"
+ * @param dest Destination path of the file to copy. ex: "dist/index.js" (specify the file name)
  * @param options
  * @returns
  */

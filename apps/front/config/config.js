@@ -37,19 +37,4 @@ export default {
   htaccessTemplateFilePath: resolve(
     "config/tasks/build-htaccess/templates/.htaccess.template"
   ),
-
-  // Scaffold components
-  bundleType: ["react", "dom"],
-  componentCompatibleFolders: ["components", "pages", "popin"],
-  componentsTemplatesDir: resolve("config/tasks/scaffold-component/templates"),
-  twigTemplates: resolve("dist/web/app/themes/CherAmi/templates"),
-
-  // Scaffold WP
-  wpTheme: resolve("dist/api/web/app/themes/CherAmi"),
-  wpTemplatesPath: resolve("config/tasks/scaffold-wp/templates"),
-
-  // setup
-  taskSetupFolder: resolve("config/tasks/setup"),
-  installFile: resolve("config/install"),
-  setupFakeMode: false,
 }
