@@ -1,8 +1,9 @@
 import { expect, it } from "vitest"
 import { ManifestParser } from "../helpers/ManifestParser"
-import * as mfs from "../../config/helpers/mfs.js"
+import { mfs } from "@chersite/cli"
 import config from "../../config/config.js"
 
+// @ts-ignore
 const manifestRaw = await mfs.readFile(`${config.outDirStatic}/manifest.json`)
 
 it("should return assets list", () => {
