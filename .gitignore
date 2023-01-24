@@ -13,3 +13,4 @@ build-stats.html
 .turbo
 .pnpm-store
 dist
+db/mariadb

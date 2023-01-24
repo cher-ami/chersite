@@ -6,10 +6,23 @@ services:
       - "${DOCKER_NODE_PORT:-3000}:3000"
       - "24678:24678" # vite hot reload port
       - "1234:1234" # expose node server for generating pages
+      - "1337:1337" # BO
     volumes:
       - "./:/app"
     working_dir: /app
     tty: true
+#    environment:
+#      DATABASE_CLIENT: mysql
+#      DATABASE_NAME: ${DATABASE_NAME}
+#      DATABASE_HOST: ${DATABASE_HOST}
+#      DATABASE_PORT: 3307
+#      DATABASE_USERNAME: ${DATABASE_USERNAME}
+#      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+#      DATABASE_SSL: 'false'
+#    depends_on:
+#      - mariadb
+#    networks:
+#      - local-network
 
 #  apache:
 #    image: registry.gitlab.cher-ami.tv/docker/docker-images/php:7.4-1
@@ -18,3 +31,22 @@ services:
 #    volumes:
 #      - "./:/app"
 #    working_dir: /app
+#
+#  mariadb:
+#    image: mariadb:10
+#    environment:
+#      - MARIADB_ROOT_PASSWORD=${DATABASE_PASSWORD}
+#      - MARIADB_USER={$DATABASE_USERNAME}
+#      - MARIADB_PASSWORD=${DATABASE_PASSWORD}
+#    ports:
+#      - "3307:3306"
+#    volumes:
+#      - ./db/fixtures:/docker-entrypoint-initdb.d
+#      - ./db/mariadb:/var/lib/mysql
+#    restart: unless-stopped
+#    networks:
+#      - local-network
+#
+#networks:
+#  local-network:
+#    driver: bridge
