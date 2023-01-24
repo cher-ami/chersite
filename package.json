@@ -1,11 +1,12 @@
 {
-  "name": "@cher-ami/chersite",
-  "description": "Web base Boilerplate for cher-ami projects.",
+  "name": "chersite",
+  "description": "monorepo base for cher-ami projects.",
   "version": "2.1.0",
   "author": "cher-ami",
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "dev:front": "pnpm -F @cher-ami/front run dev",
@@ -13,7 +14,8 @@
     "build": "turbo run build",
     "reset": "rm -rf node_modules && rm -rf pnpm-lock.yaml && pnpm -F {apps/*} run reset",
     "re-install": "npm run reset && pnpm install",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "setup": "pnpm -F @chersite/cli run setup"
   },
   "devDependencies": {
     "turbo": "^1.7.0",

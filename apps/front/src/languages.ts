@@ -1,4 +1,4 @@
-import { LangService, TLanguage } from "@cher-ami/router"
+import { TLanguage } from "@cher-ami/router"
 
 /**
  * Available languages

@@ -5,11 +5,11 @@ import App from "./components/app/App"
 import { routes } from "./routes"
 import { LangService, Router } from "@cher-ami/router"
 import { createBrowserHistory } from "history"
-import VhHelper from "./helpers/VhHelper"
 import * as packageJson from "../package.json"
 import { GlobalDataContext } from "./store/GlobalDataContext"
 import { languages, showDefaultLangInUrl } from "~/languages"
 import debug from "@wbe/debug"
+import VhHelper from "~/libs/dom/VhHelper"
 
 /**
  * Initial logs

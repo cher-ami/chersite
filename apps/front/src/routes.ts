@@ -1,6 +1,6 @@
 import fetch from "cross-fetch"
 import { TLanguage, TRoute } from "@cher-ami/router"
-import { TMetaTags } from "./managers/MetaManager"
+import { TMetaTags } from "~/libs/dom/MetaManager"
 import HomePage from "./pages/homePage/HomePage"
 import WorkPage from "./pages/workPage/WorkPage"
 import NotFoundPage from "./pages/notFoundPage/NotFoundPage"

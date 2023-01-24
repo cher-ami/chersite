@@ -78,7 +78,7 @@ export default async ({ packageJson, defaultProjectName, fakeMode } = {}) => {
     if (!fakeMode) {
       log("Modify package.json")
       await mfs.createFile(
-        path.resolve("./package.json"),
+        path.resolve("../../package.json"),
         JSON.stringify(packageJson, null, 2)
       )
     } else {
