@@ -10,6 +10,7 @@ import { ManifestParser } from "./helpers/ManifestParser"
 import { renderToPipeableStream, renderToString } from "react-dom/server"
 import { JSXElementConstructor, ReactElement } from "react"
 import { htmlReplacement } from "../src/server/helpers/htmlReplacement"
+import { loadEnv } from "vite"
 
 /**
  * Prerender
@@ -26,8 +27,9 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
   }
 
   // get script tags to inject in render
+  const base = process.env.VITE_APP_BASE || loadEnv("", process.cwd(), "").VITE_APP_BASE
   const manifest = await mfs.readFile(`${outDirStatic}/manifest.json`)
-  const scriptTags = ManifestParser.getScriptTagFromManifest(manifest)
+  const scriptTags = ManifestParser.getScriptTagFromManifest(manifest as string, base)
 
   // pre-render each route
   for (let url of urls) {
