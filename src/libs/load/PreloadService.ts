@@ -1,5 +1,5 @@
 import debug from "@wbe/debug"
-import { Beeper } from "~/libs/Beeper"
+import { Beeper } from "~/libs/events/Beeper"
 const componentName = "PreloadService"
 const log = debug(`front:${componentName}`)
 
