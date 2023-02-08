@@ -1,8 +1,9 @@
+// @ts-ignore
+import { render } from "~/server/index-server"
 import * as mfs from "../config/helpers/mfs.js"
 import path from "path"
-import { render } from "~/index-server"
+import chalk from "chalk"
 import config from "../config/config.js"
-import palette from "../config/helpers/palette.js"
 import { isRouteIndex } from "./helpers/isRouteIndex"
 import { ManifestParser } from "./helpers/ManifestParser"
 import { renderToPipeableStream, renderToString } from "react-dom/server"
@@ -68,5 +69,5 @@ const createHtmlFile = async (
   const htmlFilePath = `${routePath}.html`
   // Create file
   await mfs.createFile(htmlFilePath, htmlReplacement(renderToString(dom)))
-  console.log(palette.green(` → ${htmlFilePath.split("static")[1]}`))
+  console.log(chalk.green(` → ${htmlFilePath.split("static")[1]}`))
 }

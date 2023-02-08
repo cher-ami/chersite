@@ -2,7 +2,7 @@ import css from "./HomePage.module.less"
 import React, { ForwardedRef, forwardRef, Suspense, useEffect, useRef } from "react"
 import { useStack } from "@cher-ami/router"
 import debug from "@wbe/debug"
-import { MetasManager, TMetaTags } from "~/managers/MetaManager"
+import { MetasManager, TMetaTags } from "~/libs/dom/MetaManager"
 const TestComponent = React.lazy(() => import("./LazyTest") as any)
 
 interface IProps {

@@ -1,2 +1,45 @@
-@import "variables-less";
-@import "variables-css";
+@import (reference) "../references";
+
+// ----------------------------------------------------------------------------- LESS VAR
+
+/**
+  LESS variables
+  Only modify vars bellow, but don't add new one.
+  Add native css vars instead in CSS VAR  bellow
+ */
+
+// Used by ratio.less
+@viewport-reference-width: 375;
+@viewport-reference-height: 667;
+@viewport-reference-desktop-width: 1400;
+@viewport-reference-desktop-height: 900;
+
+// breakpoints
+@breakpoint-mobile: 320px;
+@breakpoint-tablet: 768px;
+@breakpoint-laptop: 1024px;
+@breakpoint-bigLaptop: 1440px;
+@breakpoint-desktop: 1680px;
+
+// ----------------------------------------------------------------------------- CSS VAR
+
+/**
+CSS variables
+Used as main variables in chersite (except breakpoints variables)
+*/
+:root {
+  // DO NOT TOUCH
+  .propertyViewport(--font-size, 1);
+
+  // breakpoints
+  --breakpoint-mobile: 320px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-laptop: 1024px;
+  --breakpoint-bigLaptop: 1440px;
+  --breakpoint-desktop: 1680px;
+
+  // Colors
+  --color-bg: transparent;
+  --color-text: #000;
+  // ...
+}

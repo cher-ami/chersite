@@ -2,7 +2,7 @@ import { createLogger, Logger } from "vite"
 import chalk from "chalk"
 import packageJson from "../../package.json"
 
-export const chersiteCustomLogger = ({
+export const viteChersiteCustomLogger = ({
   protocol,
   host,
   port,
@@ -18,12 +18,12 @@ export const chersiteCustomLogger = ({
   const formatBase = base === "/" ? "" : base
   // prettier-ignore
   const template = [
-      ``,
-      `  ${chalk.green.bold.underline(packageJson.name)} ${chalk.gray("v" + packageJson.version)} \n`,
-                        `  ${chalk.bold("Local")}:      ${chalk.cyan(`${protocol}://${chalk.bold('localhost')}:${port ?? ""}${formatBase}`)}`,
-    !hostIsLocalhost && `  ${chalk.bold("Network")}:    ${chalk.cyan(`${protocol}://${chalk.bold(host)}:${port ?? ""}${formatBase}`)}`,
-    // !hostIsLocalhost && `  ${chalk.bold("BO")}:         ${chalk.cyan(`${protocol}://${chalk.bold(host)}${port ?? ""}${formatBase}wp/wp-admin`)}`,
-    ].filter(e => e).join('\n');
+    ``,
+    `  ${chalk.green.bold.underline(packageJson.name)} ${chalk.gray("v" + packageJson.version)} \n`,
+    `  ${chalk.bold("Local")}:      ${chalk.cyan(`${protocol}://${chalk.bold('localhost')}${port ? `:${port}`: ""}${formatBase}`)}`,
+    !hostIsLocalhost && `  ${chalk.bold("Network")}:    ${chalk.cyan(`${protocol}://${chalk.bold(host)}${port ? `:${port}`: ""}${formatBase}`)}`,
+    // !hostIsLocalhost && `  ${chalk.bold("BO")}:         ${chalk.cyan(`${protocol}://${chalk.bold(host)}${port ? `:${port}`: ""}${formatBase}wp/wp-admin`)}`,
+  ].filter(e => e).join('\n');
 
   logger.warnOnce(template)
 

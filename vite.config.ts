@@ -9,7 +9,7 @@ import { visualizer } from "rollup-plugin-visualizer"
 import checker from "vite-plugin-checker"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
-import { chersiteCustomLogger } from "./config/vite-plugins/chersiteCustomLogger"
+import { viteChersiteCustomLogger } from "./config/vite-plugins/vite-chersite-custom-logger"
 import legacy from "@vitejs/plugin-legacy"
 import ip from "ip"
 import portFinderSync from "portfinder-sync"
@@ -45,7 +45,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   return {
     ...(isDevelopment
       ? {
-          customLogger: chersiteCustomLogger({
+          customLogger: viteChersiteCustomLogger({
             protocol,
             host: process.env.HOST,
             port: process.env.PORT,

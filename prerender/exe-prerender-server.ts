@@ -1,13 +1,13 @@
 import express from "express"
 import { prerender } from "./prerender"
-import palette from "../config/helpers/palette.js"
+import chalk from "chalk"
 import { fetchAvailableUrls } from "./urls"
 
 const port = "1234"
 const app = express()
 
 app.get("/generate", async (req, res) => {
-  console.log(palette.grey("req.query"), req.query)
+  console.log(chalk.grey("req.query"), req.query)
 
   let urlsArray
   if (req.query?.url) {
@@ -29,10 +29,10 @@ app.get("/generate", async (req, res) => {
 app.listen(port, () => {
   console.log("")
   console.log(
-    `> Generate all pages      ${palette.blue(`http://localhost:${port}/generate`)}`
+    `> Generate all pages      ${chalk.blue(`http://localhost:${port}/generate`)}`
   )
   console.log(
-    `> Generate specific page  ${palette.blue(
+    `> Generate specific page  ${chalk.blue(
       `http://localhost:${port}/generate?url=/my-page/url`
     )}`
   )
