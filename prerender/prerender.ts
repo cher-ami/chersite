@@ -1,6 +1,6 @@
 // @ts-ignore
 import { render } from "~/server/index-server"
-import * as mfs from "../config/helpers/mfs.js"
+import * as mfs from "@wbe/mfs"
 import path from "path"
 import chalk from "chalk"
 import { loadEnv } from "vite"

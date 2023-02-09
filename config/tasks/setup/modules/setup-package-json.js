@@ -1,6 +1,6 @@
 import Inquirer from "inquirer"
 import changeCase from "change-case"
-import * as mfs from "../../../helpers/mfs.js"
+import * as mfs from "@wbe/mfs"
 import logs from "../../../helpers/logger.js"
 import path from "path"
 import debug from "@wbe/debug"

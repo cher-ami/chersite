@@ -1,6 +1,6 @@
 import { expect, it } from "vitest"
 import { ManifestParser } from "../helpers/ManifestParser"
-import * as mfs from "../../config/helpers/mfs.js"
+import * as mfs from "@wbe/mfs"
 import config from "../../config/config.js"
 
 // @ts-ignore
