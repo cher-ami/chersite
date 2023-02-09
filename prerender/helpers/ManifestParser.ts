@@ -17,6 +17,7 @@ export class ManifestParser {
   /**
    * Directly get script Tags from raw manifest string
    * @param manifestRaw
+   * @param base
    */
   static getScriptTagFromManifest(manifestRaw: string, base = "/"): TScriptsObj {
     const assets = ManifestParser.getAssets(manifestRaw)
