@@ -1,4 +1,4 @@
-import * as mfs from "../../helpers/mfs.js"
+import * as mfs from "@wbe/mfs"
 import path from "path"
 import debug from "@wbe/debug"
 const log = debug("config:build-dotenv")

@@ -1,4 +1,4 @@
-import * as mfs from "./mfs.js"
+import * as mfs from "@wbe/mfs"
 import logs from "./logger.js"
 
 /**

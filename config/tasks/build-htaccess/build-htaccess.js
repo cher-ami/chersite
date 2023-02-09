@@ -1,5 +1,5 @@
 import debug from "@wbe/debug"
-import * as mfs from "../../helpers/mfs.js"
+import * as mfs from "@wbe/mfs"
 import logger from "../../helpers/logger"
 const log = debug("config:build-htaccess")
 /**
