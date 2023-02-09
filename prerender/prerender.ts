@@ -3,6 +3,7 @@ import { render } from "~/server/index-server"
 import * as mfs from "../config/helpers/mfs.js"
 import path from "path"
 import chalk from "chalk"
+import { loadEnv } from "vite"
 import config from "../config/config.js"
 import { isRouteIndex } from "./helpers/isRouteIndex"
 import { ManifestParser } from "./helpers/ManifestParser"
@@ -25,8 +26,9 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
   }
 
   // get script tags to inject in render
-  const manifest = await mfs.readFile(`${outDirStatic}/manifest.json`)
-  const scriptTags = ManifestParser.getScriptTagFromManifest(manifest)
+  const base = process.env.VITE_APP_BASE || loadEnv("", process.cwd(), "").VITE_APP_BASE
+  const manifest = (await mfs.readFile(`${outDirStatic}/manifest.json`)) as string
+  const scriptTags = ManifestParser.getScriptTagFromManifest(manifest, base)
 
   // pre-render each route
   for (let url of urls) {
