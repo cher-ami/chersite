@@ -1,8 +1,7 @@
 import debug from "@wbe/debug"
 import * as mfs from "../../helpers/mfs.js"
-const log = debug("config:build-htaccess")
 import logger from "../../helpers/logger"
-import { LOADIPHLPAPI } from "dns"
+const log = debug("config:build-htaccess")
 /**
  * Create htaccess file
  * @param pOutputPath
@@ -28,7 +27,7 @@ const _createHtaccessFile = async ({ outputPath, htaccessTemplatePath }) => {
   const readTemplate = await mfs.readFile(htaccessTemplatePath)
 
   // create and dispatch file from template
-  mfs.createFile(newHtaccessFilePath, readTemplate)
+  await mfs.createFile(newHtaccessFilePath, readTemplate)
   return newHtaccessFilePath
 }
 
