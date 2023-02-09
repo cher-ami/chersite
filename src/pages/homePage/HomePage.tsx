@@ -3,7 +3,7 @@ import React, { ForwardedRef, forwardRef, Suspense, useEffect, useRef } from "re
 import { useStack } from "@cher-ami/router"
 import debug from "@wbe/debug"
 import { MetasManager, TMetaTags } from "~/libs/dom/MetaManager"
-const TestComponent = React.lazy(() => import("./LazyTest") as any)
+const TestComponent = React.lazy(() => import("./LazyTest"))
 
 interface IProps {
   meta: TMetaTags
