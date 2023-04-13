@@ -7,6 +7,7 @@
   "type": "module",
   "scripts": {
     "init": "npm i && cd apps/front && npm install",
+    "init:ci": "npm ci && cd apps/front && npm ci",
     "dev:front": "cd apps/front && npm run dev",
     "test:front": "cd apps/front && npm run test",
     "build:front": "cd apps/front && npm run build",

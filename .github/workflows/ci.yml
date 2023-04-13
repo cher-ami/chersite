@@ -9,11 +9,11 @@ jobs:
       - run: node -v
 
       - name: 🌎 install dependencies
-        run: npm ci --unsafe-perm
+        run: npm run init:ci --unsafe-perm
 
-      - name: ⚡️build
-        run: npm run build
+      - name: ⚡️build front
+        run: npm run build:front
 
       - name: 🙏🏽 test
-        run: npm run test
+        run: npm run test:front
 
