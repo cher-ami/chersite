@@ -1,0 +1,78 @@
+{
+  "name": "chersite",
+  "description": "Web base Boilerplate for cher-ami projects.",
+  "version": "2.2.0",
+  "author": "cher-ami",
+  "main": "src/index.tsx",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "build:client": "vite build --outDir dist/front/client",
+    "build:server": "vite build --ssr src/server/index-server.tsx --outDir dist/front/server",
+    "build:scripts": "vite build -c vite.scripts.config.ts",
+    "build:static": "vite build --outDir dist/front/static",
+    "build": "npm run build:server && npm run build:scripts && npm run build:static && npm run generate",
+    "generate": "node dist/front/_scripts/exe-prerender.js",
+    "preview": "serve dist/front/static",
+    "setup": "node config/tasks/setup/setup.js && npm run prepare",
+    "scaffold": "node config/tasks/scaffold-component/scaffold-component.js",
+    "scaffold-wp": "node config/tasks/scaffold-wp/scaffold-wp.js",
+    "prettier": "prettier --write .",
+    "test:watch": "vitest",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@cher-ami/css-flat": "^1.0.1",
+    "@cher-ami/router": "^3.0.0",
+    "@cher-ami/utils": "^1.0.2",
+    "@wbe/debug": "^1.1.0",
+    "cross-fetch": "^3.1.5",
+    "history": "^5.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/events": "^3.0.0",
+    "@types/node": "^18.13.0",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-legacy": "^4.0.1",
+    "@vitejs/plugin-react-swc": "^3.1.0",
+    "@wbe/mfs": "^0.1.0",
+    "autoprefixer": "^10.4.13",
+    "chalk": "^5.2.0",
+    "change-case": "^4.1.2",
+    "compression": "^1.7.4",
+    "express": "^4.18.2",
+    "husky": "^8.0.3",
+    "inquirer": "^9.1.4",
+    "ip": "^1.1.8",
+    "less": "^4.1.3",
+    "lint-staged": "^13.1.1",
+    "portfinder-sync": "^0.0.2",
+    "prettier": "^2.8.4",
+    "rollup-plugin-visualizer": "^5.9.0",
+    "terser": "^5.16.3",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.1",
+    "vite-plugin-checker": "^0.5.5",
+    "vitest": "^0.28.4"
+  },
+  "optionalDependencies": {
+    "esbuild-android-arm64": "^0.15.18",
+    "fsevents": "^2.3.2"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "iOS >= 12"
+  ],
+  "lint-staged": {
+    "*.{tsx,ts,jsx,js,less,css,json,md}": [
+      "prettier --write"
+    ]
+  },
+  "prettier": {
+    "printWidth": 90,
+    "semi": false
+  }
+}

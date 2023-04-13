@@ -1,3 +1,7 @@
+# Output application depend of project
+dist/front
+dist/api/web/app/.cache
+
 vendor
 .env.local
 node_modules
@@ -5,6 +9,8 @@ node_modules
 .idea
 .vscode
 .history
+dist-ssr
 *.local
 .cache
 vite.config.ts.timestamp*
+build-stats.html
