@@ -15,21 +15,27 @@ chersite is web-base structure witch include front static-site generator for che
 
 <br/>
 
-## About front app
+## Front app
 
-Chersite front app is a React static-site generator build in order to obtain a static server rendering for best performance. The build step prepare a server script, a prerender script and a SPA version to leave choice of use.
+The front app is a React static-site generator build in order to obtain a static server rendering for best performance. The build step prepare a server script, a prerender script and a SPA version to leave choice of use.
 This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
 
-## About back app
+[See the front app documentation](apps/front/README.md)
+
+## Back app
 
 The back app is optional not set by default, it can be API, BO etc.
 
-## Summary
+## Structure
 
-- [Requirements](#requirements)
-- [Structure](#structure)
-- [Installation](#installation)
-- [Front app](#front-app)
+This repo is **not a monorepo**, it provides standalone apps.
+Each app has his own `package.json` and `node_modules` folder, we build them separately.
+
+```
+  apps
+    └- back           ⬅ BO app (api, admin, whatever.)
+    └- front          ⬅ cher-ami frontend starter
+```
 
 ## Requirements
 
@@ -40,18 +46,10 @@ or
 - [node v16.16](https://nodejs.org/en)
 - [npm](https://www.npmjs.com/)
 
-## Structure
+## Basic installation
 
-This repo is NOT a monorepo, it provides standalone apps.
-Each app has his own `package.json` and `node_modules` folder, we build them separately.
-
-```
-  apps
-    └- back           ⬅ BO app (api, admin, etc...)
-    └- front          ⬅ cher-ami frontend starter
-```
-
-## Installation
+This guide will help you to install the project on your local machine with docker.
+Only the front app is installed by default, so you can start to work on it without any other configuration.
 
 - Clone repo and move inside the repo folder:
 
@@ -102,3 +100,7 @@ for more information about the front app, see [apps/front/README.md](apps/front/
 ## Credits
 
 Developed by [cher-ami](https://github.com/cher-ami) team.
+
+## Licence
+
+[MIT](LICENSE)

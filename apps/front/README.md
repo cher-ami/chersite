@@ -1,5 +1,8 @@
 ## chersite Front app
 
+This front app is a React static-site generator build in order to obtain a static server rendering for best performance. The build step prepare a server script, a prerender script and a SPA version to leave choice of use.
+This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
+
 Chersite frontend starter app run with [vite](https://vitejs.dev/) as a static site generator (dev-server, HMR and transformation & compilation), [react](https://reactjs.org/),[typescript](https://www.typescriptlang.org/), and [less](https://lesscss.org/).
 
 ### Entry points
