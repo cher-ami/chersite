@@ -1,10 +1,10 @@
 <h1 align="center" style="text-align:center">🪜 chersite</h1>
 
 <p align="center">
-chersite is a web static-site generator for cher-ami projects based on 
+chersite is web-base structure witch include front static-site generator for cher-ami projects based on 
 <a href="https://vitejs.dev/">vite</a>, 
 <a href="https://www.typescriptlang.org">typescript</a>,
-<a href="https://reactjs.org">react</a>,
+<a href="https://reactjs.org">react</a>, and
 <a href="https://lesscss.org">less</a>
 
 <br/>
@@ -17,8 +17,7 @@ chersite is a web static-site generator for cher-ami projects based on
 
 ## About
 
-Chersite is a React static-site generator build in order to obtain a static server rendering for best performance.
-The build step prepare a server script, a prerender script and a SPA version to leave choice of use.
+Chersite front app is a React static-site generator build in order to obtain a static server rendering for best performance. The build step prepare a server script, a prerender script and a SPA version to leave choice of use.
 This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
 
 ## Summary
@@ -56,7 +55,7 @@ Each app has his own `package.json` and `node_modules` folder, we build them sep
 git clone git@github.com:cher-ami/chersite.git && cd chersite
 ```
 
-- start the docker container:
+- Start the docker container:
 
 ```shell
 docker compose up
@@ -68,7 +67,7 @@ docker compose up
 docker compose exec node /bin/bash
 ```
 
-- install node dependencies for the root project and all apps:
+- Install node dependencies for the root project and all apps:
 
 ```shell
 npm i && npm run init
