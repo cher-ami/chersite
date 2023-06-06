@@ -62,9 +62,6 @@ export class MetasManager {
     keywords: [
       { selectorAttr: "name", selectorValue: "keywords", attr: "content" }
     ],
-    viewport: [
-      { selectorAttr: "name", selectorValue: "viewport", attr: "content" }
-    ],
     canonical: [
       { selectorAttr: "rel", selectorValue: "canonical", attr: "href" }
     ]
