@@ -15,11 +15,16 @@
   },
   "devDependencies": {
     "husky": "^8.0.0",
-    "lint-staged": "^13.2.2"
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8"
   },
   "lint-staged": {
-    "*.{tsx,ts,jsx,js,less,css,json,md}": [
+    "./apps/front/*.{tsx,ts,jsx,js,less,css,json,md}": [
       "npx prettier --write ."
     ]
+  },
+  "prettier": {
+    "printWidth": 90,
+    "semi": false
   }
 }
