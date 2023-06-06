@@ -15,10 +15,14 @@ chersite is web-base structure witch include front static-site generator for che
 
 <br/>
 
-## About
+## About front app
 
 Chersite front app is a React static-site generator build in order to obtain a static server rendering for best performance. The build step prepare a server script, a prerender script and a SPA version to leave choice of use.
 This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
+
+## About back app
+
+The back app is optional not set by default, it can be API, BO etc.
 
 ## Summary
 
