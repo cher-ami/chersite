@@ -16,4 +16,3 @@ jobs:
 
       - name: 🙏🏽 test
         run: npm run test:front
-
