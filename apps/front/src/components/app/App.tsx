@@ -61,7 +61,7 @@ function App(props: IProps): JSX.Element {
           </li>
           <li>
             <Link to={{ name: EPages.WORK, params: { slug: "second-work" } }}>
-              Work - id: "second-work"
+              Work - id: "second-work "
             </Link>
           </li>
         </ul>
