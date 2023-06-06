@@ -1,11 +1,7 @@
 <h1 align="center" style="text-align:center">🪜 chersite</h1>
 
 <p align="center">
-chersite is web-base structure witch include front static-site generator for cher-ami projects based on 
-<a href="https://vitejs.dev/">vite</a>, 
-<a href="https://www.typescriptlang.org">typescript</a>,
-<a href="https://reactjs.org">react</a>, and
-<a href="https://lesscss.org">less</a>
+chersite is web-base structure witch include front static-site generator for cher-ami projects
 
 <br/>
 <br/>
@@ -17,10 +13,9 @@ chersite is web-base structure witch include front static-site generator for che
 
 ## Front app
 
-The front app is a React static-site generator build in order to obtain a static server rendering for best performance. The build step prepare a server script, a prerender script and a SPA version to leave choice of use.
-This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
+The front app is a React static-site generator build with [vite](https://vitejs.dev/), [react](https://reactjs.org/),[typescript](https://www.typescriptlang.org/), and [less](https://lesscss.org/), in order to obtain a static server rendering for best performance. The build step prepare a server script, a prerender script and a SPA version to leave choice of use. This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
 
-➡ [front app documentation](apps/front/README.md)
+See the [front app documentation](apps/front/README.md)
 
 ## Back app
 
@@ -46,7 +41,7 @@ or
 - [node v16.16](https://nodejs.org/en)
 - [npm](https://www.npmjs.com/)
 
-## Basic installation
+## Installation
 
 This guide will help you to install the project on your local machine with docker.
 Only the front app is installed by default, so you can start to work on it without any other configuration.
@@ -92,10 +87,6 @@ npm run dev:front
 ```shell
 HOST="{{YOUR_LOCAL_IP}}"
 ```
-
-## Front app
-
-for more information about the front app, see [apps/front/README.md](apps/front/README.md)
 
 ## Credits
 

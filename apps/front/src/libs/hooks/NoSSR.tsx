@@ -4,7 +4,7 @@ import { isBrowser } from "@cher-ami/utils"
 /**
  * NoSSR
  *
- * Allows to render DOM only on the server
+ * Allows to render DOM only on the client
  *
  * @param children
  * @constructor

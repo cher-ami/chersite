@@ -1,18 +1,29 @@
-## chersite Front app
+# Chersite front app
 
-This front app is a React static-site generator build in order to obtain a static server rendering for best performance. The build step prepare a server script, a prerender script and a SPA version to leave choice of use.
-This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
+- [About](#about)
+- [Entry points](#entry-points)
+- [Configuration Files](#configuration-files)
+- [Prerender](#prerender)
+- [CLI](#cli)
+  - [setup](#setup)
+  - [dev](#dev)
+  - [build](#build)
+  - [scaffold](#scaffold)
+  - [generate](#generate)
+- [Vite plugins](#vite-plugins)
 
-Chersite frontend starter app run with [vite](https://vitejs.dev/) as a static site generator (dev-server, HMR and transformation & compilation), [react](https://reactjs.org/),[typescript](https://www.typescriptlang.org/), and [less](https://lesscss.org/).
+## About
 
-### Entry points
+This front app is a React static-site generator build in order to obtain a static server rendering for best performance. It run with [vite](https://vitejs.dev/), [react](https://reactjs.org/),[typescript](https://www.typescriptlang.org/), and [less](https://lesscss.org/). The build step prepare a server script, a prerender script and a SPA version to leave choice of use. This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
+
+## Entry points
 
 Two entry points are set:
 
 - server side [src/server/index-server.tsx](src/server/index-server.tsx)
 - client side [src/index.tsx](src/index.tsx)
 
-### Configuration Files
+## Configuration Files
 
 Vite's configuration is managed by two main files:
 
@@ -20,9 +31,36 @@ Vite's configuration is managed by two main files:
 - [vite.scripts.config.ts](vite.scripts.config.ts): contains the whole vite scripts config. It built scripts files relative to the SSR and SSG part.
 - [config/config.js](config/config.js): is the internal paths and tasks config file.
 
-### Prerender
+## Prerender
 
-TODO
+The main goal of this app is to generate a static site. The prerender script is used to generate static html files from the server side.
+
+You have to list manually all routes you want to prerender in [prerender/urls.ts](prerender/urls.ts):
+
+```ts
+return new Promise((resolve) => {
+  resolve([
+    "/",
+    // will generate /work/index.html (because "/work/other-route" exists in the list)
+    "/work",
+    // will generate /work/first-work.html
+    "/work/first-work",
+    // duplicate route with lang if the router is configured on this way
+    "/fr",
+    "/fr/work",
+    "/fr/work/first-work",
+  ])
+})
+```
+
+⚠️ **The front application routing is not dependent to the generated html files, so you can add any route you want in
+this list**. In case you use a backend, you will have to get all routes from a backend API call and add them in this list.
+
+By default, the generate command is executed on build step, but you can run it manually:
+
+```shell
+npm run generate
+```
 
 ## CLI
 
@@ -30,6 +68,7 @@ TODO
 - [dev](#dev)
 - [build](#build)
 - [scaffold](#scaffold)
+- [generate](#generate)
 
 npm scripts command line interface is available from the main [package.json](./package.json).
 Each script can be executed from `npm run {task}` command.
@@ -89,6 +128,14 @@ Options are defined from [config/config.js](config/config.js):
 bundleType: ["react", "dom"]
 componentCompatibleFolders: ["components", "pages", "popin"]
 componentsTemplatesDir: resolve("config/tasks/scaffold-component/templates")
+```
+
+### generate
+
+Generate static html files from the server side.
+
+```shell
+npm run generate
 ```
 
 ## Vite plugins
@@ -152,3 +199,11 @@ Second part of the configuration is defined from [config/config.js](config/confi
 ```js
 htaccessTemplateFilePath: resolve("src/.htaccess")
 ```
+
+## Credits
+
+Developed by [cher-ami](https://github.com/cher-ami) team.
+
+## Licence
+
+[MIT](../../LICENSE)
