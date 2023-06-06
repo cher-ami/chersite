@@ -19,7 +19,7 @@
     "prettier": "^2.8.8"
   },
   "lint-staged": {
-    "./apps/front/*.{tsx,ts,jsx,js,less,css,json,md}": [
+    "apps/front/**/*.{tsx,ts,jsx,js,less,css,json,md}": [
       "npx prettier --write ."
     ]
   },
