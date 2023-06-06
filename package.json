@@ -11,7 +11,7 @@
     "dev:front": "cd apps/front && npm run dev",
     "test:front": "cd apps/front && npm run test",
     "build:front": "cd apps/front && npm run build",
-    "prepare": "husky install"
+    "postinstall": "husky install"
   },
   "devDependencies": {
     "husky": "^8.0.3"
