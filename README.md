@@ -64,7 +64,7 @@ docker compose up
 docker compose exec node /bin/bash
 ```
 
-- Install node dependencies for the root project and all apps:
+- Install node dependencies for the root project and install dependencies for all apps:
 
 ```shell
 npm i && npm run init
