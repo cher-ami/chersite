@@ -22,10 +22,11 @@ const log = debug("config:vite.config")
 export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   const isDevelopment = mode === "development"
   const ipAddress = ip.address()
-  const protocol: "http" | "https" = "http"
 
   // get env variables from selected .env (depend of mode)
   const loadEnvVars = loadEnv(mode, process.cwd(), "")
+
+  const protocol: "http" | "https" = (loadEnvVars.PROTOCOL as "http" | "https") ?? "http"
 
   // merge loadEnv selected by vite in process.env
   process.env = {
@@ -67,7 +68,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       cors: true,
       host: true,
       port: process.env.PORT as any,
-      https: process.env.PROTOCOL === "https",
+      https: protocol === "https",
       origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
       watch: {
         // do not watch .env files to avoid reloading when build-dotenv is processed

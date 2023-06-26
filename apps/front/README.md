@@ -200,6 +200,28 @@ Second part of the configuration is defined from [config/config.js](config/confi
 htaccessTemplateFilePath: resolve("src/.htaccess")
 ```
 
+## Setup local SSL
+
+- Generate a self-signed certificate in `apps/front` root folder
+
+  ```shell
+  sudo openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
+  ```
+
+- Trust the certificate
+
+  ```shell
+  sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain cert.pem
+  ```
+
+- Update .env var `PROTOCOL` to `https`
+
+  ```dotenv
+  PROTOCOL=https
+  ```
+
+When you run `npm run dev`, you should see the app running on https://localhost:3000
+
 ## Credits
 
 Developed by [cher-ami](https://github.com/cher-ami) team.

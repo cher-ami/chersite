@@ -1,14 +1,30 @@
-import * as React from "react"
-import express from "express"
-import { createServer } from "vite"
-import portFinderSync from "portfinder-sync"
-import config from "./config/config.js"
-import { renderToPipeableStream } from "react-dom/server"
 import debug from "@wbe/debug"
+import express from "express"
+import * as fs from "fs"
+import * as https from "https"
+import portFinderSync from "portfinder-sync"
+import { renderToPipeableStream } from "react-dom/server"
+import { createServer, loadEnv } from "vite"
+import config from "./config/config.js"
 
 const log = debug("server:server")
+
+const loadEnvVars = loadEnv(process.env.NODE_ENV, process.cwd(), "")
 const isProduction = process.env.NODE_ENV === "production"
 const port = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)
+const protocol = loadEnvVars.PROTOCOL ?? "http"
+const isSSL = protocol === "https"
+
+// Get cert and key for https
+let key, cert
+if (isSSL) {
+  if (!fs.existsSync("key.pem") || !fs.existsSync("cert.pem")) {
+    log("You need to generate a key and a cert file with openssl in the front/ directory")
+    process.exit(1)
+  }
+  key = fs.readFileSync("key.pem")
+  cert = fs.readFileSync("cert.pem")
+}
 
 /**
  * Dev server
@@ -28,7 +44,14 @@ async function createDevServer() {
   // https://vitejs.dev/config/server-options.html#server-middlewaremode
   const vite = await createServer({
     logLevel: "info",
-    server: { middlewareMode: true },
+    server: {
+      middlewareMode: true,
+      https: isSSL && {
+        key,
+        cert,
+      },
+      cors: false,
+    },
     appType: "custom",
   })
 
@@ -59,7 +82,24 @@ async function createDevServer() {
       next(e)
     }
   })
-  return { app, vite }
+
+  let sslServer
+  if (isSSL) {
+    sslServer = https.createServer(
+      {
+        key,
+        cert,
+      },
+      app
+    )
+
+    sslServer.on("error", (error) => {
+      log(`Error on server: ${error}`)
+    })
+  }
+
+  // return vite, app and server
+  return { vite, app, server: sslServer }
 }
 
 /**
@@ -74,4 +114,6 @@ async function createProdServer() {}
  * Let's go!
  */
 
-;(isProduction ? createProdServer : createDevServer)().then(({ app }) => app.listen(port))
+;(isProduction ? createProdServer : createDevServer)().then(({ app, server }) =>
+  (server ?? app).listen(port)
+)
