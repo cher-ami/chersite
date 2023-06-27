@@ -88,6 +88,16 @@ npm run dev:front
 HOST="{{YOUR_LOCAL_IP}}"
 ```
 
+## Update app version
+
+To update the app in the root and in the `apps/` folder, you can use the `./script/update-app-version.sh` script :
+
+```shell
+./script/update-version.sh <patch|minor|major>
+```
+
+It will update the version in the `package.json` and `package-lock.json` files of the root and in the `apps/` folder and add a git tag to history.
+
 ## Credits
 
 Developed by [cher-ami](https://github.com/cher-ami) team.
