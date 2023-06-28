@@ -22,5 +22,5 @@
       "~/*": ["./*"]
     }
   },
-  "include": ["./src", "./prerender"]
+  "include": ["./src", "./prerender", "./config"]
 }
