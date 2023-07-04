@@ -37,7 +37,7 @@
     "@types/react-dom": "^18.2.4",
     "@vitejs/plugin-legacy": "^4.0.4",
     "@vitejs/plugin-react-swc": "^3.3.2",
-    "@wbe/mfs": "^0.1.0",
+    "@wbe/mfs": "^0.1.1",
     "autoprefixer": "^10.4.14",
     "chalk": "^5.2.0",
     "change-case": "^4.1.2",
