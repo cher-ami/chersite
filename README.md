@@ -64,7 +64,7 @@ docker compose up
 docker compose exec node /bin/bash
 ```
 
-- Install node dependencies for the root project and all apps:
+- Install node dependencies for the root project and install dependencies for all apps:
 
 ```shell
 npm i && npm run init
@@ -87,6 +87,16 @@ npm run dev:front
 ```shell
 HOST="{{YOUR_LOCAL_IP}}"
 ```
+
+## Update app version
+
+To update the app in the root and in the `apps/` folder, you can use the `./script/update-app-version.sh` script :
+
+```shell
+./script/update-version.sh <patch|minor|major>
+```
+
+It will update the version in the `package.json` and `package-lock.json` files of the root and in the `apps/` folder and add a git tag to history.
 
 ## Credits
 
