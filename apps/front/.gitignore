@@ -1,6 +1,5 @@
 # Output application depend of project
-dist/front
-dist/api/web/app/.cache
+dist
 
 vendor
 .env.local
