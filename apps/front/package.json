@@ -1,8 +1,6 @@
 {
-  "name": "chersite",
-  "description": "Web base Boilerplate for cher-ami projects.",
-  "version": "2.2.0",
-  "author": "cher-ami",
+  "name": "chersite-front",
+  "version": "0.1.0",
   "main": "src/index.tsx",
   "type": "module",
   "scripts": {
