@@ -11,10 +11,10 @@ export default {
 
   // Scaffold WP
   wpTheme: resolve("apps/back/web/app/themes/CherAmi"),
-  wpTemplatesPath: resolve("api/tasks/scaffold-wp/templates"),
+  wpTemplatesPath: resolve("cli/tasks/scaffold-wp/templates"),
 
   // setup
-  taskSetupFolder: resolve("api/tasks/setup"),
-  installFile: resolve("api/install"),
+  taskSetupFolder: resolve("cli/tasks/setup"),
+  installFile: resolve("cli/install"),
   setupFakeMode: false,
 }
