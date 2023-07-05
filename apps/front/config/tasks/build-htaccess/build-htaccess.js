@@ -1,7 +1,8 @@
 import debug from "@wbe/debug"
 import * as mfs from "@wbe/mfs"
-import logger from "../../helpers/logger"
 const log = debug("config:build-htaccess")
+import chalk from "chalk"
+
 /**
  * Create htaccess file
  * @param pOutputPath
@@ -123,8 +124,8 @@ export default async ({
   })
 
   if (!newHtaccessFilePath) return
-  logger.start("Build .htaccess")
-  logger.note(`path: ${newHtaccessFilePath}`)
+  console.log(chalk.cyan(`\n  Build .htaccess`))
+  console.log(chalk.grey(`  path: ${newHtaccessFilePath}`))
 
   if (process.env.HTACCESS_ENABLE_AUTH === "true") {
     await _createHtpasswdFile({ outputPath, user, password })

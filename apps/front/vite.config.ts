@@ -7,6 +7,7 @@ import debug from "@wbe/debug"
 import react from "@vitejs/plugin-react-swc"
 import { visualizer } from "rollup-plugin-visualizer"
 import checker from "vite-plugin-checker"
+import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
 import { viteChersiteCustomLogger } from "./config/vite-plugins/vite-chersite-custom-logger"
 import legacy from "@vitejs/plugin-legacy"
@@ -110,6 +111,20 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
 
       legacy({ targets: ["defaults", "not IE 11"] }),
+
+      buildDotenvPlugin({
+        envVars: process.env,
+        dotenvOutDir: config.buildDotenvOutDir,
+        additionalVarKeys: [
+          "PROTOCOL",
+          "HOST",
+          "PORT",
+          "COMMAND",
+          "INPUT_FILES",
+          "BUILD_DIRNAME",
+          "DOCKER_PORT",
+        ],
+      }),
 
       // Htaccess dist/ with password
       buildHtaccessPlugin({
