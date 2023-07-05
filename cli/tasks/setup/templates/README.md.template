@@ -4,16 +4,72 @@
 
 %%projectDescription%%
 
-## Installation
+## Apps
 
-```shell
-$ npm i
+```
+apps
+  └- back     ⬅ /
+  └- front    ⬅ chersite frontend starter
 ```
 
-## Deploy staging
+## Production requirements
 
-## Deploy production
+- [node](https://nodejs.org/en)
+- ...
+
+## Local development
+
+### Installation
+
+- Clone repo and move inside the repo folder.
+- Start the docker container:
+
+```shell
+docker compose up
+```
+
+- Start shell from the container:
+
+```shell
+docker compose exec node /bin/bash
+```
+
+- Install node dependencies for the root project and install dependencies for all apps:
+
+```shell
+npm run init
+```
+
+### Development
+
+Start the dev server from the root folder:
+
+```shell
+npm run dev:front
+```
+
+### Build
+
+Build the app on your machine:
+
+```shell
+npm run build:front
+```
+
+## Deployment
+
+### local
+
+...
+
+### staging
+
+...
+
+### production
+
+...
 
 ## Credits
 
-%%projectAuthor%%
+This project is developed by %%projectAuthor%% with [chersite](https://github.com/cher-ami/chersite) framework.

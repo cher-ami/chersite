@@ -1,21 +1,19 @@
 {
   "name": "chersite",
-  "description": "Web base Boilerplate for cher-ami projects.",
+  "description": "Multi apps boilerplate for cher-ami projects.",
   "version": "3.0.0",
   "author": "cher-ami",
   "main": "src/index.tsx",
   "type": "module",
   "scripts": {
     "init": "npm i && cd apps/front && npm install",
-    "setup:front": "cd apps/front && npm run setup",
     "dev:front": "cd apps/front && npm run dev",
-    "test:front": "cd apps/front && npm run test",
     "build:front": "cd apps/front && npm run build",
-    "scaffold:front": "cd apps/front && npm run scaffold",
-    "prepare": "husky install",
+    "test:front": "cd apps/front && npm run test",
     "scaffold": "node cli/tasks/scaffold-component/scaffold-component.js",
     "scaffold-wp": "node cli/tasks/scaffold-wp/scaffold-wp.js",
-    "setup": "node cli/tasks/setup/setup.js && npm run prepare"
+    "setup": "node cli/tasks/setup/setup.js && npm run prepare",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@wbe/debug": "^1.1.0",
