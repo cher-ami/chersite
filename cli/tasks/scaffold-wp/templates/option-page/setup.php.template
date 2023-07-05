@@ -1,0 +1,9 @@
+<?php
+
+use CherAmi\optionPage\%%pascalCasePageName%%RestController;
+
+//Initialize page option routes
+add_action( 'rest_api_init', function () {
+  $%%pascalCasePageName%%Controller = new %%pascalCasePageName%%RestController();
+  $%%pascalCasePageName%%Controller->register_routes();
+});

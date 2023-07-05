@@ -1,0 +1,43 @@
+<?php
+
+namespace CherAmi\optionPage;
+
+use CherAmi\api\BaseRestController;
+
+class %%pascalCasePageName%%RestController extends BaseRestController
+{
+
+    public function register_routes():void {
+        //GET PAGE
+        register_rest_route(
+            $this->namespace . '/v' . $this->version,
+            '/%%pageName%%',
+            array(
+                array(
+                    'methods' => \WP_REST_Server::READABLE,
+                    'callback' => array($this, 'get_option_page'),
+                    'permission_callback' => '__return_true'
+                )
+            )
+        );
+
+    }
+
+    public function get_option_page(\WP_REST_Request $request):WP_REST_Response{
+        try{
+
+            return $this->successResponse([]);
+        }catch(\Exception $e){
+            return $this->failResponse($e->getMessage());
+        }
+    }
+
+    public function format($post){
+        $data = [];
+
+        return $data;
+    }
+
+
+}
+

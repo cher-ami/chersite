@@ -13,12 +13,19 @@
     "test:front": "cd apps/front && npm run test",
     "build:front": "cd apps/front && npm run build",
     "scaffold:front": "cd apps/front && npm run scaffold",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "scaffold": "node cli/tasks/scaffold-component/scaffold-component.js",
+    "scaffold-wp": "node cli/tasks/scaffold-wp/scaffold-wp.js"
   },
   "devDependencies": {
-    "husky": "^8.0.0",
+    "@wbe/debug": "^1.1.0",
+    "@wbe/mfs": "^0.1.1",
+    "change-case": "^4.1.2",
     "lint-staged": "^13.2.2",
-    "prettier": "^2.8.8"
+    "husky": "^8.0.0",
+    "prettier": "^2.8.8",
+    "inquirer": "^9.2.7",
+    "chalk": "^5.2.0"
   },
   "lint-staged": {
     "apps/front/**/*.{tsx,ts,jsx,js,less,css,json,md}": [

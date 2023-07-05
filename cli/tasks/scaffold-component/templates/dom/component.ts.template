@@ -1,0 +1,19 @@
+import "./%%upperComponentName%%.less"
+import { Component } from "@wbe/compose"
+import debug from "@wbe/debug"
+
+type TStaticProps = {}
+
+const componentName = "%%upperComponentName%%"
+const log = debug(`front:${componentName}`)
+
+/**
+ * @name %%upperComponentName%%
+ */
+export default class %%upperComponentName%% extends Component<TStaticProps> {
+  static attrName = componentName
+
+  mounted() {
+
+  }
+}
