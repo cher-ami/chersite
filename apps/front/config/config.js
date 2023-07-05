@@ -1,9 +1,6 @@
 import { resolve } from "path"
 
 export default {
-  // --------------------------------------------------------------------------- PATHS / VITE CONFIG
-
-  // sources
   srcDir: resolve("src"),
 
   // public assets from this folder will be copied in build folder
@@ -11,23 +8,11 @@ export default {
 
   // outDir: where files are built
   // If this value is change, add this new path in .gitignore
-  distDir: resolve("dist"),
   outDir: resolve("dist"),
   outDirScripts: resolve("dist/_scripts"),
   outDirClient: resolve("dist/client"),
   outDirServer: resolve("dist/server"),
   outDirStatic: resolve("dist/static"),
-
-  // TODO uniquement pour version PHP
-  // Directory name of the build folder (will be cleaned before build)
-  // If this value is change, modify "outDir" last folder with this new one
-  // buildDirname: "static",
-
-  // TODO uniquement pour version PHP
-  // outDir: where files are built
-  // last folder need to be sync with `buildDirname`
-  // If this value is change, add this new path in .gitignore
-  // outDir: resolve("dist/www/static/"),
 
   // Input entry files array
   // Set the relative paths, don't resolve them.
@@ -35,8 +20,6 @@ export default {
   input: [
     // "src/index.tsx",
   ],
-
-  // --------------------------------------------------------------------------- TASKS
 
   // Build dotenv outDir array
   // This task can build the same dotenv files in different directories
@@ -48,19 +31,4 @@ export default {
   htaccessTemplateFilePath: resolve(
     "config/tasks/build-htaccess/templates/.htaccess.template"
   ),
-
-  // Scaffold components
-  bundleType: ["react", "dom"],
-  componentCompatibleFolders: ["components", "pages", "popin"],
-  componentsTemplatesDir: resolve("config/tasks/scaffold-component/templates"),
-  twigTemplates: resolve("dist/web/app/themes/CherAmi/templates"),
-
-  // Scaffold WP
-  wpTheme: resolve("dist/api/web/app/themes/CherAmi"),
-  wpTemplatesPath: resolve("config/tasks/scaffold-wp/templates"),
-
-  // setup
-  taskSetupFolder: resolve("config/tasks/setup"),
-  installFile: resolve("config/install"),
-  setupFakeMode: false,
 }
