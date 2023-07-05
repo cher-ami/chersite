@@ -5,13 +5,9 @@
 - [Configuration Files](#configuration-files)
 - [Prerender](#prerender)
 - [CLI](#cli)
-  - [setup](#setup)
-  - [dev](#dev)
-  - [build](#build)
-  - [scaffold](#scaffold)
-  - [generate](#generate)
 - [Vite plugins](#vite-plugins)
 - [Setup local SSL](#setup-local-ssl)
+- [Workflow](#workflow)
 
 ## About
 
@@ -65,33 +61,17 @@ npm run generate
 
 ## CLI
 
-- [setup](#setup)
 - [dev](#dev)
 - [build](#build)
-- [scaffold](#scaffold)
 - [generate](#generate)
 
 npm scripts command line interface is available from the main [package.json](./package.json).
 Each script can be executed from `npm run {task}` command.
 
-### setup
-
-```shell
-npm run setup:front
-```
-
-`Setup` allows a quick and uniform installation between cher-ami projects. It performs several tasks:
-
-- Check if install as already made
-- Setup name, description, author of project for package.json and readme
-- Rename this readme as "README-framework.md" and create a new one with previous information
-- Create install file cache
-- Reset this current `.git` and re-init it
-
 ### dev
 
 ```shell
-$ npm run dev:front
+$ npm run dev
 ```
 
 Start a dev-server with HMR.
@@ -99,37 +79,10 @@ Start a dev-server with HMR.
 ### build
 
 ```shell
-$ npm run build:front
+$ npm run build
 ```
 
 Build script in selected [config/config.js](config/config.js) `outDir`
-
-### scaffold
-
-```shell
-$ npm run scaffold:front
-```
-
-Used to create a new component. [Components templates](config/tasks/scaffold-component/templates)
-can be modified according to the needs of the project.
-
-Scaffold a new React component called `MyButton` in [src/components](src/components) will create:
-
-```
-src/
-├── components
-│      └── myButton
-│             |── MyButton.module.less
-│             └── MyButton.tsx
-```
-
-Options are defined from [config/config.js](config/config.js):
-
-```js
-bundleType: ["react", "dom"]
-componentCompatibleFolders: ["components", "pages", "popin"]
-componentsTemplatesDir: resolve("config/tasks/scaffold-component/templates")
-```
 
 ### generate
 
@@ -222,6 +175,73 @@ htaccessTemplateFilePath: resolve("src/.htaccess")
   ```
 
 When you run `npm run dev`, you should see the app running on https://localhost:3000
+
+## Workflow
+
+### CSS workflow
+
+[Less](http://lesscss.org/) is used as css preprocessor. It can be set as `.less` file or `.module.less` for css module;
+Both works by default.
+
+[BEM methodology](http://getbem.com) is used to organize the integration of our templates and components
+but have some differences depend on the use-case:
+
+### <a name="BemForModuleLess"></a>BEM for `.module.less`
+
+```less
+/**
+ * BEM block is always "root" className
+ */
+.root {
+}
+/**
+ * BEM element (.camelCase)
+ */
+.myButton {
+  /**
+   * BEM modifier (&_camelCase)
+   * sep with "_" allows to target it from template like this: "css.myButton_myModifier"
+   */
+  &_red {
+  }
+}
+```
+
+### <a name="BemForLess"></a>BEM for `.less`
+
+```less
+/**
+ * BEM block (.PascalCase)
+ */
+.Component {
+  /**
+ * BEM element (.camelCase)
+ usage: "Component_myElement"
+ */
+  &_myElement {
+    /**
+     * BEM modifier (&_camelCase)
+     * sep with "_" allows to target it from template
+     * usage: "Component_myElement-myModifier"
+     */
+    &-red {
+    }
+  }
+}
+```
+
+### Less Mixins
+
+In order to export fonts, variables and mixins to each style files, each `.module.less` and `.less`
+files contains as reference the same file:
+
+```less
+@import (reference) "src/references.less";
+```
+
+This file import "as reference" variables and mixins files who come from
+[src/fonts](src/fonts), [src/atoms](src/atoms) and [src/mixins](src/mixins). If a new mixin file is create,
+it will be added in [src/references](src/references).
 
 ## Credits
 
