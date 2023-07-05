@@ -18,6 +18,9 @@ const log = debug(`config:setup`)
  */
 const setup = () =>
   new Promise(async (resolve) => {
+    if (config.setupFakeMode) {
+      logs.start("\n ⚠️   Fake mode is active, nothing action will be process.")
+    }
     // check if cache file exist, if exist, do not continue
     if (await checkInstallFile(config.installFile)) return
 
