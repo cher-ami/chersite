@@ -1,7 +1,7 @@
 <h1 align="center" style="text-align:center">🪜 chersite</h1>
 
 <p align="center">
-chersite is web-base structure witch include front static-site generator for cher-ami projects
+chersite is multi apps structure witch include front static-site generator for cher-ami projects
 
 <br/>
 <br/>
@@ -155,7 +155,7 @@ Scaffold a new React component called `MyButton` in [apps/front/src/components](
                          └── MyButton.tsx
 ```
 
-Options are defined from [config/config.js](cli/config.js):
+Options are defined from [cli/config.js](cli/config.js):
 
 ```js
 bundleType: ["react", "dom"]

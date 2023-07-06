@@ -118,7 +118,7 @@ Once a new file is composed, it is copied to the selected folder(s).
 .env out directory(ies) array is defined from [config/config.js](config/config.js):
 
 ```js
-buildDotenvOutDir: [resolve("dist/www/")]
+buildDotenvOutDir: [resolve("dist/")]
 ```
 
 This plugin is mandatory for the use of the default cher-site config with the PHP micro framework.
