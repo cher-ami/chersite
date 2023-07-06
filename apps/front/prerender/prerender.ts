@@ -9,7 +9,7 @@ import { isRouteIndex } from "./helpers/isRouteIndex"
 import { ManifestParser } from "./helpers/ManifestParser"
 import { renderToPipeableStream, renderToString } from "react-dom/server"
 import { JSXElementConstructor, ReactElement } from "react"
-import { htmlReplacement } from "../src/server/helpers/htmlReplacement"
+import { htmlReplacement } from "~/server/helpers/htmlReplacement"
 
 /**
  * Prerender
