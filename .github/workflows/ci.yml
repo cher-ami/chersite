@@ -9,7 +9,7 @@ jobs:
       - run: node -v
 
       - name: 🌎 install dependencies
-        run: npm run init:ci --unsafe-perm
+        run: npm ci --unsafe-perm && cd apps/front && npm ci --unsafe-perm
 
       - name: ⚡️build front
         run: npm run build:front

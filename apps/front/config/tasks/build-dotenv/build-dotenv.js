@@ -1,8 +1,8 @@
 import * as mfs from "@wbe/mfs"
+import chalk from "chalk"
 import path from "path"
 import debug from "@wbe/debug"
 const log = debug("config:build-dotenv")
-import logger from "../../helpers/logger"
 import packageJson from "../../../package.json"
 
 const _getRaws = (files = []) => {
@@ -116,10 +116,10 @@ export default async ({ envVars = {}, dotenvOutDir, additionalVarKeys = [] }) =>
   // create template with varNames and envVars values
   const template = _prepareTemplate(vars, envVars, additionalVarKeys)
 
-  logger.start("Build .env file(s)")
+  console.log(chalk.cyan(`\n  Build .env file(s)`))
   // Create .env files
   dotenvOutDir.forEach(async (path) => {
-    logger.note(`path: ${path}`)
+    console.log(chalk.grey(`  path: ${path}`))
     await mfs.createFile(`${path}/.env`, template)
   })
 

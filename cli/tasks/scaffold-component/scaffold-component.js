@@ -152,7 +152,7 @@ const scaffoldComponent = () => {
           pComponentType: "react",
           componentCompatibleFolders: config.componentCompatibleFolders,
           componentsTemplatesDir: config.componentsTemplatesDir,
-          srcDir: config.srcDir,
+          srcDir: config.frontSrcDir,
         }),
     },
     {
@@ -162,7 +162,7 @@ const scaffoldComponent = () => {
           pComponentType: "dom",
           componentCompatibleFolders: config.componentCompatibleFolders,
           componentsTemplatesDir: config.componentsTemplatesDir,
-          srcDir: config.srcDir,
+          srcDir: config.frontSrcDir,
         }),
     },
   ]
