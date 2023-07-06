@@ -15,34 +15,30 @@ function App(props: IProps): JSX.Element {
    * @param TManageTransitions
    * @returns Promise <void>
    */
-  const manageTransitions = ({
+  const manageTransitions = async ({
     previousPage,
     currentPage,
     unmountPreviousPage,
   }: TManageTransitions): Promise<void> => {
-    return new Promise(async (resolve) => {
-      const $current = currentPage?.$element
+    const $current = currentPage?.$element
 
-      // hide new page
-      if ($current) $current.style.visibility = "hidden"
+    // hide new page
+    if ($current) $current.style.visibility = "hidden"
 
-      // play out and unmount previous page
-      if (previousPage) {
-        await previousPage.playOut()
-        unmountPreviousPage()
-      }
+    // play out and unmount previous page
+    if (previousPage) {
+      await previousPage.playOut()
+      unmountPreviousPage()
+    }
 
-      // wait page isReady promise
-      await currentPage?.isReadyPromise?.()
+    // wait page isReady promise
+    await currentPage?.isReadyPromise?.()
 
-      // show and play in new page
-      if (currentPage) {
-        if ($current) $current.style.visibility = "visible"
-        await currentPage?.playIn()
-      }
-
-      resolve()
-    })
+    // show and play in new page
+    if (currentPage) {
+      if ($current) $current.style.visibility = "visible"
+      await currentPage?.playIn()
+    }
   }
 
   // ------------------------------------------------------------------------------- RENDER
@@ -52,7 +48,7 @@ function App(props: IProps): JSX.Element {
       <nav>
         <ul>
           <li>
-            <Link to={"/"}>Home</Link>
+            <Link to={{ name: EPages.HOME }}>Home</Link>
           </li>
           <li>
             <Link to={{ name: EPages.WORK, params: { slug: "first-work" } }}>
