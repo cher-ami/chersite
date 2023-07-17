@@ -27,7 +27,7 @@
   },
   "lint-staged": {
     "apps/front/**/*.{tsx,ts,jsx,js,less,css,json,md}": [
-      "npx prettier --write ."
+      "npx prettier --write ./apps/front/"
     ]
   },
   "prettier": {
