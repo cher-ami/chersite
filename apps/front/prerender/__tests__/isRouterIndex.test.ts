@@ -21,6 +21,10 @@ it("should detect if URL is a route index", () => {
     "/en/thanks",
     "/en/thanks/form",
     "/en/thanks/form/test",
+
+    "/fr/",
+    "/fr",
+    "/fr-xp",
   ]
 
   // url "/" always need to return true
@@ -47,4 +51,8 @@ it("should detect if URL is a route index", () => {
   expect(isRouteIndex("/en/thanks/test", urls)).toBe(false)
   expect(isRouteIndex("/en/thanks/form", urls)).toBe(true)
   expect(isRouteIndex("/en/thanks/form/test", urls)).toBe(false)
+
+  // if url end with "/" it's a route index
+  expect(isRouteIndex("/fr/", urls)).toBe(true)
+  expect(isRouteIndex("/fr", urls)).toBe(true)
 })

@@ -8,13 +8,16 @@
  */
 export const isRouteIndex = (url, urls, log = false): boolean => {
   if (!urls.includes(url)) {
-    console.warn(`isRouteIndex > ${url} isn't in the list, return false.`)
+    // console.warn(`isRouteIndex > ${url} isn't in the list, return false.`)
     return false
   }
 
   log && console.log("url", url)
   // if URL is "/" we want to generate /index.html
   if (url === "/") return true
+
+  // If /url/ we want to generate /url/index.html
+  if (url.endsWith("/")) return true
 
   // get every URL of the list witch starting with same base
   const group = urls.filter((e) => e.startsWith(url))
