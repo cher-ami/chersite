@@ -13,7 +13,7 @@ const log = debug(`front:${componentName}`);
 /**
  * @name %%upperComponentName%%
  */
-function %%upperComponentName%% (props: IProps): JSX.Element {
+function %%upperComponentName%% (props: IProps) {
   return <div className={merge([css.root, props.className])}>
       {componentName}
   </div>
