@@ -42,11 +42,6 @@ The back app is optional not set by default, it can be API, BO etc.
 
 - [docker](https://www.docker.com/)
 
-or
-
-- [node v16.16](https://nodejs.org/en)
-- [npm](https://www.npmjs.com/)
-
 ## Installation
 
 This guide will help you to install the project on your local machine with docker.
