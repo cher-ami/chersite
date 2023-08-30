@@ -60,7 +60,7 @@ hydrateRoot(
     initialStaticProps={window["__SSR_STATIC_PROPS__"]}
     langService={langService}
   >
-    <GlobalDataContext.Provider value={{ globalData: window["__GLOBAL_DATA__"] }}>
+    <GlobalDataContext.Provider value={window["__GLOBAL_DATA__"]}>
       <App />
     </GlobalDataContext.Provider>
   </Router>
