@@ -4,7 +4,7 @@ import { Link, Stack, TManageTransitions } from "@cher-ami/router"
 
 import debug from "@wbe/debug"
 import { EPages } from "~/routes"
-const log = debug(`front:*`)
+const log = debug(`front:App`)
 
 export interface IProps {}
 
