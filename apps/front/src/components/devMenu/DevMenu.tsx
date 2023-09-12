@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import css from "./DevMenu.module.less"
-import { mergeStrings as merge } from "@cher-ami/utils"
+import { cls } from "@cher-ami/utils"
 import debug from "@wbe/debug"
 
 interface IProps {
@@ -46,7 +46,7 @@ function DevMenu(props: IProps) {
   // ------------------------------------------------------------------------------- RENDER
 
   return (
-    <div className={merge([css.root, props.className])}>
+    <div className={cls(css.root, props.className)}>
       <button className={css.button} onClick={onButtonClickHandler} />
       {isMenuVisible && <div className={css.wrapper}>Menu</div>}
     </div>
