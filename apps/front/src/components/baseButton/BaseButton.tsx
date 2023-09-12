@@ -1,7 +1,7 @@
 import React, { MutableRefObject } from "react"
 import css from "./BaseButton.module.less"
 import { Link, openRoute, TOpenRouteParams } from "@cher-ami/router"
-import { mergeStrings as merge } from "@cher-ami/utils"
+import { cls } from "@cher-ami/utils"
 import debug from "@wbe/debug"
 import { browserOnly } from "@cher-ami/utils"
 
@@ -47,17 +47,17 @@ const log = debug(`front:${componentName}`)
  */
 function BaseButton(props: IProps, ref: MutableRefObject<any>) {
   const commonContent = (
-    <div className={merge([css.wrapper])}>
+    <div className={cls(css.wrapper)}>
       <div className={css.content}>{props.label}</div>
     </div>
   )
 
-  const rootClassName: string = merge([
+  const rootClassName: string = cls(
     css.root,
     props.className,
     css[`root_${props.type}`],
-    css[`root_${props.tag}`],
-  ])
+    css[`root_${props.tag}`]
+  )
 
   /**
    * Internal
