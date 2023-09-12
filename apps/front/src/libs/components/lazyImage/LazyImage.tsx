@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect, useRef, useState } from "react"
 import css from "./LazyImage.module.less"
-import { mergeStrings as merge } from "@cher-ami/utils"
+import { cls } from "@cher-ami/utils"
 
 interface IProps {
   src?: string
@@ -76,7 +76,7 @@ function LazyImage(props: IProps) {
   return (
     <img
       ref={imageRef}
-      className={merge([css.root, props.className, lazyState])}
+      className={cls(css.root, props.className, lazyState)}
       src={props.src ?? "data:,"}
       data-src={props?.dataSrc}
       data-srcset={props?.dataSrcset}
