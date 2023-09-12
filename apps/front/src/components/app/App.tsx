@@ -4,6 +4,7 @@ import { Link, Stack, TManageTransitions } from "@cher-ami/router"
 
 import debug from "@wbe/debug"
 import { EPages } from "~/routes"
+import DevMenu from "~/components/devMenu/DevMenu"
 const log = debug(`front:App`)
 
 export interface IProps {}
@@ -63,6 +64,8 @@ function App(props: IProps) {
         </ul>
       </nav>
       <Stack className={css.stack} manageTransitions={manageTransitions} />
+
+      <DevMenu />
     </div>
   )
 }
