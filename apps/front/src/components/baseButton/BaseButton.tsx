@@ -1,5 +1,5 @@
 import React, { MutableRefObject } from "react"
-import css from "./MainButton.module.less"
+import css from "./BaseButton.module.less"
 import { Link, openRoute, TOpenRouteParams } from "@cher-ami/router"
 import { mergeStrings as merge } from "@cher-ami/utils"
 import debug from "@wbe/debug"
