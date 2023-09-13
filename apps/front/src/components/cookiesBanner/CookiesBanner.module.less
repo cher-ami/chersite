@@ -1,0 +1,96 @@
+@import (reference) "../../references.less";
+
+.transition () {
+  transition: 300ms ease-in-out;
+  transition-property: transform, opacity;
+}
+.root {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+
+  color: var(--color-white);
+  background-color: var(--color-black);
+
+  // transition
+  transform: translateY(100%);
+
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  -webkit-box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.4);
+
+  &_show {
+    transform: translateY(0);
+    opacity: 1;
+    .transition();
+  }
+  &_hide {
+    transform: translateY(100%);
+    .transition();
+  }
+}
+
+.wrapper {
+  padding: 28rem 19rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  @media (min-width: @breakpoint-tablet) {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    text-align: left;
+    padding: 25rem 60rem;
+  }
+}
+
+.title {
+}
+
+.texts {
+  margin-top: 16rem;
+}
+
+.more {
+  color: var(--color-white);
+  margin-left: 0.2rem;
+  text-decoration: underline;
+}
+
+.buttons {
+  margin-top: 20rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10rem;
+}
+
+.button {
+  display: block;
+  cursor: pointer;
+  text-decoration: none;
+  background: none;
+  color: inherit;
+  line-height: normal;
+  overflow: visible;
+  appearance: none;
+  outline: none;
+  text-transform: uppercase;
+
+  @media (min-width: @breakpoint-tablet) {
+    margin-left: 25rem;
+    margin-right: 0;
+  }
+
+  &:hover {
+    background-color: var(--color-black);
+    color: var(--color-green-02);
+  }
+}
