@@ -12,6 +12,7 @@
     "build": "npm run build:server && npm run build:scripts && npm run build:static && npm run generate",
     "generate": "node dist/_scripts/exe-prerender.js",
     "preview": "serve dist/static",
+    "reset": "rm -rf node_modules && rm -rf dist",
     "test:watch": "vitest",
     "test": "vitest run"
   },

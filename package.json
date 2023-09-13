@@ -7,14 +7,19 @@
   "type": "module",
   "scripts": {
     "init": "npm i && cd apps/front && npm install",
-    "dev:front": "cd apps/front && npm run dev",
-    "build:front": "cd apps/front && npm run build",
-    "test:front": "cd apps/front && npm run test",
-    "scaffold": "node cli/tasks/scaffold-component/scaffold-component.js",
-    "scaffold-wp": "node cli/tasks/scaffold-wp/scaffold-wp.js",
+    "front:dev": "cd apps/front && npm run dev",
+    "front:build": "cd apps/front && npm run build",
+    "front:test": "cd apps/front && npm run test",
+    "front:reset": "apps/front && npm run reset",
+    "front:scaffold": "node cli/tasks/scaffold-component/scaffold-component.js",
+    "back:scaffold-wp": "node cli/tasks/scaffold-wp/scaffold-wp.js",
     "setup": "node cli/tasks/setup/setup.js && npm run prepare",
+    "reset": "rm -rf node_modules && npm run front:reset",
     "prepare": "husky install"
   },
+  "workspaces": [
+    "apps/front"
+  ],
   "devDependencies": {
     "@wbe/debug": "^1.1.0",
     "@wbe/mfs": "^0.1.1",
