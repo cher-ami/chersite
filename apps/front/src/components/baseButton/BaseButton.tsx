@@ -19,6 +19,7 @@ type TExternalLinkButton = {
 type IProps = {
   className?: string
   label: string | JSX.Element
+  ariaLabel: string
   onClick?: () => void
   tag: "button" | "a"
 } & (TInternalLinkButton | TExternalLinkButton)
@@ -79,6 +80,7 @@ function BaseButton(props: IProps, ref: MutableRefObject<any>) {
             props.onClick?.()
             openRoute(props.to)
           }}
+          aria-label={props.ariaLabel}
           children={commonContent}
         />
       )
@@ -97,6 +99,7 @@ function BaseButton(props: IProps, ref: MutableRefObject<any>) {
           className={rootClassName}
           onClick={props.onClick}
           target={props.target ?? "_blank"}
+          aria-label={props.ariaLabel}
           children={commonContent}
         />
       )
@@ -112,6 +115,7 @@ function BaseButton(props: IProps, ref: MutableRefObject<any>) {
               window.open(props.href, props.target ?? "_blank")
             })
           }}
+          aria-label={props.ariaLabel}
           children={commonContent}
         />
       )
