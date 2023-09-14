@@ -4,7 +4,11 @@ import { Link, Stack, TManageTransitions } from "@cher-ami/router"
 
 import debug from "@wbe/debug"
 import { EPages } from "~/routes"
-import { CookiesBanner, ETrackingType } from "~/components/cookiesBanner/CookiesBanner"
+import {
+  CookiesBanner,
+  ETrackingType,
+} from "~/libs/components/cookiesBanner/CookiesBanner"
+import { NoSSR } from "~/libs/components/noSSR/NoSSR"
 const log = debug(`front:App`)
 
 export interface IProps {}
@@ -65,14 +69,16 @@ function App(props: IProps) {
       </nav>
       <Stack className={css.stack} manageTransitions={manageTransitions} />
 
-      <CookiesBanner
-        tracking={[
-          {
-            id: "#",
-            type: ETrackingType.GOOGLE_ANALYTICS,
-          },
-        ]}
-      />
+      <NoSSR>
+        <CookiesBanner
+          tracking={[
+            {
+              id: "#",
+              type: ETrackingType.GOOGLE_ANALYTICS,
+            },
+          ]}
+        />
+      </NoSSR>
     </div>
   )
 }

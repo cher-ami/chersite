@@ -32,21 +32,20 @@ interface IProps {
 
   tracking: ITracking[]
   className?: string
-  title?: string
   text?: string
-  moreText?: string
-  moreLink?: string
+  showPolicyText?: string
+  showPolicyLink?: string
   labelButtonAccept?: string
   labelButtonRefuse?: string
 }
 
 CookiesBanner.defaultProps = {
   show: false,
-  // noticeText: `Nous aimerions utiliser des cookies pour réaliser des statistiques de visites. Vous pouvez gérer ou retirer votre consentement à tout moment.`,
-  // moreText: `Pour plus d’informations sur l’utilisation des cookies, consultez notre politique des cookies`,
-  moreLink: "www.google.fr",
-  labelButtonAccept: "oui",
-  labelButtonRefuse: "non",
+  text: "Accept cookies?",
+  showPolicyText: "Show our policy",
+  showPolicyLink: "https://cher-ami.tv",
+  labelButtonAccept: "yes",
+  labelButtonRefuse: "no",
 }
 
 /**
@@ -278,8 +277,8 @@ export function CookiesBanner(props: IProps) {
   const componentAnim = (
     show: boolean = true,
     el = rootRef?.current as HTMLElement,
-    modifier = `${componentName}-show`,
-    modifierHide = `${componentName}-hide`
+    modifier = css.root_show,
+    modifierHide = css.root_hide
   ): void => {
     if (show) {
       el?.classList?.add(modifier)
@@ -294,9 +293,9 @@ export function CookiesBanner(props: IProps) {
    * Listen signal
    */
   useEffect(() => {
-    return CookiesBannerService.displaySignal.on((state: boolean) => {
-      componentAnim(state)
-    }) as any
+    return CookiesBannerService.displaySignal.on((show: boolean) => {
+      componentAnim(show)
+    })
   }, [])
 
   /**
@@ -313,7 +312,7 @@ export function CookiesBanner(props: IProps) {
       // localstorage value is a string, we need to check it
       const localStorageValueIsTrue = getLocalStorageValue() === "true"
       log("init > localStorageValueIsTrue", localStorageValueIsTrue)
-      // inject or remove google analytics from DOM
+      // inject or remove Google Analytics from DOM
       scriptsInjection(localStorageValueIsTrue)
     } else {
       log(
@@ -330,33 +329,20 @@ export function CookiesBanner(props: IProps) {
   return (
     <div className={cls(css.root, props.className)} ref={rootRef}>
       <div className={css.wrapper}>
-        {/* Texts content */}
-        <h2 className={css.title}>{props?.title}</h2>
-        <p className={css.texts}>
-          {props?.text}{" "}
-          <a className={css.more} href={props.moreLink} target={"_blank"}>
-            {props.moreText}
-          </a>
-        </p>
-
-        {/* Buttons content */}
-        <div className={`${componentName}_buttons`}>
-          {props?.labelButtonRefuse && (
-            <button
-              aria-label="refuse"
-              className={cls(css.button, css.button_refuse)}
-              onClick={() => buttonsClickHandler(false)}
-              children={props?.labelButtonRefuse}
-            />
-          )}
-          {props?.labelButtonAccept && (
-            <button
-              aria-label="accept"
-              className={cls(css.button, css.button_accept)}
-              onClick={() => buttonsClickHandler(true)}
-              children={props.labelButtonAccept}
-            />
-          )}
+        <div className={css.text} dangerouslySetInnerHTML={{ __html: props.text }} />
+        <div className={css.buttons}>
+          <button
+            aria-label="accept"
+            className={cls(css.button, css.button_accept)}
+            onClick={() => buttonsClickHandler(true)}
+            children={props?.labelButtonAccept}
+          />
+          <button
+            aria-label="refuse"
+            className={cls(css.button, css.button_refuse)}
+            onClick={() => buttonsClickHandler(false)}
+            children={props?.labelButtonRefuse}
+          />
         </div>
       </div>
     </div>
