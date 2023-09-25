@@ -43,7 +43,7 @@ const _pageBuilder = async ({ pagePath, pageName }) => {
 
 const buildPage = () => {
   return new Promise(async (resolve) => {
-    let pageFolder = `${config.wpTheme}/page`
+    let pageFolder = `${config.wpTheme}/pages`
 
     // Get page name
     let pageName = ""
