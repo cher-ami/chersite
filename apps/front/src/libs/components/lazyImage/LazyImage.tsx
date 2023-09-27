@@ -1,6 +1,8 @@
 import React, { CSSProperties, useEffect, useRef, useState } from "react"
 import css from "./LazyImage.module.less"
 import { cls } from "@cher-ami/utils"
+import useIntersectionObserver from "~/libs/hooks/useIntersectionObserver"
+import { useAsyncEffect } from "~/libs/hooks/useAsyncEffect"
 
 interface IProps {
   src?: string
@@ -21,6 +23,8 @@ export type Lazy = "lazyload" | "lazyloading" | "lazyloaded"
 function LazyImage(props: IProps) {
   const imageRef = useRef<HTMLImageElement>(null)
   const [lazyState, setLazyState] = useState<Lazy>("lazyload")
+  const observer = useIntersectionObserver(imageRef, {})
+  const isVisible = !!observer?.isIntersecting
 
   /**
    * Preload one image
@@ -43,35 +47,28 @@ function LazyImage(props: IProps) {
   /**
    * Intersection observer
    */
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(async (entry) => {
-        if (entry.isIntersecting) {
-          const image = entry.target as HTMLImageElement
-          if (lazyState === "lazyloaded") return
-          setLazyState("lazyloading")
+  useAsyncEffect(async () => {
+    if (isVisible) {
+      if (lazyState === "lazyloaded") return
 
-          // Start preload
-          await preloadImage(image)
+      setLazyState("lazyloading")
 
-          // Set src & srcset, then remove data-attr on DOM
-          if (image.dataset.src) image.src = image.dataset.src
-          if (image.dataset.srcset) image.srcset = image.dataset.srcset
-          image.removeAttribute("data-src")
-          image.removeAttribute("data-srcset")
+      // Start preload
+      await preloadImage(imageRef.current)
 
-          // end!
-          setLazyState("lazyloaded")
-          observer.unobserve(image)
-          props.onLoaded?.(image)
-        }
-      })
-    })
-    if (imageRef.current) observer.observe(imageRef.current)
-    return () => {
-      if (imageRef.current) observer.unobserve(imageRef.current)
+      // Set src & srcset, then remove data-attr on DOM
+      if (imageRef.current.dataset.src)
+        imageRef.current.src = imageRef.current.dataset.src
+      if (imageRef.current.dataset.srcset)
+        imageRef.current.srcset = imageRef.current.dataset.srcset
+      imageRef.current.removeAttribute("data-src")
+      imageRef.current.removeAttribute("data-srcset")
+
+      // end!
+      setLazyState("lazyloaded")
+      props.onLoaded?.(imageRef.current)
     }
-  }, [])
+  }, [isVisible])
 
   return (
     <img
