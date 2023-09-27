@@ -1,0 +1,7 @@
+<?php
+
+/**
+ * Template name: %%pascalCasePageName%%
+ */
+
+die(0);

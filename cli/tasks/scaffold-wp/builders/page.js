@@ -14,6 +14,16 @@ const _askPageName = () => {
   ])
 }
 
+const _askCreateTemplate = () => {
+  return Inquirer.prompt([
+    {
+      type: "confirm",
+      message: "Create template file ?",
+      name: "createTemplate",
+    },
+  ])
+}
+
 /**
  * WP Page Builder
  * @param pagePath,
@@ -21,7 +31,7 @@ const _askPageName = () => {
 
  * @private
  */
-const _pageBuilder = async ({ pagePath, pageName }) => {
+const _pageBuilder = async ({ pagePath, pageName, createTemplate, rootPath }) => {
   // choose between page and page type
   const camelCasePageName = changeCase.camelCase(pageName),
     pascalCasePageName = changeCase.pascalCase(pageName)
@@ -39,6 +49,15 @@ const _pageBuilder = async ({ pagePath, pageName }) => {
     destinationFilePath: `${pagePath}/setup.php`,
     replaceExpressions: { camelCasePageName, pascalCasePageName },
   })
+
+  if (createTemplate) {
+    // scaffold template
+    await createFile({
+      templateFilePath: `${config.wpTemplatesPath}/pages/template-page.php.template`,
+      destinationFilePath: `${rootPath}/template-${camelCasePageName}.php`,
+      replaceExpressions: { pageName, pascalCasePageName },
+    })
+  }
 }
 
 const buildPage = () => {
@@ -49,6 +68,11 @@ const buildPage = () => {
     let pageName = ""
     await _askPageName().then((answer) => {
       pageName = changeCase.paramCase(answer.pageName)
+    })
+
+    let createTemplate = true
+    await _askCreateTemplate().then((answer) => {
+      createTemplate = answer.createTemplate
     })
 
     let upperPageName = changeCase.pascalCase(pageName)
@@ -64,6 +88,8 @@ const buildPage = () => {
       await _pageBuilder({
         pagePath,
         pageName,
+        createTemplate,
+        rootPath: config.wpTheme,
       })
     } catch (e) {
       logs.error(e)
