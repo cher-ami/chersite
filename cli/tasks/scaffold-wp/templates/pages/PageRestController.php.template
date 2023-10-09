@@ -10,11 +10,12 @@ class %%pascalCasePageName%%RestController extends PageRestController
 
     // TODO specify your template file name ex: template-home.php
     public static $template = "template-xxxx.php";
+    public static $pageSlug = "%%pageName%%";
 
     public function register_routes():void {
         register_rest_route(
             $this->namespace . '/v' . $this->version,
-            '/%%pageName%%',
+            self::$basePath . self::$pageSlug,
             array(
                 array(
                     'methods' => \WP_REST_Server::READABLE,
@@ -29,4 +30,3 @@ class %%pascalCasePageName%%RestController extends PageRestController
         return FormatHelper::formatGroup(get_fields($post->ID));
     }
 }
-
