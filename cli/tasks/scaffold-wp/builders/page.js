@@ -14,6 +14,16 @@ const _askPageName = () => {
   ])
 }
 
+const _askIfTemplate = () => {
+  return Inquirer.prompt([
+    {
+      type: "confirm",
+      message: "Create a template for this page ?",
+      name: "createTemplate",
+    },
+  ])
+}
+
 /**
  * WP Page Builder
  * @param pagePath,
@@ -21,7 +31,7 @@ const _askPageName = () => {
 
  * @private
  */
-const _pageBuilder = async ({ pagePath, pageName }) => {
+const _pageBuilder = async ({ pagePath, pageName, createTemplate }) => {
   // choose between page and page type
   const camelCasePageName = changeCase.camelCase(pageName),
     pascalCasePageName = changeCase.pascalCase(pageName)
@@ -39,16 +49,32 @@ const _pageBuilder = async ({ pagePath, pageName }) => {
     destinationFilePath: `${pagePath}/setup.php`,
     replaceExpressions: { camelCasePageName, pascalCasePageName },
   })
+  
+  if(createTemplate) {
+    // template setup
+    await createFile({
+      templateFilePath: `${config.wpTemplatesPath}/pages/page-template.php.template`,
+      destinationFilePath: `${config.wpTheme}/template-${pascalCasePageName}.php`,
+      replaceExpressions: { camelCasePageName, pascalCasePageName },
+    })
+  }
 }
 
 const buildPage = () => {
   return new Promise(async (resolve) => {
     let pageFolder = `${config.wpTheme}/pages`
+    let rootFolder = `${config.wpTheme}`
 
     // Get page name
     let pageName = ""
+    let createTemplate;
+
     await _askPageName().then((answer) => {
       pageName = changeCase.paramCase(answer.pageName)
+    })
+
+    await _askIfTemplate().then((answer) => {
+      createTemplate = answer.createTemplate
     })
 
     let upperPageName = changeCase.pascalCase(pageName)
@@ -57,6 +83,8 @@ const buildPage = () => {
     let pagePath = `${pageFolder}/${upperPageName}`
     logs.note(`Page ${upperPageName} will be created here: ${pagePath}`)
 
+    if (createTemplate) logs.note(`Template will be created here: ${rootFolder}`)
+
     /**
      * Build page
      */
@@ -64,13 +92,14 @@ const buildPage = () => {
       await _pageBuilder({
         pagePath,
         pageName,
+        createTemplate
       })
     } catch (e) {
       logs.error(e)
     }
 
     // final log
-    logs.done("Page created.")
+    createTemplate ? logs.done("Page and template created.") : logs.done("Page created.") 
     resolve()
   })
 }
