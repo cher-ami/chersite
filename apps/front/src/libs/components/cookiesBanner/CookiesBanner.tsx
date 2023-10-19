@@ -25,7 +25,7 @@ interface IProps {
    tracking props:
    Accept multi tracking
    [
-   { id: "UA-XXXXXXXX-X", type: ETrackingType.GOOGLE_ANALYTICS },
+   { id: "G-XXXXXXXX-X", type: ETrackingType.GOOGLE_ANALYTICS },
    { id: "GTM-XXXXXXXXXX", type: ETrackingType.GOOGLE_TAG_MANAGER },
    ]
    */
