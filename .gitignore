@@ -7,3 +7,4 @@ node_modules
 *.local
 .cache
 vite.config.ts.timestamp*
+/db/data
