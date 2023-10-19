@@ -1,14 +1,8 @@
 import css from "./App.module.less"
 import React from "react"
 import { Link, Stack, TManageTransitions } from "@cher-ami/router"
-
 import debug from "@wbe/debug"
 import { EPages } from "~/routes"
-import {
-  CookiesBanner,
-  ETrackingType,
-} from "~/libs/components/cookiesBanner/CookiesBanner"
-import { NoSSR } from "~/libs/components/noSSR/NoSSR"
 const log = debug(`front:App`)
 
 export interface IProps {}
@@ -68,17 +62,6 @@ function App(props: IProps) {
         </ul>
       </nav>
       <Stack className={css.stack} manageTransitions={manageTransitions} />
-
-      <NoSSR>
-        <CookiesBanner
-          tracking={[
-            {
-              id: "#",
-              type: ETrackingType.GOOGLE_ANALYTICS,
-            },
-          ]}
-        />
-      </NoSSR>
     </div>
   )
 }
