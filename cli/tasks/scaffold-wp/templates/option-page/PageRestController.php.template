@@ -40,4 +40,3 @@ class %%pascalCasePageName%%RestController extends BaseRestController
 
 
 }
-
