@@ -1,26 +1,32 @@
-import React, { CSSProperties, useEffect, useRef, useState } from "react"
+import React, { CSSProperties, useRef, useState } from "react"
 import css from "./LazyImage.module.less"
 import { cls } from "@cher-ami/utils"
 import useIntersectionObserver from "~/libs/hooks/useIntersectionObserver"
 import { useAsyncEffect } from "~/libs/hooks/useAsyncEffect"
 
-interface IProps {
+type TSrc = {
+  dataSrc: string
+}
+
+type TSrcset = {
+  dataSrcset: string
+}
+
+type TProps = {
+  alt: string
   src?: string
-  dataSrc?: string
-  dataSrcset?: string
   className?: string
-  alt?: string
   aspectRatio?: number
   style?: CSSProperties
   onLoaded?: (img: HTMLImageElement) => void
-}
+} & (TSrc | TSrcset)
 
 export type Lazy = "lazyload" | "lazyloading" | "lazyloaded"
 
 /**
  * @name LazyImage
  */
-function LazyImage(props: IProps) {
+export function LazyImage(props: TProps) {
   const imageRef = useRef<HTMLImageElement>(null)
   const [lazyState, setLazyState] = useState<Lazy>("lazyload")
   const observer = useIntersectionObserver(imageRef, {})
@@ -75,8 +81,8 @@ function LazyImage(props: IProps) {
       ref={imageRef}
       className={cls(css.root, props.className, lazyState)}
       src={props.src ?? "data:,"}
-      data-src={props?.dataSrc}
-      data-srcset={props?.dataSrcset}
+      data-src={(props as TProps & TSrc)?.dataSrc}
+      data-srcset={(props as TProps & TSrcset)?.dataSrcset}
       alt={props?.alt}
       style={{
         ...(props.aspectRatio ? { aspectRatio: `${props.aspectRatio}` } : {}),
@@ -85,5 +91,3 @@ function LazyImage(props: IProps) {
     />
   )
 }
-
-export default LazyImage

@@ -4,6 +4,16 @@ export interface Args extends IntersectionObserverInit {
   freezeOnceVisible?: boolean
 }
 
+/**
+ * useIntersectionObserver
+ * https://usehooks-ts.com/react-hook/use-intersection-observer
+ *
+ * @param elementRef
+ * @param threshold
+ * @param root
+ * @param rootMargin
+ * @param freezeOnceVisible
+ */
 function useIntersectionObserver(
   elementRef: RefObject<Element>,
   { threshold = 0, root = null, rootMargin = "0%", freezeOnceVisible = false }: Args
