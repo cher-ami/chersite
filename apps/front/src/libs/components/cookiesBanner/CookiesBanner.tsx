@@ -1,7 +1,7 @@
 import css from "./CookiesBanner.module.less"
 import { cls } from "@cher-ami/utils"
 import React, { useEffect, useRef } from "react"
-import debug from "@wbe/debug"
+import debug from "@cher-ami/debug"
 import CookiesBannerService from "./CookiesBannerService"
 
 // class component name

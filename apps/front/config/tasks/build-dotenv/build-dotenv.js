@@ -1,7 +1,7 @@
-import * as mfs from "@wbe/mfs"
+import * as mfs from "@cher-ami/mfs"
 import chalk from "chalk"
 import path from "path"
-import debug from "@wbe/debug"
+import debug from "@cher-ami/debug"
 const log = debug("config:build-dotenv")
 import packageJson from "../../../package.json"
 

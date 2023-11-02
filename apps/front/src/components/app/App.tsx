@@ -1,7 +1,7 @@
 import css from "./App.module.less"
 import React from "react"
 import { Link, Stack, TManageTransitions } from "@cher-ami/router"
-import debug from "@wbe/debug"
+import debug from "@cher-ami/debug"
 import { EPages } from "~/routes"
 const log = debug(`front:App`)
 

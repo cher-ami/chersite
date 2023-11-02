@@ -1,5 +1,5 @@
 import logs from "../../../helpers/logger.js"
-import debug from "@wbe/debug"
+import debug from "@cher-ami/debug"
 import Inquirer from "inquirer"
 import { execSync } from "child_process"
 

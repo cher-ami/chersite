@@ -3,7 +3,7 @@ import autoprefixer from "autoprefixer"
 import { resolve } from "path"
 import { defineConfig } from "vite"
 import config from "./config/config.js"
-import debug from "@wbe/debug"
+import debug from "@cher-ami/debug"
 const log = debug("config:vite.config")
 
 export default defineConfig(({ command, mode }) => {

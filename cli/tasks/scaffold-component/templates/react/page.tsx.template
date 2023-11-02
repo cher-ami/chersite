@@ -1,7 +1,7 @@
 import css from "./%%upperComponentName%%.module.less";
 import React, { forwardRef, ForwardedRef, useRef } from "react";
 import { useStack } from "@cher-ami/router";
-import debug from "@wbe/debug"
+import debug from "@cher-ami/debug"
 
 interface IProps {}
 

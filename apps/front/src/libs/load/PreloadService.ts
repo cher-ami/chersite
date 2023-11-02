@@ -1,4 +1,4 @@
-import debug from "@wbe/debug"
+import debug from "@cher-ami/debug"
 import { Beeper } from "~/libs/events/Beeper"
 const componentName = "PreloadService"
 const log = debug(`front:${componentName}`)

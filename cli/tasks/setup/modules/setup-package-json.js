@@ -1,9 +1,9 @@
 import Inquirer from "inquirer"
 import changeCase from "change-case"
-import * as mfs from "@wbe/mfs"
+import * as mfs from "@cher-ami/mfs"
 import logs from "../../../helpers/logger.js"
 import path from "path"
-import debug from "@wbe/debug"
+import debug from "@cher-ami/debug"
 const log = debug("config:manage-package-json")
 
 /**

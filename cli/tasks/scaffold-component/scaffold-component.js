@@ -3,7 +3,7 @@ import changeCase from "change-case"
 import createFile from "../../helpers/create-file.js"
 import config from "../../config.js"
 import logs from "../../helpers/logger.js"
-import debug from "@wbe/debug"
+import debug from "@cher-ami/debug"
 
 const log = debug("config:scaffold")
 
