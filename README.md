@@ -68,7 +68,7 @@ docker compose exec node /bin/bash
 - Install node dependencies for the root project and install dependencies for all apps:
 
 ```shell
-npm run init
+npm i
 ```
 
 - Setup the project:
@@ -80,7 +80,7 @@ npm run setup
 Then, start the dev server:
 
 ```shell
-npm run dev:front
+npm run front:dev
 ```
 
 - Create a `apps/front/.env.local` file with your local IP (useful to access the frontend from other devices):
@@ -91,30 +91,8 @@ HOST="your local IP"
 
 ## CLI
 
-- [init](#init)
-- [dev:front](#dev-front)
-- [setup](#setup)
-- [scaffold](#scaffold)
-- [scaffold-wp](#scaffold-wp)
-
 npm scripts command line interface is available from the main [package.json](./package.json).
 Each script can be executed from `npm run {task}` command.
-
-### init
-
-```shell
-npm run init
-```
-
-Install node dependencies for the root project and install dependencies for all apps.
-
-### dev front
-
-```shell
-npm run dev:front
-```
-
-Start the dev server for the front app.
 
 ### setup
 
@@ -130,10 +108,10 @@ npm run setup
 - Create install file cache
 - Reset this current `.git` and re-init it
 
-### scaffold
+### front:scaffold
 
 ```shell
-npm run scaffold
+npm run front:scaffold
 ```
 
 Used to create a new component. [Components templates](cli/tasks/scaffold-component/templates)
@@ -157,10 +135,10 @@ bundleType: ["react", "dom"]
 componentCompatibleFolders: ["components", "pages"]
 ```
 
-### scaffold-wp
+### back:scaffold-wp
 
 ```shell
-npm run scaffold-wp
+npm run back:scaffold-wp
 ```
 
 Scaffold Page, Post type, Option pages for Wordpress.By default, it will create files in `apps/back/web/app/themes/CherAmi/`.
