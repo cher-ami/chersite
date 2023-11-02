@@ -6,14 +6,14 @@
   "main": "src/index.tsx",
   "type": "module",
   "scripts": {
-    "init": "npm i && cd apps/front && npm install",
-    "dev:front": "cd apps/front && npm run dev",
-    "build:front": "cd apps/front && npm run build",
-    "test:front": "cd apps/front && npm run test",
-    "scaffold": "node cli/tasks/scaffold-component/scaffold-component.js",
-    "scaffold-wp": "node cli/tasks/scaffold-wp/scaffold-wp.js",
+    "front:dev": "cd apps/front && npm run dev",
+    "front:build": "cd apps/front && npm run build",
+    "front:test": "cd apps/front && npm run test",
+    "front:scaffold": "node cli/tasks/scaffold-component/scaffold-component.js",
+    "back:scaffold-wp": "node cli/tasks/scaffold-wp/scaffold-wp.js",
     "setup": "node cli/tasks/setup/setup.js && npm run prepare",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "cd apps/front && npm i"
   },
   "devDependencies": {
     "@cher-ami/debug": "^1.2.0",
