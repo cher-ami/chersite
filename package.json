@@ -16,8 +16,8 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@wbe/debug": "^1.1.0",
-    "@wbe/mfs": "^0.1.1",
+    "@cher-ami/debug": "^1.2.0",
+    "@cher-ami/mfs": "^0.2.0",
     "change-case": "^4.1.2",
     "lint-staged": "^13.2.2",
     "husky": "^8.0.0",

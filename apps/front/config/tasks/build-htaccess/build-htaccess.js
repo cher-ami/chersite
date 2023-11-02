@@ -1,5 +1,5 @@
-import debug from "@wbe/debug"
-import * as mfs from "@wbe/mfs"
+import debug from "@cher-ami/debug"
+import * as mfs from "@cher-ami/mfs"
 const log = debug("config:build-htaccess")
 import chalk from "chalk"
 

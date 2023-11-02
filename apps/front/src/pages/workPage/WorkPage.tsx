@@ -1,7 +1,7 @@
 import css from "./WorkPage.module.less"
 import React, { ForwardedRef, forwardRef, useEffect, useRef } from "react"
 import { useStack } from "@cher-ami/router"
-import debug from "@wbe/debug"
+import debug from "@cher-ami/debug"
 import { MetasManager, TMetaTags } from "~/libs/dom/MetaManager"
 
 interface IProps {

@@ -1,6 +1,6 @@
 import "./%%upperComponentName%%.less"
-import { Component } from "@wbe/compose"
-import debug from "@wbe/debug"
+import { Component } from "@cher-ami/compose"
+import debug from "@cher-ami/debug"
 
 type TStaticProps = {}
 

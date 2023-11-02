@@ -10,7 +10,7 @@ import path from "path"
 // TODO  assert { type: "json" } will change in the future
 import packageJson from "../../../package.json" assert { type: "json" }
 
-import debug from "@wbe/debug"
+import debug from "@cher-ami/debug"
 const log = debug(`config:setup`)
 
 /**

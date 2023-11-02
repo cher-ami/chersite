@@ -2,7 +2,7 @@ import React, { MutableRefObject } from "react"
 import css from "./BaseButton.module.less"
 import { Link, openRoute, TOpenRouteParams } from "@cher-ami/router"
 import { cls } from "@cher-ami/utils"
-import debug from "@wbe/debug"
+import debug from "@cher-ami/debug"
 import { browserOnly } from "@cher-ami/utils"
 
 type TInternalLinkButton = {

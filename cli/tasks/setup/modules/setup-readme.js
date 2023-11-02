@@ -1,6 +1,6 @@
-import * as mfs from "@wbe/mfs"
+import * as mfs from "@cher-ami/mfs"
 import logs from "../../../helpers/logger.js"
-import debug from "@wbe/debug"
+import debug from "@cher-ami/debug"
 const log = debug("config:manage-readme")
 
 /**
