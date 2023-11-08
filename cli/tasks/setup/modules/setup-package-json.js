@@ -1,5 +1,5 @@
 import Inquirer from "inquirer"
-import changeCase from "change-case"
+import * as changeCase from "change-case"
 import * as mfs from "@cher-ami/mfs"
 import logs from "../../../helpers/logger.js"
 import path from "path"
@@ -42,7 +42,7 @@ export default async ({ packageJson, defaultProjectName, fakeMode } = {}) => {
       type: "input",
       message: "What's the project name? (dash-case)",
       name: "projectName",
-    }).then((answer) => (projectName = changeCase.paramCase(answer.projectName)))
+    }).then((answer) => (projectName = changeCase.trainCase(answer.projectName)))
     log("> new project name:", projectName)
 
     // Ask user for author
