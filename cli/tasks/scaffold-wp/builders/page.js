@@ -1,7 +1,7 @@
 import logs from "../../../helpers/logger.js"
 import config from "../../../config.js"
 import Inquirer from "inquirer"
-import changeCase from "change-case"
+import * as changeCase from "change-case"
 import createFile from "../../../helpers/create-file.js"
 
 const _askPageName = () => {
@@ -70,7 +70,7 @@ const buildPage = () => {
     let createTemplate;
 
     await _askPageName().then((answer) => {
-      pageName = changeCase.paramCase(answer.pageName)
+      pageName = changeCase.trainCase(answer.pageName)
     })
 
     await _askIfTemplate().then((answer) => {

@@ -1,7 +1,7 @@
 import logs from "../../../helpers/logger.js"
 import config from "../../../config.js"
 import Inquirer from "inquirer"
-import changeCase from "change-case"
+import * as changeCase from "change-case"
 import createFile from "../../../helpers/create-file.js"
 
 const _askPostTypeName = () => {
@@ -93,7 +93,7 @@ const buildPostType = async () => {
       upperSingularPostTypeName = "",
       upperPluralPostTypeName = ""
     await _askPostTypeName().then((answer) => {
-      postTypeName = changeCase.paramCase(answer.postTypeName)
+      postTypeName = changeCase.trainCase(answer.postTypeName)
       upperSingularPostTypeName = answer.upperSingularPostTypeName
       upperPluralPostTypeName = answer.upperPluralPostTypeName
     })
