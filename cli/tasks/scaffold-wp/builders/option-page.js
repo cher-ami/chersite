@@ -2,7 +2,7 @@ import logs from "../../../helpers/logger.js"
 import config from "../../../config.js"
 import createFile from "../../../helpers/create-file.js"
 import Inquirer from "inquirer"
-import changeCase from "change-case"
+import * as changeCase from "change-case"
 
 const _askOptionName = () => {
   return Inquirer.prompt([
@@ -59,7 +59,7 @@ const buildOptionPage = () => {
     let pageName = "",
       pageTitle = ""
     await _askOptionName().then((answer) => {
-      pageName = changeCase.paramCase(answer.pageName)
+      pageName = changeCase.trainCase(answer.pageName)
       pageTitle = answer.pageTitle
     })
 

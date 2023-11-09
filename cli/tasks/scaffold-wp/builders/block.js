@@ -1,7 +1,7 @@
 import logs from "../../../helpers/logger.js"
 import config from "../../../config.js"
 import Inquirer from "inquirer"
-import changeCase from "change-case"
+import * as changeCase from "change-case"
 import * as mfs from "@cher-ami/mfs"
 import createFile from "../../../helpers/create-file.js"
 
@@ -61,7 +61,7 @@ const buildBlock = async () => {
     let blockName = "",
       blockTitle = ""
     await _askBlockName().then((answer) => {
-      blockName = changeCase.paramCase(answer.blockName)
+      blockName = changeCase.trainCase(answer.blockName)
       blockTitle = answer.blockTitle
     })
 
@@ -138,7 +138,7 @@ const buildBlockType = async () => {
     const formatedBlocks = blockFolder.map((block) => {
       const blockName = block.substring(block.lastIndexOf("/") + 1)
       return {
-        name: changeCase.paramCase(blockName),
+        name: changeCase.trainCase(blockName),
         upperCaseBlockName: changeCase.constantCase(blockName),
         pasclaCaseName: blockName,
       }

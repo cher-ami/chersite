@@ -1,5 +1,5 @@
 import Inquirer from "inquirer"
-import changeCase from "change-case"
+import * as changeCase from "change-case"
 import createFile from "../../helpers/create-file.js"
 import config from "../../config.js"
 import logs from "../../helpers/logger.js"
