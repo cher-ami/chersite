@@ -59,7 +59,7 @@ const buildOptionPage = () => {
     let pageName = "",
       pageTitle = ""
     await _askOptionName().then((answer) => {
-      pageName = changeCase.trainCase(answer.pageName)
+      pageName = changeCase.kebabCase(answer.pageName)
       pageTitle = answer.pageTitle
     })
 

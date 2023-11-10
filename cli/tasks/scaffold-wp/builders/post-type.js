@@ -93,7 +93,7 @@ const buildPostType = async () => {
       upperSingularPostTypeName = "",
       upperPluralPostTypeName = ""
     await _askPostTypeName().then((answer) => {
-      postTypeName = changeCase.trainCase(answer.postTypeName)
+      postTypeName = changeCase.kebabCase(answer.postTypeName)
       upperSingularPostTypeName = answer.upperSingularPostTypeName
       upperPluralPostTypeName = answer.upperPluralPostTypeName
     })
