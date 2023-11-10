@@ -133,7 +133,6 @@ const buildBlockType = async () => {
 
     const blockFolderContent = await mfs.readDir(`${config.wpTheme}/block/`, false)
     const blockFolder = blockFolderContent.filter(async (e) => await mfs.dirExists(e))
-    console.log("blockFolder", blockFolder)
 
     const formatedBlocks = blockFolder.map((block) => {
       const blockName = block.substring(block.lastIndexOf("/") + 1)
