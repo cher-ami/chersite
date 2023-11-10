@@ -42,7 +42,7 @@ export default async ({ packageJson, defaultProjectName, fakeMode } = {}) => {
       type: "input",
       message: "What's the project name? (dash-case)",
       name: "projectName",
-    }).then((answer) => (projectName = changeCase.trainCase(answer.projectName)))
+    }).then((answer) => (projectName = changeCase.kebabCase(answer.projectName)))
     log("> new project name:", projectName)
 
     // Ask user for author
