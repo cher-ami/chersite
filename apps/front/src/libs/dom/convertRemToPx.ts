@@ -19,7 +19,7 @@ export const convertRemToPx = (pxValue: number): number => {
  * @returns
  */
 const _convertFontSizeCssVarToPx = (cssUnitValue: string): number => {
-  const isCalc = cssUnitValue.startsWith("calc")
+  const isCalc = cssUnitValue.includes("calc")
   const isVw = cssUnitValue.endsWith("vw")
   const isVh = cssUnitValue.endsWith("vh")
 
