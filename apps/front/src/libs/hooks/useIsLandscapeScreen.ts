@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
  */
 export function useIsLandscapeScreen(): boolean {
   const [isLandscapeScreen, setIsLandscapeScreen] = useState<boolean>(
-    window.innerWidth > window.innerHeight
+    window.innerWidth > window.innerHeight,
   )
 
   const handler = () => {
