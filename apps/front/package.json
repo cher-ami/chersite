@@ -49,5 +49,8 @@
   "browserslist": [
     "last 2 versions",
     "iOS >= 12"
-  ]
+  ],
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.9.6"
+  }
 }
