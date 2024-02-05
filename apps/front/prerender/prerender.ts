@@ -13,7 +13,7 @@ import { htmlReplacement } from "~/server/helpers/htmlReplacement"
 
 /**
  * Prerender
- * Create static HTML files from react render DOM
+ * Create static HTML files from React render DOM
  * @param urls: Urls to generate
  * @param outDirStatic: Generation destination directory
  */

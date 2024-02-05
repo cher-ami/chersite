@@ -1,14 +1,14 @@
 @font-face {
   font-family: "roboto-regular";
   // prettier-ignore
-  src: url("roboto-regular/roboto-regular.woff2") format("woff2"),
-       url("roboto-regular/roboto-regular.woff") format("woff"),
-       url("roboto-regular/roboto-regular.ttf") format("truetype");
+  src: url("/src/styles/fonts/roboto-regular/roboto-regular.woff2") format("woff2"),
+       url("/src/styles/fonts/roboto-regular/roboto-regular.woff") format("woff"),
+       url("/src/styles/fonts/roboto-regular/roboto-regular.ttf") format("truetype");
 
   font-weight: normal;
   font-style: normal;
 }
 
-@mixin font-roboto-regular() {
+@mixin font-roboto-regular {
   font-family: "roboto-regular", sans-serif;
 }
