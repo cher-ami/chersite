@@ -1,5 +1,3 @@
-@import (reference) "../references";
-
 @font-face {
   font-family: "roboto-regular";
   // prettier-ignore
@@ -11,6 +9,6 @@
   font-style: normal;
 }
 
-.font-roboto-regular() {
+@mixin font-roboto-regular() {
   font-family: "roboto-regular", sans-serif;
 }

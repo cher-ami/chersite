@@ -1,4 +1,4 @@
-import css from "./App.module.less"
+import css from "./App.module.scss"
 import React from "react"
 import { Link, Stack, TManageTransitions } from "@cher-ami/router"
 import debug from "@cher-ami/debug"

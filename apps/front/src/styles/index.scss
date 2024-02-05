@@ -1,0 +1,15 @@
+//@import "./_variables.scss";
+// @import "./fonts/_roboto-regular.scss";
+
+html {
+  // When you use --font-size var, 1px = 1rem
+  font-size: var(--font-size);
+}
+
+body {
+  font-family: sans-serif;
+//  @include font-roboto-regular;
+  background: var(--color-bg);
+  color: var(--color-text);
+//  font-size: 16rem;
+}

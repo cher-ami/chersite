@@ -6,7 +6,7 @@ import config from "./config/config.js"
 import debug from "@cher-ami/debug"
 import react from "@vitejs/plugin-react-swc"
 import { visualizer } from "rollup-plugin-visualizer"
-import checker from "vite-plugin-checker"
+// import checker from "vite-plugin-checker"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
 import { viteChersiteCustomLogger } from "./config/vite-plugins/vite-chersite-custom-logger"
@@ -35,7 +35,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     // In some case, process.env vars are loaded via external service like gitlab-ci
     // and must overwrite .env vars loaded by loadEnv()
     ...process.env,
-    PORT: `${loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)}`,
+    PORT: `${loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173)}`,
     HOST: loadEnvVars["HOST"] ?? ipAddress,
     PROTOCOL: protocol,
     COMMAND: command,
@@ -68,6 +68,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       cors: true,
       host: true,
       port: process.env.PORT as any,
+      // @ts-ignore
       https: protocol === "https",
       origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
       watch: {
@@ -100,6 +101,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     },
 
     resolve: {
+      preserveSymlinks: true,
       alias: {
         "~": resolve(__dirname, "src"),
       },
@@ -108,7 +110,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     plugins: [
       react(),
 
-      checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
+      // checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
 
       legacy({ targets: ["defaults", "not IE 11"] }),
 

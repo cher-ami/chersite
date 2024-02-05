@@ -11,7 +11,7 @@ const log = debug("server:server")
 
 const loadEnvVars = loadEnv(process.env.NODE_ENV, process.cwd(), "")
 const isProduction = process.env.NODE_ENV === "production"
-const port = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)
+const port = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173)
 const protocol = loadEnvVars.PROTOCOL ?? "http"
 const isSSL = protocol === "https"
 
@@ -21,7 +21,7 @@ const isSSL = protocol === "https"
   if (isSSL) {
     if (!(await mfs.fileExists("key.pem")) || !(await mfs.fileExists("cert.pem"))) {
       console.error(
-        "You need to generate a key and a cert file with openssl in the apps/front/ directory. Follow the README documentation 'setup-local-ssl'."
+        "You need to generate a key and a cert file with openssl in the apps/front/ directory. Follow the README documentation 'setup-local-ssl'.",
       )
       process.exit(1)
     }
@@ -48,6 +48,10 @@ const isSSL = protocol === "https"
     const vite = await createServer({
       logLevel: "info",
       server: {
+        // hmr: {
+        //   protocol: 'wss',
+        //   host:"localhost"
+        // },
         middlewareMode: true,
         https: (isSSL && { key, cert }) || false,
         cors: false,
@@ -61,7 +65,7 @@ const isSSL = protocol === "https"
       try {
         // Transforms the ESM source code to be usable in Node.js
         const { render } = await vite.ssrLoadModule(
-          `${config.srcDir}/server/index-server.tsx`
+          `${config.srcDir}/server/index-server.tsx`,
         )
         // Get react-dom from the render method
         const dom = await render(req.originalUrl, devScripts, false)
@@ -107,6 +111,6 @@ const isSSL = protocol === "https"
    * Let's go!
    */
   ;(isProduction ? createProdServer : createDevServer)().then(({ app, sslServer }) =>
-    (sslServer ?? app).listen(port)
+    (sslServer ?? app).listen(port),
   )
 })()

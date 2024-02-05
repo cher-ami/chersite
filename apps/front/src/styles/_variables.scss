@@ -1,38 +1,38 @@
-@import (reference) "../references";
+// @import "./index.scss";
 
 // ----------------------------------------------------------------------------- LESS VAR
 
 // Used by ratio.less
-@viewport-reference-width: 375;
-@viewport-reference-height: 667;
-@viewport-reference-desktop-width: 1400;
-@viewport-reference-desktop-height: 900;
+$viewport-reference-width: 375;
+$viewport-reference-height: 667;
+$viewport-reference-desktop-width: 1400;
+$viewport-reference-desktop-height: 900;
 
 // breakpoints
-@breakpoint-mobile: 320px;
-@breakpoint-tablet: 768px;
-@breakpoint-laptop: 1024px;
-@breakpoint-bigLaptop: 1440px;
-@breakpoint-desktop: 1680px;
+$breakpoint-mobile: 320px;
+$breakpoint-tablet: 768px;
+$breakpoint-laptop: 1024px;
+$breakpoint-bigLaptop: 1440px;
+$breakpoint-desktop: 1680px;
 
 // ----------------------------------------------------------------------------- CSS VAR
 
 :root {
   // DO NOT TOUCH
-  .propertyViewport(--font-size, 1);
+//  .propertyViewport(--font-size, 1);
 
   // Ratio variables
-  --viewport-reference-width: @viewport-reference-width;
-  --viewport-reference-height: @viewport-reference-height;
-  --viewport-reference-desktop-width: @viewport-reference-desktop-width;
-  --viewport-reference-desktop-height: @viewport-reference-desktop-height;
+  --viewport-reference-width: $viewport-reference-width;
+  --viewport-reference-height: $viewport-reference-height;
+  --viewport-reference-desktop-width: $viewport-reference-desktop-width;
+  --viewport-reference-desktop-height: $viewport-reference-desktop-height;
 
   // breakpoints
-  --breakpoint-mobile: @breakpoint-mobile;
-  --breakpoint-tablet: @breakpoint-tablet;
-  --breakpoint-laptop: @breakpoint-laptop;
-  --breakpoint-bigLaptop: @breakpoint-bigLaptop;
-  --breakpoint-desktop: @breakpoint-desktop;
+  --breakpoint-mobile: $breakpoint-mobile;
+  --breakpoint-tablet: $breakpoint-tablet;
+  --breakpoint-laptop: $breakpoint-laptop;
+  --breakpoint-bigLaptop: $breakpoint-bigLaptop;
+  --breakpoint-desktop: $breakpoint-desktop;
 
   // Colors
   --color-black: #000;
@@ -63,7 +63,7 @@
   --grid-column-18: calc(var(--grid-column-1) * 18);
 
   // ease
-  // @credit http://matthewlein.com/ceaser/
+  // $credit http://matthewlein.com/ceaser/
   --ease-power1-in: cubic-bezier(0.55, 0.085, 0.68, 0.53);
   --ease-power1-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-power1-in-out: cubic-bezier(0.455, 0.03, 0.515, 0.955);

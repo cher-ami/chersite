@@ -1,5 +1,5 @@
 import React, { MutableRefObject } from "react"
-import css from "./BaseButton.module.less"
+import css from "./BaseButton.module.scss"
 import { Link, openRoute, TOpenRouteParams } from "@cher-ami/router"
 import { cls } from "@cher-ami/utils"
 import debug from "@cher-ami/debug"
@@ -57,7 +57,7 @@ function BaseButton(props: IProps, ref: MutableRefObject<any>) {
     css.root,
     props.className,
     css[`root_${props.type}`],
-    css[`root_${props.tag}`]
+    css[`root_${props.tag}`],
   )
 
   /**
