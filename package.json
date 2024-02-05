@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "FORCE_COLOR=1 turbo run dev",
+    "build": "FORCE_COLOR=1 turbo run build",
     "front:dev": "cd apps/front && npm run dev",
     "front:build": "cd apps/front && npm run build",
     "front:test": "cd apps/front && npm run test",
