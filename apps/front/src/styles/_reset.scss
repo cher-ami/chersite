@@ -11,7 +11,9 @@
 /**
  * Default Box sizing on before & after pseudo elements
  */
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
@@ -41,7 +43,12 @@ main {
  * Remove default title browser margin
  * Remove default title browser UGLY bold font weight
  */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-size: 1em;
   margin: 0;
   font-weight: normal;
@@ -152,9 +159,8 @@ summary {
  * Remove arrow indicatore
  */
 details summary::-webkit-details-marker {
-  display:none;
+  display: none;
 }
-
 
 /* ----------------------------------------------------------------------------- MEDIA */
 
