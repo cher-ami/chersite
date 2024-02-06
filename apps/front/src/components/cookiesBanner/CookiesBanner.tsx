@@ -1,4 +1,4 @@
-import css from "./CookiesBanner.module.less"
+import css from "./CookiesBanner.module.scss"
 import { cls } from "@cher-ami/utils"
 import React, { useEffect, useRef } from "react"
 import debug from "@cher-ami/debug"
@@ -55,7 +55,7 @@ CookiesBanner.defaultProps = {
  *
  * 1. Change default texts entries
  * 2. Set tracking ID of your Google Analytics
- * 3. Modifie CSS (Less) properties in "CookiesBanner.less" file.
+ * 3. Modifie CSS (sass) properties in "CookiesBanner.module.scss" file.
  */
 export function CookiesBanner(props: IProps) {
   // target root

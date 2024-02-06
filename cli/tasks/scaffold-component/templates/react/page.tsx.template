@@ -1,4 +1,4 @@
-import css from "./%%upperComponentName%%.module.less";
+import css from "./%%upperComponentName%%.module.scss";
 import React, { forwardRef, ForwardedRef, useRef } from "react";
 import { useStack } from "@cher-ami/router";
 import debug from "@cher-ami/debug"
