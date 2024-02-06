@@ -8,7 +8,7 @@ import NotFoundPage from "./pages/notFoundPage/NotFoundPage"
 export enum EPages {
   HOME = "home",
   WORK = "work",
-  NOT_FOUND = "not-found",
+  NOT_FOUND = "not-found"
 }
 
 export const routes: TRoute[] = [
@@ -22,10 +22,10 @@ export const routes: TRoute[] = [
       const meta: TMetaTags = {
         title: "Home",
         description: "Home description",
-        imageUrl: "",
+        imageUrl: ""
       }
       return { time, meta }
-    },
+    }
   },
   {
     path: "/work/:slug?",
@@ -35,10 +35,10 @@ export const routes: TRoute[] = [
       const meta: TMetaTags = {
         title: `Work - ${props.params.slug}`,
         description: "Work description",
-        imageUrl: "",
+        imageUrl: ""
       }
       return { meta }
-    },
+    }
   },
   {
     path: "/:rest",
@@ -48,9 +48,9 @@ export const routes: TRoute[] = [
       const meta = {
         title: `404`,
         description: "Not found",
-        imageUrl: "",
+        imageUrl: ""
       }
       return { meta }
-    },
-  },
+    }
+  }
 ]

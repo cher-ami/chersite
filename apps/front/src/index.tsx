@@ -44,7 +44,7 @@ const history = createBrowserHistory()
 const langService = new LangService({
   showDefaultLangInUrl,
   languages,
-  base,
+  base
 })
 
 /**
@@ -63,5 +63,5 @@ hydrateRoot(
     <GlobalDataContext.Provider value={window["__GLOBAL_DATA__"]}>
       <App />
     </GlobalDataContext.Provider>
-  </Router>,
+  </Router>
 )

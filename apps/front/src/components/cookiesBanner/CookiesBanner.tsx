@@ -12,7 +12,7 @@ const log = debug(`front:${componentName}`)
 
 export enum ETrackingType {
   GOOGLE_ANALYTICS,
-  GOOGLE_TAG_MANAGER,
+  GOOGLE_TAG_MANAGER
 }
 
 export interface ITracking {
@@ -45,7 +45,7 @@ CookiesBanner.defaultProps = {
   showPolicyText: "Show our policy",
   showPolicyLink: "https://cher-ami.tv",
   labelButtonAccept: "yes",
-  labelButtonRefuse: "no",
+  labelButtonRefuse: "no"
 }
 
 /**
@@ -104,7 +104,7 @@ export function CookiesBanner(props: IProps) {
     // targets script DOM by ids
     const $gTagManagerScript = document.getElementById("__gaTagManagerScript")
     const $gTagManagerDataLayerScript = document.getElementById(
-      "__gTagManagerDataLayerScript",
+      "__gTagManagerDataLayerScript"
     )
     const $gTagManagerNoScript = document.getElementById("__gaTagManagerNoScript")
 
@@ -112,7 +112,7 @@ export function CookiesBanner(props: IProps) {
     if (injectScriptTags) {
       if ($gTagManagerScript || $gTagManagerDataLayerScript || $gTagManagerNoScript) {
         log(
-          "$gTagManagerNoScript or $gTagManagerNoScript already exist in DOM, NOT create new scripts. return. ",
+          "$gTagManagerNoScript or $gTagManagerNoScript already exist in DOM, NOT create new scripts. return. "
         )
         return
       }
@@ -130,8 +130,8 @@ export function CookiesBanner(props: IProps) {
         $gTagManagerNoScript,
         // auto generated when script is injected in DOM, we remove it too.
         document.querySelector(
-          `script[src="https://www.googletagmanager.com/gtm.js?id=${trackingID}"]`,
-        ),
+          `script[src="https://www.googletagmanager.com/gtm.js?id=${trackingID}"]`
+        )
       ]
 
       log("remove script tags from DOM.")
@@ -147,7 +147,7 @@ export function CookiesBanner(props: IProps) {
    */
   const googleAnalyticsInjection = (
     injectScriptTags: boolean,
-    trackingID: string,
+    trackingID: string
   ): void => {
     if (!trackingID) return
 
@@ -168,7 +168,7 @@ export function CookiesBanner(props: IProps) {
       `window.dataLayer = window.dataLayer || [];`,
       `function gtag(){dataLayer.push(arguments);}`,
       `gtag('js', new Date());`,
-      `gtag('config', '${trackingID}');`,
+      `gtag('config', '${trackingID}');`
     ].join("\n")
     // add ID
     trackingScript.setAttribute("id", "__ga_tracking")
@@ -196,8 +196,8 @@ export function CookiesBanner(props: IProps) {
         $tracking,
         // auto generated when script is injected in DOM, we remove it too.
         document.querySelector(
-          'script[src$="https://www.google-analytics.com/analytics.js"]',
-        ),
+          'script[src$="https://www.google-analytics.com/analytics.js"]'
+        )
       ]
 
       log("remove script tags from DOM.")
@@ -278,7 +278,7 @@ export function CookiesBanner(props: IProps) {
     show: boolean = true,
     el = rootRef?.current as HTMLElement,
     modifier = css.root_show,
-    modifierHide = css.root_hide,
+    modifierHide = css.root_hide
   ): void => {
     if (show) {
       el?.classList?.add(modifier)
@@ -317,7 +317,7 @@ export function CookiesBanner(props: IProps) {
     } else {
       log(
         "init > localStorageChoiceExist() doesnt exist, anim show component",
-        localStorageChoiceExist(),
+        localStorageChoiceExist()
       )
       // add show class
       CookiesBannerService.show()

@@ -39,7 +39,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     PROTOCOL: protocol,
     COMMAND: command,
     INPUT_FILES: config.input.join(","),
-    BUILD_DIRNAME: config.buildDirname,
+    BUILD_DIRNAME: config.buildDirname
   }
 
   return {
@@ -49,13 +49,13 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
             protocol,
             host: process.env.HOST,
             port: process.env.PORT,
-            base: process.env.VITE_APP_BASE,
-          }),
+            base: process.env.VITE_APP_BASE
+          })
         }
       : {}),
 
     define: {
-      "process.env.VITE_APP_BASE": JSON.stringify(process.env.VITE_APP_BASE),
+      "process.env.VITE_APP_BASE": JSON.stringify(process.env.VITE_APP_BASE)
     },
     // "base" refer to folder where assets are served
     base: process.env.VITE_APP_BASE,
@@ -72,17 +72,17 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
       watch: {
         // do not watch .env files to avoid reloading when build-dotenv is processed
-        ignored: [...(config.buildDotenvOutDir.map((path) => `${path}/.env`) || [])],
-      },
+        ignored: [...(config.buildDotenvOutDir.map((path) => `${path}/.env`) || [])]
+      }
     },
 
     css: {
       modules: {
-        generateScopedName: "[name]__[local]__[hash:base64:5]",
+        generateScopedName: "[name]__[local]__[hash:base64:5]"
       },
       postcss: {
-        plugins: [autoprefixer()],
-      },
+        plugins: [autoprefixer()]
+      }
     },
 
     build: {
@@ -95,15 +95,15 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       rollupOptions: {
         ...(config.input?.length > 0
           ? { input: config.input?.map((el) => resolve(el)) }
-          : {}),
-      },
+          : {})
+      }
     },
 
     resolve: {
       preserveSymlinks: true,
       alias: {
-        "~": resolve(__dirname, "src"),
-      },
+        "~": resolve(__dirname, "src")
+      }
     },
 
     plugins: [
@@ -121,8 +121,8 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
           "COMMAND",
           "INPUT_FILES",
           "BUILD_DIRNAME",
-          "DOCKER_PORT",
-        ],
+          "DOCKER_PORT"
+        ]
       }),
 
       // Htaccess dist/ with password
@@ -132,14 +132,14 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         user: process.env.HTACCESS_AUTH_USER,
         password: process.env.HTACCESS_AUTH_PASSWORD,
         htaccessTemplatePath: config.htaccessTemplateFilePath,
-        outputPath: process.env.HTACCESS_OUTPUT_PATH,
+        outputPath: process.env.HTACCESS_OUTPUT_PATH
       }),
 
       visualizer({
         filename: "./build-stats.html",
         gzipSize: true,
-        title: "Generated bundle stats",
-      }),
-    ],
+        title: "Generated bundle stats"
+      })
+    ]
   }
 })

@@ -9,5 +9,5 @@ export default {
   start: (message = "") => console.log(`\n  ${blue(message)}`),
   note: (message = "") => console.log(`  ${grey(message)}`),
   done: (message = "Done.") => console.log(`  ${green(message)}`),
-  error: (message = "") => console.log(`  ${red(message)}`),
+  error: (message = "") => console.log(`  ${red(message)}`)
 }

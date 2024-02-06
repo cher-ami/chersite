@@ -17,7 +17,7 @@ function App(props: IProps) {
   const manageTransitions = async ({
     previousPage,
     currentPage,
-    unmountPreviousPage,
+    unmountPreviousPage
   }: TManageTransitions): Promise<void> => {
     const $current = currentPage?.$element
 

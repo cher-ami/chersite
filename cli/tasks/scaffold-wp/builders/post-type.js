@@ -9,18 +9,18 @@ const _askPostTypeName = () => {
     {
       type: "input",
       message: "Post type? (dashed lower cased)",
-      name: "postTypeName",
+      name: "postTypeName"
     },
     {
       type: "input",
       message: "Singular display name? ",
-      name: "upperSingularPostTypeName",
+      name: "upperSingularPostTypeName"
     },
     {
       type: "input",
       message: "Plural display name? ",
-      name: "upperPluralPostTypeName",
-    },
+      name: "upperPluralPostTypeName"
+    }
   ])
 }
 
@@ -37,7 +37,7 @@ const _postTypeBuilder = async ({
   postTypePath,
   postTypeName,
   upperPluralPostTypeName,
-  upperSingularPostTypeName,
+  upperSingularPostTypeName
 }) => {
   // choose between page and postType type
   const camelCasePostTypeName = changeCase.camelCase(postTypeName),
@@ -53,8 +53,8 @@ const _postTypeBuilder = async ({
       camelCasePostTypeName,
       upperPluralPostTypeName,
       upperSingularPostTypeName,
-      upperCasePostTypeName,
-    },
+      upperCasePostTypeName
+    }
   })
   // scaffold controller
   await createFile({
@@ -64,8 +64,8 @@ const _postTypeBuilder = async ({
       postTypeName,
       pascalCasePostType,
       camelCasePostTypeName,
-      upperCasePostTypeName,
-    },
+      upperCasePostTypeName
+    }
   })
 
   // scaffold setup
@@ -76,8 +76,8 @@ const _postTypeBuilder = async ({
       postTypeName,
       camelCasePostTypeName,
       pascalCasePostType,
-      upperCasePostTypeName,
-    },
+      upperCasePostTypeName
+    }
   })
 }
 
@@ -112,7 +112,7 @@ const buildPostType = async () => {
         postTypePath,
         postTypeName,
         upperSingularPostTypeName,
-        upperPluralPostTypeName,
+        upperPluralPostTypeName
       })
     } catch (e) {
       logs.error(e)

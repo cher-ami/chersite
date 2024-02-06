@@ -18,7 +18,7 @@ export default async ({
   readmeFrameworkFileName = "README-framework.md",
   projectName = "[ PROJECT NAME ]",
   projectAuthor = "[ PROJECT AUTHOR ]",
-  projectDescription = "[ PROJECT DESCRIPTION ]",
+  projectDescription = "[ PROJECT DESCRIPTION ]"
 }) => {
   return new Promise(async (resolve) => {
     logs.start(
@@ -73,7 +73,7 @@ export default async ({
               )
             })
             resolve(fileContent)
-          }),
+          })
       })
     } else {
       log("FakeMode is activated, do nothing.")

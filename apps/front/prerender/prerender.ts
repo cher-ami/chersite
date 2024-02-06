@@ -44,7 +44,7 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
         },
         onError(x) {
           console.error(x)
-        },
+        }
       })
     } catch (e) {
       console.log(e)
@@ -63,7 +63,7 @@ const createHtmlFile = async (
   urls: string[],
   url: string,
   outDir: string,
-  dom: ReactElement<any, string | JSXElementConstructor<any>>,
+  dom: ReactElement<any, string | JSXElementConstructor<any>>
 ): Promise<void> => {
   // Prepare file
   if (isRouteIndex(url, urls)) url = `${url}/index`

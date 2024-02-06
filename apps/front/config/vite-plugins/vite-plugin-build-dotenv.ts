@@ -4,7 +4,7 @@ import buildDotenv from "../tasks/build-dotenv/build-dotenv"
 export default function buildDotenvPlugin({
   envVars = process.env,
   dotenvOutDir,
-  additionalVarKeys,
+  additionalVarKeys
 }: {
   envVars: { [x: string]: any }
   dotenvOutDir: string[]
@@ -14,6 +14,6 @@ export default function buildDotenvPlugin({
     name: "vite-plugin-dotenv",
     buildStart: async () => {
       await buildDotenv({ envVars, dotenvOutDir, additionalVarKeys })
-    },
+    }
   }
 }

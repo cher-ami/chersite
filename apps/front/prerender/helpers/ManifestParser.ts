@@ -123,7 +123,7 @@ export class ManifestParser {
       } else {
         return {
           ...a,
-          [ext]: [b],
+          [ext]: [b]
         }
       }
     }, {})
@@ -157,10 +157,10 @@ export class ManifestParser {
                 ...a,
                 jsonManifest[b].file,
                 ...(jsonManifest[b]?.assets || []),
-                ...(jsonManifest[b]?.css || []),
+                ...(jsonManifest[b]?.css || [])
               ]
             : a,
-        [],
+        []
       )
       .filter((e) => e)
 

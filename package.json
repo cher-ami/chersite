@@ -37,6 +37,7 @@
   },
   "prettier": {
     "printWidth": 90,
+    "trailingComma": "none",
     "semi": false
   }
 }

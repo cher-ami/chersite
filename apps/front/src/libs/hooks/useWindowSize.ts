@@ -8,7 +8,7 @@ export const useWindowSize = (): { width: number; height: number } => {
   const [size, setSize] = useState(
     isBrowser()
       ? { width: window.innerWidth, height: window.innerHeight }
-      : { width: null, height: null },
+      : { width: null, height: null }
   )
   useEffect(() => {
     const handler = () => {

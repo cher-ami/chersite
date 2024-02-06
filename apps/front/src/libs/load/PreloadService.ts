@@ -18,7 +18,7 @@ export class PreloadService {
     this.onPreloadSignal = Beeper<IPreloadSignal>({
       complete: false,
       counter: 0,
-      percent: 0,
+      percent: 0
     })
   }
 
@@ -35,7 +35,7 @@ export class PreloadService {
         this.onPreloadSignal.dispatch({
           complete: true,
           percent: 100,
-          counter: 0,
+          counter: 0
         })
         return
       }
@@ -84,7 +84,7 @@ export class PreloadService {
     const dispatchValue = {
       counter,
       percent,
-      complete,
+      complete
     }
     log("dispatchValue", dispatchValue)
     this.onPreloadSignal.dispatch(dispatchValue)

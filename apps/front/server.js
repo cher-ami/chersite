@@ -21,7 +21,7 @@ const isSSL = protocol === "https"
   if (isSSL) {
     if (!(await mfs.fileExists("key.pem")) || !(await mfs.fileExists("cert.pem"))) {
       console.error(
-        "You need to generate a key and a cert file with openssl in the apps/front/ directory. Follow the README documentation 'setup-local-ssl'.",
+        "You need to generate a key and a cert file with openssl in the apps/front/ directory. Follow the README documentation 'setup-local-ssl'."
       )
       process.exit(1)
     }
@@ -39,7 +39,7 @@ const isSSL = protocol === "https"
 
     // dev script to inject
     const devScripts = {
-      js: [{ tag: "script", attr: { type: "module", src: "/src/index.tsx" } }],
+      js: [{ tag: "script", attr: { type: "module", src: "/src/index.tsx" } }]
     }
 
     // Create Vite server in middleware mode.
@@ -54,9 +54,9 @@ const isSSL = protocol === "https"
         // },
         middlewareMode: true,
         https: (isSSL && { key, cert }) || false,
-        cors: false,
+        cors: false
       },
-      appType: "custom",
+      appType: "custom"
     })
 
     // use vite's connect instance as middleware
@@ -65,7 +65,7 @@ const isSSL = protocol === "https"
       try {
         // Transforms the ESM source code to be usable in Node.js
         const { render } = await vite.ssrLoadModule(
-          `${config.srcDir}/server/index-server.tsx`,
+          `${config.srcDir}/server/index-server.tsx`
         )
         // Get react-dom from the render method
         const dom = await render(req.originalUrl, devScripts, false)
@@ -79,7 +79,7 @@ const isSSL = protocol === "https"
           onError(e) {
             res.statusCode = 500
             console.error(e)
-          },
+          }
         })
       } catch (e) {
         vite.ssrFixStacktrace(e)
@@ -111,6 +111,6 @@ const isSSL = protocol === "https"
    * Let's go!
    */
   ;(isProduction ? createProdServer : createDevServer)().then(({ app, sslServer }) =>
-    (sslServer ?? app).listen(port),
+    (sslServer ?? app).listen(port)
   )
 })()

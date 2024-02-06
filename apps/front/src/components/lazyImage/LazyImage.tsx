@@ -86,7 +86,7 @@ function LazyImage(props: IProps) {
       alt={props?.alt}
       style={{
         ...(props.aspectRatio ? { aspectRatio: `${props.aspectRatio}` } : {}),
-        ...(props.style || {}),
+        ...(props.style || {})
       }}
     />
   )

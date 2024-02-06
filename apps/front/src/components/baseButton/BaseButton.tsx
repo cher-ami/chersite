@@ -57,7 +57,7 @@ function BaseButton(props: IProps, ref: MutableRefObject<any>) {
     css.root,
     props.className,
     css[`root_${props.type}`],
-    css[`root_${props.tag}`],
+    css[`root_${props.tag}`]
   )
 
   /**

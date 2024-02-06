@@ -10,13 +10,13 @@ const _askBlockName = () => {
     {
       type: "input",
       message: "Block name (dashed lower cased)?",
-      name: "blockName",
+      name: "blockName"
     },
     {
       type: "input",
       message: "Block title? ",
-      name: "blockTitle",
-    },
+      name: "blockTitle"
+    }
   ])
 }
 
@@ -41,15 +41,15 @@ const _blockBuilder = async ({ blockPath, blockName, blockTitle }) => {
       blockName,
       blockTitle,
       pascalCaseBlockName,
-      upperCaseBlockName,
-    },
+      upperCaseBlockName
+    }
   })
 
   // scaffold controller
   await createFile({
     templateFilePath: `${config.wpTemplatesPath}/block/blockController.php.template`,
     destinationFilePath: `${blockPath}/${pascalCaseBlockName}Controller.php`,
-    replaceExpressions: { pascalCaseBlockName, camelCaseBlockName, upperCaseBlockName },
+    replaceExpressions: { pascalCaseBlockName, camelCaseBlockName, upperCaseBlockName }
   })
 }
 
@@ -78,7 +78,7 @@ const buildBlock = async () => {
       await _blockBuilder({
         blockPath,
         blockName,
-        blockTitle,
+        blockTitle
       })
     } catch (e) {
       logs.error(e)
@@ -140,7 +140,7 @@ const buildBlockType = async () => {
       return {
         name: changeCase.trainCase(blockName),
         upperCaseBlockName: changeCase.constantCase(blockName),
-        pasclaCaseName: blockName,
+        pasclaCaseName: blockName
       }
     })
 

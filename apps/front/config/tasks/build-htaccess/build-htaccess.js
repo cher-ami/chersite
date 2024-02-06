@@ -20,7 +20,7 @@ const _createHtaccessFile = async ({ outputPath, htaccessTemplatePath }) => {
   if (!templateExist) {
     console.log(
       "htaccess template doesn't exit. You need to create manually the template file in",
-      htaccessTemplatePath,
+      htaccessTemplatePath
     )
     return
   }
@@ -39,7 +39,7 @@ const _createHtpasswdFile = async ({ outputPath, user, password }) => {
   log("create htpasswd file", {
     outputPath,
     user,
-    password,
+    password
   })
 
   if (!outputPath || !user || !password) {
@@ -74,7 +74,7 @@ const _htpasswdLinkInHtaccess = async ({ newHtaccessFilePath, serverWebRootPath 
       AuthType Basic
       AuthName "Restricted Area"
       Require valid-user
-      `,
+      `
   ]
     .join("\n")
     .replace(/  +/g, "")
@@ -90,14 +90,14 @@ const _htpasswdLinkInHtaccess = async ({ newHtaccessFilePath, serverWebRootPath 
  */
 const _rewriteHttpToHttpsInHtaccess = async (newHtaccessFilePath) => {
   debug("rewrite http to https in htaccess", {
-    newHtaccessFilePath,
+    newHtaccessFilePath
   })
 
   const template = [
     `# Force http to https
       RewriteCond %{HTTPS} off
       RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
-     `,
+     `
   ]
     .join("\n")
     .replace(/  +/g, "")
@@ -115,12 +115,12 @@ export default async ({
   user,
   password,
   outputPath,
-  htaccessTemplatePath,
+  htaccessTemplatePath
 }) => {
   // create htaccess file and get returned newHtaccessFilePath
   const newHtaccessFilePath = await _createHtaccessFile({
     outputPath,
-    htaccessTemplatePath,
+    htaccessTemplatePath
   })
 
   if (!newHtaccessFilePath) return

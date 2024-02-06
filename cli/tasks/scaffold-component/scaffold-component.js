@@ -14,7 +14,7 @@ const _askWhichComponentFolder = (componentCompatibleFolders) => {
     type: "list",
     name: "subFolder",
     message: "Which component folder?",
-    choices: componentCompatibleFolders,
+    choices: componentCompatibleFolders
   })
 }
 
@@ -22,7 +22,7 @@ const _askComponentName = () => {
   return Inquirer.prompt({
     type: "input",
     message: "Component name?",
-    name: "componentName",
+    name: "componentName"
   })
 }
 
@@ -33,7 +33,7 @@ const _reactComponentBuilder = async ({
   subFolder,
   componentPath,
   upperComponentName,
-  componentsTemplatesDir,
+  componentsTemplatesDir
 }) => {
   // choose between page and component type
   const componentType = subFolder === "pages" ? "page" : "component"
@@ -41,13 +41,13 @@ const _reactComponentBuilder = async ({
   await createFile({
     templateFilePath: `${componentsTemplatesDir}/react/${componentType}.tsx.template`,
     destinationFilePath: `${componentPath}/${upperComponentName}.tsx`,
-    replaceExpressions: { upperComponentName },
+    replaceExpressions: { upperComponentName }
   })
   // scaffold  module
   await createFile({
     templateFilePath: `${componentsTemplatesDir}/react/component.scss.template`,
     destinationFilePath: `${componentPath}/${upperComponentName}.module.scss`,
-    replaceExpressions: { upperComponentName },
+    replaceExpressions: { upperComponentName }
   })
 }
 
@@ -58,25 +58,25 @@ const _domComponentBuilder = async ({
   componentPath,
   upperComponentName,
   componentsTemplatesDir,
-  twigComponentPath,
+  twigComponentPath
 }) => {
   // scaffold component file
   await createFile({
     templateFilePath: `${componentsTemplatesDir}/dom/component.ts.template`,
     destinationFilePath: `${componentPath}/${upperComponentName}.ts`,
-    replaceExpressions: { upperComponentName },
+    replaceExpressions: { upperComponentName }
   })
   // scaffold scss module
   await createFile({
     templateFilePath: `${componentsTemplatesDir}/dom/component.scss.template`,
     destinationFilePath: `${componentPath}/${upperComponentName}.scss`,
-    replaceExpressions: { upperComponentName },
+    replaceExpressions: { upperComponentName }
   })
   // scaffold Twig
   await createFile({
     templateFilePath: `${componentsTemplatesDir}/dom/component.twig.template`,
     destinationFilePath: `${twigComponentPath}/${upperComponentName}.twig`,
-    replaceExpressions: { upperComponentName },
+    replaceExpressions: { upperComponentName }
   })
 }
 
@@ -88,7 +88,7 @@ const _scaffoldComponent = ({
   srcDir,
   pComponentType, // dom | react
   componentCompatibleFolders,
-  componentsTemplatesDir,
+  componentsTemplatesDir
 }) => {
   return new Promise(async (resolve) => {
     // Get sub-folder
@@ -120,7 +120,7 @@ const _scaffoldComponent = ({
         upperComponentName,
         componentPath,
         componentCompatibleFolders,
-        componentsTemplatesDir,
+        componentsTemplatesDir
       })
     }
 
@@ -131,7 +131,7 @@ const _scaffoldComponent = ({
         componentPath,
         twigComponentPath,
         componentCompatibleFolders,
-        componentsTemplatesDir,
+        componentsTemplatesDir
       })
     }
 
@@ -152,8 +152,8 @@ const scaffoldComponent = () => {
           pComponentType: "react",
           componentCompatibleFolders: config.componentCompatibleFolders,
           componentsTemplatesDir: config.componentsTemplatesDir,
-          srcDir: config.frontSrcDir,
-        }),
+          srcDir: config.frontSrcDir
+        })
     },
     {
       name: "DOM component",
@@ -162,9 +162,9 @@ const scaffoldComponent = () => {
           pComponentType: "dom",
           componentCompatibleFolders: config.componentCompatibleFolders,
           componentsTemplatesDir: config.componentsTemplatesDir,
-          srcDir: config.frontSrcDir,
-        }),
-    },
+          srcDir: config.frontSrcDir
+        })
+    }
   ]
 
   let scaffolderTypes = TYPES.map((scaffolder) => scaffolder.name)
@@ -175,7 +175,7 @@ const scaffoldComponent = () => {
     name: "type",
     message: "What kind of component to create?",
     choices: scaffolderTypes,
-    pageSize: 20,
+    pageSize: 20
   }).then((answer) => {
     // Get scaffolder index
     const scaffolderIndex = scaffolderTypes.indexOf(answer.type)
