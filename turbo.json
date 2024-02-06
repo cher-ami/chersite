@@ -12,18 +12,6 @@
     "build": {
       "cache": false,
       "persistent": true
-    },
-    "ncu": {
-      "cache": false,
-      "persistent": true
-    },
-    "generate": {
-      "cache": false,
-      "persistent": true
-    },
-    "serve:static": {
-      "cache": false,
-      "persistent": true
     }
   }
 }
