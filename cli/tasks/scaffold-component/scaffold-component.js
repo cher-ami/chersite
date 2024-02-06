@@ -43,10 +43,10 @@ const _reactComponentBuilder = async ({
     destinationFilePath: `${componentPath}/${upperComponentName}.tsx`,
     replaceExpressions: { upperComponentName },
   })
-  // scaffold less module
+  // scaffold  module
   await createFile({
-    templateFilePath: `${componentsTemplatesDir}/react/component.less.template`,
-    destinationFilePath: `${componentPath}/${upperComponentName}.module.less`,
+    templateFilePath: `${componentsTemplatesDir}/react/component.scss.template`,
+    destinationFilePath: `${componentPath}/${upperComponentName}.module.scss`,
     replaceExpressions: { upperComponentName },
   })
 }
@@ -66,10 +66,10 @@ const _domComponentBuilder = async ({
     destinationFilePath: `${componentPath}/${upperComponentName}.ts`,
     replaceExpressions: { upperComponentName },
   })
-  // scaffold less module
+  // scaffold scss module
   await createFile({
-    templateFilePath: `${componentsTemplatesDir}/dom/component.less.template`,
-    destinationFilePath: `${componentPath}/${upperComponentName}.less`,
+    templateFilePath: `${componentsTemplatesDir}/dom/component.scss.template`,
+    destinationFilePath: `${componentPath}/${upperComponentName}.scss`,
     replaceExpressions: { upperComponentName },
   })
   // scaffold Twig
@@ -106,7 +106,7 @@ const _scaffoldComponent = ({
 
     // formated name "lowerCase"
     let lowerComponentName = changeCase.camelCase(componentName)
-    // formated name "UpperCase"
+    // formatted name "UpperCase"
     let upperComponentName = changeCase.pascalCase(componentName)
     // Base path of the component (no extension at the end here)
     let componentPath = `${srcDir}/${subFolder}/${lowerComponentName}`

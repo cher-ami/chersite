@@ -1,13 +1,5 @@
-@use  "./_variables" as *;
+@use  "./_viewport" as viewport;
 @use 'sass:math';
-
-///////////////////////////////////////
-//
-//
-// FUNCTIONS
-//
-//
-///////////////////////////////////////
 
 /// Is a number
 /// @param {any} $value -
@@ -39,7 +31,7 @@
 /// @param {Number} $n1 -
 /// @param {Number} $n2 [1920] -
 /// @return {} - vw value
-@function ratioVW($n1, $n2: $viewport-reference-width) {
+@function ratioVW($n1, $n2: viewport.$viewport-reference-width) {
   @if not is-absolute-number($n1) or is-calc($n1) {
     @return $n1;
   }
