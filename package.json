@@ -18,13 +18,13 @@
   "devDependencies": {
     "@cher-ami/debug": "^1.2.0",
     "@cher-ami/mfs": "^0.2.0",
-    "change-case": "^5.4.2",
-    "lint-staged": "^15.2.1",
-    "husky": "^9.0.10",
-    "prettier": "^3.2.5",
-    "inquirer": "^9.2.14",
-    "chalk": "^5.3.0",
     "@types/node": "^20.11.7",
+    "chalk": "^5.3.0",
+    "change-case": "^5.4.2",
+    "husky": "^9.0.10",
+    "inquirer": "^9.2.14",
+    "lint-staged": "^15.2.1",
+    "prettier": "^3.2.5",
     "turbo": "^1.11.3"
   },
   "workspaces": [
