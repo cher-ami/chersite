@@ -61,7 +61,7 @@ const buildBlock = async () => {
     let blockName = "",
       blockTitle = ""
     await _askBlockName().then((answer) => {
-      blockName = changeCase.trainCase(answer.blockName)
+      blockName = changeCase.kebabCase(answer.blockName)
       blockTitle = answer.blockTitle
     })
 
@@ -133,12 +133,11 @@ const buildBlockType = async () => {
 
     const blockFolderContent = await mfs.readDir(`${config.wpTheme}/block/`, false)
     const blockFolder = blockFolderContent.filter(async (e) => await mfs.dirExists(e))
-    console.log("blockFolder", blockFolder)
 
     const formatedBlocks = blockFolder.map((block) => {
       const blockName = block.substring(block.lastIndexOf("/") + 1)
       return {
-        name: changeCase.trainCase(blockName),
+        name: changeCase.kebabCase(blockName),
         upperCaseBlockName: changeCase.constantCase(blockName),
         pasclaCaseName: blockName
       }

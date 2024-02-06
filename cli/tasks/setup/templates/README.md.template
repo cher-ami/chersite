@@ -12,11 +12,6 @@ apps
   └- front    ⬅ chersite frontend starter
 ```
 
-## Production requirements
-
-- [node](https://nodejs.org/en)
-- ...
-
 ## Local development
 
 ### Installation
@@ -37,7 +32,7 @@ docker compose exec node /bin/bash
 - Install node dependencies for the root project and install dependencies for all apps:
 
 ```shell
-npm run init
+npm i
 ```
 
 ### Development
@@ -45,7 +40,7 @@ npm run init
 Start the dev server from the root folder:
 
 ```shell
-npm run dev:front
+npm run front:dev
 ```
 
 ### Build
@@ -53,7 +48,7 @@ npm run dev:front
 Build the app on your machine:
 
 ```shell
-npm run build:front
+npm run front:build
 ```
 
 ## Deployment

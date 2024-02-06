@@ -70,7 +70,7 @@ const buildPage = () => {
     let createTemplate
 
     await _askPageName().then((answer) => {
-      pageName = changeCase.trainCase(answer.pageName)
+      pageName = changeCase.kebabCase(answer.pageName)
     })
 
     await _askIfTemplate().then((answer) => {
