@@ -63,5 +63,5 @@ hydrateRoot(
     <GlobalDataContext.Provider value={window["__GLOBAL_DATA__"]}>
       <App />
     </GlobalDataContext.Provider>
-  </Router>
+  </Router>,
 )

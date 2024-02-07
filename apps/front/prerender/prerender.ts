@@ -27,7 +27,7 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
 
   // get script tags to inject in render
   const base = process.env.VITE_APP_BASE || loadEnv("", process.cwd(), "").VITE_APP_BASE
-  const manifest = (await mfs.readFile(`${outDirStatic}/manifest.json`)) as string
+  const manifest = (await mfs.readFile(`${outDirStatic}/.vite/manifest.json`)) as string
   const scriptTags = ManifestParser.getScriptTagFromManifest(manifest, base)
 
   // pre-render each route
@@ -63,7 +63,7 @@ const createHtmlFile = async (
   urls: string[],
   url: string,
   outDir: string,
-  dom: ReactElement<any, string | JSXElementConstructor<any>>
+  dom: ReactElement<any, string | JSXElementConstructor<any>>,
 ): Promise<void> => {
   // Prepare file
   if (isRouteIndex(url, urls)) url = `${url}/index`

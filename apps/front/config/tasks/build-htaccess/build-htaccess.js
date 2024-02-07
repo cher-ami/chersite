@@ -20,7 +20,7 @@ const _createHtaccessFile = async ({ outputPath, htaccessTemplatePath }) => {
   if (!templateExist) {
     console.log(
       "htaccess template doesn't exit. You need to create manually the template file in",
-      htaccessTemplatePath
+      htaccessTemplatePath,
     )
     return
   }

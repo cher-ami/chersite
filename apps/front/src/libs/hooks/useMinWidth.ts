@@ -15,6 +15,6 @@ import { useMatchMedia } from "~/libs/hooks/useMatchMedia"
  */
 export const useIsMinWidth = (breakpoint: TBreakpoint): boolean => {
   return browserOnly(() =>
-    useMatchMedia(`(min-width:${getBreakpointCssVariable(breakpoint)})`)
+    useMatchMedia(`(min-width:${getBreakpointCssVariable(breakpoint)})`),
   )
 }
