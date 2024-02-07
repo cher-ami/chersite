@@ -45,7 +45,7 @@ return new Promise((resolve) => {
     // duplicate route with lang if the router is configured on this way
     "/fr",
     "/fr/work",
-    "/fr/work/first-work",
+    "/fr/work/first-work"
   ])
 })
 ```

@@ -19,34 +19,34 @@ export default defineConfig(({ command, mode }) => {
       assetsInlineLimit: 0,
       ssr: true,
       define: {
-        "process.env.VITE_APP_BASE": JSON.stringify(process.env.VITE_APP_BASE),
+        "process.env.VITE_APP_BASE": JSON.stringify(process.env.VITE_APP_BASE)
       },
       rollupOptions: {
         input: [
           resolve("server.js"),
           resolve("prerender/prerender.ts"),
           resolve("prerender/exe-prerender-server.ts"),
-          resolve("prerender/exe-prerender.ts"),
+          resolve("prerender/exe-prerender.ts")
         ],
         output: {
           manualChunks: undefined,
           entryFileNames: `[name].js`,
-          chunkFileNames: `[name].js`,
-        },
-      },
+          chunkFileNames: `[name].js`
+        }
+      }
     },
     css: {
       modules: {
-        generateScopedName: "[name]__[local]__[hash:base64:5]",
+        generateScopedName: "[name]__[local]__[hash:base64:5]"
       },
       postcss: {
-        plugins: [autoprefixer()],
-      },
+        plugins: [autoprefixer()]
+      }
     },
     resolve: {
       alias: {
-        "~": resolve(__dirname, "src"),
-      },
-    },
+        "~": resolve(__dirname, "src")
+      }
+    }
   }
 })

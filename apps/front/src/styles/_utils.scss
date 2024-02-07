@@ -1,10 +1,10 @@
 // Debug an element with an outline with custom size and color.
-@mixin debug($size:  1px, $color: red) {
+@mixin debug($size: 1px, $color: red) {
   outline: $size solid $color;
 }
 
 // Set bigger hit zone with :after.
-@mixin hitZone($horizontalSize:  10px, $verticalSize:  10px, $color: transparent) {
+@mixin hitZone($horizontalSize: 10px, $verticalSize: 10px, $color: transparent) {
   &:after {
     content: "";
     background-color: $color;
@@ -18,13 +18,13 @@
 
 // Hide text only visually to preserve SEO check
 @mixin visuallyHidden() {
-  clip: rect(1px,  1px,  1px,  1px);
+  clip: rect(1px, 1px, 1px, 1px);
   clip-path: inset(50%);
-  height:  1px;
-  width:  1px;
+  height: 1px;
+  width: 1px;
   margin: -1px;
   overflow: hidden;
-  padding:  0;
+  padding: 0;
   position: absolute;
 }
 
@@ -32,33 +32,33 @@
 @mixin absoluteCenter($axis: yx) {
   @if $axis == yx {
     position: absolute;
-    top:  50%;
-    left:  50%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
   } @else if $axis == y {
     position: absolute;
-    top:  50%;
+    top: 50%;
     left: auto;
     transform: translateY(-50%);
   } @else if $axis == x {
     position: absolute;
     top: auto;
-    left:  50%;
+    left: 50%;
     transform: translateX(-50%);
   }
 }
 
 // Remove touch callout on Safari mobile
 @mixin disableTouchCallout() {
-  -webkit-tap-highlight-color: rgba(255,  255,  255,  0);
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
 // Patch scrolling on iOS
 @mixin hideScrollBar() {
   overflow-scrolling: touch;
   &::-webkit-scrollbar {
-    width:  0 !important;
-    height:  0 !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 }
 

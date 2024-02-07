@@ -14,7 +14,7 @@ const _askWhichComponentFolder = (componentCompatibleFolders) => {
     type: "list",
     name: "subFolder",
     message: "Which component folder?",
-    choices: componentCompatibleFolders,
+    choices: componentCompatibleFolders
   })
 }
 
@@ -22,7 +22,7 @@ const _askComponentName = () => {
   return Inquirer.prompt({
     type: "input",
     message: "Component name?",
-    name: "componentName",
+    name: "componentName"
   })
 }
 
@@ -33,7 +33,7 @@ const _reactComponentBuilder = async ({
   subFolder,
   componentPath,
   upperComponentName,
-  componentsTemplatesDir,
+  componentsTemplatesDir
 }) => {
   // choose between page and component type
   const componentType = subFolder === "pages" ? "page" : "component"
@@ -41,13 +41,13 @@ const _reactComponentBuilder = async ({
   await createFile({
     templateFilePath: `${componentsTemplatesDir}/react/${componentType}.tsx.template`,
     destinationFilePath: `${componentPath}/${upperComponentName}.tsx`,
-    replaceExpressions: { upperComponentName },
+    replaceExpressions: { upperComponentName }
   })
   // scaffold scss module
   await createFile({
     templateFilePath: `${componentsTemplatesDir}/react/component.scss.template`,
     destinationFilePath: `${componentPath}/${upperComponentName}.module.scss`,
-    replaceExpressions: { upperComponentName },
+    replaceExpressions: { upperComponentName }
   })
 }
 
@@ -59,7 +59,7 @@ const _scaffoldComponent = ({
   srcDir,
   componentCompatibleFolders,
   componentsTemplatesDir,
-  pComponentType, // react | ...
+  pComponentType // react | ...
 }) => {
   return new Promise(async (resolve) => {
     // Get sub-folder
@@ -89,7 +89,7 @@ const _scaffoldComponent = ({
       upperComponentName,
       componentPath,
       componentCompatibleFolders,
-      componentsTemplatesDir,
+      componentsTemplatesDir
     })
 
     // final log
@@ -100,13 +100,11 @@ const _scaffoldComponent = ({
 
 // ----------------------------------------------------------------------------- PUBLIC
 
-(async ()=>
-{
+;(async () => {
   await _scaffoldComponent({
     pComponentType: "react",
     componentCompatibleFolders: config.componentCompatibleFolders,
     componentsTemplatesDir: config.componentsTemplatesDir,
-    srcDir: config.frontSrcDir,
+    srcDir: config.frontSrcDir
   })
-
 })()

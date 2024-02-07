@@ -6,7 +6,7 @@ export const viteChersiteCustomLogger = ({
   protocol,
   host,
   port,
-  base,
+  base
 }: {
   protocol: "http" | "https"
   host: string

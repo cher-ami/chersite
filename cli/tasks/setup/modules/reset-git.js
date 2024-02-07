@@ -13,7 +13,7 @@ export default async ({ gitDir, fakeMode } = {}) =>
     const removeGitAnswer = await Inquirer.prompt({
       type: "confirm",
       name: "removeGit",
-      message: "Do you want to reset the current .git and re-init it?",
+      message: "Do you want to reset the current .git and re-init it?"
     })
 
     log("removeGitAnswer", removeGitAnswer["removeGit"])

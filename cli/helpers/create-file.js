@@ -10,7 +10,7 @@ import logs from "./logger.js"
 const createFile = async ({
   templateFilePath = "",
   destinationFilePath = "",
-  replaceExpressions = {},
+  replaceExpressions = {}
 }) => {
   // Check if component already exists
 
@@ -33,7 +33,7 @@ const createFile = async ({
             }
           })
         resolve(fileContent)
-      }),
+      })
   })
 }
 

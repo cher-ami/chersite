@@ -99,7 +99,7 @@ export class MetasManager {
     values = null,
     tags = MetasManager.DEFAULT_META_TAGS,
     autoCreateMetaTag = true,
-    autoRemoveMetaTag = true,
+    autoRemoveMetaTag = true
   }: {
     values?: TMetaTags<string>
     tags?: TMetaTags<TTag[]>

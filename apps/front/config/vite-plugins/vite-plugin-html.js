@@ -3,6 +3,6 @@ export default function htmlPlugin(env) {
     name: "html-transform",
     transformIndexHtml(html) {
       return html.replace(/<!-- VITE_APP_URL -->/gm, `${env.VITE_APP_URL}`)
-    },
+    }
   }
 }

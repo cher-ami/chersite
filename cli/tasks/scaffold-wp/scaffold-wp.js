@@ -12,20 +12,20 @@ import buildBlock from "./builders/block.js"
 const _scaffolders = [
   {
     name: "Post Type",
-    exec: buildPostType,
+    exec: buildPostType
   },
   {
     name: "Page",
-    exec: buildPage,
+    exec: buildPage
   },
   {
     name: "Option Page",
-    exec: buildOptionPage,
+    exec: buildOptionPage
   },
   {
     name: "Block",
-    exec: buildBlock,
-  },
+    exec: buildBlock
+  }
 ]
 
 // ----------------------–----------------------–----------------------–-------- PUBLIC
@@ -49,7 +49,7 @@ const wpScaffold = () => {
       name: "type",
       message: "What kind of component to create?",
       choices: scaffolderTypes,
-      pageSize: 20,
+      pageSize: 20
     }).then(async (answer) => {
       // Get scaffolder index
       const scaffolderIndex = scaffolderTypes.indexOf(answer.type)

@@ -7,7 +7,7 @@ const url = import.meta.url
 
 const manifestRaw = fs.readFileSync(
   path.join(path.dirname(fileURLToPath(url)), `fixtures/manifest.json`),
-  { encoding: "utf8" },
+  { encoding: "utf8" }
 )
 
 it("should return assets list", () => {

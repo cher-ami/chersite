@@ -11,7 +11,7 @@ export const RawScript = ({ name, data }) => {
     <script
       type="text/javascript"
       dangerouslySetInnerHTML={{
-        __html: `window.${name}=${stringify(data)}`,
+        __html: `window.${name}=${stringify(data)}`
       }}
     />
   )
