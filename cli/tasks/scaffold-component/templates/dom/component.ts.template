@@ -1,4 +1,4 @@
-import "./%%upperComponentName%%.less"
+import "./%%upperComponentName%%.scss"
 import { Component } from "@cher-ami/compose"
 import debug from "@cher-ami/debug"
 
