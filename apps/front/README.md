@@ -174,7 +174,7 @@ htaccessTemplateFilePath: resolve("src/.htaccess")
   PROTOCOL=https
   ```
 
-When you run `npm run dev`, you should see the app running on https://localhost:3000
+When you run `npm run dev`, you should see the app running on https://localhost:5173
 
 ## Workflow
 

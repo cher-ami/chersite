@@ -35,7 +35,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     // In some case, process.env vars are loaded via external service like gitlab-ci
     // and must overwrite .env vars loaded by loadEnv()
     ...process.env,
-    PORT: `${loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)}`,
+    PORT: `${loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173)}`,
     HOST: loadEnvVars["HOST"] ?? ipAddress,
     PROTOCOL: protocol,
     COMMAND: command,
