@@ -10,7 +10,6 @@
     "front:build": "cd apps/front && npm run build",
     "front:test": "cd apps/front && npm run test",
     "front:scaffold": "node cli/tasks/scaffold-component/scaffold-component.js",
-    "back:scaffold-wp": "node cli/tasks/scaffold-wp/scaffold-wp.js",
     "setup": "node cli/tasks/setup/setup.js && npm run prepare",
     "prepare": "husky install",
     "postinstall": "cd apps/front && npm i"
