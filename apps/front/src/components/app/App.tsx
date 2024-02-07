@@ -1,4 +1,4 @@
-import css from "./App.module.less"
+import css from "./App.module.scss"
 import React from "react"
 import { Link, Stack, TManageTransitions } from "@cher-ami/router"
 import debug from "@cher-ami/debug"
@@ -17,7 +17,7 @@ function App(props: IProps) {
   const manageTransitions = async ({
     previousPage,
     currentPage,
-    unmountPreviousPage,
+    unmountPreviousPage
   }: TManageTransitions): Promise<void> => {
     const $current = currentPage?.$element
 

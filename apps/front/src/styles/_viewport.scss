@@ -1,0 +1,12 @@
+// Used by ratio
+$viewport-reference-width: 375;
+$viewport-reference-height: 667;
+$viewport-reference-desktop-width: 1440;
+$viewport-reference-desktop-height: 900;
+
+:root {
+  --viewport-reference-width: #{$viewport-reference-width};
+  --viewport-reference-height: #{$viewport-reference-height};
+  --viewport-reference-desktop-width: #{$viewport-reference-desktop-width};
+  --viewport-reference-desktop-height: #{$viewport-reference-desktop-height};
+}

@@ -1,4 +1,4 @@
-import css from "./CookiesBanner.module.less"
+import css from "./CookiesBanner.module.scss"
 import { cls } from "@cher-ami/utils"
 import React, { useEffect, useRef } from "react"
 import debug from "@cher-ami/debug"
@@ -12,7 +12,7 @@ const log = debug(`front:${componentName}`)
 
 export enum ETrackingType {
   GOOGLE_ANALYTICS,
-  GOOGLE_TAG_MANAGER,
+  GOOGLE_TAG_MANAGER
 }
 
 export interface ITracking {
@@ -45,7 +45,7 @@ CookiesBanner.defaultProps = {
   showPolicyText: "Show our policy",
   showPolicyLink: "https://cher-ami.tv",
   labelButtonAccept: "yes",
-  labelButtonRefuse: "no",
+  labelButtonRefuse: "no"
 }
 
 /**
@@ -55,7 +55,7 @@ CookiesBanner.defaultProps = {
  *
  * 1. Change default texts entries
  * 2. Set tracking ID of your Google Analytics
- * 3. Modifie CSS (Less) properties in "CookiesBanner.less" file.
+ * 3. Modifie CSS (sass) properties in "CookiesBanner.module.scss" file.
  */
 export function CookiesBanner(props: IProps) {
   // target root
@@ -131,7 +131,7 @@ export function CookiesBanner(props: IProps) {
         // auto generated when script is injected in DOM, we remove it too.
         document.querySelector(
           `script[src="https://www.googletagmanager.com/gtm.js?id=${trackingID}"]`
-        ),
+        )
       ]
 
       log("remove script tags from DOM.")
@@ -168,7 +168,7 @@ export function CookiesBanner(props: IProps) {
       `window.dataLayer = window.dataLayer || [];`,
       `function gtag(){dataLayer.push(arguments);}`,
       `gtag('js', new Date());`,
-      `gtag('config', '${trackingID}');`,
+      `gtag('config', '${trackingID}');`
     ].join("\n")
     // add ID
     trackingScript.setAttribute("id", "__ga_tracking")
@@ -197,7 +197,7 @@ export function CookiesBanner(props: IProps) {
         // auto generated when script is injected in DOM, we remove it too.
         document.querySelector(
           'script[src$="https://www.google-analytics.com/analytics.js"]'
-        ),
+        )
       ]
 
       log("remove script tags from DOM.")

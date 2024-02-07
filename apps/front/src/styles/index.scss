@@ -1,0 +1,27 @@
+@import "./_breakpoints.scss";
+@import "./_colors.scss";
+@import "./_ease.scss";
+@import "./_fonts.scss";
+@import "./_functions.scss";
+@import "./_grid.scss";
+@import "./_ratio.scss";
+@import "./_reset.scss";
+@import "./_texts.scss";
+@import "./_utils.scss";
+@import "./_viewport.scss";
+
+:root {
+  @include propertyViewport(--font-size, 1);
+}
+
+html {
+  font-size: var(--font-size);
+}
+
+body {
+  font-size: 16rem;
+  font-family: sans-serif;
+  @include font-roboto-regular;
+  background: var(--color-bg);
+  color: var(--color-text);
+}

@@ -1,4 +1,4 @@
-@import (reference) "../../../references.less";
+@use "../../styles/index" as *;
 
 .root {
   position: fixed;
@@ -20,7 +20,7 @@
     pointer-events: none;
   }
 
-  @media (min-width: @breakpoint-tablet) {
+  @media (min-width: $breakpoint-tablet) {
     width: 30%;
     right: 0;
   }

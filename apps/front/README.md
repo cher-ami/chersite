@@ -11,7 +11,7 @@
 
 ## About
 
-This front app is a React static-site generator build in order to obtain a static server rendering for best performance. It run with [vite](https://vitejs.dev/), [react](https://reactjs.org/),[typescript](https://www.typescriptlang.org/), and [less](https://lesscss.org/). The build step prepare a server script, a prerender script and a SPA version to leave choice of use. This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
+This front app is a React static-site generator build in order to obtain a static server rendering for best performance. It run with [vite](https://vitejs.dev/), [react](https://reactjs.org/),[typescript](https://www.typescriptlang.org/), and [scss](https://sass-lang.com/). The build step prepare a server script, a prerender script and a SPA version to leave choice of use. This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
 
 ## Entry points
 
@@ -180,15 +180,15 @@ When you run `npm run dev`, you should see the app running on https://localhost:
 
 ### CSS workflow
 
-[Less](http://lesscss.org/) is used as css preprocessor. It can be set as `.less` file or `.module.less` for css module;
+[sass](https://sass-lang.com) is used as css preprocessor. It can be set as `.less` file or `.module.less` for css module;
 Both works by default.
 
 [BEM methodology](http://getbem.com) is used to organize the integration of our templates and components
 but have some differences depend on the use-case:
 
-### <a name="BemForModuleLess"></a>BEM for `.module.less`
+### <a name="BemForModuleScss"></a>BEM for `.module.scss`
 
-```less
+```scss
 /**
  * BEM block is always "root" className
  */
@@ -207,9 +207,9 @@ but have some differences depend on the use-case:
 }
 ```
 
-### <a name="BemForLess"></a>BEM for `.less`
+### <a name="BemForLess"></a>BEM for `.scss`
 
-```less
+```scss
 /**
  * BEM block (.PascalCase)
  */
@@ -229,19 +229,6 @@ but have some differences depend on the use-case:
   }
 }
 ```
-
-### Less Mixins
-
-In order to export fonts, variables and mixins to each style files, each `.module.less` and `.less`
-files contains as reference the same file:
-
-```less
-@import (reference) "src/references.less";
-```
-
-This file import "as reference" variables and mixins files who come from
-[src/fonts](src/fonts), [src/atoms](src/atoms) and [src/mixins](src/mixins). If a new mixin file is create,
-it will be added in [src/references](src/references).
 
 ## Credits
 
