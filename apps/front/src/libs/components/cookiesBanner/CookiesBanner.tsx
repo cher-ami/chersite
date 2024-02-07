@@ -104,7 +104,7 @@ export function CookiesBanner(props: IProps) {
     // targets script DOM by ids
     const $gTagManagerScript = document.getElementById("__gaTagManagerScript")
     const $gTagManagerDataLayerScript = document.getElementById(
-      "__gTagManagerDataLayerScript"
+      "__gTagManagerDataLayerScript",
     )
     const $gTagManagerNoScript = document.getElementById("__gaTagManagerNoScript")
 
