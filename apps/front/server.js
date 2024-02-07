@@ -39,7 +39,7 @@ const isSSL = protocol === "https"
 
     // dev script to inject
     const devScripts = {
-      js: [{ tag: "script", attr: { type: "module", src: "/src/index.tsx" } }],
+      js: [{ tag: "script", attr: { type: "module", src: "/src/index.tsx" } }]
     }
 
     // Create Vite server in middleware mode.
@@ -50,9 +50,9 @@ const isSSL = protocol === "https"
       server: {
         middlewareMode: true,
         https: (isSSL && { key, cert }) || false,
-        cors: false,
+        cors: false
       },
-      appType: "custom",
+      appType: "custom"
     })
 
     // use vite's connect instance as middleware
@@ -75,7 +75,7 @@ const isSSL = protocol === "https"
           onError(e) {
             res.statusCode = 500
             console.error(e)
-          },
+          }
         })
       } catch (e) {
         vite.ssrFixStacktrace(e)

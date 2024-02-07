@@ -28,7 +28,7 @@ const setup = () =>
     const { projectName, projectDescription, projectAuthor } = await setupPackageJson({
       packageJson,
       defaultProjectName: "chersite",
-      fakeMode: config.setupFakeMode,
+      fakeMode: config.setupFakeMode
     })
 
     // setup readme
@@ -38,19 +38,19 @@ const setup = () =>
       fakeMode: config.setupFakeMode,
       projectName,
       projectDescription,
-      projectAuthor,
+      projectAuthor
     })
 
     // create install file
     await createInstallFile({
       installFilePath: config.installFile,
-      fakeMode: config.setupFakeMode,
+      fakeMode: config.setupFakeMode
     })
 
     // remove unused files and directories
     await resetGit({
       gitDir: path.resolve(".git"),
-      fakeMode: config.setupFakeMode,
+      fakeMode: config.setupFakeMode
     })
 
     console.log("")

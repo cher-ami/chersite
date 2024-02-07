@@ -30,5 +30,5 @@ export default {
   // Build htaccess
   htaccessTemplateFilePath: resolve(
     "config/tasks/build-htaccess/templates/.htaccess.template"
-  ),
+  )
 }

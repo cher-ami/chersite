@@ -44,7 +44,7 @@ const history = createBrowserHistory()
 const langService = new LangService({
   showDefaultLangInUrl,
   languages,
-  base,
+  base
 })
 
 /**

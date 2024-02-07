@@ -1,6 +1,6 @@
 import {
   getBreakpointCssVariable,
-  TBreakpoint,
+  TBreakpoint
 } from "~/libs/dom/getBreakpointCssVariable"
 import { browserOnly } from "@cher-ami/utils"
 import { useMatchMedia } from "~/libs/hooks/useMatchMedia"

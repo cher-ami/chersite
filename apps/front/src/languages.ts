@@ -7,8 +7,8 @@ import { TLanguage } from "@cher-ami/router"
 export const languages: TLanguage[] = [
   {
     key: "fr",
-    default: true,
-  },
+    default: true
+  }
   // {
   //   key: "en",
   // },

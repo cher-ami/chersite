@@ -11,7 +11,7 @@ export const ViteDevScripts = () => {
         dangerouslySetInnerHTML={{
           __html: `
           import { inject } from "/@vite-plugin-checker-runtime";
-          inject({ overlayConfig: {}, base: "${base}"});`,
+          inject({ overlayConfig: {}, base: "${base}"});`
         }}
       />
 
@@ -27,7 +27,7 @@ export const ViteDevScripts = () => {
           refresh.injectIntoGlobalHook(window)        
           window.$RefreshReg$ = () => {}
           window.$RefreshSig$ = () => (type) => type
-          window.__vite_plugin_react_preamble_installed__ = true`,
+          window.__vite_plugin_react_preamble_installed__ = true`
         }}
       />
     </>

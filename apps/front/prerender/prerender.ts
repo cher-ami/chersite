@@ -44,7 +44,7 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
         },
         onError(x) {
           console.error(x)
-        },
+        }
       })
     } catch (e) {
       console.log(e)
