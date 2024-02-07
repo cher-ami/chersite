@@ -1,4 +1,4 @@
-declare module "*.module.less"
+declare module "*.module.scss"
 declare module "*.bmp"
 declare module "*.gif"
 declare module "*.jpg"
