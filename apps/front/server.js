@@ -11,7 +11,7 @@ const log = debug("server:server")
 
 const loadEnvVars = loadEnv(process.env.NODE_ENV, process.cwd(), "")
 const isProduction = process.env.NODE_ENV === "production"
-const port = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)
+const port = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173)
 const protocol = loadEnvVars.PROTOCOL ?? "http"
 const isSSL = protocol === "https"
 
