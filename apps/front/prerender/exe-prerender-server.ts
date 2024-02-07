@@ -29,11 +29,11 @@ app.get("/generate", async (req, res) => {
 app.listen(port, () => {
   console.log("")
   console.log(
-    `> Generate all pages      ${chalk.blue(`http://localhost:${port}/generate`)}`,
+    `> Generate all pages      ${chalk.blue(`http://localhost:${port}/generate`)}`
   )
   console.log(
     `> Generate specific page  ${chalk.blue(
-      `http://localhost:${port}/generate?url=/my-page/url`,
-    )}`,
+      `http://localhost:${port}/generate?url=/my-page/url`
+    )}`
   )
 })

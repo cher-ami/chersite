@@ -25,7 +25,7 @@ const _convertFontSizeCssVarToPx = (cssUnitValue: string): number => {
 
   if (isCalc) {
     const viewportReferenceDesktopHeight = parseFloat(
-      _getRootCssVariable("--viewport-reference-desktop-height"),
+      _getRootCssVariable("--viewport-reference-desktop-height")
     )
     return (1 / viewportReferenceDesktopHeight) * window.innerHeight
   }
