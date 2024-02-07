@@ -68,6 +68,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       cors: true,
       host: true,
       port: process.env.PORT as any,
+      // @ts-ignore
       https: protocol === "https",
       origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
       watch: {
