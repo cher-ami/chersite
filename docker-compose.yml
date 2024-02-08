@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   node:
-    image: node:18.17.1
+    image: node:20.11
     ports:
       - "${DOCKER_NODE_PORT:-5173}:5173" # vite dev server
       - "24678:24678" # vite HMR
