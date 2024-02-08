@@ -26,7 +26,8 @@ export default defineConfig(({ command, mode }) => {
           resolve("server.js"),
           resolve("prerender/prerender.ts"),
           resolve("prerender/exe-prerender-server.ts"),
-          resolve("prerender/exe-prerender.ts")
+          resolve("prerender/exe-prerender.ts"),
+          resolve("prerender/helpers/ManifestParser.ts")
         ],
         output: {
           manualChunks: undefined,
