@@ -12,10 +12,12 @@ const log = debug("server:server")
 
 const loadEnvVars = loadEnv(process.env.NODE_ENV, process.cwd(), "")
 const IS_PROD = process.env.NODE_ENV === "production"
-const PORT = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173)
-const BASE = process.env.VITE_APP_BASE || "/"
+const BASE = loadEnvVars.VITE_APP_BASE || process.env.VITE_APP_BASE || "/"
 const PROTOCOL = loadEnvVars.PROTOCOL ?? "http"
 const IS_SSL = PROTOCOL === "https"
+const PORT =
+  (loadEnvVars.DOCKER_NODE_PORT || process.env.DOCKER_NODE_PORT) ??
+  portFinderSync.getPort(5173)
 
 ;(async () => {
   /**
@@ -49,11 +51,12 @@ const IS_SSL = PROTOCOL === "https"
       logLevel: "info",
       server: {
         middlewareMode: true,
+        // @ts-ignore
         https: (IS_SSL && { key: KEY, cert: CERT }) || false,
         cors: false
       },
       appType: "custom",
-      BASE
+      base: BASE
     })
     // use vite's connect instance as middleware
     app.use(vite.middlewares)
@@ -66,7 +69,7 @@ const IS_SSL = PROTOCOL === "https"
           js: [{ tag: "script", attr: { type: "module", src: "/src/index.tsx" } }]
         }
         // Get react-dom from the render method
-        const dom = await render(req.originalUrl, devScripts, false)
+        const dom = await render(req.originalUrl, devScripts, false, BASE)
         // Create stream with renderToPipeableStream to support Suspense API
         const stream = renderToPipeableStream(dom, {
           onShellReady() {
@@ -117,7 +120,7 @@ const IS_SSL = PROTOCOL === "https"
         const scriptTags = ManifestParser.getScriptTagFromManifest(manifest, BASE)
         // Prepare & stream the DOM
         const { render } = await import(`${config.outDirServer}/index-server.js`)
-        const dom = await render(req.originalUrl, scriptTags, false)
+        const dom = await render(req.originalUrl, scriptTags, false, BASE)
         const stream = renderToPipeableStream(dom, {
           onShellReady() {
             res.setHeader("Content-type", "text/html")

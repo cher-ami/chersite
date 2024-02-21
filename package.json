@@ -8,6 +8,7 @@
   "scripts": {
     "front:dev": "cd apps/front && npm run dev",
     "front:build": "cd apps/front && npm run build",
+    "front:start": "cd apps/front && npm run start",
     "front:test": "cd apps/front && npm run test",
     "front:scaffold": "node cli/tasks/scaffold-component/scaffold-component.js",
     "back:scaffold-wp": "node cli/tasks/scaffold-wp/scaffold-wp.js",

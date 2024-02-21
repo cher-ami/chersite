@@ -26,7 +26,7 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
   }
 
   // get script tags to inject in render
-  const base = process.env.VITE_APP_BASE || loadEnv("", process.cwd(), "").VITE_APP_BASE
+  const base = loadEnv("", process.cwd(), "").VITE_APP_BASE || process.env.VITE_APP_BASE
   const manifest = (await mfs.readFile(`${outDirStatic}/.vite/manifest.json`)) as string
   const scriptTags = ManifestParser.getScriptTagFromManifest(manifest, base)
 
@@ -36,7 +36,7 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
 
     try {
       // Request DOM
-      const dom = await render(url, scriptTags, true)
+      const dom = await render(url, scriptTags, true, base)
       // create stream and generate current file when all DOM is ready
       renderToPipeableStream(dom, {
         onAllReady() {
