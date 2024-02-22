@@ -23,7 +23,7 @@ export default defineConfig(({ command, mode }) => {
       },
       rollupOptions: {
         input: [
-          resolve("server.js"),
+          resolve("server/server.prod.js"),
           resolve("prerender/prerender.ts"),
           resolve("prerender/exe-prerender-server.ts"),
           resolve("prerender/exe-prerender.ts"),
