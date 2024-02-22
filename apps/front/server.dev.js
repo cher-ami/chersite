@@ -5,7 +5,7 @@ import * as mfs from "@cher-ami/mfs"
 import portFinderSync from "portfinder-sync"
 import { renderToPipeableStream } from "react-dom/server"
 import { createServer, loadEnv } from "vite"
-import config from "../config/config.js"
+import config from "./config/config.js"
 const log = debug("server:server.dev")
 
 const loadEnvVars = loadEnv(process.env.NODE_ENV, process.cwd(), "")
@@ -13,7 +13,7 @@ const BASE = loadEnvVars.VITE_APP_BASE || process.env.VITE_APP_BASE || "/"
 const PROTOCOL = loadEnvVars.PROTOCOL ?? "http"
 const IS_SSL = PROTOCOL === "https"
 const PORT = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173)
-const INDEX_SERVER_PATH = `${config.srcDir}/server/index-server.tsx`
+const INDEX_SERVER_PATH = `${config.srcDir}/index-server.tsx`
 
 ;(async () => {
   // --------------------------------------------------------------------------- SSL
@@ -64,7 +64,7 @@ const INDEX_SERVER_PATH = `${config.srcDir}/server/index-server.tsx`
         const { render } = await vite.ssrLoadModule(INDEX_SERVER_PATH)
         // dev script to inject
         const devScripts = {
-          js: [{ tag: "script", attr: { type: "module", src: "/src/index.tsx" } }]
+          js: [{ tag: "script", attr: { type: "module", src: "/src/index-client.tsx" } }]
         }
         // Get react-dom from the render method
         const dom = await render(req.originalUrl, devScripts, false, BASE)

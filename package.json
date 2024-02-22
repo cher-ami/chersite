@@ -3,7 +3,7 @@
   "description": "Multi apps boilerplate for cher-ami projects.",
   "version": "3.1.0",
   "author": "cher-ami",
-  "main": "src/index.tsx",
+  "main": "src/index-client.tsx",
   "type": "module",
   "scripts": {
     "front:dev": "cd apps/front && npm run dev",

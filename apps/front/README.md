@@ -17,8 +17,8 @@ This front app is a React SSG/SSR framework. It run with [vite](https://vitejs.d
 
 Two entry points are set:
 
-- server side [src/server/index-server.tsx](src/server/index-server.tsx)
-- client side [src/index.tsx](src/index.tsx)
+- server side [src/index-server.tsx](src/index-server.tsx)
+- client side [src/index-client.tsx](src/index-client.tsx)
 
 ## Configuration Files
 

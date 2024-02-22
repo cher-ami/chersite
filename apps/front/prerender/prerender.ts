@@ -1,5 +1,5 @@
 // @ts-ignore
-import { render } from "~/server/index-server"
+import { render } from "~/index-server"
 import * as mfs from "@cher-ami/mfs"
 import path from "path"
 import chalk from "chalk"

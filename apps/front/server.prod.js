@@ -4,7 +4,7 @@ import fs from "node:fs/promises"
 import portFinderSync from "portfinder-sync"
 import { renderToPipeableStream } from "react-dom/server"
 import { loadEnv } from "vite"
-import config from "../config/config.js"
+import config from "./config/config.js"
 
 const loadEnvVars = loadEnv(process.env.NODE_ENV, process.cwd(), "")
 const BASE = loadEnvVars.VITE_APP_BASE || process.env.VITE_APP_BASE || "/"
