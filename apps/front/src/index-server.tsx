@@ -1,17 +1,15 @@
 import fetch from "cross-fetch"
 import * as React from "react"
 import { routes } from "~/routes"
-import App from "../components/app/App"
+import App from "./components/app/App"
 import { languages, showDefaultLangInUrl } from "~/languages"
 import { LangService, requestStaticPropsFromRoute, Router } from "@cher-ami/router"
 import { GlobalDataContext } from "~/store/GlobalDataContext"
-import { loadEnv } from "vite"
-import { TScriptsObj } from "../../prerender/helpers/ManifestParser"
-import { CherScripts } from "~/server/helpers/CherScripts"
-import { RawScript } from "~/server/helpers/RawScript"
-import { ViteDevScripts } from "~/server/helpers/ViteDevScripts"
+import { TScriptsObj } from "../prerender/helpers/ManifestParser"
+import { CherScripts } from "~/libs/core/CherScripts"
+import { RawScript } from "~/libs/core/RawScript"
+import { ViteDevScripts } from "~/libs/core/ViteDevScripts"
 import { ReactElement } from "react"
-import { preventSlashes } from "~/server/helpers/preventSlashes"
 
 // ----------------------------------------------------------------------------- PREPARE
 
@@ -20,27 +18,34 @@ import { preventSlashes } from "~/server/helpers/preventSlashes"
  * @param url
  * @param isPrerender
  * @param scripts
+ * @param base
  */
 // prettier-ignore
 export async function render(
   url: string,
   scripts: TScriptsObj,
-  isPrerender = false
+  isPrerender = false,
+  base: string
 ): Promise<ReactElement> {
-  // prepare base & URL
-  const base = process.env.VITE_APP_BASE || loadEnv("", process.cwd(), "").VITE_APP_BASE
-  url = preventSlashes(`${isPrerender ? base : ""}${url}`)
+
+  // prepare base & URL, remove trailing slashes
+  url = `${isPrerender ? base : ""}${url}`.replace(/(https?:\/\/)|(\/)+/g, "$1$2")
 
   // Init lang service
   const langService = new LangService({
     staticLocation: url,
     showDefaultLangInUrl,
     languages,
-    base,
+    base
   })
 
   // Request static props
-  const ssrStaticProps = await requestStaticPropsFromRoute({ url, base, routes, langService })
+  const ssrStaticProps = await requestStaticPropsFromRoute({
+    url,
+    base,
+    routes,
+    langService
+  })
   const meta = ssrStaticProps?.props?.meta
   const globalData = { foo: "bar" }
 
@@ -57,7 +62,6 @@ export async function render(
         <CherScripts scripts={scripts.css} />
         <CherScripts scripts={scripts.woff2} />
       </head>
-
       <body>
         <div id="root">
           <Router
@@ -72,7 +76,6 @@ export async function render(
             </GlobalDataContext.Provider>
           </Router>
         </div>
-
         <CherScripts scripts={scripts.js} />
         <RawScript name={"__SSR_STATIC_PROPS__"} data={ssrStaticProps} />
         <RawScript name={"__GLOBAL_DATA__"} data={globalData} />

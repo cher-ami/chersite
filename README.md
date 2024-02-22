@@ -1,7 +1,7 @@
 <h1 align="center" style="text-align:center">🪜 chersite</h1>
 
 <p align="center">
-chersite is multi apps structure witch include front static-site generator for cher-ami projects
+chersite is multi apps structure witch include a SSG/SSR front framework for cher-ami projects
 
 <br/>
 <br/>

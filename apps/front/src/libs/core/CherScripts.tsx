@@ -1,5 +1,5 @@
-import { TScript } from "../../../prerender/helpers/ManifestParser"
 import * as React from "react"
+type TScript = { tag: string; attr: { [x: string]: string } }
 
 export const ScriptTag = ({ tag, attr }: TScript): JSX.Element => {
   const T = tag

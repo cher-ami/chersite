@@ -11,14 +11,14 @@
 
 ## About
 
-This front app is a React static-site generator build in order to obtain a static server rendering for best performance. It run with [vite](https://vitejs.dev/), [react](https://reactjs.org/),[typescript](https://www.typescriptlang.org/), and [scss](https://sass-lang.com/). The build step prepare a server script, a prerender script and a SPA version to leave choice of use. This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
+This front app is a React SSG/SSR framework. It run with [vite](https://vitejs.dev/), [react](https://reactjs.org/),[typescript](https://www.typescriptlang.org/), and [scss](https://sass-lang.com/). The build step prepare a server script, a prerender script and a SPA version to leave choice of use. This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
 
 ## Entry points
 
 Two entry points are set:
 
-- server side [src/server/index-server.tsx](src/server/index-server.tsx)
-- client side [src/index.tsx](src/index.tsx)
+- server side [src/index-server.tsx](src/index-server.tsx)
+- client side [src/index-client.tsx](src/index-client.tsx)
 
 ## Configuration Files
 
@@ -28,10 +28,19 @@ Vite's configuration is managed by two main files:
 - [vite.scripts.config.ts](vite.scripts.config.ts): contains the whole vite scripts config. It built scripts files relative to the SSR and SSG part.
 - [config/config.js](config/config.js): is the internal paths and tasks config file.
 
-## Prerender
+## SSR
 
-The main goal of this app is to generate a static site. The prerender script is used to generate static html files from the server side.
+The app is SSR ready:
 
+```shell
+npm run build && npm run start
+```
+
+## SSG
+
+chersite front allows to generate a static site. The prerender script is used to generate static html files from the server side.
+
+The "prerender" fonction need to know the list of routes to generate as static html files.
 You have to list manually all routes you want to prerender in [prerender/urls.ts](prerender/urls.ts):
 
 ```ts
@@ -50,7 +59,7 @@ return new Promise((resolve) => {
 })
 ```
 
-⚠️ **The front application routing is not dependent to the generated html files, so you can add any route you want in
+⚠️ **The front application routing is not linked to the generated html files, so you can add any route you want in
 this list**. In case you use a backend, you will have to get all routes from a backend API call and add them in this list.
 
 By default, the generate command is executed on build step, but you can run it manually:
@@ -90,6 +99,14 @@ Generate static html files from the server side.
 
 ```shell
 npm run generate
+```
+
+### start
+
+Start the production server for SSR
+
+```shell
+npm run start
 ```
 
 ## Vite plugins

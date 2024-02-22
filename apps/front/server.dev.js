@@ -6,42 +6,42 @@ import portFinderSync from "portfinder-sync"
 import { renderToPipeableStream } from "react-dom/server"
 import { createServer, loadEnv } from "vite"
 import config from "./config/config.js"
-
-const log = debug("server:server")
+const log = debug("server:server.dev")
 
 const loadEnvVars = loadEnv(process.env.NODE_ENV, process.cwd(), "")
-const isProduction = process.env.NODE_ENV === "production"
-const port = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173)
-const protocol = loadEnvVars.PROTOCOL ?? "http"
-const isSSL = protocol === "https"
+const BASE = loadEnvVars.VITE_APP_BASE || process.env.VITE_APP_BASE || "/"
+const PROTOCOL = loadEnvVars.PROTOCOL ?? "http"
+const IS_SSL = PROTOCOL === "https"
+const PORT = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173)
+const INDEX_SERVER_PATH = `${config.srcDir}/index-server.tsx`
 
 ;(async () => {
-  // Get cert and key for https
-  let key, cert
-  if (isSSL) {
+  // --------------------------------------------------------------------------- SSL
+
+  /**
+   * Get cert and key for https
+   */
+  let KEY, CERT
+  if (IS_SSL) {
     if (!(await mfs.fileExists("key.pem")) || !(await mfs.fileExists("cert.pem"))) {
       console.error(
         "You need to generate a key and a cert file with openssl in the apps/front/ directory. Follow the README documentation 'setup-local-ssl'."
       )
       process.exit(1)
     }
-    key = await mfs.readFile("key.pem")
-    cert = await mfs.readFile("cert.pem")
+    KEY = await mfs.readFile("key.pem")
+    CERT = await mfs.readFile("cert.pem")
   }
+
+  // --------------------------------------------------------------------------- SERVER
 
   /**
    * Dev server
    *
-   *
    */
+  // prettier-ignore
   async function createDevServer() {
     const app = express()
-
-    // dev script to inject
-    const devScripts = {
-      js: [{ tag: "script", attr: { type: "module", src: "/src/index.tsx" } }]
-    }
-
     // Create Vite server in middleware mode.
     // This disables Vite's own HTML serving logic and let the parent server take control.
     // https://vitejs.dev/config/server-options.html#server-middlewaremode
@@ -49,10 +49,11 @@ const isSSL = protocol === "https"
       logLevel: "info",
       server: {
         middlewareMode: true,
-        https: (isSSL && { key, cert }) || false,
+        https: (IS_SSL && { key: KEY, cert: CERT }) || false,
         cors: false
       },
-      appType: "custom"
+      appType: "custom",
+      base: BASE
     })
 
     // use vite's connect instance as middleware
@@ -60,11 +61,13 @@ const isSSL = protocol === "https"
     app.use("*", async (req, res, next) => {
       try {
         // Transforms the ESM source code to be usable in Node.js
-        const { render } = await vite.ssrLoadModule(
-          `${config.srcDir}/server/index-server.tsx`
-        )
+        const { render } = await vite.ssrLoadModule(INDEX_SERVER_PATH)
+        // dev script to inject
+        const devScripts = {
+          js: [{ tag: "script", attr: { type: "module", src: "/src/index-client.tsx" } }]
+        }
         // Get react-dom from the render method
-        const dom = await render(req.originalUrl, devScripts, false)
+        const dom = await render(req.originalUrl, devScripts, false, BASE)
         // Create stream with renderToPipeableStream to support Suspense API
         const stream = renderToPipeableStream(dom, {
           onShellReady() {
@@ -84,29 +87,17 @@ const isSSL = protocol === "https"
     })
 
     let sslServer
-    if (isSSL) {
-      sslServer = https.createServer({ key, cert }, app)
+    if (IS_SSL) {
+      sslServer = https.createServer({ key: KEY, cert: CERT }, app)
       sslServer.on("error", (error) => {
         log(`Error on server: ${error}`)
       })
     }
 
-    // return vite, app and server
-    return { vite, app, sslServer }
+    return { app, sslServer }
   }
 
-  /**
-   * Production server
-   * TODO
-   *
-   *
-   */
-  async function createProdServer() {}
+  // ---------------------------------------------------------------------------
 
-  /**
-   * Let's go!
-   */
-  ;(isProduction ? createProdServer : createDevServer)().then(({ app, sslServer }) =>
-    (sslServer ?? app).listen(port)
-  )
+  createDevServer().then(({ app, sslServer }) => (sslServer ?? app).listen(PORT))
 })()
