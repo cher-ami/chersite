@@ -24,8 +24,9 @@ const INDEX_SERVER_PATH = `${config.srcDir}/server/index-server.tsx`
   let KEY, CERT
   if (IS_SSL) {
     if (!(await mfs.fileExists("key.pem")) || !(await mfs.fileExists("cert.pem"))) {
-      // prettier-ignore
-      console.error("You need to generate a key and a cert file with openssl in the apps/front/ directory. Follow the README documentation 'setup-local-ssl'.")
+      console.error(
+        "You need to generate a key and a cert file with openssl in the apps/front/ directory. Follow the README documentation 'setup-local-ssl'."
+      )
       process.exit(1)
     }
     KEY = await mfs.readFile("key.pem")
@@ -48,7 +49,6 @@ const INDEX_SERVER_PATH = `${config.srcDir}/server/index-server.tsx`
       logLevel: "info",
       server: {
         middlewareMode: true,
-        // @ts-ignore
         https: (IS_SSL && { key: KEY, cert: CERT }) || false,
         cors: false
       },

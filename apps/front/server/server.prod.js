@@ -1,3 +1,4 @@
+import chalk from "chalk"
 import express from "express"
 import fs from "node:fs/promises"
 import portFinderSync from "portfinder-sync"
@@ -62,7 +63,9 @@ const CLIENT_PATH = "dist/client"
 
   createProdServer().then(({ app }) =>
     app.listen(PORT, () => {
-      console.log(`Server started at http://localhost:${PORT}`)
+      console.log(
+        `⚡️ ${chalk.white("server.prod is running in")} ${chalk.cyan(`http://localhost:${PORT}`)}`
+      )
     })
   )
 })()
