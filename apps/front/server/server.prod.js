@@ -11,7 +11,7 @@ const PORT = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173)
 const MANIFEST_PARSER_PATH = `${config.outDirScripts}/ManifestParser.js`
 const VITE_MANIFEST_PATH = `${config.outDirClient}/.vite/manifest.json`
 const INDEX_SERVER_PATH = `${config.outDirServer}/index-server.js`
-const CLIENT_PATH = "./dist/client"
+const CLIENT_PATH = "dist/client"
 
 ;(async () => {
   // --------------------------------------------------------------------------- SERVER

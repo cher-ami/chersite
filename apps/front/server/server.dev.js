@@ -94,7 +94,7 @@ const INDEX_SERVER_PATH = `${config.srcDir}/server/index-server.tsx`
       })
     }
 
-    return { vite, app, sslServer }
+    return { app, sslServer }
   }
 
   // ---------------------------------------------------------------------------
