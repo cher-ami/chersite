@@ -9,7 +9,6 @@ import { isRouteIndex } from "./helpers/isRouteIndex"
 import { ManifestParser } from "./helpers/ManifestParser"
 import { renderToPipeableStream, renderToString } from "react-dom/server"
 import { JSXElementConstructor, ReactElement } from "react"
-import { htmlReplacement } from "~/server/helpers/htmlReplacement"
 
 /**
  * Prerender
@@ -73,3 +72,12 @@ const createHtmlFile = async (
   await mfs.createFile(htmlFilePath, htmlReplacement(renderToString(dom)))
   console.log(chalk.green(` → ${htmlFilePath.split("static")[1]}`))
 }
+
+/**
+ * Render string patch middleware
+ */
+const htmlReplacement = (render: string): string =>
+  render
+    .replace("<html", `<!DOCTYPE html><html`)
+    .replaceAll('<script nomodule=""', "<script nomodule")
+    .replaceAll('crossorigin="anonymous"', "crossorigin")

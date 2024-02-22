@@ -10,7 +10,6 @@ import { CherScripts } from "~/server/helpers/CherScripts"
 import { RawScript } from "~/server/helpers/RawScript"
 import { ViteDevScripts } from "~/server/helpers/ViteDevScripts"
 import { ReactElement } from "react"
-import { preventSlashes } from "~/server/helpers/preventSlashes"
 
 // ----------------------------------------------------------------------------- PREPARE
 
@@ -28,8 +27,9 @@ export async function render(
   isPrerender = false,
   base: string
 ): Promise<ReactElement> {
-  // prepare base & URL
-  url = preventSlashes(`${isPrerender ? base : ""}${url}`)
+
+  // prepare base & URL, remove trailing slashes
+  url = `${isPrerender ? base : ""}${url}`.replace(/(https?:\/\/)|(\/)+/g, "$1$2")
 
   // Init lang service
   const langService = new LangService({
