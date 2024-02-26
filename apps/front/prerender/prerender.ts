@@ -16,7 +16,10 @@ import { JSXElementConstructor, ReactElement } from "react"
  * @param urls: Urls to generate
  * @param outDirStatic: Generation destination directory
  */
-export const prerender = async (urls: string[], outDirStatic = config.outDirStatic) => {
+export const prerender = async (
+  urls: string[],
+  outDirStatic = config.outDirStaticClient
+) => {
   const indexTemplateSrc = `${outDirStatic}/index-template.html`
 
   // copy index as template to avoid the override with the generated static index.html bellow
