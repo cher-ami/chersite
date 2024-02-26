@@ -10,8 +10,9 @@ export default {
   // If this value is change, add this new path in .gitignore
   outDir: resolve("dist"),
   outDirScripts: resolve("dist/_scripts"),
-  outDirClient: resolve("dist/client"),
   outDirServer: resolve("dist/server"),
+  outDirSpa: resolve("dist/spa"),
+  outDirSsr: resolve("dist/ssr"),
   outDirStatic: resolve("dist/static"),
 
   // Input entry files array

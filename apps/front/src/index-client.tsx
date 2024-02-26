@@ -1,6 +1,6 @@
 import "./styles/index.scss"
 import React from "react"
-import { hydrateRoot } from "react-dom/client"
+import { createRoot, hydrateRoot } from "react-dom/client"
 import App from "./components/app/App"
 import { routes } from "./routes"
 import { LangService, Router } from "@cher-ami/router"
@@ -51,8 +51,9 @@ const langService = new LangService({
  * Render react app wrapped by @cher-ami/router
  *  @doc https://github.com/cher-ami/router
  */
-hydrateRoot(
-  document.getElementById("root"),
+
+const rootEl = document.getElementById("root")
+const render = (
   <Router
     routes={routes}
     base={base}
@@ -65,3 +66,12 @@ hydrateRoot(
     </GlobalDataContext.Provider>
   </Router>
 )
+
+/**
+ * Render or hydrate the app, depends on build type
+ */
+if (import.meta.env.VITE_SPA === "true") {
+  createRoot(rootEl).render(render)
+} else {
+  hydrateRoot(rootEl, render)
+}
