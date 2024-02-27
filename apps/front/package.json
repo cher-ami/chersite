@@ -11,11 +11,10 @@
     "build:ssr-server": "vite build --ssr src/index-server.tsx --outDir dist/ssr/server",
     "build:ssr": "npm run build:ssr-scripts && npm run build:ssr-client && npm run build:ssr-server",
     "build:static-scripts": "vite build -c vite.static-scripts.config.ts",
-    "build:static-client": "vite build --outDir dist/static",
-    "build:static": "npm run build:static-scripts && npm run build:static-client && node dist/scripts/exe-prerender.js",
+    "build:static-client": "vite build --outDir dist/static/client",
+    "build:static": "npm run build:static-scripts && npm run build:static-client && node dist/static/scripts/exe-prerender.js",
     "generate": "node dist/_scripts/exe-prerender.js",
     "build": "npm run build:spa && npm run build:ssr && npm run build:static",
-    "preview": "serve dist/static",
     "start": "cross-env NODE_ENV=production node dist/ssr/scripts/server.prod.js",
     "test:watch": "vitest",
     "test": "vitest run"

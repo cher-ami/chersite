@@ -2,6 +2,7 @@ import express from "express"
 import { prerender } from "./prerender"
 import chalk from "chalk"
 import { fetchAvailableUrls } from "./urls"
+import config from "../config/config"
 
 const port = "1234"
 const app = express()
@@ -22,7 +23,7 @@ app.get("/generate", async (req, res) => {
 
   // second arg "./static" is matching cher-ami deploy conf
   // need to be edited if we want to start this server locally
-  await prerender(urlsArray, "./static")
+  await prerender(urlsArray, config.outDirStaticClient)
   res?.send("Generated static pages: " + urlsArray.join(", "))
 })
 
