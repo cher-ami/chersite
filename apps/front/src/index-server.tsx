@@ -10,6 +10,7 @@ import { CherScripts } from "~/libs/core/CherScripts"
 import { RawScript } from "~/libs/core/RawScript"
 import { ViteDevScripts } from "~/libs/core/ViteDevScripts"
 import { ReactElement } from "react"
+import favicon from "./assets/favicon.png"
 
 // ----------------------------------------------------------------------------- PREPARE
 
@@ -58,6 +59,7 @@ export async function render(
         <title>{meta?.title || "app"}</title>
         <meta name="description" content={meta?.description} />
         <link rel="canonical" href={meta?.url || url} />
+        <link rel="icon" type="image/png" sizes="32x32" href={favicon} />
         <ViteDevScripts />
         <CherScripts scripts={scripts.css} />
         <CherScripts scripts={scripts.woff2} />

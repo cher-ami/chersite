@@ -129,7 +129,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
 
       // always build htaccess for SPA production
       buildHtaccessPlugin({
-        enable: true,
+        enable: loadEnvVars.VITE_SPA === "true",
         serverWebRootPath: null,
         user: null,
         password: null,
@@ -148,7 +148,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       }),
 
       visualizer({
-        filename: "./build-stats.html",
+        filename: "./stats.html",
         gzipSize: true,
         title: "Generated bundle stats"
       })
