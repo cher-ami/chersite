@@ -127,7 +127,17 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         ]
       }),
 
-      // Htaccess dist/ with password
+      // always build htaccess for SPA production
+      buildHtaccessPlugin({
+        enable: loadEnvVars.VITE_SPA === "true",
+        serverWebRootPath: null,
+        user: null,
+        password: null,
+        htaccessTemplatePath: config.htaccessTemplateFilePath,
+        outputPath: "dist/spa"
+      }),
+
+      // Htaccess task set from .env
       buildHtaccessPlugin({
         enable: process.env.BUILD_HTACCESS === "true",
         serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
@@ -138,7 +148,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       }),
 
       visualizer({
-        filename: "./build-stats.html",
+        filename: "./stats.html",
         gzipSize: true,
         title: "Generated bundle stats"
       })

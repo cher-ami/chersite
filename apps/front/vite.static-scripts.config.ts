@@ -13,7 +13,7 @@ export default defineConfig(({ command, mode }) => {
     build: {
       assetsDir: "./",
       write: true,
-      outDir: config.outDirScripts,
+      outDir: config.outDirStaticScripts,
       emptyOutDir: true,
       manifest: false,
       assetsInlineLimit: 0,
@@ -23,7 +23,6 @@ export default defineConfig(({ command, mode }) => {
       },
       rollupOptions: {
         input: [
-          resolve("server.prod.js"),
           resolve("prerender/prerender.ts"),
           resolve("prerender/exe-prerender-server.ts"),
           resolve("prerender/exe-prerender.ts"),

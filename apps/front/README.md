@@ -25,7 +25,7 @@ Two entry points are set:
 Vite's configuration is managed by two main files:
 
 - [vite.config.ts](vite.config.ts): contains the whole vite config [(vite config documentation)](https://vitejs.dev/config/)
-- [vite.scripts.config.ts](vite.scripts.config.ts): contains the whole vite scripts config. It built scripts files relative to the SSR and SSG part.
+- [vite.scripts.config.ts](vite.static-scripts.config.ts): contains the whole vite scripts config. It built scripts files relative to the SSR and SSG part.
 - [config/config.js](config/config.js): is the internal paths and tasks config file.
 
 ## SSR

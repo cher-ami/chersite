@@ -9,10 +9,9 @@ import config from "./config/config.js"
 const loadEnvVars = loadEnv(process.env.NODE_ENV, process.cwd(), "")
 const BASE = loadEnvVars.VITE_APP_BASE || process.env.VITE_APP_BASE || "/"
 const PORT = process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173)
-const MANIFEST_PARSER_PATH = `${config.outDirScripts}/ManifestParser.js`
-const VITE_MANIFEST_PATH = `${config.outDirClient}/.vite/manifest.json`
-const INDEX_SERVER_PATH = `${config.outDirServer}/index-server.js`
-const CLIENT_PATH = "dist/client"
+const MANIFEST_PARSER_PATH = `${config.outDirSsrScripts}/ManifestParser.js`
+const VITE_MANIFEST_PATH = `${config.outDirSsrClient}/.vite/manifest.json`
+const INDEX_SERVER_PATH = `${config.outDirSsrServer}/index-server.js`
 
 ;(async () => {
   // --------------------------------------------------------------------------- SERVER
@@ -26,7 +25,7 @@ const CLIENT_PATH = "dist/client"
     const compression = (await import("compression")).default
     const sirv = (await import("sirv")).default
     app.use(compression())
-    app.use(BASE, sirv(CLIENT_PATH, { extensions: [] }))
+    app.use(BASE, sirv(config.outDirSsrClient, { extensions: [] }))
     app.use("*", async (req, res) => {
       try {
         // Prepare scripts to inject in template

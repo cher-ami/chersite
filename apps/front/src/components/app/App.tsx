@@ -5,9 +5,7 @@ import debug from "@cher-ami/debug"
 import { EPages } from "~/routes"
 const log = debug(`front:App`)
 
-export interface IProps {}
-
-function App(props: IProps) {
+function App() {
   /**
    * Manage page transitions scenario
    * https://github.com/cher-ami/router/tree/main#manage-transitions
@@ -42,25 +40,22 @@ function App(props: IProps) {
 
   // ------------------------------------------------------------------------------- RENDER
 
+  const navExample = (
+    <nav>
+      <div>
+        <Link to={{ name: EPages.HOME }}>Home</Link>
+      </div>
+      {["first", "second"].map((slug) => (
+        <div key={slug}>
+          <Link to={{ name: EPages.WORK, params: { slug } }}>Work {slug}</Link>
+        </div>
+      ))}
+    </nav>
+  )
+
   return (
     <div className={css.root}>
-      <nav>
-        <ul>
-          <li>
-            <Link to={{ name: EPages.HOME }}>Home</Link>
-          </li>
-          <li>
-            <Link to={{ name: EPages.WORK, params: { slug: "first-work" } }}>
-              Work - id: "first-work"
-            </Link>
-          </li>
-          <li>
-            <Link to={{ name: EPages.WORK, params: { slug: "second-work" } }}>
-              Work - id: "second-work"
-            </Link>
-          </li>
-        </ul>
-      </nav>
+      {navExample}
       <Stack className={css.stack} manageTransitions={manageTransitions} />
     </div>
   )

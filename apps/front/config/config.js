@@ -9,10 +9,12 @@ export default {
   // outDir: where files are built
   // If this value is change, add this new path in .gitignore
   outDir: resolve("dist"),
-  outDirScripts: resolve("dist/_scripts"),
-  outDirClient: resolve("dist/client"),
-  outDirServer: resolve("dist/server"),
-  outDirStatic: resolve("dist/static"),
+  outDirSsrScripts: resolve("dist/ssr/scripts"),
+  outDirSsrServer: resolve("dist/ssr/server"),
+  outDirSsrClient: resolve("dist/ssr/client"),
+  outDirSpa: resolve("dist/spa"),
+  outDirStaticClient: resolve("dist/static/client"),
+  outDirStaticScripts: resolve("dist/static/scripts"),
 
   // Input entry files array
   // Set the relative paths, don't resolve them.
