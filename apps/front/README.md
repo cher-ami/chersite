@@ -1,175 +1,118 @@
 # Chersite front app
 
 - [About](#about)
+- [Builds](#builds)
+  - [SSR build](#SSR-build)
+  - [SSG build](#SSG-build)
+  - [SPA build](#SPA-build)
 - [Entry points](#entry-points)
 - [Configuration Files](#configuration-files)
-- [Prerender](#prerender)
 - [CLI](#cli)
-- [Vite plugins](#vite-plugins)
 - [Setup local SSL](#setup-local-ssl)
-- [Workflow](#workflow)
 
 ## About
 
-This front app is a React SSG/SSR framework. It run with [vite](https://vitejs.dev/), [react](https://reactjs.org/),[typescript](https://www.typescriptlang.org/), and [scss](https://sass-lang.com/). The build step prepare a server script, a prerender script and a SPA version to leave choice of use. This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
+Chersite front app is a React SPA/SSG/SSR framework, built with [vite](https://vitejs.dev/), [react](https://reactjs.org/),[typescript](https://www.typescriptlang.org/), [sass](https://sass-lang.com/) and [@cher-ami/router](https://github.com/cher-ami/router) on the top.
 
-## Entry points
+## Builds
 
-Two entry points are set:
+When chersite is built, it automatically creates three types of apps. It allows you to choose to use the one that best suits the type of project.
 
-- server side [src/index-server.tsx](src/index-server.tsx)
-- client side [src/index-client.tsx](src/index-client.tsx)
+### SSR build
 
-## Configuration Files
+The SSR app provides a `server.prod.js`, to run on production. The client code will hydrate the server response on the fly.
 
-Vite's configuration is managed by two main files:
+Output:
 
-- [vite.config.ts](vite.config.ts): contains the whole vite config [(vite config documentation)](https://vitejs.dev/config/)
-- [vite.scripts.config.ts](vite.static-scripts.config.ts): contains the whole vite scripts config. It built scripts files relative to the SSR and SSG part.
-- [config/config.js](config/config.js): is the internal paths and tasks config file.
-
-## SSR
-
-The app is SSR ready:
-
-```shell
-npm run build && npm run start
+```
+dist/
+  - ssr/
+      - client/     ← SSR client code
+      - scripts/    ← contains the server.prod.js for stating the SSR app with "npm run start"
 ```
 
-## SSG
+```shell
+npm run build:ssr && npm run start
+```
 
-chersite front allows to generate a static site. The prerender script is used to generate static html files from the server side.
+### SSG build
 
-The "prerender" fonction need to know the list of routes to generate as static html files.
+chersite front allows to generate a static HTML files with `prerender`.
+
+the main thinks to consider is, the `prerender` fonction needs to know the list of routes to generate as static html files.
 You have to list manually all routes you want to prerender in [prerender/urls.ts](prerender/urls.ts):
 
 ```ts
 return new Promise((resolve) => {
   resolve([
-    "/",
-    // will generate /work/index.html (because "/work/other-route" exists in the list)
-    "/work",
-    // will generate /work/first-work.html
-    "/work/first-work",
-    // duplicate route with lang if the router is configured on this way
-    "/fr",
-    "/fr/work",
-    "/fr/work/first-work"
+    "/", // → /index.html
+    "/work", // → /work/index.html
+    "/work/first" // → /work/first.html
   ])
 })
 ```
 
 ⚠️ **The front application routing is not linked to the generated html files, so you can add any route you want in
-this list**. In case you use a backend, you will have to get all routes from a backend API call and add them in this list.
+this list**. In case you use a backend, you will have to get all routes from a backend API call and add them in this list too.
 
 By default, the generate command is executed on build step, but you can run it manually:
 
 ```shell
-npm run generate
+npm build:static
 ```
+
+Output:
+
+```
+dist/
+  - static/
+      - client/     ← static page generated client code
+      - scripts/    ← contains prerender.js and exe-server-prerender.js used to execute generate task
+```
+
+### SPA build
+
+The single page application can be useful in some case (embedded sites for example) but not the best choice for SEO.
+
+```shell
+npm run build:spa
+```
+
+Output:
+
+```
+dist/
+  - spa/            ← single page application
+```
+
+## Entry points
+
+There is two entry points on the app. Both can be edited, depends of usage
+
+- server side [src/index-server.tsx](src/index-server.tsx): Contains the root tree of the application.
+- client side [src/index-client.tsx](src/index-client.tsx): Contains the client root app witch hydrate the server-side DOM rendering, or create a new root for SPA.
+
+## Configuration Files
+
+Vite's configuration is managed by:
+
+- [vite.config.ts](vite.config.ts): contains the whole vite config [(vite config documentation)](https://vitejs.dev/config/)
+- [vite.ssr-scripts.config.ts](vite.ssr-scripts.config.ts): contains the whole vite scripts config. It built scripts files relative to the SSR.
+- [vite.static-scripts.config.ts](vite.static-scripts.config.ts): contains the whole vite scripts config. It built scripts files relative to the static generator.
+- [config/config.js](config/config.js): contains the internal paths.
 
 ## CLI
 
-- [dev](#dev)
-- [build](#build)
-- [generate](#generate)
+npm scripts command line interface is available from the main [package.json](./package.json)
 
-npm scripts command line interface is available from the main [package.json](./package.json).
-Each script can be executed from `npm run {task}` command.
+`npm run ...`:
 
-### dev
-
-```shell
-$ npm run dev
-```
-
-Start a dev-server with HMR.
-
-### build
-
-```shell
-$ npm run build
-```
-
-Build script in selected [config/config.js](config/config.js) `outDir`
-
-### generate
-
-Generate static html files from the server side.
-
-```shell
-npm run generate
-```
-
-### start
-
-Start the production server for SSR
-
-```shell
-npm run start
-```
-
-## Vite plugins
-
-By default, chersite implement:
-
-plugins:
-
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc)
-- [@vitejs/plugin-legacy](https://github.com/vitejs/vite/tree/main/packages/plugin-legacy)
-- [vite-plugin-checker](https://github.com/fi3ework/vite-plugin-checker)
-
-Custom plugins:
-
-- [vite-plugin-build-dotenv.ts](config/vite-plugins/vite-plugin-build-dotenv.ts)
-- [vite-plugin-build-htaccess.ts](config/vite-plugins/vite-plugin-build-htaccess.ts)
-
-### Vite plugin build dotenv
-
-[vite-plugin-build-dotenv.ts](config/vite-plugins/vite-plugin-build-dotenv.ts)
-fields the need to expose, in a `.env` file, external environment variables injected into
-process.env by the CI or another task; In addition to the .env files corresponding to the current
-[mode](https://vitejs.dev/guide/env-and-mode.html).
-Once a new file is composed, it is copied to the selected folder(s).
-
-.env out directory(ies) array is defined from [config/config.js](config/config.js):
-
-```js
-buildDotenvOutDir: [resolve("dist/")]
-```
-
-This plugin is mandatory for the use of the default cher-site config with the PHP micro framework.
-
-### Vite plugin build htaccess
-
-[vite-plugin-build-htaccess.ts](config/vite-plugins/vite-plugin-build-htaccess.ts)
-will copy an .htaccess template in a selected directory.
-
-Options are available in [.env](.env):
-
-This plugin can scaffold a `.htpasswd` linked to the generated `.htaccess` file.
-It's useful to add password on specific environment deployment.
-
-```.dotenv
-# Buid .htaccess file from template
-BUILD_HTACCESS=true
-# Build .htpasswd allow to create htaccess password to specific domaine
-HTACCESS_ENABLE_AUTH=false
-# Plain text user. ex: "staging"
-HTACCESS_AUTH_USER=
-# Encrypted password @generator: https://www.web2generators.com/apache-tools/htpasswd-generator
-HTACCESS_AUTH_PASSWORD=
-# ex: "var/www/"
-HTACCESS_SERVER_WEB_ROOT_PATH=
-# Redirect http to https
-HTACCESS_ENABLE_HTTPS_REDIRECTION=false
-```
-
-Second part of the configuration is defined from [config/config.js](config/config.js):
-
-```js
-htaccessTemplateFilePath: resolve("src/.htaccess")
-```
+- `dev` - start dev-server
+- `build:spa` - build spa website type
+- `build:ssr` - build SSR website type
+- `build:static` - build static website type
+- `build` - build all website's types
+- `start` - run the SSR prod server
 
 ## Setup local SSL
 
@@ -192,60 +135,6 @@ htaccessTemplateFilePath: resolve("src/.htaccess")
   ```
 
 When you run `npm run dev`, you should see the app running on https://localhost:5173
-
-## Workflow
-
-### CSS workflow
-
-[sass](https://sass-lang.com) is used as css preprocessor. It can be set as `.less` file or `.module.less` for css module;
-Both works by default.
-
-[BEM methodology](http://getbem.com) is used to organize the integration of our templates and components
-but have some differences depend on the use-case:
-
-### <a name="BemForModuleScss"></a>BEM for `.module.scss`
-
-```scss
-/**
- * BEM block is always "root" className
- */
-.root {
-}
-/**
- * BEM element (.camelCase)
- */
-.myButton {
-  /**
-   * BEM modifier (&_camelCase)
-   * sep with "_" allows to target it from template like this: "css.myButton_myModifier"
-   */
-  &_red {
-  }
-}
-```
-
-### <a name="BemForLess"></a>BEM for `.scss`
-
-```scss
-/**
- * BEM block (.PascalCase)
- */
-.Component {
-  /**
- * BEM element (.camelCase)
- usage: "Component_myElement"
- */
-  &_myElement {
-    /**
-     * BEM modifier (&_camelCase)
-     * sep with "_" allows to target it from template
-     * usage: "Component_myElement-myModifier"
-     */
-    &-red {
-    }
-  }
-}
-```
 
 ## Credits
 
