@@ -5,11 +5,3 @@ $breakpoint-tablet: 768px;
 $breakpoint-laptop: 1024px;
 $breakpoint-bigLaptop: 1440px;
 $breakpoint-desktop: 1680px;
-
-:root {
-  --breakpoint-mobile: #{$breakpoint-mobile};
-  --breakpoint-tablet: #{$breakpoint-tablet};
-  --breakpoint-laptop: #{$breakpoint-laptop};
-  --breakpoint-bigLaptop: #{$breakpoint-bigLaptop};
-  --breakpoint-desktop: #{$breakpoint-desktop};
-}
