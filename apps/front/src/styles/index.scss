@@ -1,14 +1,13 @@
-@import "./_breakpoints.scss";
-@import "./_colors.scss";
-@import "./_ease.scss";
-@import "./_fonts.scss";
-@import "./_functions.scss";
-@import "./_grid.scss";
-@import "./_ratio.scss";
-@import "./_reset.scss";
-@import "./_texts.scss";
-@import "./_utils.scss";
-@import "./_viewport.scss";
+@use "./reference" as *;
+
+// Inline imports are files included only once in this root file
+@import "./breakpoints-inline";
+@import "./colors-inline";
+@import "./ease-inline";
+@import "./fonts-inline";
+@import "./grid-inline";
+@import "./reset-inline";
+@import "./viewport-inline";
 
 :root {
   @include propertyViewport(--font-size, 1);
