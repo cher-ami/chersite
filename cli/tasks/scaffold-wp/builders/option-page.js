@@ -9,13 +9,13 @@ const _askOptionName = () => {
     {
       type: "input",
       message: "Option page name (dashed lower cased)?",
-      name: "pageName",
+      name: "pageName"
     },
     {
       type: "input",
       message: "Option page title? ",
-      name: "pageTitle",
-    },
+      name: "pageTitle"
+    }
   ])
 }
 
@@ -33,21 +33,21 @@ const _optionPageBuilder = async ({ pagePath, pageName, pageTitle }) => {
   await createFile({
     templateFilePath: `${config.wpTemplatesPath}/option-page/PageOption.php.template`,
     destinationFilePath: `${pagePath}/${pascalCasePageName}Option.php`,
-    replaceExpressions: { pageName, pageTitle },
+    replaceExpressions: { pageName, pageTitle }
   })
 
   // scaffold controller
   await createFile({
     templateFilePath: `${config.wpTemplatesPath}/option-page/PageRestController.php.template`,
     destinationFilePath: `${pagePath}/${pascalCasePageName}RestController.php`,
-    replaceExpressions: { pageName, pascalCasePageName },
+    replaceExpressions: { pageName, pascalCasePageName }
   })
 
   // scaffold setup
   await createFile({
     templateFilePath: `${config.wpTemplatesPath}/option-page/setup.php.template`,
     destinationFilePath: `${pagePath}/setup.php`,
-    replaceExpressions: { pascalCasePageName },
+    replaceExpressions: { pascalCasePageName }
   })
 }
 
@@ -76,7 +76,7 @@ const buildOptionPage = () => {
       await _optionPageBuilder({
         pagePath,
         pageName,
-        pageTitle,
+        pageTitle
       })
     } catch (e) {
       console.log(e)

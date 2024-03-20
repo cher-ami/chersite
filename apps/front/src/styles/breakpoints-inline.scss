@@ -1,0 +1,9 @@
+@use "./_breakpoints" as *;
+
+:root {
+  --breakpoint-mobile: #{$breakpoint-mobile};
+  --breakpoint-tablet: #{$breakpoint-tablet};
+  --breakpoint-laptop: #{$breakpoint-laptop};
+  --breakpoint-bigLaptop: #{$breakpoint-bigLaptop};
+  --breakpoint-desktop: #{$breakpoint-desktop};
+}

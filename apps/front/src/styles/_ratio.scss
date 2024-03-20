@@ -1,0 +1,107 @@
+@use "./_viewport" as viewport;
+@use "./_breakpoints" as breakpoints;
+@use "./_functions" as fn;
+
+/// Set property calculated with VH & VW ratio
+/// @param {css property} $property
+/// @param {Number} $n1
+/// @param {Number} $ratioVH [850]
+/// @param {Number} $ratioVW [1440]
+/// @output
+@mixin propertyVH(
+  $property,
+  $n1,
+  $ratioVH: viewport.$viewport-reference-desktop-height,
+  $ratioVW: viewport.$viewport-reference-desktop-width
+) {
+  #{$property}: #{fn.ratioVH($n1, $ratioVH)};
+  @if $ratioVW > 0 {
+    @media (max-aspect-ratio: #{ #{$ratioVW} / #{$ratioVH+1} }) {
+      #{$property}: #{fn.ratioVW($n1, $ratioVW)};
+    }
+  }
+}
+
+/// Set property calculated with VW ratio
+/// @param {css property} $property
+/// @param {Number} $n1
+/// @param {Number} $ratioVW []
+/// @output
+@mixin propertyVW(
+  $property,
+  $n1,
+  $ratioVW: fn.strip-units(breakpoints.$breakpoint-mobile)
+) {
+  #{$property}: #{fn.ratioVW($n1, $ratioVW)};
+}
+
+/// Set property rem
+/// @param {css property} $property
+/// @param {Number | Number[]} $value1 - desktop value
+/// @param {Number | Number[]} $value2 [] - mobile value
+/// @output
+@mixin propertyRem($property, $value1, $value2: $value1) {
+  @if length($value1) == 1 {
+    #{$property}: fn.toRem($value1);
+  } @else if length($value1) == 2 {
+    #{$property}: fn.toRem(nth($value1, 1)) fn.toRem(nth($value1, 2));
+  } @else if length($value1) == 3 {
+    #{$property}: fn.toRem(nth($value1, 1))
+      fn.toRem(nth($value1, 2))
+      fn.toRem(nth($value1, 3));
+  } @else if length($value1) == 4 {
+    #{$property}: fn.toRem(nth($value1, 1))
+      fn.toRem(nth($value1, 2))
+      fn.toRem(nth($value1, 3))
+      fn.toRem(nth($value1, 4));
+  }
+  @if $value2 != $value1 {
+    @media screen and (max-width: breakpoints.$breakpoint-tablet) {
+      @if length($value2) == 1 {
+        #{$property}: fn.toRem($value2);
+      } @else if length($value2) == 2 {
+        #{$property}: fn.toRem(nth($value2, 1)) fn.toRem(nth($value2, 2));
+      } @else if length($value2) == 3 {
+        #{$property}: fn.toRem(nth($value2, 1))
+          fn.toRem(nth($value2, 2))
+          fn.toRem(nth($value2, 3));
+      } @else if length($value2) == 4 {
+        #{$property}: fn.toRem(nth($value2, 1))
+          fn.toRem(nth($value2, 2))
+          fn.toRem(nth($value2, 3))
+          fn.toRem(nth($value2, 4));
+      }
+    }
+  }
+}
+
+@mixin propertyViewport(
+  $property,
+  $value1,
+  $value2: $value1,
+  $breakpoint: breakpoints.$breakpoint-tablet,
+  $cap: false
+) {
+  @include propertyVH($property, $value1);
+  @media screen and (max-width: breakpoints.$breakpoint-tablet) {
+    @include propertyVW($property, $value2);
+  }
+  @if $cap {
+    @media (min-width: breakpoints.$breakpoint-bigLaptop) {
+      @if length($value1) == 1 {
+        #{$property}: fn.toPx($value1);
+      } @else if length($value1) == 2 {
+        #{$property}: fn.toPx(nth($value1, 1)) fn.toPx(nth($value1, 2));
+      } @else if length($value1) == 3 {
+        #{$property}: fn.toPx(nth($value1, 1))
+          fn.toPx(nth($value1, 2))
+          fn.toPx(nth($value1, 3));
+      } @else if length($value1) == 4 {
+        #{$property}: fn.toPx(nth($value1, 1))
+          fn.toPx(nth($value1, 2))
+          fn.toPx(nth($value1, 3))
+          fn.toPx(nth($value1, 4));
+      }
+    }
+  }
+}

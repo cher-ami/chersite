@@ -7,7 +7,7 @@ export default function buildHtaccessPlugin({
   serverWebRootPath,
   htaccessTemplatePath,
   outputPath,
-  enable,
+  enable
 }: {
   user: string | undefined
   password: string | undefined
@@ -29,8 +29,8 @@ export default function buildHtaccessPlugin({
         serverWebRootPath,
         password,
         htaccessTemplatePath,
-        outputPath,
+        outputPath
       })
-    },
+    }
   }
 }

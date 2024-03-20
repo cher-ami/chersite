@@ -23,7 +23,7 @@ export default async ({ packageJson, defaultProjectName, fakeMode } = {}) => {
       projectVersion,
       projectName,
       projectAuthor,
-      projectDescription,
+      projectDescription
     })
 
     // Get package infos if this is the first setup
@@ -41,7 +41,7 @@ export default async ({ packageJson, defaultProjectName, fakeMode } = {}) => {
     await Inquirer.prompt({
       type: "input",
       message: "What's the project name? (dash-case)",
-      name: "projectName",
+      name: "projectName"
     }).then((answer) => (projectName = changeCase.kebabCase(answer.projectName)))
     log("> new project name:", projectName)
 
@@ -49,7 +49,7 @@ export default async ({ packageJson, defaultProjectName, fakeMode } = {}) => {
     await Inquirer.prompt({
       type: "input",
       message: "What's the author name?",
-      name: "projectAuthor",
+      name: "projectAuthor"
     }).then((answer) => (projectAuthor = answer.projectAuthor))
     log("> new project author:", projectAuthor)
 
@@ -57,7 +57,7 @@ export default async ({ packageJson, defaultProjectName, fakeMode } = {}) => {
     await Inquirer.prompt({
       type: "input",
       message: "What's the descripton?",
-      name: "projectDescription",
+      name: "projectDescription"
     }).then((answer) => (projectDescription = answer.projectDescription))
     log("> new project description:", projectDescription)
 
@@ -88,7 +88,7 @@ export default async ({ packageJson, defaultProjectName, fakeMode } = {}) => {
     log("Promise is resolve fn pass new package properties:", {
       projectName,
       projectAuthor,
-      projectDescription,
+      projectDescription
     })
 
     resolve({ projectName, projectAuthor, projectDescription })

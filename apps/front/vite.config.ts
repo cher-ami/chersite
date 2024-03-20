@@ -35,12 +35,12 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     // In some case, process.env vars are loaded via external service like gitlab-ci
     // and must overwrite .env vars loaded by loadEnv()
     ...process.env,
-    PORT: `${loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)}`,
+    PORT: `${loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173)}`,
     HOST: loadEnvVars["HOST"] ?? ipAddress,
     PROTOCOL: protocol,
     COMMAND: command,
     INPUT_FILES: config.input.join(","),
-    BUILD_DIRNAME: config.buildDirname,
+    BUILD_DIRNAME: config.buildDirname
   }
 
   return {
@@ -50,13 +50,13 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
             protocol,
             host: process.env.HOST,
             port: process.env.PORT,
-            base: process.env.VITE_APP_BASE,
-          }),
+            base: process.env.VITE_APP_BASE
+          })
         }
       : {}),
 
     define: {
-      "process.env.VITE_APP_BASE": JSON.stringify(process.env.VITE_APP_BASE),
+      "process.env.VITE_APP_BASE": JSON.stringify(process.env.VITE_APP_BASE)
     },
     // "base" refer to folder where assets are served
     base: process.env.VITE_APP_BASE,
@@ -68,21 +68,22 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       cors: true,
       host: true,
       port: process.env.PORT as any,
+      // @ts-ignore
       https: protocol === "https",
       origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
       watch: {
         // do not watch .env files to avoid reloading when build-dotenv is processed
-        ignored: [...(config.buildDotenvOutDir.map((path) => `${path}/.env`) || [])],
-      },
+        ignored: [...(config.buildDotenvOutDir.map((path) => `${path}/.env`) || [])]
+      }
     },
 
     css: {
       modules: {
-        generateScopedName: "[name]__[local]__[hash:base64:5]",
+        generateScopedName: "[name]__[local]__[hash:base64:5]"
       },
       postcss: {
-        plugins: [autoprefixer()],
-      },
+        plugins: [autoprefixer()]
+      }
     },
 
     build: {
@@ -95,14 +96,14 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       rollupOptions: {
         ...(config.input?.length > 0
           ? { input: config.input?.map((el) => resolve(el)) }
-          : {}),
-      },
+          : {})
+      }
     },
 
     resolve: {
       alias: {
-        "~": resolve(__dirname, "src"),
-      },
+        "~": resolve(__dirname, "src")
+      }
     },
 
     plugins: [
@@ -122,25 +123,35 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
           "COMMAND",
           "INPUT_FILES",
           "BUILD_DIRNAME",
-          "DOCKER_PORT",
-        ],
+          "DOCKER_PORT"
+        ]
       }),
 
-      // Htaccess dist/ with password
+      // always build htaccess for SPA production
+      buildHtaccessPlugin({
+        enable: loadEnvVars.VITE_SPA === "true",
+        serverWebRootPath: null,
+        user: null,
+        password: null,
+        htaccessTemplatePath: config.htaccessTemplateFilePath,
+        outputPath: "dist/spa"
+      }),
+
+      // Htaccess task set from .env
       buildHtaccessPlugin({
         enable: process.env.BUILD_HTACCESS === "true",
         serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
         user: process.env.HTACCESS_AUTH_USER,
         password: process.env.HTACCESS_AUTH_PASSWORD,
         htaccessTemplatePath: config.htaccessTemplateFilePath,
-        outputPath: process.env.HTACCESS_OUTPUT_PATH,
+        outputPath: process.env.HTACCESS_OUTPUT_PATH
       }),
 
       visualizer({
-        filename: "./build-stats.html",
+        filename: "./stats.html",
         gzipSize: true,
-        title: "Generated bundle stats",
-      }),
-    ],
+        title: "Generated bundle stats"
+      })
+    ]
   }
 })

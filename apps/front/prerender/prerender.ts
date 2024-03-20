@@ -1,5 +1,5 @@
 // @ts-ignore
-import { render } from "~/server/index-server"
+import { render } from "~/index-server"
 import * as mfs from "@cher-ami/mfs"
 import path from "path"
 import chalk from "chalk"
@@ -9,7 +9,6 @@ import { isRouteIndex } from "./helpers/isRouteIndex"
 import { ManifestParser } from "./helpers/ManifestParser"
 import { renderToPipeableStream, renderToString } from "react-dom/server"
 import { JSXElementConstructor, ReactElement } from "react"
-import { htmlReplacement } from "~/server/helpers/htmlReplacement"
 
 /**
  * Prerender
@@ -17,7 +16,10 @@ import { htmlReplacement } from "~/server/helpers/htmlReplacement"
  * @param urls: Urls to generate
  * @param outDirStatic: Generation destination directory
  */
-export const prerender = async (urls: string[], outDirStatic = config.outDirStatic) => {
+export const prerender = async (
+  urls: string[],
+  outDirStatic = config.outDirStaticClient
+) => {
   const indexTemplateSrc = `${outDirStatic}/index-template.html`
 
   // copy index as template to avoid the override with the generated static index.html bellow
@@ -26,8 +28,8 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
   }
 
   // get script tags to inject in render
-  const base = process.env.VITE_APP_BASE || loadEnv("", process.cwd(), "").VITE_APP_BASE
-  const manifest = (await mfs.readFile(`${outDirStatic}/manifest.json`)) as string
+  const base = loadEnv("", process.cwd(), "").VITE_APP_BASE || process.env.VITE_APP_BASE
+  const manifest = (await mfs.readFile(`${outDirStatic}/.vite/manifest.json`)) as string
   const scriptTags = ManifestParser.getScriptTagFromManifest(manifest, base)
 
   // pre-render each route
@@ -36,7 +38,7 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
 
     try {
       // Request DOM
-      const dom = await render(url, scriptTags, true)
+      const dom = await render(url, scriptTags, true, base)
       // create stream and generate current file when all DOM is ready
       renderToPipeableStream(dom, {
         onAllReady() {
@@ -44,7 +46,7 @@ export const prerender = async (urls: string[], outDirStatic = config.outDirStat
         },
         onError(x) {
           console.error(x)
-        },
+        }
       })
     } catch (e) {
       console.log(e)
@@ -73,3 +75,12 @@ const createHtmlFile = async (
   await mfs.createFile(htmlFilePath, htmlReplacement(renderToString(dom)))
   console.log(chalk.green(` → ${htmlFilePath.split("static")[1]}`))
 }
+
+/**
+ * Render string patch middleware
+ */
+const htmlReplacement = (render: string): string =>
+  render
+    .replace("<html", `<!DOCTYPE html><html`)
+    .replaceAll('<script nomodule=""', "<script nomodule")
+    .replaceAll('crossorigin="anonymous"', "crossorigin")

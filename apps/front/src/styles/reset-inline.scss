@@ -1,0 +1,338 @@
+/* ----------------------------------------------------------------------------- GLOBAL */
+
+/**
+ * Hard reset margin and padding
+ */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * Default Box sizing on before & after pseudo elements
+ */
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/**
+ * Default Box sizing
+ * Correct the line height in all browsers.
+ * Prevent adjustments of font size after orientation changes in iOS.
+ */
+html {
+  box-sizing: border-box;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ----------------------------------------------------------------------------- SECTION */
+
+/**
+ * Render the `main` element consistently in IE.
+ */
+main {
+  display: block;
+}
+
+/* ----------------------------------------------------------------------------- TEXT */
+
+/**
+ * Remove default title browser margin
+ * Remove default title browser UGLY bold font weight
+ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 1em;
+  margin: 0;
+  font-weight: normal;
+}
+
+/**
+ * Remove the gray background on active links in IE 10.
+ * Remove default underline
+ */
+a {
+  background-color: transparent;
+  text-decoration: none;
+}
+
+/**
+ * Init flat font-wheight
+ */
+b,
+strong {
+  font-weight: normal;
+}
+
+/**
+ * Remove list style dote by default
+ */
+ul {
+  list-style: none;
+}
+
+/**
+ * Correct the inheritance and scaling of font size in all browsers.
+ * Correct the odd `em` font sizing in all browsers.
+ * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre
+ */
+pre {
+  font-size: 1em;
+  font-family: inherit;
+  margin: 0;
+}
+
+/**
+ * Correct the inheritance and scaling of font size in all browsers.
+ * Correct the odd `em` font sizing in all browsers.
+ */
+code,
+kbd,
+samp {
+  font-family: inherit;
+  font-size: 1em;
+}
+
+/**
+ * Init the correct font size in all browsers.
+ */
+small {
+  font-size: 1em;
+}
+
+/**
+ * Prevent `sub` and `sup` elements from affecting the line height in
+ * all browsers.
+ */
+sub,
+sup {
+  font-size: 1em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: 0;
+}
+
+sup {
+  top: 0;
+}
+
+/**
+ * Add the correct box sizing in Firefox.
+ * Show the overflow in Edge and IE.
+ */
+hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+  margin: 0 auto;
+}
+
+/* ----------------------------------------------------------------------------- TEXT CONTENT */
+
+/*
+ * Add the correct display in Edge, IE 10+, and Firefox.
+ */
+details {
+  display: block;
+}
+/*
+ * Add the correct display in all browsers.
+ * Remove outline.
+ */
+summary {
+  display: block;
+  outline: none;
+}
+
+/**
+ * Remove arrow indicatore
+ */
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* ----------------------------------------------------------------------------- MEDIA */
+
+/**
+ * Init position
+ * Remove the border on images inside links in IE 10.
+ */
+img {
+  display: block;
+  border-style: none;
+}
+
+/* ----------------------------------------------------------------------------- FORM */
+
+/**
+ * Change the font styles in all browsers.
+ * Remove the margin in Firefox and Safari.
+ * Remove background color
+ * Remove border
+ * Remove outline
+ */
+button,
+input,
+optgroup,
+option,
+select,
+textarea {
+  display: block;
+  margin: 0;
+  border: 0;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: normal;
+  line-height: normal;
+  color: inherit;
+  background: none;
+  text-transform: none;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  overflow: visible;
+}
+
+/**
+ * Correct the inability to style clickable types in iOS and Safari.
+ */
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+/**
+ * Remove the inner border and padding in Firefox.
+ */
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/**
+ * Restore the focus styles unset by the previous rule.
+ */
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/**
+ * Init full style
+ * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Fieldset
+ */
+fieldset {
+  display: block;
+  font-size: 1em;
+  padding: 0;
+  border: 0;
+}
+
+/**
+ * Correct the text wrapping in Edge and IE.
+ * Correct the color inheritance from `fieldset` elements in IE.
+ * Remove the padding so developers are not caught out when they zero out
+ * `fieldset` elements in all browsers.
+ * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/legend
+ */
+legend {
+  display: block;
+  box-sizing: border-box;
+  color: inherit;
+  border: none;
+  padding: 0;
+  white-space: normal;
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress
+ */
+progress {
+  vertical-align: baseline;
+}
+
+/**
+ * Remove the default vertical scrollbar in IE 10+.
+ */
+textarea {
+  overflow: auto;
+}
+
+/**
+ * Add the correct box sizing in IE 10.
+ * Remove the padding in IE 10.
+ */
+[type="checkbox"],
+[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Chrome.
+ */
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ *  Correct the odd appearance in Chrome and Safari.
+ *  Correct the outline style in Safari.
+ */
+[type="search"] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+
+/**
+ * Remove the inner padding in Chrome and Safari on macOS.
+ */
+[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * Correct the inability to style clickable types in iOS and Safari.
+ * Change font properties to `inherit` in Safari.
+ */
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}
+
+/* ----------------------------------------------------------------------------- MISC */
+
+/**
+ * Add the correct display in IE 10+.
+ * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template
+ */
+template {
+  display: none;
+}
+
+/**
+ * Add the correct display in IE 10.
+ */
+[hidden] {
+  display: none;
+}

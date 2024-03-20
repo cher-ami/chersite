@@ -9,8 +9,8 @@ const _askPageName = () => {
     {
       type: "input",
       message: "Page name (dashed lower cased) ?",
-      name: "pageName",
-    },
+      name: "pageName"
+    }
   ])
 }
 
@@ -19,8 +19,8 @@ const _askIfTemplate = () => {
     {
       type: "confirm",
       message: "Create a template for this page ?",
-      name: "createTemplate",
-    },
+      name: "createTemplate"
+    }
   ])
 }
 
@@ -40,22 +40,22 @@ const _pageBuilder = async ({ pagePath, pageName, createTemplate }) => {
   await createFile({
     templateFilePath: `${config.wpTemplatesPath}/pages/PageRestController.php.template`,
     destinationFilePath: `${pagePath}/${pascalCasePageName}RestController.php`,
-    replaceExpressions: { pageName, pascalCasePageName },
+    replaceExpressions: { pageName, pascalCasePageName }
   })
 
   // scaffold setup
   await createFile({
     templateFilePath: `${config.wpTemplatesPath}/pages/setup.php.template`,
     destinationFilePath: `${pagePath}/setup.php`,
-    replaceExpressions: { camelCasePageName, pascalCasePageName },
+    replaceExpressions: { camelCasePageName, pascalCasePageName }
   })
-  
-  if(createTemplate) {
+
+  if (createTemplate) {
     // template setup
     await createFile({
       templateFilePath: `${config.wpTemplatesPath}/pages/page-template.php.template`,
       destinationFilePath: `${config.wpTheme}/template-${pascalCasePageName}.php`,
-      replaceExpressions: { camelCasePageName, pascalCasePageName },
+      replaceExpressions: { camelCasePageName, pascalCasePageName }
     })
   }
 }
@@ -67,7 +67,7 @@ const buildPage = () => {
 
     // Get page name
     let pageName = ""
-    let createTemplate;
+    let createTemplate
 
     await _askPageName().then((answer) => {
       pageName = changeCase.kebabCase(answer.pageName)
@@ -99,7 +99,7 @@ const buildPage = () => {
     }
 
     // final log
-    createTemplate ? logs.done("Page and template created.") : logs.done("Page created.") 
+    createTemplate ? logs.done("Page and template created.") : logs.done("Page created.")
     resolve()
   })
 }

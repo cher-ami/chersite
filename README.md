@@ -1,7 +1,7 @@
 <h1 align="center" style="text-align:center">🪜 chersite</h1>
 
 <p align="center">
-chersite is multi apps structure witch include front static-site generator for cher-ami projects
+chersite is multi apps structure witch include a SPA/SSG/SSR front framework for cher-ami projects.
 
 <br/>
 <br/>
@@ -30,7 +30,7 @@ Each app has his own `package.json` and `node_modules` folder, we build them sep
 
 ### Front app
 
-The front app is a React static-site generator build with [vite](https://vitejs.dev/), [react](https://reactjs.org/),[typescript](https://www.typescriptlang.org/), and [less](https://lesscss.org/), in order to obtain a static server rendering for best performance. The build step prepare a server script, a prerender script and a SPA version to leave choice of use. This one embeds [@cher-ami/router](https://github.com/cher-ami/router) to manage server static props, routes transitions and languages.
+The front app is a React SPA/SSG/SSR builder, scaffold with [vite](https://vitejs.dev/), [react](https://reactjs.org/),[typescript](https://www.typescriptlang.org/), and [sass](https://sass-lang.com/) with [@cher-ami/router](https://github.com/cher-ami/router) on top.
 
 See the [front app documentation](apps/front/README.md)
 
@@ -124,24 +124,16 @@ Scaffold a new React component called `MyButton` in [apps/front/src/components](
        └── src
             └── components
                   └── myButton
-                         |── MyButton.module.less
+                         |── MyButton.module.scss
                          └── MyButton.tsx
 ```
 
 Options are defined from [cli/config.js](cli/config.js):
 
 ```js
-bundleType: ["react", "dom"]
+bundleType: ["react"]
 componentCompatibleFolders: ["components", "pages"]
 ```
-
-### back:scaffold-wp
-
-```shell
-npm run back:scaffold-wp
-```
-
-Scaffold Page, Post type, Option pages for Wordpress.By default, it will create files in `apps/back/web/app/themes/CherAmi/`.
 
 ## Scripts
 

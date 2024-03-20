@@ -1,0 +1,26 @@
+@use "./reference" as *;
+
+// Inline imports are files included only once in this root file
+@import "./breakpoints-inline";
+@import "./colors-inline";
+@import "./ease-inline";
+@import "./fonts-inline";
+@import "./grid-inline";
+@import "./reset-inline";
+@import "./viewport-inline";
+
+:root {
+  @include propertyViewport(--font-size, 1);
+}
+
+html {
+  font-size: var(--font-size);
+}
+
+body {
+  font-size: 16rem;
+  font-family: sans-serif;
+  @include font-roboto-regular;
+  background: var(--color-bg);
+  color: var(--color-text);
+}

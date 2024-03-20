@@ -1,0 +1,20 @@
+.root {
+  cursor: pointer;
+  --base-background-color: var(--color-bg);
+  --base-text-color: var(--color-text);
+}
+
+.wrapper {
+  display: inline-block;
+  background: var(--base-background-color);
+  text-decoration: underline;
+  @media (hover: hover) {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.content {
+  color: var(--base-text-color);
+}

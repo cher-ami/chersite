@@ -1,4 +1,4 @@
-import css from "./NotFoundPage.module.less"
+import css from "./NotFoundPage.module.scss"
 import React, { ForwardedRef, forwardRef, useEffect, useRef } from "react"
 import { useStack } from "@cher-ami/router"
 import debug from "@cher-ami/debug"

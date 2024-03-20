@@ -56,6 +56,6 @@ export function Beeper<S = any>(initialState: S = null): TBeeper<S> {
     },
     get initialState() {
       return _initialState
-    },
+    }
   }
 }

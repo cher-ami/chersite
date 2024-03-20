@@ -1,6 +1,6 @@
 /**
  * @name convertRemToPx
- * @description Convert px from Rem from CSS variable calculated in the ratio.less file
+ * @description Convert px from Rem from CSS variable calculated in the _ratio.scss file
  * Usefully to get the same value in px that the value we put in rem in our CSS
  * @param {number} pxValue
  * @returns {number}
@@ -14,7 +14,7 @@ export const convertRemToPx = (pxValue: number): number => {
 
 /**
  * @name _convertFontSizeCssVarToPx
- * @description Convert the font size variable, calculated in the ratio.less file to px
+ * @description Convert the font size variable, calculated in the _ratio.scss file to px
  * @param cssUnitValue
  * @returns
  */

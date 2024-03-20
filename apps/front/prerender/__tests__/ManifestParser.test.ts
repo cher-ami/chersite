@@ -1,10 +1,14 @@
 import { expect, it } from "vitest"
 import { ManifestParser } from "../helpers/ManifestParser"
-import * as mfs from "@cher-ami/mfs"
-import config from "../../config/config.js"
+import path from "path"
+import { fileURLToPath } from "url"
+import * as fs from "fs"
+const url = import.meta.url
 
-// @ts-ignore
-const manifestRaw = await mfs.readFile(`${config.outDirStatic}/manifest.json`)
+const manifestRaw = fs.readFileSync(
+  path.join(path.dirname(fileURLToPath(url)), `fixtures/manifest.json`),
+  { encoding: "utf8" }
+)
 
 it("should return assets list", () => {
   const assets = ManifestParser.getAssets(manifestRaw)
