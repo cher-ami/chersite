@@ -16,6 +16,9 @@ export const routes: TRoute[] = [
     path: "/",
     component: HomePage,
     name: EPages.HOME,
+    props: {
+      showInDevMenu: true,
+    },
     getStaticProps: async (props, currentLang: TLanguage) => {
       const res = await fetch("https://worldtimeapi.org/api/ip")
       const time = await res.json()
@@ -31,6 +34,9 @@ export const routes: TRoute[] = [
     path: "/work/:slug?",
     name: EPages.WORK,
     component: WorkPage,
+    props: {
+      showInDevMenu: true,
+    },
     getStaticProps: async (props, currentLang: TLanguage) => {
       const meta: TMetaTags = {
         title: `Work - ${props.params.slug}`,
