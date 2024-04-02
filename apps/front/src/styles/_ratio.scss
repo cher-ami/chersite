@@ -27,11 +27,7 @@
 /// @param {Number} $n1
 /// @param {Number} $ratioVW []
 /// @output
-@mixin propertyVW(
-  $property,
-  $n1,
-  $ratioVW: fn.strip-units(breakpoints.$breakpoint-mobile)
-) {
+@mixin propertyVW($property, $n1, $ratioVW: viewport.$viewport-reference-width) {
   #{$property}: #{fn.ratioVW($n1, $ratioVW)};
 }
 
