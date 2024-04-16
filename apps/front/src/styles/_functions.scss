@@ -55,7 +55,7 @@
 /// @param {Number} $value -
 /// @return {string} - pixel value
 @function toPx($value) {
-  @if is-number($value) {
+  @if is-absolute-number($value) {
     @return #{$value} + px;
   } @else {
     @return $value;
@@ -66,7 +66,7 @@
 /// @param {Number} $value -
 /// @return {string} - rem value
 @function toRem($value) {
-  @if is-number($value) {
+  @if is-absolute-number($value) {
     @return #{$value} + rem;
   } @else {
     @return $value;

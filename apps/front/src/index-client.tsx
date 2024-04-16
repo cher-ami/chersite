@@ -27,11 +27,6 @@ const base: string = process.env.VITE_APP_BASE || import.meta.env.VITE_APP_BASE
 log("Selected base", base)
 
 /**
- * Init global helpers
- */
-new VhHelper()
-
-/**
  * Create a history for the global router instance
  * @doc https://github.com/remix-run/history/blob/dev/docs/api-reference.md
  */

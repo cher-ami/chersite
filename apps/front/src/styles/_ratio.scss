@@ -33,10 +33,10 @@
 
 /// Set property rem
 /// @param {css property} $property
-/// @param {Number | Number[]} $value1 - desktop value
-/// @param {Number | Number[]} $value2 [] - mobile value
+/// @param {Number | Number[]} $value1 - mobile value
+/// @param {Number | Number[]} $value2 - desktop value
 /// @output
-@mixin propertyRem($property, $value1, $value2: $value1) {
+@mixin rem($property, $value1, $value2: $value1) {
   @if length($value1) == 1 {
     #{$property}: fn.toRem($value1);
   } @else if length($value1) == 2 {
@@ -52,7 +52,7 @@
       fn.toRem(nth($value1, 4));
   }
   @if $value2 != $value1 {
-    @media screen and (max-width: breakpoints.$breakpoint-tablet) {
+    @media (min-width: breakpoints.$breakpoint-tablet) {
       @if length($value2) == 1 {
         #{$property}: fn.toRem($value2);
       } @else if length($value2) == 2 {
@@ -78,10 +78,28 @@
   $breakpoint: breakpoints.$breakpoint-tablet,
   $cap: false
 ) {
-  @include propertyVH($property, $value1);
-  @media screen and (max-width: breakpoints.$breakpoint-tablet) {
-    @include propertyVW($property, $value2);
+  @include propertyVW($property, $value1);
+  @media (min-width: $breakpoint) {
+    @include propertyVH($property, $value2);
   }
+
+  @media (min-width: breakpoints.$breakpoint-tablet) and (orientation: portrait) {
+    @include propertyVW($property, $value2, viewport.$viewport-reference-tablet-width);
+  }
+
+  @media (min-width: breakpoints.$breakpoint-laptop) and (orientation: landscape) {
+    @include propertyVH(
+      $property,
+      $value2,
+      viewport.$viewport-reference-desktop-height,
+      0
+    );
+  }
+
+  @media (max-width: #{breakpoints.$breakpoint-laptop - 1}) and (orientation: landscape) {
+    @include propertyVH($property, $value2, viewport.$viewport-reference-width, 0);
+  }
+
   @if $cap {
     @media (min-width: breakpoints.$breakpoint-bigLaptop) {
       @if length($value1) == 1 {
