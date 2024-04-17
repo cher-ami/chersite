@@ -71,6 +71,12 @@
   }
 }
 
+/// Mixin pour manipuler les propriétés des vues en fonction des breakpoints.
+/// @param {string} $property - La propriété CSS à manipuler.
+/// @param {any} $value1 - La première valeur pour cette propriété.
+/// @param {any} [$value2=$value1] - La deuxième valeur pour cette propriété (par défaut égale à $value1).
+/// @param {string} [$breakpoint=breakpoints.$breakpoint-tablet] - Le point de rupture (breakpoint) pour les médias queries (par défaut égal à breakpoints.$breakpoint-tablet).
+/// @param {boolean} [$cap=false] - Indique si les valeurs doivent être plafonnées (par défaut false).
 @mixin propertyViewport(
   $property,
   $value1,
@@ -78,25 +84,21 @@
   $breakpoint: breakpoints.$breakpoint-tablet,
   $cap: false
 ) {
+  //Mobile
   @include propertyVW($property, $value1);
-  @media (min-width: $breakpoint) {
-    @include propertyVH($property, $value2);
+
+  //Horizontal Desktop & Tablet
+  @include desktop($breakpoint) {
+    @include propertyVH($property, $value2, $ratioVW: 0);
   }
 
-  @media (min-width: breakpoints.$breakpoint-tablet) and (orientation: portrait) {
+  //Portrait Desktop & Tablet
+  @include desktop-portrait {
     @include propertyVW($property, $value2, viewport.$viewport-reference-tablet-width);
   }
 
-  @media (min-width: breakpoints.$breakpoint-laptop) and (orientation: landscape) {
-    @include propertyVH(
-      $property,
-      $value2,
-      viewport.$viewport-reference-desktop-height,
-      0
-    );
-  }
-
-  @media (max-width: #{breakpoints.$breakpoint-laptop - 1}) and (orientation: landscape) {
+  //Horizontal mobile
+  @include mobile-landscape {
     @include propertyVH($property, $value2, viewport.$viewport-reference-width, 0);
   }
 
@@ -117,5 +119,29 @@
           fn.toPx(nth($value1, 4));
       }
     }
+  }
+}
+
+/// Desktop media query.
+/// @param {string} [$breakpoint=breakpoints.$breakpoint-tablet] - Le point de rupture pour les médias queries (par défaut égal à breakpoints.$breakpoint-tablet).
+@mixin desktop($breakpoint: breakpoints.$breakpoint-tablet) {
+  @media (min-width: $breakpoint) and (orientation: landscape) and (min-height: breakpoints.$breakpoint-mobile-horizontal) {
+    @content;
+  }
+}
+
+/// Desktop & Tablet portrait media query
+/// @param {string} [$breakpoint=breakpoints.$breakpoint-tablet] - Le point de rupture pour les médias queries (par défaut égal à breakpoints.$breakpoint-tablet).
+@mixin desktop-portrait($breakpoint: breakpoints.$breakpoint-tablet) {
+  @media (min-width: $breakpoint) and (orientation: portrait) {
+    @content;
+  }
+}
+
+/// Mobile landscape media query.
+/// @param {string} [$breakpoint=breakpoints.$breakpoint-laptop] - Le point de rupture pour les médias queries (par défaut égal à breakpoints.$breakpoint-laptop).
+@mixin mobile-landscape($breakpoint: breakpoints.$breakpoint-laptop) {
+  @media (max-width: #{$breakpoint - 1}) and (orientation: landscape) {
+    @content;
   }
 }

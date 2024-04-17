@@ -1,4 +1,22 @@
 @use "../../styles/reference" as *;
 
 .root {
+  background: salmon;
+
+  @include desktop {
+    background: red;
+  }
+
+  @include desktop-portrait {
+    background: green;
+  }
+
+  @include mobile-landscape {
+    background: blue;
+  }
+}
+
+.fontSize {
+  @include absoluteCenter();
+  font-size: 40rem;
 }

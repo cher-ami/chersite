@@ -2,6 +2,7 @@
 
 :root {
   --breakpoint-mobile: #{$breakpoint-mobile};
+  --breakpoint-mobile-horizontal: #{$breakpoint-mobile-horizontal};
   --breakpoint-tablet: #{$breakpoint-tablet};
   --breakpoint-laptop: #{$breakpoint-laptop};
   --breakpoint-bigLaptop: #{$breakpoint-bigLaptop};

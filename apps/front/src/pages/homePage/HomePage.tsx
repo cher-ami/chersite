@@ -1,8 +1,16 @@
 import css from "./HomePage.module.scss"
-import React, { ForwardedRef, forwardRef, Suspense, useEffect, useRef } from "react"
+import React, {
+  ForwardedRef,
+  forwardRef,
+  Suspense,
+  useEffect,
+  useRef,
+  useState
+} from "react"
 import { useStack } from "@cher-ami/router"
 import debug from "@cher-ami/debug"
 import { MetasManager, TMetaTags } from "~/libs/dom/MetaManager"
+import { listen } from "@cher-ami/utils"
 const TestComponent = React.lazy(() => import("./LazyTest"))
 
 interface IProps {
@@ -19,7 +27,20 @@ const log = debug(`front:${componentName}`)
  * @name HomePage
  */
 function HomePage(props: IProps, handleRef: ForwardedRef<any>) {
+  //--------------------------------------------------------------------- REFS
   const rootRef = useRef<HTMLDivElement>(null)
+
+  //--------------------------------------------------------------------- STATE
+  const [fontSize, setFontSize] = useState<string>("0")
+
+  //--------------------------------------------------------------------- EFFECTS
+
+  useEffect(() => {
+    setFontSize(window.getComputedStyle(document.body).getPropertyValue("font-size"))
+    return listen(window, "resize", () =>
+      setFontSize(window.getComputedStyle(document.body).getPropertyValue("font-size"))
+    )
+  }, [])
 
   /**
    * Client meta
@@ -53,6 +74,7 @@ function HomePage(props: IProps, handleRef: ForwardedRef<any>) {
         <TestComponent />
       </Suspense>
       {componentName}
+      <div className={css.fontSize}>{fontSize}</div>
       <br />
       <br />
       <div>data from getStaticProps: </div>
