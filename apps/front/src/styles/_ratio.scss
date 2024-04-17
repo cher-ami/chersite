@@ -124,8 +124,11 @@
 
 /// Desktop media query.
 /// @param {string} [$breakpoint=breakpoints.$breakpoint-tablet] - Le point de rupture pour les médias queries (par défaut égal à breakpoints.$breakpoint-tablet).
-@mixin desktop($breakpoint: breakpoints.$breakpoint-tablet) {
-  @media (min-width: $breakpoint) and (orientation: landscape) and (min-height: breakpoints.$breakpoint-mobile-horizontal) {
+@mixin desktop(
+  $horizontalBreakpoint: breakpoints.$breakpoint-tablet,
+  $verticalBreakpoint: breakpoints.$breakpoint-mobile-horizontal
+) {
+  @media (min-width: $horizontalBreakpoint) and (min-height: $verticalBreakpoint) and (orientation: landscape) {
     @content;
   }
 }
