@@ -4,7 +4,6 @@ import { TMetaTags } from "~/libs/dom/MetaManager"
 import HomePage from "./pages/homePage/HomePage"
 import WorkPage from "./pages/workPage/WorkPage"
 import NotFoundPage from "./pages/notFoundPage/NotFoundPage"
-import AboutPage from "~/pages/aboutPage/AboutPage"
 
 export enum EPages {
   HOME = "home",
