@@ -1,5 +1,5 @@
 import css from "./App.module.scss"
-import React, { useEffect } from "react"
+import React from "react"
 import { Link, Stack, TManageTransitions } from "@cher-ami/router"
 import debug from "@cher-ami/debug"
 import { EPages } from "~/routes"

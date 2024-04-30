@@ -8,7 +8,6 @@ import NotFoundPage from "./pages/notFoundPage/NotFoundPage"
 export enum EPages {
   HOME = "home",
   WORK = "work",
-  ABOUT = "about",
   NOT_FOUND = "not-found"
 }
 
