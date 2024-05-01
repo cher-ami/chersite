@@ -3,6 +3,7 @@ import React from "react"
 import { Link, Stack, TManageTransitions } from "@cher-ami/router"
 import debug from "@cher-ami/debug"
 import { EPages } from "~/routes"
+import DevMenu from "~/components/devMenu/DevMenu"
 const log = debug(`front:App`)
 
 function App() {
@@ -57,6 +58,8 @@ function App() {
     <div className={css.root}>
       {navExample}
       <Stack className={css.stack} manageTransitions={manageTransitions} />
+
+      <DevMenu />
     </div>
   )
 }
