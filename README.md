@@ -72,6 +72,12 @@ npm i
 ```
 
 - Setup the project:
+  By default, SSG mode is enabled, you can switch to SPA or SSR mode by setting `MODE` to `SPA` or `SSR`  in the `cli/config.js` file.
+### Development
+
+```shell
+mode="SSR" # or "SPA"
+```
 
 ```shell
 npm run setup

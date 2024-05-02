@@ -1,6 +1,6 @@
 import checkInstallFile from "./modules/check-install-file.js"
 import setupReadme from "./modules/setup-readme.js"
-import setupPackageJson from "./modules/setup-package-json.js"
+import setupPackageJson, { setupScriptsFront } from "./modules/setup-package-json.js"
 import resetGit from "./modules/reset-git.js"
 import createInstallFile from "./modules/create-install-file.js"
 import logs from "../../helpers/logger.js"
@@ -8,7 +8,8 @@ import config from "../../config.js"
 import path from "path"
 
 // TODO  assert { type: "json" } will change in the future
-import packageJson from "../../../package.json" with { type: "json" }
+import packageJson from "../../../package.json" assert { type: "json" }
+import frontPackageJson from "../../../apps/front/package.json" assert { type: "json" }
 
 import debug from "@cher-ami/debug"
 const log = debug(`config:setup`)
@@ -21,6 +22,7 @@ const setup = () =>
     if (config.setupFakeMode) {
       logs.start("\n ⚠️   Fake mode is active, nothing action will be process.")
     }
+
     // check if cache file exist, if exist, do not continue
     if (await checkInstallFile(config.installFile)) return
 
@@ -28,6 +30,12 @@ const setup = () =>
     const { projectName, projectDescription, projectAuthor } = await setupPackageJson({
       packageJson,
       defaultProjectName: "chersite",
+      fakeMode: config.setupFakeMode
+    })
+
+    await setupScriptsFront({
+      frontPackageJson,
+      mode: config.mode,
       fakeMode: config.setupFakeMode
     })
 
