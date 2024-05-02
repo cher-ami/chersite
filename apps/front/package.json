@@ -7,12 +7,7 @@
     "dev": "node server.dev.js",
     "start": "cross-env NODE_ENV=production node dist/ssr/scripts/server.prod.js",
     "test:watch": "vitest",
-    "test": "vitest run",
-    "build:static-scripts": "vite build -c vite.static-scripts.config.ts",
-    "build:static-client": "vite build --outDir dist/static/client",
-    "build:static": "npm run build:static-scripts && npm run build:static-client && npm run generate",
-    "generate": "node dist/static/scripts/exe-prerender.js",
-    "build": "npm run build:static"
+    "test": "vitest run"
   },
   "dependencies": {
     "@cher-ami/css-flat": "^1.0.1",
