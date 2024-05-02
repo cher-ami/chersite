@@ -9,7 +9,7 @@ const log = debug("config:manage-package-json")
 /**
  * Setup package.json
  */
-export default async ({ packageJson, defaultProjectName, fakeMode } = {}) => {
+export default async ({ packageJson, defaultProjectName, fakeMode, mode } = {}) => {
   return new Promise(async (resolve) => {
     logs.start("Setup package.json")
 
@@ -92,5 +92,41 @@ export default async ({ packageJson, defaultProjectName, fakeMode } = {}) => {
     })
 
     resolve({ projectName, projectAuthor, projectDescription })
+  })
+}
+
+export const setupScriptsFront = async ({ frontPackageJson, mode, fakeMode }) => {
+  return new Promise(async (resolve) => {
+    const scripts = frontPackageJson.scripts || {}
+
+    logs.start("Setup front package.json scripts")
+    switch (mode) {
+      case "SSG":
+        scripts.build = "npm run build:static"
+        break
+      case "SSR":
+        scripts.build = "npm run build:ssr"
+        break
+      case "SPA":
+        scripts.build = "npm run build:spa"
+        break
+      default:
+        scripts.build = "npm run build:spa && npm run build:ssr && npm run build:static"
+    }
+
+    if (!fakeMode) {
+      log("Modify front package.json")
+      await mfs.createFile(
+        path.resolve("./apps/front/package.json"),
+        JSON.stringify(frontPackageJson, null, 2)
+      )
+    } else {
+      log("FakeMode is activated, do nothing.")
+    }
+
+    logs.done(`Front package.json scripts are setup with mode ${mode}`)
+
+    frontPackageJson.scripts = scripts
+    resolve()
   })
 }
