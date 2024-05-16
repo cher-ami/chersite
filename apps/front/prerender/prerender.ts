@@ -64,7 +64,7 @@ export const prerender = async (
     console.error(chalk.red("Error on render"))
     process.exit(1)
   } else {
-    await moveFolder(outDirStatic, "old")
+    await moveFolder(outDirStatic, "dist/static/old")
     await moveFolder(outDirStaticTemp, outDirStatic)
 
     // await mfs.removeDir(outDirStaticTemp)
