@@ -9,6 +9,8 @@ import { isRouteIndex } from "./helpers/isRouteIndex"
 import { ManifestParser } from "./helpers/ManifestParser"
 import { renderToPipeableStream, renderToString } from "react-dom/server"
 import { JSXElementConstructor, ReactElement } from "react"
+import { rename } from "fs"
+import * as fs from "fs/promises"
 
 /**
  * Prerender
@@ -62,9 +64,10 @@ export const prerender = async (
     console.error(chalk.red("Error on render"))
     process.exit(1)
   } else {
-    await mfs.copyDir(outDirStaticTemp, outDirStatic, { force: true })
-    await mfs.removeDir(outDirStaticTemp)
-    console.log(chalk.green("Copy _temp files to static folder"))
+    await moveFolder(outDirStatic, "old")
+    await moveFolder(outDirStaticTemp, outDirStatic)
+
+    // await mfs.removeDir(outDirStaticTemp)
   }
 }
 
@@ -99,3 +102,38 @@ const htmlReplacement = (render: string): string =>
     .replace("<html", `<!DOCTYPE html><html`)
     .replaceAll('<script nomodule=""', "<script nomodule")
     .replaceAll('crossorigin="anonymous"', "crossorigin")
+
+async function copyFile(source, destination) {
+  await fs.mkdir(path.dirname(destination), { recursive: true })
+  await fs.copyFile(source, destination)
+}
+
+async function moveFolder(source, destination) {
+  try {
+    // Crée le dossier de destination s'il n'existe pas
+    await fs.mkdir(destination, { recursive: true })
+
+    // Lire le contenu du dossier source
+    const entries = await fs.readdir(source, { withFileTypes: true })
+
+    for (const entry of entries) {
+      const sourcePath = path.join(source, entry.name)
+      const destinationPath = path.join(destination, entry.name)
+
+      if (entry.isDirectory()) {
+        // Appel récursif pour les sous-dossiers
+        await moveFolder(sourcePath, destinationPath)
+      } else {
+        // Copier le fichier
+        await copyFile(sourcePath, destinationPath)
+        await fs.unlink(sourcePath) // Supprimer le fichier source après copie
+      }
+    }
+
+    // Supprimer le dossier source après déplacement de son contenu
+    await fs.rmdir(source)
+    console.log(`Dossier déplacé de ${source} à ${destination}`)
+  } catch (err) {
+    console.error(`Erreur lors du déplacement du dossier : ${err}`)
+  }
+}
