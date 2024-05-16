@@ -63,6 +63,7 @@ export const prerender = async (
     process.exit(1)
   } else {
     await mfs.copyDir(outDirStaticTemp, outDirStatic, { force: true })
+    await mfs.removeDir(outDirStaticTemp)
     console.log(chalk.green("Copy _temp files to static folder"))
   }
 }
