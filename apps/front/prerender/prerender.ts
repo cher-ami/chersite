@@ -1,16 +1,17 @@
 // @ts-ignore
-import { render } from "~/index-server"
 import * as mfs from "@cher-ami/mfs"
-import path from "path"
 import chalk from "chalk"
+import * as fs from "fs/promises"
+import path from "path"
+import { JSXElementConstructor, ReactElement } from "react"
+import { renderToPipeableStream, renderToString } from "react-dom/server"
 import { loadEnv } from "vite"
+import { render } from "~/index-server"
 import config from "../config/config.js"
 import { isRouteIndex } from "./helpers/isRouteIndex"
 import { ManifestParser } from "./helpers/ManifestParser"
-import { renderToPipeableStream, renderToString } from "react-dom/server"
-import { JSXElementConstructor, ReactElement } from "react"
-import { rename } from "fs"
-import * as fs from "fs/promises"
+import { Dirent } from "fs"
+import { rejects } from "assert"
 
 /**
  * Prerender
@@ -19,56 +20,70 @@ import * as fs from "fs/promises"
  * @param outDirStatic: Generation destination directory
  */
 export const prerender = async (
-  urls: string[],
-  outDirStatic = config.outDirStaticClient,
-  outDirStaticTemp = config.outDirStaticClientTemp
+  urls: string[]
+  // isGenerate: boolean = false
 ) => {
-  const indexTemplateSrc = `${outDirStaticTemp}/index-template.html`
+  // Define output folders (_temp & client)
+  const outDirStatic = config.outDirStaticClient
+  const outDirStaticTemp = config.outDirStaticClientTemp
 
-  // copy index as template to avoid the override with the generated static index.html bellow
-  if (!(await mfs.fileExists(indexTemplateSrc))) {
-    await mfs.copyFile(`${outDirStaticTemp}/index.html`, indexTemplateSrc)
-  }
+  const isGenerate = !(await mfs.fileExists(`${outDirStaticTemp}/.vite/manifest.json`))
 
   // get script tags to inject in render
   const base = loadEnv("", process.cwd(), "").VITE_APP_BASE || process.env.VITE_APP_BASE
-  const manifest = (await mfs.readFile(
-    `${outDirStaticTemp}/.vite/manifest.json`
-  )) as string
+  let manifest = null
+
+  if (!isGenerate) {
+    manifest = await mfs.readFile(`${outDirStaticTemp}/.vite/manifest.json`)
+  } else {
+    manifest = await mfs.readFile(`${outDirStatic}/.vite/manifest.json`)
+  }
+
   const scriptTags = ManifestParser.getScriptTagFromManifest(manifest, base)
   let errorOnRender = false
+  const renderPromises: Promise<void>[] = []
 
   // pre-render each route
   for (let url of urls) {
-    url = url.startsWith("/") ? url : `/${url}`
+    let formattedURL = url.startsWith("/") ? url : `/${url}`
 
     try {
       // Request DOM
-      const dom = await render(url, scriptTags, true, base)
+      const dom = await render(formattedURL, scriptTags, true, base)
       // create stream and generate current file when all DOM is ready
-      renderToPipeableStream(dom, {
-        onAllReady() {
-          createHtmlFile(urls, url, outDirStaticTemp, dom)
-        },
-        onError(x) {
-          errorOnRender = true
-          console.error(x)
-        }
-      })
+      renderPromises.push(
+        new Promise<void>((resolve, rejects) => {
+          renderToPipeableStream(dom, {
+            onAllReady: async () => {
+              await createHtmlFile(urls, formattedURL, outDirStaticTemp, dom)
+              resolve()
+            },
+            onError(x) {
+              errorOnRender = true
+              console.error(x)
+              rejects(new Error("Error on renderToPipeableStream"))
+            }
+          })
+        })
+      )
     } catch (e) {
       console.log(e)
     }
   }
+  await Promise.all(renderPromises)
 
   if (errorOnRender) {
     console.error(chalk.red("Error on render"))
     process.exit(1)
-  } else {
+  } else if (!isGenerate) {
+    console.log(isGenerate)
     await moveFolder(outDirStatic, "dist/static/old")
     await moveFolder(outDirStaticTemp, outDirStatic)
-
-    // await mfs.removeDir(outDirStaticTemp)
+  } else {
+    await moveHTML(outDirStaticTemp, outDirStatic)
   }
+
+  // await mfs.removeDir(outDirStaticTemp)
 }
 
 /**
@@ -131,9 +146,42 @@ async function moveFolder(source, destination) {
     }
 
     // Supprimer le dossier source après déplacement de son contenu
-    await fs.rmdir(source)
-    console.log(`Dossier déplacé de ${source} à ${destination}`)
+    // await fs.rmdir(source)
+    // console.log(`Folder ${source} moved to ${destination}`)
   } catch (err) {
     console.error(`Erreur lors du déplacement du dossier : ${err}`)
+  }
+}
+
+async function moveHTML(source: string, destination: string): Promise<void> {
+  try {
+    // Crée le dossier de destination s'il n'existe pas
+    await fs.mkdir(destination, { recursive: true })
+
+    // Lire le contenu du dossier source
+    const entries = await fs.readdir(source, { withFileTypes: true })
+
+    for (const entry of entries) {
+      const sourcePath = path.join(source, entry.name)
+      const destinationPath = path.join(destination, entry.name)
+
+      if (entry.isDirectory()) {
+        // Appel récursif pour les sous-dossiers
+        await moveHTML(sourcePath, destinationPath)
+      } else if (path.extname(entry.name).toLowerCase() === ".html") {
+        // Copier le fichier HTML
+        await fs.copyFile(sourcePath, destinationPath)
+        await fs.unlink(sourcePath) // Supprimer le fichier source après copie
+        // console.log(`File ${entry.name} moved from ${source} to ${destination}`)
+      }
+    }
+
+    // Vérifier si le dossier source est vide après déplacement des fichiers HTML
+    const remainingEntries = await fs.readdir(source)
+    if (remainingEntries.length === 0) {
+      await fs.rmdir(source) // Supprimer le dossier source s'il est vide
+    }
+  } catch (err) {
+    console.error(`Erreur lors du déplacement des fichiers HTML : ${err}`)
   }
 }
