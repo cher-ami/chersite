@@ -19,23 +19,25 @@ import { rejects } from "assert"
  * @param urls: Urls to generate
  * @param outDirStatic: Generation destination directory
  */
-export const prerender = async (
-  urls: string[]
-  // isGenerate: boolean = false
-) => {
+export const prerender = async (urls: string[]) => {
   // Define output folders (_temp & client)
   const outDirStatic = config.outDirStaticClient
   const outDirStaticTemp = config.outDirStaticClientTemp
 
+  // Define if comes from :
+  // - build (npm run build:static)
+  // - generate (server /generate or npm run generate)
   const isGenerate = !(await mfs.fileExists(`${outDirStaticTemp}/.vite/manifest.json`))
 
   // get script tags to inject in render
   const base = loadEnv("", process.cwd(), "").VITE_APP_BASE || process.env.VITE_APP_BASE
   let manifest = null
 
+  // If from build, use manifest file from _temp/
   if (!isGenerate) {
     manifest = await mfs.readFile(`${outDirStaticTemp}/.vite/manifest.json`)
   } else {
+    // Else from client/
     manifest = await mfs.readFile(`${outDirStatic}/.vite/manifest.json`)
   }
 
@@ -76,14 +78,13 @@ export const prerender = async (
     console.error(chalk.red("Error on render"))
     process.exit(1)
   } else if (!isGenerate) {
-    console.log(isGenerate)
+    // If from build, move whole folder
     await moveFolder(outDirStatic, "dist/static/old")
     await moveFolder(outDirStaticTemp, outDirStatic)
   } else {
+    // If from generate, move html files only
     await moveHTML(outDirStaticTemp, outDirStatic)
   }
-
-  // await mfs.removeDir(outDirStaticTemp)
 }
 
 /**
@@ -146,7 +147,7 @@ async function moveFolder(source, destination) {
     }
 
     // Supprimer le dossier source après déplacement de son contenu
-    // await fs.rmdir(source)
+    await fs.rmdir(source)
     // console.log(`Folder ${source} moved to ${destination}`)
   } catch (err) {
     console.error(`Erreur lors du déplacement du dossier : ${err}`)
