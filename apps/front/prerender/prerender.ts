@@ -1,14 +1,12 @@
 // @ts-ignore
-import { render } from "~/index-server"
 import * as mfs from "@cher-ami/mfs"
-import path from "path"
 import chalk from "chalk"
+import { renderToPipeableStream } from "react-dom/server"
 import { loadEnv } from "vite"
+import { render } from "~/index-server"
 import config from "../config/config.js"
-import { isRouteIndex } from "./helpers/isRouteIndex"
+import { createHtmlFile, moveFolder, moveHTML } from "./helpers/filesManipulation.js"
 import { ManifestParser } from "./helpers/ManifestParser"
-import { renderToPipeableStream, renderToString } from "react-dom/server"
-import { JSXElementConstructor, ReactElement } from "react"
 
 /**
  * Prerender
@@ -16,71 +14,74 @@ import { JSXElementConstructor, ReactElement } from "react"
  * @param urls: Urls to generate
  * @param outDirStatic: Generation destination directory
  */
-export const prerender = async (
-  urls: string[],
-  outDirStatic = config.outDirStaticClient
-) => {
-  const indexTemplateSrc = `${outDirStatic}/index-template.html`
+export const prerender = async (urls: string[]) => {
+  try {
+    // Define output folders (_temp & client)
+    const outDirStatic = config.outDirStaticClient
+    const outDirStaticTemp = config.outDirStaticClientTemp
 
-  // copy index as template to avoid the override with the generated static index.html bellow
-  if (!(await mfs.fileExists(indexTemplateSrc))) {
-    await mfs.copyFile(`${outDirStatic}/index.html`, indexTemplateSrc)
-  }
+    // Define if comes from :
+    // - build (npm run build:static)
+    // - generate (server /generate or npm run generate)
+    const isGenerate = !(await mfs.fileExists(`${outDirStaticTemp}/.vite/manifest.json`))
 
-  // get script tags to inject in render
-  const base = loadEnv("", process.cwd(), "").VITE_APP_BASE || process.env.VITE_APP_BASE
-  const manifest = (await mfs.readFile(`${outDirStatic}/.vite/manifest.json`)) as string
-  const scriptTags = ManifestParser.getScriptTagFromManifest(manifest, base)
+    // get script tags to inject in render
+    const base = loadEnv("", process.cwd(), "").VITE_APP_BASE || process.env.VITE_APP_BASE
+    let manifest = null
 
-  // pre-render each route
-  for (let url of urls) {
-    url = url.startsWith("/") ? url : `/${url}`
-
-    try {
-      // Request DOM
-      const dom = await render(url, scriptTags, true, base)
-      // create stream and generate current file when all DOM is ready
-      renderToPipeableStream(dom, {
-        onAllReady() {
-          createHtmlFile(urls, url, outDirStatic, dom)
-        },
-        onError(x) {
-          console.error(x)
-        }
-      })
-    } catch (e) {
-      console.log(e)
+    // If from build, use manifest file from _temp/
+    if (!isGenerate) {
+      manifest = await mfs.readFile(`${outDirStaticTemp}/.vite/manifest.json`)
+    } else {
+      // Else from client/
+      manifest = await mfs.readFile(`${outDirStatic}/.vite/manifest.json`)
     }
+
+    const scriptTags = ManifestParser.getScriptTagFromManifest(manifest, base)
+    let errorOnRender = false
+    const renderPromises: Promise<void>[] = []
+
+    // pre-render each route
+    for (let url of urls) {
+      let formattedURL = url.startsWith("/") ? url : `/${url}`
+
+      try {
+        // Request DOM
+        const dom = await render(formattedURL, scriptTags, true, base)
+        // create stream and generate current file when all DOM is ready
+        renderPromises.push(
+          new Promise<void>((resolve, rejects) => {
+            renderToPipeableStream(dom, {
+              onAllReady: async () => {
+                await createHtmlFile(urls, formattedURL, outDirStaticTemp, dom)
+                resolve()
+              },
+              onError(x) {
+                errorOnRender = true
+                console.error(x)
+                rejects(new Error("Error on renderToPipeableStream"))
+              }
+            })
+          })
+        )
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    await Promise.all(renderPromises)
+
+    if (errorOnRender) {
+      console.error(chalk.red("Error on render"))
+      process.exit(1)
+    } else if (!isGenerate) {
+      // If from build, move whole folder
+      await moveFolder(outDirStatic, "dist/static/old")
+      await moveFolder(outDirStaticTemp, outDirStatic)
+    } else {
+      // If from generate, move html files only
+      await moveHTML(outDirStaticTemp, outDirStatic)
+    }
+  } catch (e) {
+    console.error(e)
   }
 }
-
-/**
- * Create a single HTML file
- * @param urls: All urls to generate
- * @param url: Current URL to generate
- * @param outDir:  Generation destination directory
- * @param dom: React DOM from index-server.tsx
- */
-const createHtmlFile = async (
-  urls: string[],
-  url: string,
-  outDir: string,
-  dom: ReactElement<any, string | JSXElementConstructor<any>>
-): Promise<void> => {
-  // Prepare file
-  if (isRouteIndex(url, urls)) url = `${url}/index`
-  const routePath = path.resolve(`${outDir}/${url}`)
-  const htmlFilePath = `${routePath}.html`
-  // Create file
-  await mfs.createFile(htmlFilePath, htmlReplacement(renderToString(dom)))
-  console.log(chalk.green(` → ${htmlFilePath.split("static")[1]}`))
-}
-
-/**
- * Render string patch middleware
- */
-const htmlReplacement = (render: string): string =>
-  render
-    .replace("<html", `<!DOCTYPE html><html`)
-    .replaceAll('<script nomodule=""', "<script nomodule")
-    .replaceAll('crossorigin="anonymous"', "crossorigin")

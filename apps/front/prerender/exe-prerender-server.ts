@@ -1,10 +1,9 @@
-import express from "express"
-import { prerender } from "./prerender"
 import chalk from "chalk"
-import { fetchAvailableUrls } from "./urls"
-import config from "../config/config"
+import express from "express"
 import * as process from "process"
 import { loadEnv } from "vite"
+import { prerender } from "./prerender"
+import { fetchAvailableUrls } from "./urls"
 
 const envs = loadEnv("", process.cwd(), "")
 const port = envs.PRERENDER_SERVER_NODE_PORT || process.env.PRERENDER_SERVER_NODE_PORT
@@ -26,7 +25,7 @@ app.get("/generate", async (req, res) => {
 
   // second arg "./static" is matching cher-ami deploy conf
   // need to be edited if we want to start this server locally
-  await prerender(urlsArray, config.outDirStaticClient)
+  await prerender(urlsArray)
   res?.send("Generated static pages: " + urlsArray.join(", "))
 })
 

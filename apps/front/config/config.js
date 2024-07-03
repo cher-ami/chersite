@@ -14,6 +14,7 @@ export default {
   outDirSsrClient: resolve("dist/ssr/client"),
   outDirSpa: resolve("dist/spa"),
   outDirStaticClient: resolve("dist/static/client"),
+  outDirStaticClientTemp: resolve("dist/static/_temp"),
   outDirStaticScripts: resolve("dist/static/scripts"),
 
   // Input entry files array
