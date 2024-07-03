@@ -20,70 +20,74 @@ import { rejects } from "assert"
  * @param outDirStatic: Generation destination directory
  */
 export const prerender = async (urls: string[]) => {
-  // Define output folders (_temp & client)
-  const outDirStatic = config.outDirStaticClient
-  const outDirStaticTemp = config.outDirStaticClientTemp
+  try {
+    // Define output folders (_temp & client)
+    const outDirStatic = config.outDirStaticClient
+    const outDirStaticTemp = config.outDirStaticClientTemp
 
-  // Define if comes from :
-  // - build (npm run build:static)
-  // - generate (server /generate or npm run generate)
-  const isGenerate = !(await mfs.fileExists(`${outDirStaticTemp}/.vite/manifest.json`))
+    // Define if comes from :
+    // - build (npm run build:static)
+    // - generate (server /generate or npm run generate)
+    const isGenerate = !(await mfs.fileExists(`${outDirStaticTemp}/.vite/manifest.json`))
 
-  // get script tags to inject in render
-  const base = loadEnv("", process.cwd(), "").VITE_APP_BASE || process.env.VITE_APP_BASE
-  let manifest = null
+    // get script tags to inject in render
+    const base = loadEnv("", process.cwd(), "").VITE_APP_BASE || process.env.VITE_APP_BASE
+    let manifest = null
 
-  // If from build, use manifest file from _temp/
-  if (!isGenerate) {
-    manifest = await mfs.readFile(`${outDirStaticTemp}/.vite/manifest.json`)
-  } else {
-    // Else from client/
-    manifest = await mfs.readFile(`${outDirStatic}/.vite/manifest.json`)
-  }
-
-  const scriptTags = ManifestParser.getScriptTagFromManifest(manifest, base)
-  let errorOnRender = false
-  const renderPromises: Promise<void>[] = []
-
-  // pre-render each route
-  for (let url of urls) {
-    let formattedURL = url.startsWith("/") ? url : `/${url}`
-
-    try {
-      // Request DOM
-      const dom = await render(formattedURL, scriptTags, true, base)
-      // create stream and generate current file when all DOM is ready
-      renderPromises.push(
-        new Promise<void>((resolve, rejects) => {
-          renderToPipeableStream(dom, {
-            onAllReady: async () => {
-              await createHtmlFile(urls, formattedURL, outDirStaticTemp, dom)
-              resolve()
-            },
-            onError(x) {
-              errorOnRender = true
-              console.error(x)
-              rejects(new Error("Error on renderToPipeableStream"))
-            }
-          })
-        })
-      )
-    } catch (e) {
-      console.log(e)
+    // If from build, use manifest file from _temp/
+    if (!isGenerate) {
+      manifest = await mfs.readFile(`${outDirStaticTemp}/.vite/manifest.json`)
+    } else {
+      // Else from client/
+      manifest = await mfs.readFile(`${outDirStatic}/.vite/manifest.json`)
     }
-  }
-  await Promise.all(renderPromises)
 
-  if (errorOnRender) {
-    console.error(chalk.red("Error on render"))
-    process.exit(1)
-  } else if (!isGenerate) {
-    // If from build, move whole folder
-    await moveFolder(outDirStatic, "dist/static/old")
-    await moveFolder(outDirStaticTemp, outDirStatic)
-  } else {
-    // If from generate, move html files only
-    await moveHTML(outDirStaticTemp, outDirStatic)
+    const scriptTags = ManifestParser.getScriptTagFromManifest(manifest, base)
+    let errorOnRender = false
+    const renderPromises: Promise<void>[] = []
+
+    // pre-render each route
+    for (let url of urls) {
+      let formattedURL = url.startsWith("/") ? url : `/${url}`
+
+      try {
+        // Request DOM
+        const dom = await render(formattedURL, scriptTags, true, base)
+        // create stream and generate current file when all DOM is ready
+        renderPromises.push(
+          new Promise<void>((resolve, rejects) => {
+            renderToPipeableStream(dom, {
+              onAllReady: async () => {
+                await createHtmlFile(urls, formattedURL, outDirStaticTemp, dom)
+                resolve()
+              },
+              onError(x) {
+                errorOnRender = true
+                console.error(x)
+                rejects(new Error("Error on renderToPipeableStream"))
+              }
+            })
+          })
+        )
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    await Promise.all(renderPromises)
+
+    if (errorOnRender) {
+      console.error(chalk.red("Error on render"))
+      process.exit(1)
+    } else if (!isGenerate) {
+      // If from build, move whole folder
+      await moveFolder(outDirStatic, "dist/static/old")
+      await moveFolder(outDirStaticTemp, outDirStatic)
+    } else {
+      // If from generate, move html files only
+      await moveHTML(outDirStaticTemp, outDirStatic)
+    }
+  } catch (e) {
+    console.error(e)
   }
 }
 
