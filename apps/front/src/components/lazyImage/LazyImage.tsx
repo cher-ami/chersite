@@ -1,7 +1,6 @@
+import { CSSProperties, useEffect, useRef, useState } from "react"
 import { cls } from "@cher-ami/utils"
 import css from "./LazyImage.module.scss"
-import { CSSProperties } from "preact/compat"
-import { useRef, useState, useEffect } from "preact/hooks"
 
 interface IProps {
   src?: string
