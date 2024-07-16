@@ -43,13 +43,13 @@
     #{$property}: fn.toRem(nth($value1, 1)) fn.toRem(nth($value1, 2));
   } @else if length($value1) == 3 {
     #{$property}: fn.toRem(nth($value1, 1))
-      fn.toRem(nth($value1, 2))
-      fn.toRem(nth($value1, 3));
+    fn.toRem(nth($value1, 2))
+    fn.toRem(nth($value1, 3));
   } @else if length($value1) == 4 {
     #{$property}: fn.toRem(nth($value1, 1))
-      fn.toRem(nth($value1, 2))
-      fn.toRem(nth($value1, 3))
-      fn.toRem(nth($value1, 4));
+    fn.toRem(nth($value1, 2))
+    fn.toRem(nth($value1, 3))
+    fn.toRem(nth($value1, 4));
   }
   @if $value2 != $value1 {
     @media (min-width: breakpoints.$breakpoint-tablet) {
@@ -59,13 +59,13 @@
         #{$property}: fn.toRem(nth($value2, 1)) fn.toRem(nth($value2, 2));
       } @else if length($value2) == 3 {
         #{$property}: fn.toRem(nth($value2, 1))
-          fn.toRem(nth($value2, 2))
-          fn.toRem(nth($value2, 3));
+        fn.toRem(nth($value2, 2))
+        fn.toRem(nth($value2, 3));
       } @else if length($value2) == 4 {
         #{$property}: fn.toRem(nth($value2, 1))
-          fn.toRem(nth($value2, 2))
-          fn.toRem(nth($value2, 3))
-          fn.toRem(nth($value2, 4));
+        fn.toRem(nth($value2, 2))
+        fn.toRem(nth($value2, 3))
+        fn.toRem(nth($value2, 4));
       }
     }
   }
@@ -97,7 +97,17 @@
     @include propertyVW($property, $value2, viewport.$viewport-reference-tablet-width);
   }
 
-  //Horizontal mobile
+  // Landscape Tablet
+  @include tablet-landscape {
+    @include propertyVH(
+      $property,
+      $value2,
+      $ratioVW: viewport.$viewport-reference-desktop-width,
+      $ratioVH: viewport.$viewport-reference-desktop-height
+    );
+  }
+
+  // Landscape mobile
   @include mobile-landscape {
     @include propertyVH($property, $value2, viewport.$viewport-reference-width, 0);
   }
@@ -110,13 +120,13 @@
         #{$property}: fn.toPx(nth($value1, 1)) fn.toPx(nth($value1, 2));
       } @else if length($value1) == 3 {
         #{$property}: fn.toPx(nth($value1, 1))
-          fn.toPx(nth($value1, 2))
-          fn.toPx(nth($value1, 3));
+        fn.toPx(nth($value1, 2))
+        fn.toPx(nth($value1, 3));
       } @else if length($value1) == 4 {
         #{$property}: fn.toPx(nth($value1, 1))
-          fn.toPx(nth($value1, 2))
-          fn.toPx(nth($value1, 3))
-          fn.toPx(nth($value1, 4));
+        fn.toPx(nth($value1, 2))
+        fn.toPx(nth($value1, 3))
+        fn.toPx(nth($value1, 4));
       }
     }
   }
@@ -142,9 +152,17 @@
 }
 
 /// Mobile landscape media query.
+/// @param {string} [$breakpoint=breakpoints.$breakpoint-tablet] - Le point de rupture pour les médias queries (par défaut égal à breakpoints.$breakpoint-laptop).
+@mixin mobile-landscape($breakpoint: breakpoints.$breakpoint-tablet) {
+  @media (max-width: #{$breakpoint + 1}) and (orientation: landscape) {
+    @content;
+  }
+}
+
+/// Tablet landscape media query.
 /// @param {string} [$breakpoint=breakpoints.$breakpoint-laptop] - Le point de rupture pour les médias queries (par défaut égal à breakpoints.$breakpoint-laptop).
-@mixin mobile-landscape($breakpoint: breakpoints.$breakpoint-laptop) {
-  @media (max-width: #{$breakpoint - 1}) and (orientation: landscape) {
+@mixin tablet-landscape($breakpoint: breakpoints.$breakpoint-laptop) {
+  @media (max-width: #{$breakpoint + 1}) and (orientation: landscape) {
     @content;
   }
 }

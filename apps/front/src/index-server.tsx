@@ -55,7 +55,7 @@ export async function render(
       <head>
         <meta charSet="UTF-8" />
         <meta httpEquiv="x-ua-compatible" content="IE=Edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{meta?.title || "app"}</title>
         <meta name="description" content={meta?.description} />
         <link rel="canonical" href={meta?.url || url} />
