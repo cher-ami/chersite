@@ -1,6 +1,6 @@
-import { CSSProperties, useEffect, useRef, useState } from "react"
-import { cls } from "@cher-ami/utils"
+import React, { CSSProperties, useEffect, useRef, useState } from "react"
 import css from "./LazyImage.module.scss"
+import { cls } from "@cher-ami/utils"
 
 interface IProps {
   src?: string
@@ -16,6 +16,9 @@ interface IProps {
 
 export type Lazy = "lazyload" | "lazyloading" | "lazyloaded"
 
+/**
+ * @name LazyImage
+ */
 function LazyImage(props: IProps) {
   const imageRef = useRef<HTMLImageElement>(null)
   const [lazyState, setLazyState] = useState<Lazy>("lazyload")
@@ -78,6 +81,7 @@ function LazyImage(props: IProps) {
           // Set new src fallback
           image.src = props.src ?? "data:,"
 
+          // end!
           setLazyState("lazyloaded")
           props.onLoaded?.(image)
           observer.disconnect()
@@ -104,9 +108,9 @@ function LazyImage(props: IProps) {
           ref={imageRef}
           className={cls(css.image, lazyState)}
           src={"data:,"}
-          data-src={props.dataSrc}
-          data-srcset={props.dataSrcSet}
-          alt={props.alt}
+          data-src={props?.dataSrc}
+          data-srcset={props?.dataSrcSet}
+          alt={props?.alt}
           width={props.width}
           height={props.height}
           style={props.style}
