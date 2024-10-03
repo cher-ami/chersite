@@ -74,7 +74,9 @@ strong {
 /**
  * Remove list style dote by default
  */
-ul {
+ul,
+ol,
+menu {
   list-style: none;
 }
 
