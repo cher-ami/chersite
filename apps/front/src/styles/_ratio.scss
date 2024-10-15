@@ -1,6 +1,7 @@
 @use "./_viewport" as viewport;
 @use "./_breakpoints" as breakpoints;
 @use "./_functions" as fn;
+@use "./_utils" as utils;
 
 /// Set property calculated with VH & VW ratio
 /// @param {css property} $property
@@ -13,6 +14,20 @@
   $n1,
   $ratioVH: viewport.$viewport-reference-desktop-height,
   $ratioVW: viewport.$viewport-reference-desktop-width
+) {
+  #{$property}: #{fn.ratioVH($n1, $ratioVH)};
+  @if $ratioVW > 0 {
+    @media (max-aspect-ratio: #{ #{$ratioVW} / #{$ratioVH+1} }) {
+      #{$property}: #{fn.ratioVW($n1, $ratioVW)};
+    }
+  }
+}
+
+@mixin mobileVH(
+  $property,
+  $n1,
+  $ratioVH: viewport.$viewport-reference-height,
+  $ratioVW: viewport.$viewport-reference-width
 ) {
   #{$property}: #{fn.ratioVH($n1, $ratioVH)};
   @if $ratioVW > 0 {
@@ -87,14 +102,19 @@
   //Mobile
   @include propertyVW($property, $value1);
 
-  //Horizontal Desktop & Tablet
-  @include desktop($breakpoint) {
-    @include propertyVH($property, $value2, $ratioVW: 0);
+  // Landscape mobile
+  @include mobile-landscape {
+    @include propertyVH($property, $value2, viewport.$viewport-reference-width, 0);
   }
 
-  //Portrait Desktop & Tablet
-  @include desktop-portrait {
-    @include propertyVW($property, $value2, viewport.$viewport-reference-tablet-width);
+  // Portrait Tablet
+  @include tablet-portrait {
+    @include propertyVH(
+      $property,
+      $value2,
+      $ratioVW: viewport.$viewport-reference-tablet-width,
+      $ratioVH: viewport.$viewport-reference-tablet-height
+    );
   }
 
   // Landscape Tablet
@@ -102,14 +122,19 @@
     @include propertyVH(
       $property,
       $value2,
-      $ratioVW: viewport.$viewport-reference-desktop-width,
-      $ratioVH: viewport.$viewport-reference-desktop-height
+      $ratioVW: viewport.$viewport-reference-tablet-width,
+      $ratioVH: viewport.$viewport-reference-tablet-height
     );
   }
 
-  // Landscape mobile
-  @include mobile-landscape {
-    @include propertyVH($property, $value2, viewport.$viewport-reference-width, 0);
+  //Portrait Desktop & Tablet
+  @include desktop-portrait {
+    @include propertyVW($property, $value2, viewport.$viewport-reference-tablet-width);
+  }
+
+  //Horizontal Desktop & Tablet
+  @include desktop($breakpoint) {
+    @include propertyVH($property, $value2, $ratioVW: 0);
   }
 
   @if $cap {
@@ -146,7 +171,7 @@
 /// Desktop & Tablet portrait media query
 /// @param {string} [$breakpoint=breakpoints.$breakpoint-tablet] - Le point de rupture pour les médias queries (par défaut égal à breakpoints.$breakpoint-tablet).
 @mixin desktop-portrait($breakpoint: breakpoints.$breakpoint-tablet) {
-  @media (min-width: $breakpoint) and (orientation: portrait) {
+  @media (min-width: $breakpoint) and (min-height: breakpoints.$breakpoint-bigLaptop) and (orientation: portrait) {
     @content;
   }
 }
@@ -162,7 +187,15 @@
 /// Tablet landscape media query.
 /// @param {string} [$breakpoint=breakpoints.$breakpoint-laptop] - Le point de rupture pour les médias queries (par défaut égal à breakpoints.$breakpoint-laptop).
 @mixin tablet-landscape($breakpoint: breakpoints.$breakpoint-laptop) {
-  @media (max-width: #{$breakpoint + 1}) and (orientation: landscape) {
+  @media (max-width: #{breakpoints.$breakpoint-bigLaptop-min + 1}) and (min-width: #{$breakpoint}) and (orientation: landscape) {
+    @content;
+  }
+}
+
+/// Tablet portrait media query.
+/// @param {string} [$breakpoint=breakpoints.$breakpoints-tablet-height] - Le point de rupture pour les médias queries (par défaut égal à breakpoints.$breakpoint-laptop).
+@mixin tablet-portrait($breakpoint: breakpoints.$breakpoint-tablet-height) {
+  @media (min-height: #{$breakpoint}) and (orientation: portrait) {
     @content;
   }
 }
