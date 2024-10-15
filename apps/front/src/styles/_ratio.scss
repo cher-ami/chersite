@@ -43,13 +43,13 @@
     #{$property}: fn.toRem(nth($value1, 1)) fn.toRem(nth($value1, 2));
   } @else if length($value1) == 3 {
     #{$property}: fn.toRem(nth($value1, 1))
-    fn.toRem(nth($value1, 2))
-    fn.toRem(nth($value1, 3));
+      fn.toRem(nth($value1, 2))
+      fn.toRem(nth($value1, 3));
   } @else if length($value1) == 4 {
     #{$property}: fn.toRem(nth($value1, 1))
-    fn.toRem(nth($value1, 2))
-    fn.toRem(nth($value1, 3))
-    fn.toRem(nth($value1, 4));
+      fn.toRem(nth($value1, 2))
+      fn.toRem(nth($value1, 3))
+      fn.toRem(nth($value1, 4));
   }
   @if $value2 != $value1 {
     @media (min-width: breakpoints.$breakpoint-tablet) {
@@ -59,13 +59,13 @@
         #{$property}: fn.toRem(nth($value2, 1)) fn.toRem(nth($value2, 2));
       } @else if length($value2) == 3 {
         #{$property}: fn.toRem(nth($value2, 1))
-        fn.toRem(nth($value2, 2))
-        fn.toRem(nth($value2, 3));
+          fn.toRem(nth($value2, 2))
+          fn.toRem(nth($value2, 3));
       } @else if length($value2) == 4 {
         #{$property}: fn.toRem(nth($value2, 1))
-        fn.toRem(nth($value2, 2))
-        fn.toRem(nth($value2, 3))
-        fn.toRem(nth($value2, 4));
+          fn.toRem(nth($value2, 2))
+          fn.toRem(nth($value2, 3))
+          fn.toRem(nth($value2, 4));
       }
     }
   }
@@ -120,13 +120,13 @@
         #{$property}: fn.toPx(nth($value1, 1)) fn.toPx(nth($value1, 2));
       } @else if length($value1) == 3 {
         #{$property}: fn.toPx(nth($value1, 1))
-        fn.toPx(nth($value1, 2))
-        fn.toPx(nth($value1, 3));
+          fn.toPx(nth($value1, 2))
+          fn.toPx(nth($value1, 3));
       } @else if length($value1) == 4 {
         #{$property}: fn.toPx(nth($value1, 1))
-        fn.toPx(nth($value1, 2))
-        fn.toPx(nth($value1, 3))
-        fn.toPx(nth($value1, 4));
+          fn.toPx(nth($value1, 2))
+          fn.toPx(nth($value1, 3))
+          fn.toPx(nth($value1, 4));
       }
     }
   }

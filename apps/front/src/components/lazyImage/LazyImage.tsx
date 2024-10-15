@@ -9,6 +9,7 @@ interface IProps {
   className?: string
   alt?: string
   style?: CSSProperties
+  aspectRatio?: string // ex: "16/9" "4/3"
   width: number
   height: number
   onLoaded?: (img: HTMLImageElement) => void
@@ -18,6 +19,8 @@ export type Lazy = "lazyload" | "lazyloading" | "lazyloaded"
 
 /**
  * @name LazyImage
+ * @description Lazy load image component with srcset and src fallback
+ * @example <LazyImage dataSrcSet="image-600 600w, image-800 800w, image-1024 1024w" src="image-800" alt="image" width={800} height={600} aspectRatio={"4 / 3"} />
  */
 function LazyImage(props: IProps) {
   const imageRef = useRef<HTMLImageElement>(null)
@@ -31,8 +34,7 @@ function LazyImage(props: IProps) {
     new Promise((resolve) => {
       const dataSrc = image.dataset.src
       const dataSrcSet = image.dataset.srcset
-      // create void image tag for start preload
-      // const img = document.createElement("img")
+
       if (dataSrc) image.src = dataSrc
       if (dataSrcSet) image.srcset = dataSrcSet
 
@@ -102,7 +104,11 @@ function LazyImage(props: IProps) {
     <>
       <div
         className={cls(css.imageWrapper, props.className)}
-        style={{ paddingBottom: `${aspectRatioPadding}%` }}
+        style={{
+          paddingBottom: props.aspectRatio
+            ? `calc((2 - ${props.aspectRatio})* 100%)`
+            : `${aspectRatioPadding}%`
+        }}
       >
         <img
           ref={imageRef}
@@ -110,7 +116,7 @@ function LazyImage(props: IProps) {
           src={"data:,"}
           data-src={props?.dataSrc}
           data-srcset={props?.dataSrcSet}
-          alt={props?.alt}
+          alt={props?.alt ?? ""}
           width={props.width}
           height={props.height}
           style={props.style}
