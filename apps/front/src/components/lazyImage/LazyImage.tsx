@@ -8,8 +8,10 @@ interface IProps {
   dataSrcSet?: string
   className?: string
   alt?: string
-  aspectRatio?: number
   style?: CSSProperties
+  aspectRatio?: string // ex: "16/9" "4/3"
+  width: number
+  height: number
   onLoaded?: (img: HTMLImageElement) => void
 }
 
@@ -17,6 +19,8 @@ export type Lazy = "lazyload" | "lazyloading" | "lazyloaded"
 
 /**
  * @name LazyImage
+ * @description Lazy load image component with srcset and src fallback
+ * @example <LazyImage dataSrcSet="image-600 600w, image-800 800w, image-1024 1024w" src="image-800" alt="image" width={800} height={600} aspectRatio={"4 / 3"} />
  */
 function LazyImage(props: IProps) {
   const imageRef = useRef<HTMLImageElement>(null)
@@ -30,8 +34,7 @@ function LazyImage(props: IProps) {
     new Promise((resolve) => {
       const dataSrc = image.dataset.src
       const dataSrcSet = image.dataset.srcset
-      // create void image tag for start preload
-      // const img = document.createElement("img")
+
       if (dataSrc) image.src = dataSrc
       if (dataSrcSet) image.srcset = dataSrcSet
 
@@ -51,6 +54,21 @@ function LazyImage(props: IProps) {
   const lazyStateRef = useRef<Lazy>("lazyload")
 
   useEffect(() => {
+    // if img lazy is supported by the browser we don't need to use IntersectionObserver
+    if ("loading" in HTMLImageElement.prototype) {
+      // add src and srcset to image
+      if (imageRef.current) {
+        imageRef.current.srcset = props.dataSrcSet ?? ""
+        imageRef.current.src = props.src && !props.dataSrcSet ? props.src : ""
+      }
+      return
+    }
+
+    // add class lazyJs on imageRef
+    if (imageRef.current) {
+      imageRef.current.classList.add("lazyJs")
+    }
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(async (entry) => {
         if (entry.isIntersecting) {
@@ -61,6 +79,9 @@ function LazyImage(props: IProps) {
 
           // Start preload
           await preloadImage(image)
+
+          // Set new src fallback
+          image.src = props.src ?? "data:,"
 
           // end!
           setLazyState("lazyloaded")
@@ -76,19 +97,43 @@ function LazyImage(props: IProps) {
     }
   }, [])
 
+  const aspectRatioPadding =
+    props.width && props.height ? (props.height / props.width) * 100 : 0
+
   return (
-    <img
-      ref={imageRef}
-      className={cls(css.root, props.className, lazyState)}
-      src={props.src ?? "data:,"}
-      data-src={props?.dataSrc}
-      data-srcset={props?.dataSrcSet}
-      alt={props?.alt}
-      style={{
-        ...(props.aspectRatio ? { aspectRatio: `${props.aspectRatio}` } : {}),
-        ...(props.style || {})
-      }}
-    />
+    <>
+      <div
+        className={cls(css.imageWrapper, props.className)}
+        style={{
+          paddingBottom: props.aspectRatio
+            ? `calc((2 - ${props.aspectRatio})* 100%)`
+            : `${aspectRatioPadding}%`
+        }}
+      >
+        <img
+          ref={imageRef}
+          className={cls(css.image, lazyState)}
+          src={"data:,"}
+          data-src={props?.dataSrc}
+          data-srcset={props?.dataSrcSet}
+          alt={props?.alt ?? ""}
+          width={props.width}
+          height={props.height}
+          style={props.style}
+          loading={"lazy"}
+        />
+      </div>
+      <noscript>
+        <img
+          className={cls(css.image, props.className)}
+          src={props.src}
+          srcSet={props.dataSrcSet}
+          alt={props.alt}
+          width={props.width}
+          height={props.height}
+        />
+      </noscript>
+    </>
   )
 }
 

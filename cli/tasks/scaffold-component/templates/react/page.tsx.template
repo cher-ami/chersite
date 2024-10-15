@@ -35,7 +35,7 @@ const %%upperComponentName%% = forwardRef((props: IProps, handleRef: ForwardedRe
 
   return (
     <div className={css.root} ref={rootRef}>
-      {componentName}
+      <h1>{componentName}</h1>
     </div>
   );
 });
