@@ -14,5 +14,6 @@ export default {
   // setup
   taskSetupFolder: resolve("cli/tasks/setup"),
   installFile: resolve("cli/install"),
-  setupFakeMode: false
+  setupFakeMode: false,
+  mode: "SSG"
 }
