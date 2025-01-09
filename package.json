@@ -13,7 +13,7 @@
     "front:scaffold": "node cli/tasks/scaffold-component/scaffold-component.js",
     "back:scaffold-wp": "node cli/tasks/scaffold-wp/scaffold-wp.js",
     "setup": "node cli/tasks/setup/setup.js && npm run prepare",
-    "prepare": "husky install",
+    "prepare": "husky",
     "postinstall": "cd apps/front && npm i"
   },
   "devDependencies": {
@@ -21,7 +21,7 @@
     "@cher-ami/mfs": "^0.2.0",
     "change-case": "^5.4.2",
     "lint-staged": "^15.2.2",
-    "husky": "^9.0.10",
+    "husky": "^9.1.7",
     "prettier": "^3.2.5",
     "inquirer": "^9.2.14",
     "chalk": "^5.3.0"
