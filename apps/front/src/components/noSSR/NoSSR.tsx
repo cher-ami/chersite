@@ -9,7 +9,7 @@ import { isBrowser } from "@cher-ami/utils"
  * @param children
  * @constructor
  */
-export const NoSSR = ({ children }): JSX.Element => {
+export const NoSSR = ({ children }): React.JSX.Element => {
   const [shouldRender, setShouldRender] = useState(false)
   useEffect(() => {
     setShouldRender(isBrowser())
