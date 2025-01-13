@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@cher-ami/mfs": "^0.2.0",
+    "@eggjs/ip": "^2.0.2",
     "@types/events": "^3.0.3",
     "@types/node": "^22.10.5",
     "@types/react": "^19.0.6",
@@ -43,7 +44,6 @@
     "cross-env": "^7.0.3",
     "express": "^4.21.2",
     "husky": "^9.1.7",
-    "ip": "^2.0.1",
     "portfinder-sync": "^0.0.2",
     "rollup-plugin-visualizer": "^5.14.0",
     "sass": "^1.83.1",
