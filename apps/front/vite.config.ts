@@ -83,12 +83,6 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       },
       postcss: {
         plugins: [autoprefixer()]
-      },
-      preprocessorOptions: {
-        scss: {
-          api: "modern-compiler",
-          silenceDeprecations: ["legacy-js-api"] // Temporary before updating scss
-        }
       }
     },
 
