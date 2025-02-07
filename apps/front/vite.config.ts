@@ -48,9 +48,9 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       ? {
           customLogger: viteChersiteCustomLogger({
             protocol,
-            host: process.env.HOST,
-            port: process.env.PORT,
-            base: process.env.VITE_APP_BASE
+            host: process.env.HOST || "localhost",
+            port: process.env.PORT || "5173",
+            base: process.env.VITE_APP_BASE || "/"
           })
         }
       : {}),
@@ -130,9 +130,9 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       // always build htaccess for SPA production
       buildHtaccessPlugin({
         enable: loadEnvVars.VITE_SPA === "true",
-        serverWebRootPath: null,
-        user: null,
-        password: null,
+        serverWebRootPath: undefined,
+        user: undefined,
+        password: undefined,
         htaccessTemplatePath: config.htaccessTemplateFilePath,
         outputPath: "dist/spa"
       }),
