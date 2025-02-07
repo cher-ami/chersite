@@ -20,10 +20,10 @@
     "@cher-ami/debug": "^1.2.0",
     "@cher-ami/mfs": "^0.2.0",
     "change-case": "^5.4.4",
-    "lint-staged": "^15.3.0",
+    "lint-staged": "^15.4.3",
     "husky": "^9.1.7",
     "prettier": "^3.4.2",
-    "inquirer": "^12.3.1",
+    "inquirer": "^12.4.1",
     "chalk": "^5.4.1"
   },
   "lint-staged": {
