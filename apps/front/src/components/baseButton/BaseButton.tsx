@@ -1,4 +1,4 @@
-import React, { MutableRefObject } from "react"
+import React, { RefObject } from "react"
 import css from "./BaseButton.module.scss"
 import { Link, openRoute, TOpenRouteParams } from "@cher-ami/router"
 import { cls } from "@cher-ami/utils"
@@ -18,7 +18,7 @@ type TExternalLinkButton = {
 
 type IProps = {
   className?: string
-  label: string | JSX.Element
+  label: string | React.JSX.Element
   ariaLabel: string
   onClick?: () => void
   tag: "button" | "a"
@@ -46,7 +46,7 @@ const log = debug(`front:${componentName}`)
  *
  *
  */
-function BaseButton(props: IProps, ref: MutableRefObject<any>) {
+function BaseButton(props: IProps, ref: RefObject<any>) {
   const commonContent = (
     <div className={cls(css.wrapper)}>
       <div className={css.content}>{props.label}</div>

@@ -11,7 +11,7 @@ import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
 import { viteChersiteCustomLogger } from "./config/vite-plugins/vite-chersite-custom-logger"
 import legacy from "@vitejs/plugin-legacy"
-import ip from "ip"
+import ip from "@eggjs/ip"
 import portFinderSync from "portfinder-sync"
 const log = debug("config:vite.config")
 
