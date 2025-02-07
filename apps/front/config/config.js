@@ -1,4 +1,6 @@
 import { resolve } from "path"
+import { loadEnv } from "vite"
+const envs = loadEnv("", process.cwd(), "")
 
 export default {
   srcDir: resolve("src"),
@@ -13,8 +15,14 @@ export default {
   outDirSsrServer: resolve("dist/ssr/server"),
   outDirSsrClient: resolve("dist/ssr/client"),
   outDirSpa: resolve("dist/spa"),
-  outDirStaticClient: resolve("dist/static/client"),
-  outDirStaticClientTemp: resolve("dist/static/_temp"),
+  outDirStaticClient:
+    envs.OUTDIR_STATIC_CLIENT ||
+    process.env.OUTDIR_STATIC_CLIENT ||
+    resolve("dist/static/client"),
+  outDirStaticClientTemp:
+    envs.OUTDIR_STATIC_TEMP ||
+    process.env.OUTDIR_STATIC_TEMP ||
+    resolve("dist/static/_temp"),
   outDirStaticScripts: resolve("dist/static/scripts"),
 
   // Input entry files array
