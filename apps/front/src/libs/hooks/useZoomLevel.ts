@@ -1,6 +1,5 @@
-import { listen } from "@cher-ami/utils"
-import { useEffect, useState } from "react"
 import debug from "@cher-ami/debug"
+import { useEffect, useState } from "react"
 
 const log = debug("front:zoomLevel")
 
@@ -11,22 +10,27 @@ const log = debug("front:zoomLevel")
  */
 export function useZoomLevel(enableFont: boolean = true): number {
   const [zoomLevel, setZoomLevel] = useState<number>(1)
-  let lastDPR = null
+  let lastWindowSize = null
 
   /**
    * Init font size calcul
    */
   useEffect(() => {
-    changeZoomLevel()
-    return listen(window, "resize", changeZoomLevel)
+    const observer = new ResizeObserver(changeZoomLevel)
+    observer.observe(document.body)
+
+    return () => {
+      observer.disconnect()
+    }
   }, [])
 
   /**
    * On zoom, set font size according to zoom level, but keep vh/vw ratio
    */
-  const changeZoomLevel = (): void => {
-    if (lastDPR === window.devicePixelRatio) return
-    const zoom = getZoomLevel()
+  const changeZoomLevel = (entries?: ResizeObserverEntry[]): void => {
+    if (window.outerWidth === entries[0].contentBoxSize[0].inlineSize) return
+
+    const zoom = getZoomLevel(entries?.[0] || null)
     setZoomLevel(zoom)
 
     if (!enableFont) return
@@ -46,7 +50,7 @@ export function useZoomLevel(enableFont: boolean = true): number {
    * WARNING : Tricks for firefox using localstorage
    * @returns number
    */
-  const getZoomLevel = (): number => {
+  const getZoomLevel = (entry?: ResizeObserverEntry): number => {
     let zoom = 1
 
     if (screen.width === window.innerWidth) {
@@ -54,13 +58,10 @@ export function useZoomLevel(enableFont: boolean = true): number {
       let initialDpr = getInitialDPR()
       zoom = window.devicePixelRatio / initialDpr
     } else {
-      zoom = screen.width / window.innerWidth
-      if (isNaN(zoom) || zoom <= 0) {
-        zoom = window.outerWidth / window.innerWidth
-      }
+      zoom = window.outerWidth / entry.contentBoxSize[0].inlineSize
     }
     log("zoom", zoom)
-    lastDPR = window.devicePixelRatio
+    lastWindowSize = window.outerWidth
     return zoom
   }
 
