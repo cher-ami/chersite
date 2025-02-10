@@ -84,7 +84,9 @@ export const prerender = async (urls: string[]) => {
     }
 
     //Once done, update chmod rights for folder & files
+    //Setup 644 for files
     exec(`find ${outDirStatic} -type f -exec chmod 644 {} \\;`)
+    //Setup 755 for folders
     exec(`find ${outDirStatic} -type d -exec chmod 755 {} \\;`)
   } catch (e) {
     console.error(e)
