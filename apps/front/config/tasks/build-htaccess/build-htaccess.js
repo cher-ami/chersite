@@ -11,7 +11,6 @@ import chalk from "chalk"
  */
 const _createHtaccessFile = async ({ outputPath, htaccessTemplatePath }) => {
   const newHtaccessFilePath = `${outputPath}/.htaccess`
-
   log({ htaccessTemplatePath, newHtaccessFilePath })
 
   const templateExist = await mfs.fileExists(htaccessTemplatePath)
@@ -25,7 +24,21 @@ const _createHtaccessFile = async ({ outputPath, htaccessTemplatePath }) => {
     return
   }
 
-  const readTemplate = await mfs.readFile(htaccessTemplatePath)
+  let readTemplate = await mfs.readFile(htaccessTemplatePath)
+
+  if (process.env.HTACCESS_GENERATE_PROXY === "true") {
+    const url = process.env.HTACCESS_GENERATE_URL || "http://localhost:1234"
+    const rewriteRule = `# FRONT GENERATE
+RewriteEngine On
+RewriteRule ^generate(.*)$ ${url}/generate$1 [P,L]
+
+# Password protection (exclude /generate)
+SetEnvIf Request_URI "^/generate" NOAUTH=1
+
+# FRONT REDIRECTION
+`
+    readTemplate = rewriteRule + readTemplate
+  }
 
   // create and dispatch file from template
   await mfs.createFile(newHtaccessFilePath, readTemplate)
@@ -74,6 +87,9 @@ const _htpasswdLinkInHtaccess = async ({ newHtaccessFilePath, serverWebRootPath 
       AuthType Basic
       AuthName "Restricted Area"
       Require valid-user
+      Order allow,deny
+      Allow from env=NOAUTH
+      Satisfy any
       `
   ]
     .join("\n")
