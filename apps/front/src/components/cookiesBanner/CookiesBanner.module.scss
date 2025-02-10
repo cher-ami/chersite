@@ -8,7 +8,7 @@
   padding: 30rem;
 
   transform: translateY(100%);
-  transition: 400ms var(--ease-back-in);
+  transition: 400ms $easeBackIn;
   transition-property: transform, opacity;
 
   &_show {

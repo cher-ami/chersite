@@ -1,13 +1,13 @@
-import css from "./App.module.scss"
-import React, { useEffect } from "react"
-import { Link, Stack, TManageTransitions } from "@cher-ami/router"
 import debug from "@cher-ami/debug"
-import { EPages } from "~/routes"
+import { Link, Stack, TManageTransitions } from "@cher-ami/router"
+import React, { useEffect } from "react"
 import { useZoomLevel } from "~/libs/hooks/useZoomLevel"
+import { EPages } from "~/routes"
+import css from "./App.module.scss"
 const log = debug(`front:App`)
 
 function App() {
-  const zoom = useZoomLevel(true)
+  const zoom = useZoomLevel(false)
 
   useEffect(() => {
     log("Zoom level", zoom)
