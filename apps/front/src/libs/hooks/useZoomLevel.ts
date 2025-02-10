@@ -1,5 +1,8 @@
 import { listen } from "@cher-ami/utils"
 import { useEffect, useState } from "react"
+import debug from "@cher-ami/debug"
+
+const log = debug("front:zoomLevel")
 
 /**
  * useFontZoom
@@ -8,6 +11,7 @@ import { useEffect, useState } from "react"
  */
 export function useZoomLevel(enableFont: boolean = true): number {
   const [zoomLevel, setZoomLevel] = useState<number>(1)
+  let lastDPR = null
 
   /**
    * Init font size calcul
@@ -21,6 +25,7 @@ export function useZoomLevel(enableFont: boolean = true): number {
    * On zoom, set font size according to zoom level, but keep vh/vw ratio
    */
   const changeZoomLevel = (): void => {
+    if (lastDPR === window.devicePixelRatio) return
     const zoom = getZoomLevel()
     setZoomLevel(zoom)
 
@@ -43,6 +48,7 @@ export function useZoomLevel(enableFont: boolean = true): number {
    */
   const getZoomLevel = (): number => {
     let zoom = 1
+
     if (screen.width === window.innerWidth) {
       //Firefox Trick; set first DPR in localstorage to get a reference DPR
       let initialDpr = getInitialDPR()
@@ -53,7 +59,8 @@ export function useZoomLevel(enableFont: boolean = true): number {
         zoom = window.outerWidth / window.innerWidth
       }
     }
-
+    log("zoom", zoom)
+    lastDPR = window.devicePixelRatio
     return zoom
   }
 

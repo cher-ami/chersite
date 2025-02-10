@@ -7,7 +7,7 @@ import { useZoomLevel } from "~/libs/hooks/useZoomLevel"
 const log = debug(`front:App`)
 
 function App() {
-  const zoom = useZoomLevel(false)
+  const zoom = useZoomLevel(true)
 
   useEffect(() => {
     log("Zoom level", zoom)
