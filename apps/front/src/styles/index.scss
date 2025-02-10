@@ -10,6 +10,7 @@
 @import "./viewport-inline";
 
 :root {
+  @include propertyViewport(--initial-font-size, 1);
   @include propertyViewport(--font-size, 1);
 }
 
