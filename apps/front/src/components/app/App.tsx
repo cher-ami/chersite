@@ -1,11 +1,18 @@
 import css from "./App.module.scss"
-import React from "react"
+import React, { useEffect } from "react"
 import { Link, Stack, TManageTransitions } from "@cher-ami/router"
 import debug from "@cher-ami/debug"
 import { EPages } from "~/routes"
+import { useZoomLevel } from "~/libs/hooks/useZoomLevel"
 const log = debug(`front:App`)
 
 function App() {
+  const zoom = useZoomLevel(false)
+
+  useEffect(() => {
+    log("Zoom level", zoom)
+  }, [zoom])
+
   /**
    * Manage page transitions scenario
    * https://github.com/cher-ami/router/tree/main#manage-transitions
