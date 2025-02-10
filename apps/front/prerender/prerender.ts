@@ -7,6 +7,7 @@ import { render } from "~/index-server"
 import config from "../config/config.js"
 import { createHtmlFile, moveFolder, moveHTML } from "./helpers/filesManipulation.js"
 import { ManifestParser } from "./helpers/ManifestParser"
+import { exec } from "child_process"
 
 /**
  * Prerender
@@ -81,6 +82,10 @@ export const prerender = async (urls: string[]) => {
       // If from generate, move html files only
       await moveHTML(outDirStaticTemp, outDirStatic)
     }
+
+    //Once done, update chmod rights for folder & files
+    exec(`find ${outDirStatic} -type f -exec chmod 644 {} \\;`)
+    exec(`find ${outDirStatic} -type d -exec chmod 755 {} \\;`)
   } catch (e) {
     console.error(e)
   }
