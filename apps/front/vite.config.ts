@@ -110,8 +110,6 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
 
     plugins: [
       react(),
-      viteFastifyReact(),
-      viteReact(),
 
       checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
 

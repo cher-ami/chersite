@@ -59,7 +59,15 @@ const envToLogger = {
       target: "pino-pretty",
       options: {
         translateTime: "HH:MM:ss Z",
-        ignore: "pid,hostname"
+        ignore: "pid,hostname,reqId,responseTime"
+      }
+    },
+    serializers: {
+      res(reply) {
+        return reply.statusCode
+      },
+      req(request) {
+        return request.url
       }
     }
   },
@@ -97,7 +105,7 @@ async function createDevServer(serverConfig: ServerConfig): Promise<FastifyInsta
         url: request.url,
         scripts: devScripts,
         isStatic: false,
-        base: serverConfig.base
+        base: BASE
       }
 
       const dom = await render(

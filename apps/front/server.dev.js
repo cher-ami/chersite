@@ -66,6 +66,7 @@ const INDEX_SERVER_PATH = `${config.srcDir}/index-server.tsx`
         const devScripts = {
           js: [{ tag: "script", attr: { type: "module", src: "/src/index-client.tsx" } }]
         }
+        console.log("devScripts", devScripts)
         // Get react-dom from the render method
         const dom = await render(req.originalUrl, devScripts, false, BASE)
         // Create stream with renderToPipeableStream to support Suspense API
