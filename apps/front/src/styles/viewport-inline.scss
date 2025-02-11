@@ -1,6 +1,8 @@
+@use "reference";
+
 :root {
-  --viewport-reference-width: #{$viewport-reference-width};
-  --viewport-reference-height: #{$viewport-reference-height};
-  --viewport-reference-desktop-width: #{$viewport-reference-desktop-width};
-  --viewport-reference-desktop-height: #{$viewport-reference-desktop-height};
+  --viewport-reference-width: #{reference.$viewport-reference-width};
+  --viewport-reference-height: #{reference.$viewport-reference-height};
+  --viewport-reference-desktop-width: #{reference.$viewport-reference-desktop-width};
+  --viewport-reference-desktop-height: #{reference.$viewport-reference-desktop-height};
 }

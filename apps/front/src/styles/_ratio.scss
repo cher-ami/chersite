@@ -1,3 +1,4 @@
+@use "sass:list";
 @use "./_viewport" as viewport;
 @use "./_breakpoints" as breakpoints;
 @use "./_functions" as fn;
@@ -43,7 +44,9 @@
 /// @param {Number} $ratioVW []
 /// @output
 @mixin propertyVW($property, $n1, $ratioVW: viewport.$viewport-reference-width) {
-  #{$property}: #{fn.ratioVW($n1, $ratioVW)};
+  & {
+    #{$property}: #{fn.ratioVW($n1, $ratioVW)};
+  }
 }
 
 /// Set property rem
@@ -52,35 +55,35 @@
 /// @param {Number | Number[]} $value2 - desktop value
 /// @output
 @mixin rem($property, $value1, $value2: $value1) {
-  @if length($value1) == 1 {
+  @if list.length($value1) == 1 {
     #{$property}: fn.toRem($value1);
-  } @else if length($value1) == 2 {
-    #{$property}: fn.toRem(nth($value1, 1)) fn.toRem(nth($value1, 2));
-  } @else if length($value1) == 3 {
-    #{$property}: fn.toRem(nth($value1, 1))
-      fn.toRem(nth($value1, 2))
-      fn.toRem(nth($value1, 3));
-  } @else if length($value1) == 4 {
-    #{$property}: fn.toRem(nth($value1, 1))
-      fn.toRem(nth($value1, 2))
-      fn.toRem(nth($value1, 3))
-      fn.toRem(nth($value1, 4));
+  } @else if list.length($value1) == 2 {
+    #{$property}: fn.toRem(list.nth($value1, 1)) fn.toRem(list.nth($value1, 2));
+  } @else if list.length($value1) == 3 {
+    #{$property}: fn.toRem(list.nth($value1, 1))
+      fn.toRem(list.nth($value1, 2))
+      fn.toRem(list.nth($value1, 3));
+  } @else if list.length($value1) == 4 {
+    #{$property}: fn.toRem(list.nth($value1, 1))
+      fn.toRem(list.nth($value1, 2))
+      fn.toRem(list.nth($value1, 3))
+      fn.toRem(list.nth($value1, 4));
   }
   @if $value2 != $value1 {
     @media (min-width: breakpoints.$breakpoint-tablet) {
-      @if length($value2) == 1 {
+      @if list.length($value2) == 1 {
         #{$property}: fn.toRem($value2);
-      } @else if length($value2) == 2 {
-        #{$property}: fn.toRem(nth($value2, 1)) fn.toRem(nth($value2, 2));
-      } @else if length($value2) == 3 {
-        #{$property}: fn.toRem(nth($value2, 1))
-          fn.toRem(nth($value2, 2))
-          fn.toRem(nth($value2, 3));
-      } @else if length($value2) == 4 {
-        #{$property}: fn.toRem(nth($value2, 1))
-          fn.toRem(nth($value2, 2))
-          fn.toRem(nth($value2, 3))
-          fn.toRem(nth($value2, 4));
+      } @else if list.length($value2) == 2 {
+        #{$property}: fn.toRem(list.nth($value2, 1)) fn.toRem(list.nth($value2, 2));
+      } @else if list.length($value2) == 3 {
+        #{$property}: fn.toRem(list.nth($value2, 1))
+          fn.toRem(list.nth($value2, 2))
+          fn.toRem(list.nth($value2, 3));
+      } @else if list.length($value2) == 4 {
+        #{$property}: fn.toRem(list.nth($value2, 1))
+          fn.toRem(list.nth($value2, 2))
+          fn.toRem(list.nth($value2, 3))
+          fn.toRem(list.nth($value2, 4));
       }
     }
   }
@@ -139,19 +142,19 @@
 
   @if $cap {
     @media (min-width: breakpoints.$breakpoint-bigLaptop) {
-      @if length($value1) == 1 {
+      @if list.length($value1) == 1 {
         #{$property}: fn.toPx($value1);
-      } @else if length($value1) == 2 {
-        #{$property}: fn.toPx(nth($value1, 1)) fn.toPx(nth($value1, 2));
-      } @else if length($value1) == 3 {
-        #{$property}: fn.toPx(nth($value1, 1))
-          fn.toPx(nth($value1, 2))
-          fn.toPx(nth($value1, 3));
-      } @else if length($value1) == 4 {
-        #{$property}: fn.toPx(nth($value1, 1))
-          fn.toPx(nth($value1, 2))
-          fn.toPx(nth($value1, 3))
-          fn.toPx(nth($value1, 4));
+      } @else if list.length($value1) == 2 {
+        #{$property}: fn.toPx(list.nth($value1, 1)) fn.toPx(list.nth($value1, 2));
+      } @else if list.length($value1) == 3 {
+        #{$property}: fn.toPx(list.nth($value1, 1))
+          fn.toPx(list.nth($value1, 2))
+          fn.toPx(list.nth($value1, 3));
+      } @else if list.length($value1) == 4 {
+        #{$property}: fn.toPx(list.nth($value1, 1))
+          fn.toPx(list.nth($value1, 2))
+          fn.toPx(list.nth($value1, 3))
+          fn.toPx(list.nth($value1, 4));
       }
     }
   }
@@ -180,7 +183,9 @@
 /// @param {string} [$breakpoint=breakpoints.$breakpoint-tablet] - Le point de rupture pour les médias queries (par défaut égal à breakpoints.$breakpoint-laptop).
 @mixin mobile-landscape($breakpoint: breakpoints.$breakpoint-tablet) {
   @media (max-width: #{$breakpoint + 1}) and (orientation: landscape) {
-    @content;
+    & {
+      @content;
+    }
   }
 }
 
