@@ -10,6 +10,8 @@ import checker from "vite-plugin-checker"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
 import { viteChersiteCustomLogger } from "./config/vite-plugins/vite-chersite-custom-logger"
+import viteReact from "@vitejs/plugin-react"
+import viteFastifyReact from "@fastify/react/plugin"
 import legacy from "@vitejs/plugin-legacy"
 import ip from "@eggjs/ip"
 import portFinderSync from "portfinder-sync"
@@ -108,6 +110,8 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
 
     plugins: [
       react(),
+      viteFastifyReact(),
+      viteReact(),
 
       checker({ typescript: true, enableBuild: true, overlay: true, terminal: true }),
 

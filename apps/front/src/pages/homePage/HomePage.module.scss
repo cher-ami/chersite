@@ -2,6 +2,7 @@
 
 .root {
   background: salmon;
+  text-transform: uppercase;
 
   @include desktop {
     background: red;

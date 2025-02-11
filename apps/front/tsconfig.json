@@ -29,5 +29,12 @@
       "~/*": ["./*"]
     }
   },
-  "include": ["src", "prerender", "config"]
+  "include": [
+    "src",
+    "prerender",
+    "config",
+    "server.dev.ts",
+    "server.prod.ts",
+    "server.types.ts"
+  ]
 }
