@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx watch server.dev.ts",
     "start": "cross-env NODE_ENV=production node dist/ssr/scripts/server.prod.js",
+    "serve": "serve dist/static/client",
     "test:watch": "vitest",
     "test": "vitest run",
     "build:spa": "cross-env VITE_SPA=true vite build --outDir dist/spa",
@@ -18,6 +19,7 @@
     "build:static": "npm run build:static-scripts && npm run build:static-client && npm run generate",
     "build:fastify": "vite build -c vite.fastify.ssr-scripts.config.ts",
     "generate": "node dist/static/scripts/exe-prerender.js",
+    "generate:server": "node dist/static/scripts/exe-prerender-server.js",
     "build": "npm run build:spa && npm run build:ssr && npm run build:static"
   },
   "dependencies": {
