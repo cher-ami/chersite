@@ -20,6 +20,20 @@
   */
 }
 
+.nav {
+  display: flex;
+  gap: 20rem;
+  justify-content: flex-end;
+  padding: 16rem 24rem;
+}
+
+.link {
+  color: var(--color-black);
+  &:hover {
+    color: var(--color-blue-cher-ami);
+  }
+}
+
 /**
  * BEM element (.camelCase)
  */

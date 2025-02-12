@@ -73,6 +73,8 @@ npm i
 
 - Setup the project:
   By default, SSG mode is enabled, you can switch to SPA or SSR mode by setting `MODE` to `SPA` or `SSR`  in the `cli/config.js` file.
+
+
 ### Development
 
 ```shell
@@ -93,6 +95,18 @@ npm run front:dev
 
 ```shell
 HOST="your local IP"
+```
+
+### SSL
+
+If you want to enable SSL, set the `PROTOCOL` var in your `.env.local` file to `https` 
+Then generate your localhost.crt & localhost.key in `apps/front` with :
+
+```shell
+openssl req -x509 -out localhost.crt -keyout localhost.key \
+  -newkey rsa:2048 -nodes -sha256 \
+  -subj '/CN=localhost' -extensions EXT -config <( \
+   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 ```
 
 ## CLI
