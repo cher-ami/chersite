@@ -1,7 +1,3 @@
-// server.types.ts
-import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify"
-import { ViteDevServer } from "vite"
-
 export interface ServerConfig {
   base: string
   port: number

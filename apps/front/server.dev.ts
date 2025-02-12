@@ -1,13 +1,12 @@
 import debug from "@cher-ami/debug"
-import fastify, { FastifyInstance } from "fastify"
-import * as https from "https"
 import * as mfs from "@cher-ami/mfs"
+import fastify, { FastifyInstance } from "fastify"
+import fs from "node:fs/promises"
 import portFinderSync from "portfinder-sync"
 import { renderToPipeableStream } from "react-dom/server"
 import { createServer, loadEnv, ViteDevServer } from "vite"
-import { ServerConfig, SSRContext, DevScripts } from "./server.types.js"
 import config from "./config/config.js"
-import fs from "node:fs/promises"
+import { DevScripts, ServerConfig, SSRContext } from "./server.types.js"
 
 const log = debug("server:server.dev")
 

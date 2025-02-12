@@ -1,11 +1,11 @@
+import chalk from "chalk"
 import fastify, { FastifyInstance } from "fastify"
 import fs from "node:fs/promises"
 import portFinderSync from "portfinder-sync"
 import { renderToPipeableStream } from "react-dom/server"
 import { loadEnv } from "vite"
-import { ServerConfig, SSRContext } from "./server.types"
 import config from "./config/config.js"
-import chalk from "chalk"
+import { ServerConfig, SSRContext } from "./server.types"
 
 const loadEnvVars = loadEnv(process.env.NODE_ENV, process.cwd(), "")
 const BASE = loadEnvVars.VITE_APP_BASE || process.env.VITE_APP_BASE || "/"
