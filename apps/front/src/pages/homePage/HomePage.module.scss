@@ -3,10 +3,10 @@
 .root {
   background: black;
   color: white;
-  text-transform: uppercase;
+  padding: 20rem;
 
   @include desktop {
-    background: red;
+    background: var(--color-blue-cher-ami);
   }
 
   @include desktop-portrait {
@@ -16,6 +16,21 @@
   @include mobile-landscape {
     background: blue;
   }
+}
+
+.title {
+  text-transform: uppercase;
+  margin-bottom: 24rem;
+}
+
+.paragraphe {
+  margin-bottom: 40rem;
+}
+
+.legend {
+  text-align: right;
+  font-size: 12rem;
+  font-style: italic;
 }
 
 .fontSize {

@@ -48,13 +48,17 @@ function App() {
   // ------------------------------------------------------------------------------- RENDER
 
   const navExample = (
-    <nav>
+    <nav className={css.nav}>
       <div>
-        <Link to={{ name: EPages.HOME }}>Home</Link>
+        <Link className={css.link} to={{ name: EPages.HOME }}>
+          Home
+        </Link>
       </div>
       {["first", "second"].map((slug) => (
         <div key={slug}>
-          <Link to={{ name: EPages.WORK, params: { slug } }}>Work {slug}</Link>
+          <Link className={css.link} to={{ name: EPages.WORK, params: { slug } }}>
+            Work {slug}
+          </Link>
         </div>
       ))}
     </nav>

@@ -11,13 +11,11 @@ import { useStack } from "@cher-ami/router"
 import debug from "@cher-ami/debug"
 import { MetasManager, TMetaTags } from "~/libs/dom/MetaManager"
 import { listen } from "@cher-ami/utils"
-const TestComponent = React.lazy(() => import("./LazyTest"))
+const LazyComponent = React.lazy(() => import("./LazyTest"))
 
 interface IProps {
   meta: TMetaTags
-  time?: {
-    utc_datetime: string
-  }
+  data: any[]
 }
 
 const componentName = "HomePage"
@@ -70,15 +68,13 @@ function HomePage(props: IProps, handleRef: ForwardedRef<any>) {
 
   return (
     <div className={css.root} ref={rootRef}>
-      <Suspense fallback="...">
-        <TestComponent />
+      <h2 className={css.title}>Home : {props.data[0]?.title}</h2>
+      <p className={css.paragraphe}>{props.data[0]?.description}</p>
+      <legend className={css.legend}>Data from staticProps</legend>
+
+      <Suspense fallback="LazyComponent loading...">
+        <LazyComponent />
       </Suspense>
-      {componentName}
-      <div className={css.fontSize}>{fontSize}</div>
-      <br />
-      <br />
-      <div>data getStaticProps : </div>
-      <em>{props.time?.utc_datetime}</em>
     </div>
   )
 }
