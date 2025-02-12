@@ -4,9 +4,8 @@
   "main": "src/index-client.tsx",
   "type": "module",
   "scripts": {
-    "devF": "tsx watch server.dev.ts",
+    "dev": "tsx watch server.dev.ts",
     "startF": "cross-env NODE_ENV=production node dist/ssr/scripts/server.prod.js",
-    "dev": "node server.dev.js",
     "start": "cross-env NODE_ENV=production node dist/ssr/scripts/server.prod.js",
     "test:watch": "vitest",
     "test": "vitest run",

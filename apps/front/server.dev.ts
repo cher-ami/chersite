@@ -5,7 +5,7 @@ import * as mfs from "@cher-ami/mfs"
 import portFinderSync from "portfinder-sync"
 import { renderToPipeableStream } from "react-dom/server"
 import { createServer, loadEnv, ViteDevServer } from "vite"
-import { ServerConfig, SSRContext, DevScripts } from "./server.types"
+import { ServerConfig, SSRContext, DevScripts } from "./server.types.js"
 import config from "./config/config.js"
 import fs from "node:fs/promises"
 
@@ -25,7 +25,10 @@ const INDEX_SERVER_PATH = `${config.srcDir}/index-server.tsx`
 async function getSSLCertificates(): Promise<{ key: Buffer; cert: Buffer } | null> {
   if (!IS_SSL) return null
 
-  if (!(await mfs.fileExists("key.pem")) || !(await mfs.fileExists("cert.pem"))) {
+  if (
+    !(await mfs.fileExists("localhost.key")) ||
+    !(await mfs.fileExists("localhost.crt"))
+  ) {
     console.error(
       "You need to generate a key and a cert file with openssl in the apps/front/ directory."
     )
@@ -33,15 +36,15 @@ async function getSSLCertificates(): Promise<{ key: Buffer; cert: Buffer } | nul
   }
 
   return {
-    key: await fs.readFile("key.pem"),
-    cert: await fs.readFile("cert.pem")
+    key: await fs.readFile("localhost.key"),
+    cert: await fs.readFile("localhost.crt")
   }
 }
 
 /**
  * Create vite server
- * @param {ServerConfig} serverConfig
- * @returns
+ * @param {ServerConfig} serverConfig - Server configuration
+ * @returns {Promise<ViteDevServer>}
  */
 async function createViteServer(serverConfig: ServerConfig): Promise<ViteDevServer> {
   return createServer({
@@ -61,20 +64,19 @@ async function createViteServer(serverConfig: ServerConfig): Promise<ViteDevServ
   })
 }
 
-const envToLogger = {
-  development: {
-    level: "info",
-    transport: {
-      target: "@fastify/one-line-logger"
-    }
-  },
-  production: true,
-  test: false
-}
-
+/**
+ * Creates the dev server
+ * @param {ServerConfig} serverConfig - Server configuration.
+ * @returns {Promise<FastifyInstance>}
+ */
 async function createDevServer(serverConfig: ServerConfig): Promise<FastifyInstance> {
   const server = fastify({
-    logger: envToLogger.development,
+    logger: {
+      level: "info",
+      transport: {
+        target: "@fastify/one-line-logger"
+      }
+    },
     https: serverConfig.isSSL
       ? {
           key: serverConfig.sslKey,
@@ -130,6 +132,10 @@ async function createDevServer(serverConfig: ServerConfig): Promise<FastifyInsta
   return server
 }
 
+/**
+ * Starts the dev server
+ * @returns {Promise<void>}
+ */
 async function startServer(): Promise<void> {
   const sslCerts = await getSSLCertificates()
 
