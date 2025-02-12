@@ -1,7 +1,8 @@
 @use "../../styles/reference" as *;
 
 .root {
-  background: salmon;
+  background: black;
+  color: white;
   text-transform: uppercase;
 
   @include desktop {

@@ -18,6 +18,10 @@ const IS_SSL = PROTOCOL === "https"
 const PORT = Number(process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173))
 const INDEX_SERVER_PATH = `${config.srcDir}/index-server.tsx`
 
+/**
+ * Get ssl certificates for https local dev server
+ * @returns {Promise<{ key: Buffer; cert: Buffer } | null>}
+ */
 async function getSSLCertificates(): Promise<{ key: Buffer; cert: Buffer } | null> {
   if (!IS_SSL) return null
 
@@ -34,6 +38,11 @@ async function getSSLCertificates(): Promise<{ key: Buffer; cert: Buffer } | nul
   }
 }
 
+/**
+ * Create vite server
+ * @param {ServerConfig} serverConfig
+ * @returns
+ */
 async function createViteServer(serverConfig: ServerConfig): Promise<ViteDevServer> {
   return createServer({
     logLevel: "error",
@@ -44,7 +53,7 @@ async function createViteServer(serverConfig: ServerConfig): Promise<ViteDevServ
             key: serverConfig.sslKey,
             cert: serverConfig.sslCert
           }
-        : {},
+        : undefined,
       cors: false
     },
     appType: "custom",
@@ -54,21 +63,9 @@ async function createViteServer(serverConfig: ServerConfig): Promise<ViteDevServ
 
 const envToLogger = {
   development: {
-    level: "error",
+    level: "info",
     transport: {
-      target: "pino-pretty",
-      options: {
-        translateTime: "HH:MM:ss Z",
-        ignore: "pid,hostname,reqId,responseTime"
-      }
-    },
-    serializers: {
-      res(reply) {
-        return reply.statusCode
-      },
-      req(request) {
-        return request.url
-      }
+      target: "@fastify/one-line-logger"
     }
   },
   production: true,

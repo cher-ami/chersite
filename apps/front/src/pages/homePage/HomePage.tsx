@@ -77,7 +77,7 @@ function HomePage(props: IProps, handleRef: ForwardedRef<any>) {
       <div className={css.fontSize}>{fontSize}</div>
       <br />
       <br />
-      <div>data from getStaticProps: </div>
+      <div>data getStaticProps : </div>
       <em>{props.time?.utc_datetime}</em>
     </div>
   )
