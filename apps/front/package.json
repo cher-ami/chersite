@@ -20,7 +20,6 @@
     "build:static-scripts": "vite build -c vite.static-scripts.config.ts",
     "build:static-client": "vite build --outDir dist/static/client",
     "build:static": "npm run build:static-scripts && npm run build:static-client && npm run static:generate",
-    "build:fastify": "vite build -c vite.fastify.ssr-scripts.config.ts",
     "build": "npm run build:spa && npm run build:ssr && npm run build:static"
   },
   "dependencies": {
@@ -31,8 +30,7 @@
     "cross-fetch": "^4.1.0",
     "history": "^5.3.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "typescript": "^5.7.3"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@cher-ami/mfs": "^0.2.0",
@@ -57,6 +55,7 @@
     "sass": "1.84.0",
     "terser": "^5.38.2",
     "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
     "vite": "^6.1.0",
     "vite-plugin-checker": "^0.8.0",
     "vitest": "^3.0.5"

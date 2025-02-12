@@ -14,6 +14,12 @@ const MANIFEST_PARSER_PATH = `${config.outDirSsrScripts}/ManifestParser.js`
 const VITE_MANIFEST_PATH = `${config.outDirSsrClient}/.vite/manifest.json`
 const INDEX_SERVER_PATH = `${config.outDirSsrServer}/index-server.js`
 
+/**
+ * Creates a production server instance.
+ *
+ * @param {ServerConfig} serverConfig - The server configuration.
+ * @returns {Promise<FastifyInstance>}
+ */
 async function createProdServer(serverConfig: ServerConfig): Promise<FastifyInstance> {
   const server = fastify({
     logger: {
@@ -78,6 +84,11 @@ async function createProdServer(serverConfig: ServerConfig): Promise<FastifyInst
   return server
 }
 
+/**
+ * Starts the production server.
+ *
+ * @returns {Promise<void>}
+ */
 async function startServer(): Promise<void> {
   const serverConfig: ServerConfig = {
     base: BASE,

@@ -41,9 +41,6 @@ const langService = new LangService({
   base
 })
 
-console.log("import.meta.hot")
-console.log(import.meta.hot)
-
 /**
  * Render react app wrapped by @cher-ami/router
  *  @doc https://github.com/cher-ami/router

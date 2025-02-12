@@ -1,3 +1,6 @@
+/**
+ * Server configuration interface.
+ */
 export interface ServerConfig {
   base: string
   port: number
@@ -7,6 +10,9 @@ export interface ServerConfig {
   sslKey?: Buffer
 }
 
+/**
+ * Development scripts interface.
+ */
 export interface DevScripts {
   js: Array<{
     tag: string
@@ -14,6 +20,9 @@ export interface DevScripts {
   }>
 }
 
+/**
+ * Server-Side Rendering context interface.
+ */
 export interface SSRContext {
   url: string
   scripts: DevScripts | Record<string, any>
