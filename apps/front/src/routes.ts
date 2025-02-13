@@ -17,14 +17,15 @@ export const routes: TRoute[] = [
     component: HomePage,
     name: EPages.HOME,
     getStaticProps: async (props, currentLang: TLanguage) => {
-      const res = await fetch("https://worldtimeapi.org/api/ip")
-      const time = await res.json()
+      // const res = await fetch("https://worldtimeapi.org/api/ip")
+      // const time = await res.json()
       const meta: TMetaTags = {
-        title: "Home",
+        title: "Cher ami, App | Home",
         description: "Home description",
-        imageUrl: ""
+        imageUrl: "",
+        pageUrl: import.meta.env.VITE_APP_URL
       }
-      return { time, meta }
+      return { time: { utc_datetime: 0 }, meta }
     }
   },
   {
@@ -33,9 +34,10 @@ export const routes: TRoute[] = [
     component: WorkPage,
     getStaticProps: async (props, currentLang: TLanguage) => {
       const meta: TMetaTags = {
-        title: `Work - ${props.params.slug}`,
+        title: `Cher ami, App | Work - ${props.params.slug}`,
         description: "Work description",
-        imageUrl: ""
+        imageUrl: "",
+        pageUrl: import.meta.env.VITE_APP_URL
       }
       return { meta }
     }
