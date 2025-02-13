@@ -22,7 +22,8 @@ export const routes: TRoute[] = [
       const meta: TMetaTags = {
         title: "Home",
         description: "Home description",
-        imageUrl: ""
+        imageUrl: "",
+        pageUrl: import.meta.env.VITE_APP_URL
       }
       return { time, meta }
     }
@@ -35,7 +36,8 @@ export const routes: TRoute[] = [
       const meta: TMetaTags = {
         title: `Work - ${props.params.slug}`,
         description: "Work description",
-        imageUrl: ""
+        imageUrl: "",
+        pageUrl: import.meta.env.VITE_APP_URL
       }
       return { meta }
     }
