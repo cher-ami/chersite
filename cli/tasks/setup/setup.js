@@ -6,10 +6,8 @@ import createInstallFile from "./modules/create-install-file.js"
 import logs from "../../helpers/logger.js"
 import config from "../../config.js"
 import path from "path"
-
-// TODO  assert { type: "json" } will change in the future
-import packageJson from "../../../package.json" assert { type: "json" }
-import frontPackageJson from "../../../apps/front/package.json" assert { type: "json" }
+import packageJson from "../../../package.json" with { type: "json" }
+import frontPackageJson from "../../../apps/front/package.json" with { type: "json" }
 
 import debug from "@cher-ami/debug"
 const log = debug(`config:setup`)
