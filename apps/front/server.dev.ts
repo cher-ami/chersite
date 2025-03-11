@@ -150,8 +150,21 @@ async function startServer(): Promise<void> {
   const server = await createDevServer(serverConfig)
 
   try {
+    // Remove listen logs to avoid misleading docker ip
+    server.log.level = "silent"
     await server.listen({ port: serverConfig.port, host: "0.0.0.0" })
-    log(`Server running at ${serverConfig.protocol}://localhost:${serverConfig.port}`)
+
+    // Reset log level to info
+    server.log.level = "info"
+
+    server.log.info(
+      `Server running at ${serverConfig.protocol}://localhost:${serverConfig.port}`
+    )
+    if (process.env.HOST !== "localhost") {
+      server.log.info(
+        `Server running at ${serverConfig.protocol}://${process.env.HOST}:${serverConfig.port}`
+      )
+    }
   } catch (err) {
     server.log.error(err)
     process.exit(1)
