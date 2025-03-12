@@ -56,10 +56,21 @@ export async function render(
         <meta charSet="UTF-8" />
         <meta httpEquiv="x-ua-compatible" content="IE=Edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{meta?.title || "app"}</title>
+        
+        <title>{meta?.title || "Cher ami, App"}</title>
         <meta name="description" content={meta?.description} />
         <link rel="canonical" href={meta?.url || url} />
+        
+        {/* OG Meta */}
+        <meta property="og:type" content="siteweb" />
+        <meta property="og:title" content={meta?.title || "Cher ami, App"} />
+        <meta property="og:description" content={meta?.description} />
+        <meta property="og:image" content={import.meta.env.VITE_APP_URL + "/share_image.png"} />
+        <meta property="og:url" content={meta?.pageUrl || url} />
+        <meta property="og:site_name" content={meta?.title ||  "Cher ami, App"} />
+
         <link rel="icon" type="image/png" sizes="32x32" href={favicon} />
+
         <ViteDevScripts />
         <CherScripts scripts={scripts.css} />
         <CherScripts scripts={scripts.woff2} />

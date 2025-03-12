@@ -19,11 +19,14 @@ export const routes: TRoute[] = [
     getStaticProps: async (props, currentLang: TLanguage) => {
       const res = await fetch("https://api.sampleapis.com/coffee/hot")
       const data = await res.json()
+
       const meta: TMetaTags = {
-        title: "Home",
+        title: "Cher ami, App | Home",
         description: "Home description",
-        imageUrl: ""
+        imageUrl: "",
+        pageUrl: import.meta.env.VITE_APP_URL
       }
+
       return { data, meta }
     }
   },
@@ -33,9 +36,10 @@ export const routes: TRoute[] = [
     component: WorkPage,
     getStaticProps: async (props, currentLang: TLanguage) => {
       const meta: TMetaTags = {
-        title: `Work - ${props.params.slug}`,
+        title: `Cher ami, App | Work - ${props.params.slug}`,
         description: "Work description",
-        imageUrl: ""
+        imageUrl: "",
+        pageUrl: import.meta.env.VITE_APP_URL
       }
       return { meta }
     }
