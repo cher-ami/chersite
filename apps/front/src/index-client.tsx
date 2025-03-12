@@ -1,15 +1,14 @@
-import "./styles/index.scss"
-import React from "react"
-import { createRoot, hydrateRoot } from "react-dom/client"
-import App from "./components/app/App"
-import { routes } from "./routes"
+import debug from "@cher-ami/debug"
 import { LangService, Router } from "@cher-ami/router"
 import { createBrowserHistory } from "history"
-import * as packageJson from "../package.json"
-import { GlobalDataContext } from "./store/GlobalDataContext"
+import React from "react"
+import { createRoot, hydrateRoot } from "react-dom/client"
 import { languages, showDefaultLangInUrl } from "~/languages"
-import debug from "@cher-ami/debug"
-import VhHelper from "~/libs/dom/VhHelper"
+import * as packageJson from "../package.json"
+import App from "./components/app/App"
+import { routes } from "./routes"
+import { GlobalDataContext } from "./store/GlobalDataContext"
+import "./styles/index.scss"
 
 /**
  * Initial logs

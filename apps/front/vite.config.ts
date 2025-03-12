@@ -1,18 +1,17 @@
 // @ts-ignore
-import autoprefixer from "autoprefixer"
-import { ConfigEnv, defineConfig, loadEnv, UserConfig } from "vite"
-import { resolve } from "path"
-import config from "./config/config.js"
 import debug from "@cher-ami/debug"
+import ip from "@eggjs/ip"
+import legacy from "@vitejs/plugin-legacy"
 import react from "@vitejs/plugin-react-swc"
+import autoprefixer from "autoprefixer"
+import { resolve } from "path"
+import portFinderSync from "portfinder-sync"
 import { visualizer } from "rollup-plugin-visualizer"
+import { ConfigEnv, defineConfig, loadEnv, UserConfig } from "vite"
 import checker from "vite-plugin-checker"
+import config from "./config/config.js"
 import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
 import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
-import { viteChersiteCustomLogger } from "./config/vite-plugins/vite-chersite-custom-logger"
-import legacy from "@vitejs/plugin-legacy"
-import ip from "@eggjs/ip"
-import portFinderSync from "portfinder-sync"
 const log = debug("config:vite.config")
 
 /**
@@ -44,17 +43,6 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
   }
 
   return {
-    ...(isDevelopment
-      ? {
-          customLogger: viteChersiteCustomLogger({
-            protocol,
-            host: process.env.HOST || "localhost",
-            port: process.env.PORT || "5173",
-            base: process.env.VITE_APP_BASE || "/"
-          })
-        }
-      : {}),
-
     define: {
       "process.env.VITE_APP_BASE": JSON.stringify(process.env.VITE_APP_BASE)
     },
@@ -70,11 +58,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       port: process.env.PORT as any,
       // @ts-ignore
       https: protocol === "https",
-      origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`,
-      watch: {
-        // do not watch .env files to avoid reloading when build-dotenv is processed
-        ignored: [...(config.buildDotenvOutDir.map((path) => `${path}/.env`) || [])]
-      }
+      origin: `${protocol}://${process.env.HOST}:${process.env.PORT}`
     },
 
     css: {
