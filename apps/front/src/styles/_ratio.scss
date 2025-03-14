@@ -137,7 +137,11 @@
 
   //Horizontal Desktop & Tablet
   @include desktop($breakpoint) {
-    @include propertyVH($property, $value2, $ratioVW: 0);
+    @include propertyVH(
+      $property,
+      $value2,
+      $ratioVW: viewport.$viewport-ratioVW
+    );
   }
 
   @if $cap {
@@ -180,8 +184,8 @@
 }
 
 /// Mobile landscape media query.
-/// @param {string} [$breakpoint=breakpoints.$breakpoint-tablet] - Le point de rupture pour les médias queries (par défaut égal à breakpoints.$breakpoint-laptop).
-@mixin mobile-landscape($breakpoint: breakpoints.$breakpoint-tablet) {
+/// @param {string} [$breakpoint=breakpoints.$breakpoint-laptop] - Le point de rupture pour les médias queries (par défaut égal à breakpoints.$breakpoint-laptop).
+@mixin mobile-landscape($breakpoint: breakpoints.$breakpoint-laptop) {
   @media (max-width: #{$breakpoint + 1}) and (orientation: landscape) {
     & {
       @content;
