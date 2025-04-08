@@ -15,7 +15,25 @@
 
 html {
   font-size: var(--font-size);
+  overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  -webkit-text-rendering: optimizeSpeed;
+  text-rendering: optimizeSpeed;
+  overflow-x: hidden;
+
+  // TODO CHANGE LATER
+  *::selection, *::target-text {
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+
+  @media screen and (max-width: $breakpoint-bigLaptop-min) {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+  }
+
 }
 
 body {

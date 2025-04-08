@@ -207,6 +207,21 @@ textarea {
 }
 
 /**
+ * Input autocomplete styling
+ */
+
+input {
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-text-fill-color: inherit !important;
+    -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+    transition: background-color 5000s linear 0s;
+  }
+}
+
+/**
  * Correct the inability to style clickable types in iOS and Safari.
  */
 button,
