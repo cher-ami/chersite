@@ -3,6 +3,7 @@ import Fastify, { FastifyRequest } from "fastify"
 import * as process from "process"
 import { loadEnv } from "vite"
 import { prerender } from "./prerender"
+import { deleteHtml } from "./helpers/filesManipulation.js"
 import { fetchAvailableUrls } from "./urls"
 
 const envs = loadEnv("", process.cwd(), "")
@@ -29,6 +30,18 @@ fastify.get("/generate", async (request: FastifyRequest, reply) => {
   await prerender(urlsArray)
   return `Generated static pages: ${urlsArray.join(", ")}`
 })
+
+fastify.get("/delete", async (request: FastifyRequest, reply) => {
+  console.log(chalk.grey("request.query"), request.query)
+
+  let url:string = (request?.query as any)?.url || null
+
+  if(!url) return `Pass an url : /delete?url=$url`
+  
+  await deleteHtml(url)
+  return `Delete html page for ${url}`
+})
+
 
 const start = async () => {
   try {
