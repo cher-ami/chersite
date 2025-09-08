@@ -5,6 +5,7 @@ import { JSXElementConstructor, ReactElement } from "react"
 import { isRouteIndex } from "./isRouteIndex"
 import chalk from "chalk"
 import { renderToString } from "react-dom/server"
+import config from "../../config/config.js"
 
 /**
  * Create a single HTML file
@@ -53,7 +54,7 @@ export async function copyFile(source, destination) {
 
 /**
  * Copy folder to destination and remove source afterwards
- * @param[string] source source folder
+ * @param[string] source folder
  * @param[string] destination desitnation folder
  */
 export async function moveFolder(source, destination) {
@@ -88,7 +89,7 @@ export async function moveFolder(source, destination) {
 
 /**
  * Copy only html files from one folder to another, delete them afterwards
- * @param[string] source source folder
+ * @param[string] source folder
  * @param[string] destination destination folder
  */
 export async function moveHTML(source: string, destination: string): Promise<void> {
@@ -123,3 +124,50 @@ export async function moveHTML(source: string, destination: string): Promise<voi
     console.error(`Erreur lors du déplacement des fichiers HTML : ${err}`)
   }
 }
+
+/**
+ * Delete Unsued HTML File
+ * @param[string] source folder
+ * @param[string] destination destination folder
+ */
+export async function deleteUnusedHTML(usedPaths: string[], destination: string): Promise<void> {
+
+  // Lire le contenu du dossier destination
+  const destinationEntries = await fs.readdir(destination, { withFileTypes: true })
+  const IndexI = destinationEntries.findIndex(x =>  x.name === 'index.html' && x.parentPath === destination)
+  if(IndexI > -1) {
+    console.log(`On ne supprime pas l\'index`)
+    destinationEntries.splice(IndexI, 1)
+  }
+  
+  try {
+    for (const entry of destinationEntries) {
+      const destinationPath = path.join(destination, entry.name)
+      if (entry.isDirectory()) {
+        await deleteUnusedHTML(usedPaths, destinationPath)
+      } else if(path.extname(entry.name).toLowerCase() === ".html" && !usedPaths.includes(destinationPath)) {
+        await fs.unlink(destinationPath) // Supprimer le fichier
+        console.log(`File ${entry.name} delete from ${destination}`)
+      }
+    }
+  } catch (err) {
+    console.error(`Erreur lors du déplacement des fichiers HTML : ${err}`)
+  }
+}
+
+/**
+ * Delete Html by url
+ * @param[string] delete
+ */
+export async function deleteHtml(url: string): Promise<void> {
+  try {
+    if(url === '/index') throw (`On ne supprime pas l\'index`)
+    const outDirStatic = config.outDirStaticClient
+    const routePath = path.resolve(`${outDirStatic}/${url}`)
+    const htmlFilePath = `${routePath}.html`
+    await fs.unlink(htmlFilePath) // Supprimer le fichier
+  } catch (err) {
+    console.error(`Erreur lors de la supression du fichier HTML : ${err}`)
+  }
+}
+
