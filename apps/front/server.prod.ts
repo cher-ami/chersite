@@ -13,12 +13,12 @@ const PORT = Number(process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)
 const MANIFEST_PARSER_PATH = `${config.outDirSsrScripts}/ManifestParser.js`
 const VITE_MANIFEST_PATH = `${config.outDirSsrClient}/.vite/manifest.json`
 const INDEX_SERVER_PATH = `${config.outDirSsrServer}/index-server.js`
-const HTACCESS_ENABLE_AUTH =
-  loadEnvVars.HTACCESS_ENABLE_AUTH || process.env.HTACCESS_ENABLE_AUTH || "false"
-const HTACCESS_AUTH_USER =
-  loadEnvVars.HTACCESS_AUTH_USER || process.env.HTACCESS_AUTH_USER || "admin"
-const HTACCESS_AUTH_PASSWORD =
-  loadEnvVars.HTACCESS_AUTH_PASSWORD || process.env.HTACCESS_AUTH_PASSWORD || "admin_pwd"
+const BASIC_AUTH_ENABLE =
+  loadEnvVars.BASIC_AUTH_ENABLE || process.env.BASIC_AUTH_ENABLE || "false"
+const BASIC_AUTH_USER =
+  loadEnvVars.BASIC_AUTH_USER || process.env.BASIC_AUTH_USER || "admin"
+const BASIC_AUTH_PWD =
+  loadEnvVars.BASIC_AUTH_PWD || process.env.BASIC_AUTH_PWD || "admin_pwd"
 
 /**
  * Basic authentication logic.
@@ -33,7 +33,7 @@ async function validateBasicAuth(
   reply: FastifyReply,
   done: (err?: Error) => void
 ) {
-  if (username !== HTACCESS_AUTH_USER || password !== HTACCESS_AUTH_PASSWORD) {
+  if (username !== BASIC_AUTH_USER || password !== BASIC_AUTH_PWD) {
     reply.code(401).send({ message: "Unauthorized" })
   }
 }
@@ -59,7 +59,7 @@ async function createProdServer(serverConfig: ServerConfig): Promise<FastifyInst
 
   // Apply basic auth globally to all routes
   server.after(() => {
-    if (HTACCESS_ENABLE_AUTH === "true") {
+    if (BASIC_AUTH_ENABLE === "true") {
       server.addHook("onRequest", server.basicAuth)
     }
   })
