@@ -51,18 +51,18 @@ async function createProdServer(serverConfig: ServerConfig): Promise<FastifyInst
     }
   })
 
-  // Register basic auth
-  await server.register(import("@fastify/basic-auth"), {
-    validate: validateBasicAuth,
-    authenticate: true
-  })
-
-  // Apply basic auth globally to all routes
-  server.after(() => {
-    if (BASIC_AUTH_ENABLE === "true") {
-      server.addHook("onRequest", server.basicAuth)
-    }
-  })
+  if (BASIC_AUTH_ENABLE === "true") {
+    // Register basic auth
+    await server.register(import("@fastify/basic-auth"), {
+      validate: validateBasicAuth,
+      authenticate: true
+    })
+  
+    // Apply basic auth globally to all routes
+    server.after(() => {
+        server.addHook("onRequest", server.basicAuth)
+    })
+  }
 
   // Register compression
   await server.register(import("@fastify/compress"))
