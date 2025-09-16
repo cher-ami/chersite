@@ -8,13 +8,25 @@ import { fetchAvailableUrls } from "./urls"
 
 const envs = loadEnv("", process.cwd(), "")
 const port = envs.PRERENDER_SERVER_NODE_PORT || process.env.PRERENDER_SERVER_NODE_PORT
+const serverKey = envs.PRERENDER_SERVER_KEY || process.env.PRERENDER_SERVER_KEY
+
 
 const fastify = Fastify({
   logger: false
 })
 
+const validateServerKey = (request: FastifyRequest, reply: any) => {
+  const requestKey = request.headers['x-server-key'] || (request.query as any)?.key;
+
+  if (!requestKey || requestKey !== serverKey) {
+    reply.code(401).send({ error: "Unauthorized: Invalid or missing server key" });
+    return false;
+  }
+  return true;
+}
+
 fastify.get("/generate", async (request: FastifyRequest, reply) => {
-  console.log(chalk.grey("request.query"), request.query)
+  if (!validateServerKey(request, reply)) return;
 
   let urlsArray
   if ((request?.query as any)?.url) {
@@ -32,7 +44,7 @@ fastify.get("/generate", async (request: FastifyRequest, reply) => {
 })
 
 fastify.get("/delete", async (request: FastifyRequest, reply) => {
-  console.log(chalk.grey("request.query"), request.query)
+  if (!validateServerKey(request, reply)) return;
 
   let url:string = (request?.query as any)?.url || null
 
@@ -49,6 +61,9 @@ const start = async () => {
     console.log(`> Generate all pages ${chalk.cyan(`http://localhost:${port}/generate`)}`)
     console.log(
       `> Generate specific page  ${chalk.cyan(`http://localhost:${port}/generate?url=/my-page-url`)}`
+    )
+    console.log(
+      `> Delete specific page  ${chalk.cyan(`http://localhost:${port}/delete?url=/my-page-url`)}`
     )
   } catch (err) {
     fastify.log.error(err)
