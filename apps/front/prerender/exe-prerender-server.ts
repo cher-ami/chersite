@@ -57,6 +57,11 @@ fastify.get("/delete", async (request: FastifyRequest, reply) => {
 
 const start = async () => {
   try {
+    // Register rate limite
+    await fastify.register(import('@fastify/rate-limit'), {
+      max: 1,
+      timeWindow: ((1000 * 60) * 10) // 10 min max
+    })
     await fastify.listen({ port: parseInt(port), host: "0.0.0.0" })
     console.log(`> Generate all pages ${chalk.cyan(`http://localhost:${port}/generate`)}`)
     console.log(
