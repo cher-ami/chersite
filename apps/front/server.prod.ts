@@ -1,5 +1,5 @@
 import chalk from "chalk"
-import fastify, { FastifyInstance } from "fastify"
+import fastify, { FastifyInstance, FastifyReply, FastifyRequest } from "fastify"
 import fs from "node:fs/promises"
 import portFinderSync from "portfinder-sync"
 import { renderToPipeableStream } from "react-dom/server"
@@ -13,6 +13,30 @@ const PORT = Number(process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(3000)
 const MANIFEST_PARSER_PATH = `${config.outDirSsrScripts}/ManifestParser.js`
 const VITE_MANIFEST_PATH = `${config.outDirSsrClient}/.vite/manifest.json`
 const INDEX_SERVER_PATH = `${config.outDirSsrServer}/index-server.js`
+const HTACCESS_ENABLE_AUTH =
+  loadEnvVars.HTACCESS_ENABLE_AUTH || process.env.HTACCESS_ENABLE_AUTH || "false"
+const HTACCESS_AUTH_USER =
+  loadEnvVars.HTACCESS_AUTH_USER || process.env.HTACCESS_AUTH_USER || "admin"
+const HTACCESS_AUTH_PASSWORD =
+  loadEnvVars.HTACCESS_AUTH_PASSWORD || process.env.HTACCESS_AUTH_PASSWORD || "admin_pwd"
+
+/**
+ * Basic authentication logic.
+ * @param request
+ * @param reply
+ */
+async function validateBasicAuth(
+  this: FastifyInstance,
+  username: string,
+  password: string,
+  req: FastifyRequest,
+  reply: FastifyReply,
+  done: (err?: Error) => void
+) {
+  if (username !== HTACCESS_AUTH_USER || password !== HTACCESS_AUTH_PASSWORD) {
+    reply.code(401).send({ message: "Unauthorized" })
+  }
+}
 
 /**
  * Creates a production server instance.
@@ -24,6 +48,19 @@ async function createProdServer(serverConfig: ServerConfig): Promise<FastifyInst
   const server = fastify({
     logger: {
       level: "warn"
+    }
+  })
+
+  // Register basic auth
+  await server.register(import("@fastify/basic-auth"), {
+    validate: validateBasicAuth,
+    authenticate: true
+  })
+
+  // Apply basic auth globally to all routes
+  server.after(() => {
+    if (HTACCESS_ENABLE_AUTH === "true") {
+      server.addHook("onRequest", server.basicAuth)
     }
   })
 
