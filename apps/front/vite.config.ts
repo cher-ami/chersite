@@ -124,9 +124,9 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       // Htaccess task set from .env
       buildHtaccessPlugin({
         enable: process.env.BUILD_HTACCESS === "true",
-        serverWebRootPath: process.env.HTACCESS_SERVER_WEB_ROOT_PATH,
-        user: process.env.HTACCESS_AUTH_USER,
-        password: process.env.HTACCESS_AUTH_PASSWORD,
+        serverWebRootPath: process.env.BASIC_AUTH_SERVER_WEB_ROOT_PATH,
+        user: process.env.BASIC_AUTH_USER,
+        password: process.env.BASIC_AUTH_PWD,
         htaccessTemplatePath: config.htaccessTemplateFilePath,
         outputPath: process.env.HTACCESS_OUTPUT_PATH || config.outDirStaticClient
       }),
