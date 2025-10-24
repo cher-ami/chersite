@@ -57,10 +57,10 @@ async function createProdServer(serverConfig: ServerConfig): Promise<FastifyInst
       validate: validateBasicAuth,
       authenticate: true
     })
-  
+
     // Apply basic auth globally to all routes
     server.after(() => {
-        server.addHook("onRequest", server.basicAuth)
+      server.addHook("onRequest", server.basicAuth)
     })
   }
 
