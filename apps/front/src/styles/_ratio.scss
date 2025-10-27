@@ -137,11 +137,7 @@
 
   //Horizontal Desktop & Tablet
   @include desktop($breakpoint) {
-    @include propertyVH(
-      $property,
-      $value2,
-      $ratioVW: viewport.$viewport-ratioVW
-    );
+    @include propertyVH($property, $value2, $ratioVW: viewport.$viewport-ratioVW);
   }
 
   @if $cap {

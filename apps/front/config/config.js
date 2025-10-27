@@ -11,9 +11,18 @@ export default {
   // outDir: where files are built
   // If this value is change, add this new path in .gitignore
   outDir: resolve("dist"),
-  outDirSsrScripts: resolve("dist/ssr/scripts"),
-  outDirSsrServer: resolve("dist/ssr/server"),
-  outDirSsrClient: resolve("dist/ssr/client"),
+  outDirSsrScripts:
+    (envs.OUTDIR_SSR_SCRIPTS && resolve(envs.OUTDIR_SSR_SCRIPTS)) ||
+    (process.env.OUTDIR_SSR_SCRIPTS && resolve(process.env.OUTDIR_SSR_SCRIPTS)) ||
+    resolve("dist/ssr/scripts"),
+  outDirSsrServer:
+    (envs.OUTDIR_SSR_SERVER && resolve(envs.OUTDIR_SSR_SERVER)) ||
+    (process.env.OUTDIR_SSR_SERVER && resolve(process.env.OUTDIR_SSR_SERVER)) ||
+    resolve("dist/ssr/server"),
+  outDirSsrClient:
+    (envs.OUTDIR_SSR_CLIENT && resolve(envs.OUTDIR_SSR_CLIENT)) ||
+    (process.env.OUTDIR_SSR_CLIENT && resolve(process.env.OUTDIR_SSR_CLIENT)) ||
+    resolve("dist/ssr/client"),
   outDirSpa: resolve("dist/spa"),
   outDirStaticClient:
     envs.OUTDIR_STATIC_CLIENT ||

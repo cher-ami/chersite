@@ -1,11 +1,11 @@
 services:
   node:
-    image: node:22.13.0
+    image: node:22.19.0
     ports:
       - "${DOCKER_NODE_PORT:-5173}:5173" # vite dev server
       - "24678:24678" # vite HMR
-      - "1234:1234" # expose express server for static page generation
-      - "3000:3000" # expose express server for static page generation
+      - "1234:1234" # static page generation
+      - "3000:3000" # prod server
     volumes:
       - "./:/app"
     working_dir: /app

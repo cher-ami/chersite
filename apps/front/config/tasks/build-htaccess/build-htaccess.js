@@ -143,7 +143,7 @@ export default async ({
   console.log(chalk.cyan(`\n  Build .htaccess`))
   console.log(chalk.grey(`  path: ${newHtaccessFilePath}`))
 
-  if (process.env.HTACCESS_ENABLE_AUTH === "true") {
+  if (process.env.BASIC_AUTH_ENABLE === "true") {
     await _createHtpasswdFile({ outputPath, user, password })
     await _htpasswdLinkInHtaccess({ newHtaccessFilePath, serverWebRootPath })
   }

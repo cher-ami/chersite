@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch server.dev.ts",
-    "start": "cross-env NODE_ENV=production node dist/ssr/scripts/server.prod.js",
+    "start": "cross-env NODE_ENV=production node scripts/server.prod.js",
+    "start:local": "cross-env NODE_ENV=production node dist/ssr/scripts/server.prod.js",
     "spa:preview": "serve dist/spa",
     "static:preview": "serve dist/static/client",
     "static:generate": "node dist/static/scripts/exe-prerender.js",
@@ -28,6 +29,7 @@
     "@cher-ami/router": "^3.5.4",
     "@cher-ami/utils": "^1.4.1",
     "@fastify/rate-limit": "^10.3.0",
+    "@fastify/basic-auth": "^6.2.0",
     "cross-fetch": "^4.1.0",
     "history": "^5.3.0",
     "react": "^19.0.0",
