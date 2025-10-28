@@ -1,12 +1,14 @@
 // @ts-ignore
 import * as mfs from "@cher-ami/mfs"
+import path from "path"
 import chalk from "chalk"
 import { renderToPipeableStream } from "react-dom/server"
 import { loadEnv } from "vite"
 import { render } from "~/index-server"
 import config from "../config/config.js"
-import { createHtmlFile, moveFolder, moveHTML } from "./helpers/filesManipulation.js"
+import { createHtmlFile, moveFolder, moveHTML, deleteUnusedHTML } from "./helpers/filesManipulation.js"
 import { ManifestParser } from "./helpers/ManifestParser"
+import { isRouteIndex } from "./helpers/isRouteIndex"
 import { exec } from "child_process"
 
 /**
@@ -41,6 +43,12 @@ export const prerender = async (urls: string[]) => {
     const scriptTags = ManifestParser.getScriptTagFromManifest(manifest, base)
     let errorOnRender = false
     const renderPromises: Promise<void>[] = []
+  
+    // final Html file paths
+    const finalHtmlFilePaths = urls.map(url => {
+      if (isRouteIndex(url, urls)) url = `${url}/index`
+      return path.resolve(`${outDirStatic}/${url}.html`)
+    })
 
     // pre-render each route
     for (let url of urls) {
@@ -81,6 +89,7 @@ export const prerender = async (urls: string[]) => {
     } else {
       // If from generate, move html files only
       await moveHTML(outDirStaticTemp, outDirStatic)
+      await deleteUnusedHTML(finalHtmlFilePaths, outDirStatic)
     }
 
     //Once done, update chmod rights for folder & files
