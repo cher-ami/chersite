@@ -28,6 +28,7 @@
     "@cher-ami/debug": "^1.2.0",
     "@cher-ami/router": "^3.5.4",
     "@cher-ami/utils": "^1.4.1",
+    "@fastify/rate-limit": "^10.3.0",
     "@fastify/basic-auth": "^6.2.0",
     "cross-fetch": "^4.1.0",
     "history": "^5.3.0",
