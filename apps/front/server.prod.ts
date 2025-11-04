@@ -72,7 +72,8 @@ async function createProdServer(serverConfig: ServerConfig): Promise<FastifyInst
     root: config.outDirSsrClient,
     prefix: serverConfig.base,
     decorateReply: false,
-    wildcard: false
+    wildcard: false,
+    index: false
   })
 
   // Handle all routes
