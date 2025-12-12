@@ -50,8 +50,10 @@ export async function render(
   const meta = ssrStaticProps?.props?.meta
   const globalData = { foo: "bar" }
 
+  const is404 = ssrStaticProps?.props?.notFound
+
   return (
-    <html lang={langService.currentLang.key}>
+    <html lang={langService.currentLang.key} data-is404={is404}>
       <head>
         <meta charSet="UTF-8" />
         <meta httpEquiv="x-ua-compatible" content="IE=Edge" />

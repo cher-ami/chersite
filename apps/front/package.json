@@ -26,7 +26,7 @@
   "dependencies": {
     "@cher-ami/css-flat": "^1.0.1",
     "@cher-ami/debug": "^1.2.0",
-    "@cher-ami/router": "^3.5.4",
+    "@cher-ami/router": "^3.5.5",
     "@cher-ami/utils": "^1.4.1",
     "@fastify/rate-limit": "^10.3.0",
     "@fastify/basic-auth": "^6.2.0",

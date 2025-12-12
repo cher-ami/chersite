@@ -57,11 +57,6 @@ async function createProdServer(serverConfig: ServerConfig): Promise<FastifyInst
       validate: validateBasicAuth,
       authenticate: true
     })
-
-    // Apply basic auth globally to all routes
-    server.after(() => {
-      server.addHook("onRequest", server.basicAuth)
-    })
   }
 
   // Register compression
@@ -77,7 +72,9 @@ async function createProdServer(serverConfig: ServerConfig): Promise<FastifyInst
   })
 
   // Handle all routes
-  server.all("*", {
+  // Apply basic auth to *
+  server.get("*", {
+    onRequest: BASIC_AUTH_ENABLE === "true" ? server.basicAuth : undefined,
     handler: async (request, reply) => {
       try {
         const { ManifestParser } = await import(MANIFEST_PARSER_PATH)
@@ -106,6 +103,10 @@ async function createProdServer(serverConfig: ServerConfig): Promise<FastifyInst
         reply.type("text/html")
         const stream = renderToPipeableStream(dom, {
           onShellReady() {
+            // If the page is a 404 page, set the status code to 404
+            if (dom?.props?.["data-is404"]) {
+              reply.code(404)
+            }
             stream.pipe(reply.raw)
           },
           onError(e: Error) {
