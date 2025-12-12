@@ -130,22 +130,29 @@ export async function moveHTML(source: string, destination: string): Promise<voi
  * @param[string] source folder
  * @param[string] destination destination folder
  */
-export async function deleteUnusedHTML(usedPaths: string[], destination: string): Promise<void> {
-
+export async function deleteUnusedHTML(
+  usedPaths: string[],
+  destination: string
+): Promise<void> {
   // Lire le contenu du dossier destination
   const destinationEntries = await fs.readdir(destination, { withFileTypes: true })
-  const IndexI = destinationEntries.findIndex(x =>  x.name === 'index.html' && x.parentPath === destination)
-  if(IndexI > -1) {
+  const IndexI = destinationEntries.findIndex(
+    (x) => x.name === "index.html" && x.parentPath === destination
+  )
+  if (IndexI > -1) {
     console.log(`On ne supprime pas l\'index`)
     destinationEntries.splice(IndexI, 1)
   }
-  
+
   try {
     for (const entry of destinationEntries) {
       const destinationPath = path.join(destination, entry.name)
       if (entry.isDirectory()) {
         await deleteUnusedHTML(usedPaths, destinationPath)
-      } else if(path.extname(entry.name).toLowerCase() === ".html" && !usedPaths.includes(destinationPath)) {
+      } else if (
+        path.extname(entry.name).toLowerCase() === ".html" &&
+        !usedPaths.includes(destinationPath)
+      ) {
         await fs.unlink(destinationPath) // Supprimer le fichier
         console.log(`File ${entry.name} delete from ${destination}`)
       }
@@ -161,7 +168,7 @@ export async function deleteUnusedHTML(usedPaths: string[], destination: string)
  */
 export async function deleteHtml(url: string): Promise<void> {
   try {
-    if(url === '/index') throw (`On ne supprime pas l\'index`)
+    if (url === "/index") throw `On ne supprime pas l\'index`
     const outDirStatic = config.outDirStaticClient
     const routePath = path.resolve(`${outDirStatic}/${url}`)
     const htmlFilePath = `${routePath}.html`
@@ -170,4 +177,3 @@ export async function deleteHtml(url: string): Promise<void> {
     console.error(`Erreur lors de la supression du fichier HTML : ${err}`)
   }
 }
-

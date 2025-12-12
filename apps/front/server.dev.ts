@@ -116,6 +116,10 @@ async function createDevServer(serverConfig: ServerConfig): Promise<FastifyInsta
       reply.type("text/html")
       const stream = renderToPipeableStream(dom, {
         onShellReady() {
+          // If the page is a 404 page, set the status code to 404
+          if (dom?.props?.["data-is404"]) {
+            reply.code(404)
+          }
           stream.pipe(reply.raw)
         },
         onError(e: Error) {
