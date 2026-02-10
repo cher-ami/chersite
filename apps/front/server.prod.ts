@@ -107,6 +107,7 @@ async function createProdServer(serverConfig: ServerConfig): Promise<FastifyInst
             if (dom?.props?.["data-is404"]) {
               reply.code(404)
             }
+            reply.raw.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
             stream.pipe(reply.raw)
           },
           onError(e: Error) {

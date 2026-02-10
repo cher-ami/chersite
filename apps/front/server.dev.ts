@@ -14,7 +14,7 @@ const loadEnvVars = loadEnv(process.env.NODE_ENV, process.cwd(), "")
 const BASE = loadEnvVars.VITE_APP_BASE || process.env.VITE_APP_BASE || "/"
 const PROTOCOL = loadEnvVars.PROTOCOL ?? "http"
 const IS_SSL = PROTOCOL === "https"
-const PORT = Number(process.env.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173))
+const PORT = Number(loadEnvVars.DOCKER_NODE_PORT ?? portFinderSync.getPort(5173))
 const INDEX_SERVER_PATH = `${config.srcDir}/index-server.tsx`
 
 /**
@@ -120,6 +120,7 @@ async function createDevServer(serverConfig: ServerConfig): Promise<FastifyInsta
           if (dom?.props?.["data-is404"]) {
             reply.code(404)
           }
+          reply.raw.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
           stream.pipe(reply.raw)
         },
         onError(e: Error) {
