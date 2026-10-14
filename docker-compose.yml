@@ -1,6 +1,6 @@
 services:
   node:
-    image: node:22.19.0
+    image: node:24.21.0
     ports:
       - "${DOCKER_NODE_PORT:-5173}:5173" # vite dev server
       - "24678:24678" # vite HMR
