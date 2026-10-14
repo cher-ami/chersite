@@ -1,5 +1,5 @@
 import { PluginOption } from "vite"
-import buildHtaccess from "../tasks/build-htaccess/build-htaccess"
+import buildHtaccess from "../tasks/build-htaccess/build-htaccess.js"
 
 export default function buildHtaccessPlugin({
   user,
