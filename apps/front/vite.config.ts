@@ -4,14 +4,14 @@ import ip from "@eggjs/ip"
 import legacy from "@vitejs/plugin-legacy"
 import react from "@vitejs/plugin-react-swc"
 import autoprefixer from "autoprefixer"
-import { resolve } from "path"
+import { resolve } from "node:path"
 import portFinderSync from "portfinder-sync"
 import { visualizer } from "rollup-plugin-visualizer"
 import { ConfigEnv, defineConfig, loadEnv, UserConfig } from "vite"
 import checker from "vite-plugin-checker"
 import config from "./config/config.js"
-import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv"
-import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess"
+import buildDotenvPlugin from "./config/vite-plugins/vite-plugin-build-dotenv.js"
+import buildHtaccessPlugin from "./config/vite-plugins/vite-plugin-build-htaccess.js"
 const log = debug("config:vite.config")
 
 /**
@@ -86,7 +86,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
 
     resolve: {
       alias: {
-        "~": resolve(__dirname, "src")
+        "~": resolve(import.meta.dirname, "src")
       }
     },
 

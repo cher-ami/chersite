@@ -3,7 +3,7 @@ import chalk from "chalk"
 import path from "path"
 import debug from "@cher-ami/debug"
 const log = debug("config:build-dotenv")
-import packageJson from "../../../package.json"
+import packageJson from "../../../package.json" with { type: "json" }
 
 const _getRaws = (files = []) => {
   return new Promise((resolve) => {
@@ -71,7 +71,7 @@ const _prepareTemplate = (vars, envVars, additionalVarKeys) => {
       `${el}=${
       envVars[el] ? envVars[el].includes(" ") ? `"${envVars[el]}"` : envVars[el] : ""
     }`
-  );
+  )
 
   // push current version in it
   template.push(`VERSION=${packageJson.version}`)

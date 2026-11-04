@@ -1,5 +1,5 @@
 import { PluginOption } from "vite"
-import buildDotenv from "../tasks/build-dotenv/build-dotenv"
+import buildDotenv from "../tasks/build-dotenv/build-dotenv.js"
 
 export default function buildDotenvPlugin({
   envVars = process.env,
