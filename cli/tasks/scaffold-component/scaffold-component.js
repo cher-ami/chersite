@@ -11,7 +11,7 @@ const log = debug("config:scaffold")
 
 const _askWhichComponentFolder = (componentCompatibleFolders) => {
   return Inquirer.prompt({
-    type: "list",
+    type: "select",
     name: "subFolder",
     message: "Which component folder?",
     choices: componentCompatibleFolders

@@ -45,7 +45,7 @@ const wpScaffold = () => {
 
     // List available scaffolders to user
     Inquirer.prompt({
-      type: "list",
+      type: "select",
       name: "type",
       message: "What kind of component to create?",
       choices: scaffolderTypes,
